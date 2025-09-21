@@ -7,5 +7,3 @@
 - Collaboration with Other Groups
 - Met with other project teams to discuss their requirements
 - Organized our GitHub repository with the correct layout
----
-*Last updated: [Current Date]*
