@@ -10,6 +10,9 @@ This sprint focused on the planning and design phase of the project. The team wo
 ## Current Status
 - No code implementation at this stage  
 - The project is still in the **planning and design phase**
+- Receive feed back and communicate with serval teams:
+      team 16, 6, 3, 10, 5, 18
 
 ## Testing
 - No testing required since there is **no code yet**
+
