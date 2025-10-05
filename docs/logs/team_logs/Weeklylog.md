@@ -19,4 +19,6 @@ This sprint focused on the planning and design phase of the project. The team wo
 - No testing required since there is **no code yet**
 
 ## Burnup Chart
+<img width="990" height="489" alt="image" src="https://github.com/user-attachments/assets/6dca39fb-e478-41ee-b1f8-9854912ff845" />
+
 
