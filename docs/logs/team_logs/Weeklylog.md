@@ -16,3 +16,5 @@ This sprint focused on the planning and design phase of the project. The team wo
 ## Testing
 - No testing required since there is **no code yet**
 
+## Burnup Chart
+
