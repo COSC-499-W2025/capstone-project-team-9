@@ -5,7 +5,9 @@ This sprint focused on the planning and design phase of the project. The team wo
 
 ## Completed Work
 - **Data Flow Diagram (DFD) Level 0** completed  
-- **Data Flow Diagram (DFD) Level 1** completed  
+- **Data Flow Diagram (DFD) Level 1** completed
+- <img width="463" height="134" alt="image" src="https://github.com/user-attachments/assets/94b2c8a1-6155-4a68-85c2-989878f6f9b9" />
+
 
 ## Current Status
 - No code implementation at this stage  
