@@ -1,8 +1,8 @@
-# Week 4 Project Update
+# Week 5 Project Update
 
 ![image](/docs/logs/RyanEveson/Images/Log2Screenshot.png)
 
 ### This Sprints Progress
-- Met with other project teams to discuss their requirements
-- Collaboration with Other Groups
-- Created and refined our project requirements
+- Created Use Cases for the project proposla
+- Built UML diagrams for each use Case
+- Compared DFD with other groups in class
