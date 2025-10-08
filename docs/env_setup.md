@@ -19,7 +19,7 @@ git clone <repo-url>
 cd Project-Starter
 
 --- 
-## 3. Create Local Environment File
+## 3. Create Local Environment File (Run under the project root folder)
 cp .env.example .env
 
 ## 4. Start the Database 
