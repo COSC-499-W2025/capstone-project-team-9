@@ -29,7 +29,14 @@ docker-compose down
 ## 5. Install the Dependencies 
 ### At this step, I believe the best way to do this for everyone is to use a virtual environment to install the packages, and then run it everytime you start the program. 
 python3 -m venv venv 
+
+### FOR MAC RUN THIS
 source venv/bin/activate 
+### FOR WINDOWS POWERSHELL RUN THIS
+.\venv\Scripts\Activate.ps1
+### FOR WINDOWS COMMANDLINE RUN THIS
+venv\Scripts\activate.bat
+
 ### then run 
 pip install -r requirements.txt 
 ### Now to turn off the environment after your coding session type 
