@@ -1,0 +1,10 @@
+# This is to ignore local files that we don't need to commit to the repository.
+venv/
+__pycache__/
+
+data/ 
+postgres/
+*.db
+*.log
+
+.env 
