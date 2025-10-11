@@ -50,7 +50,7 @@ I worked mainly with **Jinxi** and **Kevin** to design the **Level 0 DFD**, ensu
 
 **Tasks worked on:**
 
-![week 6 log](2aa406bf-efdd-451b-86e9-78b275ce6e30.png)
+![week 6 log](week6.png)
 
 **Weekly Goals Recap**
 
@@ -69,6 +69,7 @@ I also took responsibility for implementing two issues from **Milestone #1**:
   - This completes the *“Store user configurations”* and *“Require user consent”* features in our design.
 
 These tasks were an important step toward integrating **file validation** and **user configuration storage** into the system’s backend, and they helped ensure that our foundation is solid for future feature development.
+
 
 
 
