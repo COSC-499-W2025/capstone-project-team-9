@@ -44,3 +44,33 @@ This week, our team developed **Data Flow Diagrams (DFD)** for **Level 0** and *
 I worked mainly with **Jinxi** and **Kevin** to design the **Level 0 DFD**, ensuring that the main processes, data stores, and external entities were clearly and logically connected.
 
 
+---
+
+### **Week 6: October 6th – October 11th**
+
+**Tasks worked on:**
+
+![week 6 log](week6.png)
+
+**Weekly Goals Recap**
+
+This week, we officially transitioned from planning to **implementation**.  
+Our first task was to **set up the development environment**, which included configuring **Docker**, **Git Bash**, **VS Code**, and other essential tools required for our backend service development.
+
+I also took responsibility for implementing two issues from **Milestone #1**:
+
+- 🥇 **Issue #23 — “Define what is a Wrong Format and identify all valid file forms”**  
+  - Implemented logic to check whether uploaded files are in `.zip` format.  
+  - If a file with the wrong format is uploaded, the system now throws a custom exception `WrongFormatError`.  
+  - This fulfills the milestone requirement: *“Return an error if the uploaded file is in the wrong format.”*
+
+- 🥈 **Issue #37 — “Store users consent in Database”**  
+  - Implemented a database storage mechanism to save the user’s consent choice when they first run the program.  
+  - This completes the *“Store user configurations”* and *“Require user consent”* features in our design.
+
+These tasks were an important step toward integrating **file validation** and **user configuration storage** into the system’s backend, and they helped ensure that our foundation is solid for future feature development.
+
+
+
+
+
