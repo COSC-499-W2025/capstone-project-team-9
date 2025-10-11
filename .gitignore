@@ -8,3 +8,4 @@ postgres/
 *.log
 
 .env 
+/.idea
