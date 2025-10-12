@@ -23,3 +23,35 @@ def temp_test_dir():
     yield test_dir
     # delete dir after test
     shutil.rmtree(test_dir)
+
+def test_list_files(temp_test_dir):
+    """
+    Verify that list_files() correctly recursively lists all files and folders
+    """
+    result = list_files(temp_test_dir)
+
+    # check data type
+    assert isinstance(result, list)
+
+    # expect result
+    expected = [
+        "root.txt",
+        "[DIR] folderA",
+        "  A1.txt",
+        "  [DIR] folderB",
+        "    B1.txt",
+        "[DIR] folderC",
+        "  C1.txt"
+    ]
+
+    # normalize the expected and result
+    norm_expected = [line.rstrip() for line in expected]
+    norm_result = [line.rstrip() for line in result]
+
+    # check content in result
+    for item in norm_expected:
+        assert item in norm_result, "{} not in {}".format(item, norm_result)
+
+    # check number of levels
+    lines = [line for line in result if line.startswith("[DIR]")]
+    assert len(lines)==2, "expected 3 folders (folderA, folderB)"

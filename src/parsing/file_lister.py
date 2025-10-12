@@ -12,7 +12,7 @@ def list_files(path, level=0):
         for entry in entries:
             if entry.is_dir():
                 # if is folder, first add its name to item
-                item.append((' '*level)+f"[DIR]{entry.name}")
+                item.append((' '*level)+f"[DIR] {entry.name}")
                 # recursion the sub folders
                 item.extend(list_files(entry, level+1))
             else:
