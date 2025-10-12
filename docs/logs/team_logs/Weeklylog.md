@@ -60,5 +60,6 @@ The team began developing core system modules, connecting the database, and writ
 
 ## Burnup Chart
 <img width="1084" height="554" alt="image" src="https://github.com/user-attachments/assets/76e1fbc8-3bbb-4a26-89ef-47b3a82c0de5" />
-<img width="1031" height="533" alt="image" src="https://github.com/user-attachments/assets/abecd5c2-66d2-4478-a734-47d555d53c35" />
+<img width="1040" height="514" alt="image" src="https://github.com/user-attachments/assets/89ca42dd-fe09-4293-a87d-7388ec1898f8" />
+
 
