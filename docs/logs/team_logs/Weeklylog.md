@@ -36,8 +36,10 @@ The team began developing core system modules, connecting the database, and writ
 - **File-listing functionality** (nested folder display) expanded by **Jinxi** (#35)  
 - **Initial test cases** added for consent and database modules  
 - **Team collaboration setup** refined: branch naming, pull-request workflow, and environment consistency  
-- **Sami** focused on reviewing pull requests and assisting with environment setup  
-- Waiting on updates from **Ryan** and **Evan** (Please update, and delete this sentences)
+- **Sami** focused on reviewing pull requests and assisting with environment setup
+- **Ryan** created Subtasks for features in GitHub, Reviewed Sami Jaffris pull request
+- **Ryan** also set up a uplaoded files tab in the database, and wrote a basic python script that allows users to upload the file and file path that they want in to the database
+- Waiting on updates from **Evan** (Please update, and delete this sentences)
 
 ## Current Status
 - Core backend structure and modules created under `src/consent/`  
