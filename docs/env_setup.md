@@ -50,5 +50,5 @@ python src/main.py
 ### Should get a bunch of success messages as your output. 
 
 ## 7. Run a final test 
-python -m tests.test_db_connection
+PYTHONPATH=. pytest tests/
 ### if you see a success message start coding you're good to go. 
