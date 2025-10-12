@@ -48,10 +48,13 @@ def test_list_files(temp_test_dir):
     norm_expected = [line.rstrip() for line in expected]
     norm_result = [line.rstrip() for line in result]
 
-    # check content in result
-    for item in norm_expected:
-        assert item in norm_result, "{} not in {}".format(item, norm_result)
+    # simplify test
+    assert norm_expected == norm_result
 
-    # check number of levels
-    lines = [line for line in result if line.startswith("[DIR]")]
-    assert len(lines)==2, "expected 2 folders (folderA, folderB)"
+    # # check content in result
+    # for item in norm_expected:
+    #     assert item in norm_result, "{} not in {}".format(item, norm_result)
+    #
+    # # check number of levels
+    # lines = [line for line in result if line.startswith("[DIR]")]
+    # assert len(lines)==2, "expected 2 folders (folderA, folderB)"
