@@ -54,4 +54,4 @@ def test_list_files(temp_test_dir):
 
     # check number of levels
     lines = [line for line in result if line.startswith("[DIR]")]
-    assert len(lines)==2, "expected 3 folders (folderA, folderB)"
+    assert len(lines)==2, "expected 2 folders (folderA, folderB)"
