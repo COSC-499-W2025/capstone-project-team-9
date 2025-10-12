@@ -35,13 +35,13 @@ def test_list_files(temp_test_dir):
 
     # expect result
     expected = [
-        "root.txt",
         "[DIR] folderA",
         "  A1.txt",
         "  [DIR] folderB",
         "    B1.txt",
         "[DIR] folderC",
-        "  C1.txt"
+        "  C1.txt",
+        "root.txt",
     ]
 
     # normalize the expected and result
