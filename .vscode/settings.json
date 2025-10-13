@@ -2,5 +2,11 @@
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "python.testing.pytestArgs": ["tests"],
-  "python.envFile": "${workspaceFolder}\\.env"
+  "python.envFile": "${workspaceFolder}\\.env",
+  "python.analysis.extraPaths": [
+      "${workspaceFolder}/src"
+  ],
+  "python.autoComplete.extraPaths": [
+      "${workspaceFolder}/src"
+  ]
 }
