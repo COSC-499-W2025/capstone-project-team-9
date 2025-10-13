@@ -39,7 +39,7 @@ The team began developing core system modules, connecting the database, and writ
 - **Sami** focused on reviewing pull requests and assisting with environment setup
 - **Ryan** created Subtasks for features in GitHub, Reviewed Sami Jaffris pull request
 - **Ryan** also set up a uplaoded files tab in the database, and wrote a basic python script that allows users to upload the file and file path that they want in to the database
-- Waiting on updates from **Evan** (Please update, and delete this sentences)
+- **Evan** was reviewing and put all the features in Github project. 
 
 ## Current Status
 - Core backend structure and modules created under `src/consent/`  
