@@ -1,6 +1,6 @@
 # Week 5 Project Update
 
-![image](/docs/logs/EvanPasenau/week5log.png)
+![image](/docs/logs/EvanPasenau/images/week5log.png)
 
 ### This Sprints Progress
 - This week The team built a level 0 and a level 1 DFD
