@@ -2,20 +2,28 @@ from config.db_config import get_connection # for getting a connection to the da
 
 from upload_file import add_file_to_db
 
-from database.user_consent import init_db, has_user_consented, ask_for_consent # for user consent management
+from config.db_config import get_connection  # for getting a connection to the database
+from upload_file import add_file_to_db
+from consent.consent_manager import ConsentManager
+from database.user_preferences import init_user_preferences_table, get_user_preferences, update_user_preferences
 
 
 def main():
     print("STARTING BACKEND SETUP...") # print a message to the console
-    
-    init_db() # initialize the database
-    
-    if not has_user_consented():
-        print("⚠️ User consent not found. Asking for consent...")
-        ask_for_consent()
-    else:
-        print("✅ User already consented. Proceeding with backend setup.")
 
+    # # Initialize the user preference table (create it if it doesn't exist)
+    # init_user_preferences_table()
+
+    # Start ConsentManager
+    manager = ConsentManager(user_id="default_user")
+    manager.initialize()
+
+    # Check/request user consent
+    if not manager.request_consent_if_needed():
+        print("✗ Consent not granted. Exiting...")
+        return
+    else:
+        print("✅ User consent granted. Proceeding with backend setup.")
 
     conn = get_connection()
     if conn:
