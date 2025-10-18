@@ -69,3 +69,31 @@ I also took responsibility for implementing two issues from **Milestone #1**:
   - This completes the *“Store user configurations”* and *“Require user consent”* features in our design.
 
 These tasks were an important step toward integrating **file validation** and **user configuration storage** into the system’s backend, and they helped ensure that our foundation is solid for future feature development.
+
+
+---
+
+### **Week 7: October 12th – October 17th**
+
+**Tasks worked on:**  
+
+![week 7 log](week7.png)
+
+**Weekly Goals Recap**
+
+This week, I continued working on backend feature development and focused on improving **data management** and **user preference handling**. The main goal was to make the system more **dynamic**, **user-centric**, and capable of handling real-time updates.
+
+I worked on the following two issues from **Milestone #1**:
+
+- 🥇 **Issue #54 — “Allow the user to upload files into a database so that these can be parsed”**  
+  - Implemented the backend functionality that allows users to upload `.zip` project files directly into the database.  
+  - Added logic to process and prepare uploaded files for future analysis, ensuring the data pipeline can start right after consent is granted.  
+  - This was a major step in enabling the system to collect and analyze real user project data.
+
+- 🥈 **Issue #40 — “Ensure database is continually updated with the user’s preferences”**  
+  - Implemented a **`user_preferences`** table and corresponding functions to store and update user consent and settings dynamically.  
+  - Designed automatic preference checks so the system can adapt if a user changes their consent choice later.  
+  - This makes the backend more flexible and ensures user decisions are always respected in real time.
+
+These two tasks significantly improved the overall **data flow** and **user experience**. With file upload now fully supported and preferences automatically updated, the backend is much closer to production-ready behavior and better aligned with the project’s long-term goals.
+Our team continued to work in a **highly collegial** manner — supporting each other through code reviews, bug troubleshooting, and regular communication — which greatly improved our development efficiency.
