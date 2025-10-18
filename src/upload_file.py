@@ -1,6 +1,7 @@
 import os
 import shutil
 import zipfile
+import json
 from config.db_config import get_connection
 from parsing.file_validator import validate_uploaded_file, WrongFormatError
 
@@ -74,7 +75,7 @@ def add_file_to_db(filepath):
         cur.execute("""
             INSERT INTO uploaded_files (filename, filepath, status, metadata)
             VALUES (%s, %s, %s, %s)
-        """, (filename, dest_path, "uploaded", {"files": file_contents}))
+        """, (filename, dest_path, "uploaded", json.dumps({"files": file_contents})))
         
         conn.commit()
         print("File metadata saved to database.")
