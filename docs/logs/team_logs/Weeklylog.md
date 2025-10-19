@@ -97,20 +97,28 @@ The main goal was to make the system more dynamic, user-centric, and capable of 
 - Issue #54 - Allow the user to upload files into a database so that these can be parsed
 - Issue #40 - Ensure database is continually updated with the user’s preferences
 
+---
+
 ### **Sami**
 Please fill out here
 
 **Requirements addressed:**
+
+---
 
 ### **Evan**
 Please fill out here.
 
 **Requirements addressed:**
 
+---
+
 ### **JinXi**
 Please fill out here
 
 **Requirements addressed:**
+
+---
 
 ### **Ryan**
 Please fill out here
@@ -149,6 +157,7 @@ Please fill out here
 
 ### Peer Evaluations
 | Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
 | **Kevin** | **Eric** | Code review (file validation module) |
 Please add more here.
 
