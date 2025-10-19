@@ -4,7 +4,7 @@ from io import StringIO, BytesIO
 from typing import Optional, Union
 
 
-class TempDataStore:
+class tempDataStore:
     """
     Generic temporary data store:
       - Store data either in memory or on disk (temporary file)
