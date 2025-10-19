@@ -1,6 +1,7 @@
 from config.db_config import get_connection
 from upload_file import add_file_to_db
 from consent.consent_manager import ConsentManager
+from collaborative.collaborative_manager import CollaborativeManager
 
 def main():
     print("STARTING BACKEND SETUP...")
@@ -43,6 +44,15 @@ def main():
             break
         else:
             print("Please enter 'y' for yes or 'n' for no.")
+
+    # Initialize CollabrativeManager
+    manager = CollaborativeManager()
+    # Check/request user consent
+    if not manager.request_collaborative_if_needed():
+        print("✗ Collaborative not granted. Doing individual.")
+        return
+    else:
+        print("✅ Collaborative granted. Doing colabrative and individual.")
 
 if __name__ == "__main__":
     main()
