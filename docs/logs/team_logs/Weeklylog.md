@@ -64,11 +64,10 @@ The team began developing core system modules, connecting the database, and writ
 
 # Sprint Report – Week 7 (2025/10/13 to 2025/10/19)
 
-## Overview
-This sprint focused on implementing the **conditional logic system** for external service routing and continuing to build out core backend functionality.  
-The team made significant progress on handling **user permissions for external services (like LLMs)** and establishing the foundation for the **analysis pipeline**.
+## **Overview**
+This sprint focused on implementing the conditional logic system for **external service routing** and continuing to build out core backend functionality.  
+The team made significant progress on handling **user permissions for external services (like LLMs)** and establishing the foundation for the **analysis pipeline**.  
 (please add your completed issues here)
----
 
 ## Completed Work
 
