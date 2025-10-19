@@ -1,0 +1,51 @@
+# src/database/user_preferences.py
+
+from config.db_config import get_connection
+
+def init_user_preferences_table():
+    """
+    Create the user_preferences table if it does not exist.
+    This table stores user consent and future preferences.
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS user_preferences (
+            user_id SERIAL PRIMARY KEY,
+            consent BOOLEAN NOT NULL,
+            last_updated TIMESTAMP DEFAULT NOW()
+        );
+    """)
+    conn.commit()
+    conn.close()
+
+
+def update_user_preferences(consent: bool):
+    """
+    Update the user's consent preference in the database.
+    If the record doesn't exist, insert it.
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO user_preferences (user_id, consent, last_updated)
+        VALUES (1, %s, NOW())
+        ON CONFLICT (user_id)
+        DO UPDATE SET consent = EXCLUDED.consent, last_updated = NOW();
+    """, (consent,))
+    conn.commit()
+    conn.close()
+
+
+def get_user_preferences():
+    """
+    Retrieve user preferences from the database.
+    Returns:
+        tuple: (consent: bool, last_updated: datetime) or None
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT consent, last_updated FROM user_preferences WHERE user_id = 1;")
+    result = cursor.fetchone()
+    conn.close()
+    return result
