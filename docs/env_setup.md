@@ -51,4 +51,6 @@ python src/main.py
 
 ## 7. Run a final test 
 PYTHONPATH=. pytest tests/
+or
+$env:PYTHONPATH = "."; pytest -v
 ### if you see a success message start coding you're good to go. 

@@ -16,7 +16,6 @@ def main():
     # Initialize ConsentManager
     manager = ConsentManager(user_id="default_user")
     manager.initialize()
-    
     # Check/request user consent
     if not manager.request_consent_if_needed():
         print("✗ Consent not granted. Exiting...")
