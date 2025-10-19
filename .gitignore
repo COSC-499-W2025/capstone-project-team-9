@@ -9,3 +9,6 @@ postgres/
 
 .env 
 /.idea
+
+test_project/
+test_project.zip
