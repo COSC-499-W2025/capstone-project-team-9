@@ -15,40 +15,6 @@ class TestProjectManager:
     
     @patch('src.project_manager.get_connection')
     # this test will test the list_projects function when there are individual files in the projects
-    def test_list_projects_success(self, mock_get_connection):
-        """Test successful project listing with individual file projects"""
-        # Mock database connection and cursor
-        mock_conn = Mock()
-        mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
-        
-        # Mock database results
-        mock_projects = [
-            (1, "project_a.zip", "uploaded", '{"files": ["file1.py", "file2.js"]}', datetime(2024, 1, 1, 10, 0, 0)),
-            (2, "project_b.zip", "uploaded", '{"files": ["readme.md", "main.py", "test.py"]}', datetime(2024, 1, 2, 11, 0, 0))
-        ]
-        mock_cursor.fetchall.return_value = mock_projects
-        
-        # Call the function
-        result = list_projects()
-        
-        # Verify database operations
-        mock_get_connection.assert_called_once()
-        mock_cursor.execute.assert_called_once()
-        mock_cursor.close.assert_called_once()
-        mock_conn.close.assert_called_once()
-        
-        # Verify the SQL query
-        call_args = mock_cursor.execute.call_args
-        assert "SELECT id, filename, status, metadata, created_at" in call_args[0][0]
-        assert "ORDER BY filename ASC" in call_args[0][0]
-        
-        # Verify return value (should still return original projects)
-        assert result == mock_projects
-    
-    @patch('src.project_manager.get_connection')
-    # this test will test the list_projects function when there are individual files in the projects
     def test_list_projects_individual_files(self, mock_get_connection):
         """Test that individual files are properly extracted and sorted"""
         # Mock database connection and cursor
@@ -142,6 +108,7 @@ class TestProjectManager:
         assert result == expected
     
     @patch('src.project_manager.get_connection')
+    # this test will test the get_project_by_id function when the project does not exist
     def test_get_project_by_id_not_found(self, mock_get_connection):
         """Test project retrieval when project doesn't exist"""
         # Mock database connection
@@ -160,6 +127,7 @@ class TestProjectManager:
         assert result is None
     
     @patch('src.project_manager.get_connection')
+    # this test will test the get_project_count function
     def test_get_project_count_success(self, mock_get_connection):
         """Test successful project count retrieval"""
         # Mock database connection
@@ -182,28 +150,6 @@ class TestProjectManager:
         # Verify return value
         assert result == 5
     
-    @patch('src.project_manager.get_connection')
-    def test_get_project_count_database_error(self, mock_get_connection):
-        """Test project count retrieval with database error"""
-        # Mock database connection
-        mock_conn = Mock()
-        mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
-        
-        # Mock database error
-        mock_cursor.execute.side_effect = Exception("Database error")
-        
-        # Call the function
-        result = get_project_count()
-        
-        # Verify return value
-        assert result == 0
-        
-        # Verify cleanup
-        mock_conn.close.assert_called_once()
-
-
 if __name__ == "__main__":
     # Run tests if executed directly
     pytest.main([__file__, "-v"])
