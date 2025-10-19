@@ -2,7 +2,7 @@ import os
 import tempfile
 import shutil
 import pytest
-from src.parsing.file_lister import list_files
+from utils.file_lister import list_files
 
 @pytest.fixture
 def temp_test_dir():
