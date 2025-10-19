@@ -6,8 +6,8 @@ def is_folder(path: str) -> bool:
     """
     isFolder = (
         # os.sep is Operating system-specific path separators
-        path.endswith(os.sep) # Determine if the path ends with path separators
+        path.endswith(os.sep) # ends with path separators == folder
         or not
-        os.path.split(path)[1] # if path not end with extend name, it consider as folder
+        os.path.splitext(path)[1] # no extension == folder
     )
     return isFolder
