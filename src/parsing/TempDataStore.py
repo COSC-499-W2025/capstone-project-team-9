@@ -51,12 +51,12 @@ class TempDataStore:
             elif not isinstance(data, str):
                 raise TypeError("Text mode expects str or bytes-like (which will be decoded).")
         self.buffer.write(data)  # type: ignore[arg-type]
-        self.buffer.flush()
+        self.buffer.flush() # make suer the data write into tempfile.
 
     def read(self) -> Union[str, bytes]:
         """Read all data from the underlying buffer from the beginning."""
         self._ensure_open()
-        self.buffer.seek(0)
+        self.buffer.seek(0) # return to the start of the buffer to avoid read empty
         return self.buffer.read()
 
     def get_path(self) -> str:
