@@ -1,5 +1,6 @@
 from config.db_config import get_connection
 from upload_file import add_file_to_db
+from project_manager import list_projects
 from consent.consent_manager import ConsentManager
 
 def main():
@@ -21,7 +22,7 @@ def main():
         print("✗ Consent not granted. Exiting...")
         return
     else:
-        print("✅ User consent granted. Proceeding with backend setup.")
+        print("User consent granted. Proceeding with backend setup.")
 
     # Test database connection
     conn = get_connection()
@@ -32,17 +33,28 @@ def main():
         print("WE ARE NOT GOOOOOOOD!")
         return
     
-    # File upload interface
+    # Main menu interface
     while True:
-        choice = input("\nDo you want to upload a ZIP file? (y/n): ").lower().strip()
-        if choice in ['y', 'yes']:
+        print("\n" + "-"*50)
+        print("Upload and Analyze files main page")
+        print("-"*50)
+        print("1. Upload a ZIP file")
+        print("2. List stored projects")
+        print("3. Exit")
+        print("-"*50)
+        
+        choice = input("Choose an option (1-3): ").strip()
+        
+        if choice == '1':
             filepath = input("Enter the path to your zip file: ")
             add_file_to_db(filepath)
-        elif choice in ['n', 'no']:
+        elif choice == '2':
+            list_projects()
+        elif choice == '3':
             print("Goodbye!")
             break
         else:
-            print("Please enter 'y' for yes or 'n' for no.")
+            print("Invalid choice. Please enter 1, 2, or 3.")
 
 if __name__ == "__main__":
     main()
