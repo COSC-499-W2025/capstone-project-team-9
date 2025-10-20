@@ -54,3 +54,8 @@ PYTHONPATH=. pytest tests/
 or
 $env:PYTHONPATH = "."; pytest -v
 ### if you see a success message start coding you're good to go. 
+
+
+
+# Database Command
+docker exec -it artifact_db psql -U devuser -d artifact_data
