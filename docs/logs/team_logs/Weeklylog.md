@@ -122,17 +122,18 @@ The main goal is make the system read file faster and get a tool that can effect
 ---
 
 ### **Ryan**
-Please fill out here
+This week I started working on a new feature. This was a feature that allowed the user to list all projects that had been uploaded to the uploaded_files table in our database. This was done by calling the database and filtering the files that are stored using JSON to only fetch the files inside folders. Along with this i refactored the main.py page so that it becomes more simple to interact with in the CLI. 
 
 **Requirements addressed:**
-
+- Issue #70 - Produce a list of all projects
 ---
 
 ## Current Status
 - Backend architecture expanding: New `analysis/` and `external_services/` modules added  
 - Database schema growing: `external_service_permissions` table now in production  
 - Total Test coverage improving: **35 tests passing** (up from previous week)
-- guys, you can write some status here, please fill in 
+- A lot of code Refactoring has occured to ensure that it stays reasable throughout our process.
+- Features are being built, and we will need to make sure that we are not rebuilduing these features in seperate pull requeusts 
 
 ---
 
@@ -162,6 +163,9 @@ Please fill out here
 | **Kevin** | **Eric** | Code review (file validation module) |
 | **Kevin** | **Jinxi** | Code review (mplement conditional logic for external service routing) |
 | **Jinxi** | **Evan** | Bug fix: File_lister incorect ordering |
+| **Ryan** | **Sami** | Bug fix #65:Reiviewed Samis PR. This is a small commit and addresses issues in our main.py, and upload_file.py files.|
+| **Ryan** | **Evan** | Bug fix: test suites wree not running properly on MAC, therefore he fixed the list order |
+| **Ryan** | **Evan** | Issue#42: allows the user to choose whether or not collaborative work is included in the summary |
 Please add more here.
 
 ## Next Steps
