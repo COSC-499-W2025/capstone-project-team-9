@@ -23,8 +23,9 @@ cd Project-Starter
 cp .env.example .env
 
 ## 4. Start the Database 
-docker-compose up -d 
-docker-compose down 
+Run docker: docker-compose up -d;
+
+Stop docker: docker-compose down 
 
 ## 5. Install the Dependencies 
 ### At this step, I believe the best way to do this for everyone is to use a virtual environment to install the packages, and then run it everytime you start the program. 
