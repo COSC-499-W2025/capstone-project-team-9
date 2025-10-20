@@ -99,9 +99,12 @@ The main goal was to make the system more dynamic, user-centric, and capable of 
 ---
 
 ### **Sami**
-Please fill out here
+This week, I still working on backend development, focused on the file reading and tempdata management.
+The main goal is make the system read file faster and get a tool that can effectively save, read or delete temporary data.
 
 **Requirements addressed:**
+- Issue #34 - Skip all folders then end with "/": Allow system use str to define a path is file or folder
+- Issue #33 - Store Extracted Data: Allow system to store temp data in memory or tempfile, and provide functions to read, write, and delete them.
 
 ---
 
