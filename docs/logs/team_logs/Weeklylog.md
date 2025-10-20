@@ -37,7 +37,8 @@ The team began developing core system modules, connecting the database, and writ
 - **Initial test cases** added for consent and database modules  
 - **Team collaboration setup** refined: branch naming, pull-request workflow, and environment consistency  
 - **Sami** focused on reviewing pull requests and assisting with environment setup  
-- Waiting on updates from **Ryan** and **Evan** (Please update, and delete this sentences)
+- **Evan** focused on reviewing code and assigning issues and creating issues for features and tasks
+- Waiting on updates from **Ryan** (Please update, and delete this sentences)
 
 ## Current Status
 - Core backend structure and modules created under `src/consent/`  
@@ -106,7 +107,7 @@ Please fill out here.
 ---
 
 ### **Evan**
-Please fill out here.
+This week I worked on a new feature (issue 42) to allow users to consent to whether or not they want collaborative work to be included. I did this by creating an interactive UI in the terminal and creating all the background necessities in order to store this user preference. I also wrote unit tests as well as manually testing this feature. In addition I reviewed code for ryan, sami and kevin this week
 
 **Requirements addressed:**
 
