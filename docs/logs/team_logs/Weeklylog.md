@@ -102,6 +102,7 @@ The main goal was to make the system more dynamic, user-centric, and capable of 
 Please fill out here.
 
 **Requirements addressed:**
+
 ---
 
 ### **Evan**
