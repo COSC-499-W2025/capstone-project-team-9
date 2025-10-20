@@ -31,3 +31,4 @@ If they say **no**, the system automatically uses **local analysis** instead.
 | New Database Table | 1 (`external_service_permissions`) |
 
 ---
+<img width="1034" height="537" alt="image" src="https://github.com/user-attachments/assets/14f847c8-9142-4f4b-81e1-aab31f467116" />
