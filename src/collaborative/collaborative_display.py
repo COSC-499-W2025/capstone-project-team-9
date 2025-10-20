@@ -12,5 +12,5 @@ class CollaborativeDisplay:
     @staticmethod
     def show_status(consent: bool, collaborative: bool):
         """Print current consent and collaborative status."""
-        print(f"Consent: {'✅' if consent else '✗'}")
-        print(f"Collaborative: {'✅' if collaborative else '✗'}")
+        print(f"Consent: {'' if consent else ''}")
+        print(f"Collaborative: {'' if collaborative else ''}")
