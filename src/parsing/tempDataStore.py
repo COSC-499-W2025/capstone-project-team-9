@@ -73,26 +73,38 @@ class tempDataStore:
     def delete(self) -> bool:
         """
         Manually delete the temporary file (file mode only).
-        Returns True if deletion happened; False otherwise (e.g., memory mode or already deleted).
+        If the stream is still open, close it first to avoid OS lock issues (e.g., on Windows).
+        After deletion, the stream becomes closed and unusable.
+        Returns True if deletion happened; False otherwise.
         """
-        if self.use_memory:
+        if self.use_memory or self._deleted:
             return False
-        if self._deleted:
-            return False
+
+        # Ensure the file handle is closed before removal (important on Windows)
+        if not self.closed:
+            try:
+                # Flush best-effort; ignore failures on half-closed states
+                self.buffer.flush()
+            except Exception:
+                pass
+            try:
+                self.buffer.close()
+            finally:
+                self.closed = True
+
+        # Remove the file if it still exists
         if self.file_path and os.path.exists(self.file_path):
-            # Ensure file handle is closed before deletion on Windows
-            if hasattr(self.buffer, "close"):
-                try:
-                    self.buffer.flush()
-                except Exception:
-                    pass
             try:
                 os.remove(self.file_path)
                 self._deleted = True
                 return True
-            finally:
-                # do not nullify file_path so error messages can still reference it if needed
-                ...
+            except FileNotFoundError:
+                # Race: another process removed it
+                self._deleted = True
+                return False
+
+        # File path missing or already gone
+        self._deleted = True
         return False
 
     def close(self) -> None:
