@@ -20,7 +20,7 @@ def main():
     manager.initialize()
     # Check/request user consent
     if not manager.request_consent_if_needed():
-        print("✗ Consent not granted. Exiting...")
+        print("Consent not granted. Exiting...")
         return
     else:
         print("User consent granted. Proceeding with backend setup.")
@@ -61,10 +61,10 @@ def main():
     manager = CollaborativeManager()
     # Check/request user consent
     if not manager.request_collaborative_if_needed():
-        print("✗ Collaborative not granted. Doing individual.")
+        print("Collaborative not granted. Doing individual.")
         return
     else:
-        print("✅ Collaborative granted. Doing colabrative and individual.")
+        print("Collaborative granted. Doing colabrative and individual.")
 
 if __name__ == "__main__":
     main()
