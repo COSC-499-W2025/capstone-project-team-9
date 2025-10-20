@@ -19,8 +19,8 @@ I develop subissue of this feature:
 
 PR: [Store Extracted Data #33 #73](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/73)
 
-3. [Skip All Folders Ending with “/”](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/34)   
-  PR: [Skip all folders then end with "/" #34 #66](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/66)
+2. [Skip All Folders Ending with “/”](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/34)   
+PR: [Skip all folders then end with "/" #34 #66](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/66)
 
 At the same time, I also review following PRs:
 1. [Implement conditional logic for external service routing #69](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/69)
