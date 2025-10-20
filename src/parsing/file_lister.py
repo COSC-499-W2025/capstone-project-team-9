@@ -9,14 +9,10 @@ def list_files(path, level=0):
         """
     item = []
     with os.scandir(path) as entries:
-        for entry in entries:
+        for entry in sorted(entries, key=lambda e: e.name):
             if entry.is_dir():
-                # if is folder, first add its name to item
-                item.append(('  '*level)+f"[DIR] {entry.name}")
-                # recursion the sub folders
-                item.extend(list_files(entry, level+1))
+                item.append(('  ' * level) + f"[DIR] {entry.name}")
+                item.extend(list_files(entry.path, level + 1))
             else:
-                # if is a file, direct add its name to item
                 item.append(('  ' * level) + f"{entry.name}")
-    # finish recursion, return item
     return item
