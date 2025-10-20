@@ -157,7 +157,6 @@ This week I started working on a new feature. This was a feature that allowed th
 ### Collaboration Highlights
 - All members participated in at least one **peer review** through GitHub Pull Requests 
 - Improved coordination using shared GitHub Projects board and Discord communication channel
-- I do not know what to write here, please make up something (Kevin)
 
 ### Peer Evaluations
 | Reviewer | Reviewee | Focus Area |
@@ -178,7 +177,6 @@ Please add more here.
 - Complete full analysis workflow integration (Issue #10)  
 - Continue expanding test coverage for edge cases  
 - Update documentation to reflect new modules  
-- Please add your PR's here, your future work here
 ---
 
 ## Burnup Chart
