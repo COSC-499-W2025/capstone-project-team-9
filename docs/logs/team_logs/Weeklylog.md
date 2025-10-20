@@ -160,6 +160,8 @@ Please fill out here
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
 | **Kevin** | **Eric** | Code review (file validation module) |
+| **Kevin** | **Jinxi** | Code review (mplement conditional logic for external service routing) |
+| **Jinxi** | **Evan** | Bug fix: File_lister incorect ordering |
 Please add more here.
 
 ## Next Steps
