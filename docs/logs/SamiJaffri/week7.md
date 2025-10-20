@@ -1,6 +1,6 @@
 # Week 7 Personal Logs
 
-![image](/docs/logs/SamiJaffri/Images/Week7Log.png)
+![image](/docs/logs/SamiJaffri/Images/Week7Log.PNG)
 
 ### This Sprints Progress
 - Worked on bug fixes for a few of the files that were pushed to our main branch
