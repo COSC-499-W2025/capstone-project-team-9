@@ -16,9 +16,10 @@ Main focus on the database connection and file read/store features.
 I develop subissue of this feature:
 ### [Issue #7 – Parse Upload Folder](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/7#issue-3496337875)
 1. [Store Extracted Data](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/33)
-  PR: [Store Extracted Data #33 #73](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/73)
 
-2. [Skip All Folders Ending with “/”](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/34)   
+PR: [Store Extracted Data #33 #73](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/73)
+
+3. [Skip All Folders Ending with “/”](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/34)   
   PR: [Skip all folders then end with "/" #34 #66](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/66)
 
 At the same time, I also review following PRs:
