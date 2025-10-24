@@ -114,18 +114,18 @@ def test_complex_upload_and_extraction():
         # Create complex test zip file
         print("2. Creating complex test zip file with nested folders...")
         test_zip_path = create_complex_test_zip()
-        print(f"✓ Complex test zip created: {test_zip_path}\n")
+        print(f" Complex test zip created: {test_zip_path}\n")
         
         # Upload file and extract contents
         print("3. Uploading file and extracting contents...")
         add_file_to_db(test_zip_path)
-        print("✓ File uploaded and contents extracted\n")
+        print(" File uploaded and contents extracted\n")
         
         # List uploaded files
         print("4. Listing uploaded files...")
         uploaded_files = list_uploaded_files()
         if uploaded_files:
-            print(f"✓ Found {len(uploaded_files)} uploaded file(s)")
+            print(f" Found {len(uploaded_files)} uploaded file(s)")
             for file_info in uploaded_files:
                 print(f"   - ID: {file_info['id']}, Filename: {file_info['filename']}")
         print()
@@ -134,7 +134,7 @@ def test_complex_upload_and_extraction():
         if uploaded_files:
             print("5. Getting file statistics...")
             stats = get_file_statistics(uploaded_files[0]['id'])
-            print(f"✓ File Statistics:")
+            print(f" File Statistics:")
             print(f"   - Total files: {stats['total_files']}")
             print(f"   - Total size: {stats['total_size_bytes']} bytes")
             print(f"   - Text files: {stats['text_files']}")
@@ -147,7 +147,7 @@ def test_complex_upload_and_extraction():
         if uploaded_files:
             print("6. Retrieving file contents organized by folder...")
             folder_structure = get_file_contents_by_folder(uploaded_files[0]['id'])
-            print(f"✓ Retrieved files organized by {len(folder_structure)} folders:")
+            print(f" Retrieved files organized by {len(folder_structure)} folders:")
             
             for folder, files in folder_structure.items():
                 print(f"    {folder} ({len(files)} files)")
@@ -202,10 +202,10 @@ def test_performance_with_many_files():
             # Upload and extract
             print("Uploading and extracting many files...")
             add_file_to_db(zip_path)
-            print("✓ Many files uploaded and extracted successfully!")
+            print(" Many files uploaded and extracted successfully!")
             
     except Exception as e:
-        print(f"✗ Performance test failed: {e}")
+        print(f" Performance test failed: {e}")
 
 
 if __name__ == "__main__":
