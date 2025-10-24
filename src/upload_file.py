@@ -28,14 +28,14 @@ def init_uploaded_files_table():
         """)
         conn.commit()
         cursor.close()
-        print("✓ Uploaded files table initialized")
+        print(" Uploaded files table initialized")
         
         # Also initialize the file contents table
         init_file_contents_table()
         
     except Exception as e:
         conn.rollback()
-        print(f"✗ Error initializing uploaded_files table: {e}")
+        print(f" Error initializing uploaded_files table: {e}")
         raise
     finally:
         conn.close()
@@ -92,11 +92,11 @@ def add_file_to_db(filepath):
         extraction_result = extract_and_store_file_contents(uploaded_file_id, dest_path)
         
         if extraction_result["success"]:
-            print(f"✓ Successfully extracted {extraction_result['total_files']} files")
+            print(f" Successfully extracted {extraction_result['total_files']} files")
             if extraction_result["errors"]:
-                print(f"⚠ {len(extraction_result['errors'])} files had errors during extraction")
+                print(f" {len(extraction_result['errors'])} files had errors during extraction")
         else:
-            print(f"✗ Error extracting file contents: {extraction_result['error']}")
+            print(f" Error extracting file contents: {extraction_result['error']}")
         
     except Exception as e:
         print(f"Error saving to database: {e}")
