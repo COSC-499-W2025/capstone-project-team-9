@@ -20,7 +20,7 @@ def init_file_contents_table():
                 file_name VARCHAR(255) NOT NULL,
                 file_extension VARCHAR(50),
                 file_size BIGINT,
-                file_content TEXT,
+                file_content TEXT, -- Stores line count as string for text files, "0" for binary files
                 content_type VARCHAR(100),
                 is_binary BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -39,7 +39,7 @@ def init_file_contents_table():
 
 def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1000, batch_size=50):
     """
-    Extract all files from a zip archive and store their contents in the database.
+    Extract all files from a zip archive and store their line counts in the database.
     Handles nested folders and large numbers of files efficiently.
     
     Args:
@@ -101,22 +101,26 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
                     # Determine if file is binary
                     is_binary = _is_binary_file(file_extension)
                     
-                    # Read file content
+                    # Read file content and count lines
                     file_content = None
                     content_type = _get_content_type(file_extension)
                     
                     if not is_binary:
                         try:
-                            # Try to read as text
-                            file_content = zip_ref.read(file_path).decode('utf-8')
+                            # Try to read as text and count lines
+                            text_content = zip_ref.read(file_path).decode('utf-8')
+                            line_count = len(text_content.splitlines())
+                            file_content = str(line_count)  # Store line count as string
                         except UnicodeDecodeError:
                             # If UTF-8 fails, try other encodings
                             try:
-                                file_content = zip_ref.read(file_path).decode('latin-1')
+                                text_content = zip_ref.read(file_path).decode('latin-1')
+                                line_count = len(text_content.splitlines())
+                                file_content = str(line_count)  # Store line count as string
                             except:
                                 # If all text decoding fails, mark as binary
                                 is_binary = True
-                                file_content = None
+                                file_content = "0"  # Binary files have 0 lines
                     
                     # Add to batch
                     batch_data.append((
@@ -185,14 +189,14 @@ def _insert_batch(cursor, batch_data):
 
 def get_file_contents_by_folder(uploaded_file_id, folder_path=""):
     """
-    Retrieve file contents organized by folder structure.
+    Retrieve file line counts organized by folder structure.
     
     Args:
         uploaded_file_id (int): The ID of the uploaded file record
         folder_path (str): Optional folder path to filter by
     
     Returns:
-        dict: File contents organized by folder structure
+        dict: File line counts organized by folder structure
     """
     conn = get_connection()
     if not conn:
@@ -339,13 +343,13 @@ def get_file_statistics(uploaded_file_id):
 
 def get_file_contents_by_upload_id(uploaded_file_id):
     """
-    Retrieve all file contents for a specific uploaded file.
+    Retrieve all file line counts for a specific uploaded file.
     
     Args:
         uploaded_file_id (int): The ID of the uploaded file record
     
     Returns:
-        list: List of file content records
+        list: List of file line count records
     """
     conn = get_connection()
     if not conn:
