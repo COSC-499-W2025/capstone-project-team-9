@@ -150,7 +150,7 @@ def test_complex_upload_and_extraction():
             print(f"✓ Retrieved files organized by {len(folder_structure)} folders:")
             
             for folder, files in folder_structure.items():
-                print(f"   📁 {folder} ({len(files)} files)")
+                print(f"    {folder} ({len(files)} files)")
                 for file_info in files[:3]:  # Show first 3 files per folder
                     print(f"      - {file_info['file_name']} ({file_info['file_size']} bytes)")
                 if len(files) > 3:
@@ -166,7 +166,7 @@ def test_complex_upload_and_extraction():
             interesting_files = [f for f in file_contents if f['file_name'] in ['main.py', 'README.md', 'package.json']]
             
             for file_info in interesting_files[:2]:  # Show first 2 interesting files
-                print(f"   📄 {file_info['file_path']}")
+                print(f"    {file_info['file_path']}")
                 print(f"      Size: {file_info['file_size']} bytes")
                 print(f"      Type: {file_info['content_type']}")
                 print(f"      Binary: {file_info['is_binary']}")
