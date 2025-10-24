@@ -78,7 +78,7 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
             print(f"Found {total_files} files in zip archive")
             
             if total_files > max_files:
-                print(f"⚠ Warning: Zip contains {total_files} files, but processing limit is {max_files}")
+                print(f"Warning: Zip contains {total_files} files, but processing limit is {max_files}")
                 return {"success": False, "error": f"Too many files ({total_files}). Maximum allowed: {max_files}"}
             
             # Process files in batches for better memory management
