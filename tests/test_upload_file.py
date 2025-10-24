@@ -40,9 +40,10 @@ class TestUploadFile:
             f.write(content)
         return file_path
     
+    @patch('src.upload_file.extract_and_store_file_contents')
     @patch('src.upload_file.get_connection')
     # This is a mock database connection
-    def test_add_file_to_db_success(self, mock_get_connection):
+    def test_add_file_to_db_success(self, mock_get_connection, mock_extract_contents):
         """Test successful file upload to database"""
         # Create a valid ZIP file for testing
         zip_path = self.create_test_zip()
@@ -52,6 +53,16 @@ class TestUploadFile:
         mock_cursor = Mock()
         mock_get_connection.return_value = mock_conn
         mock_conn.cursor.return_value = mock_cursor
+        
+        # Configure the cursor to return a mock ID when fetchone() is called
+        mock_cursor.fetchone.return_value = (1,)  # Return tuple with ID 1
+        
+        # Mock the extract_and_store_file_contents function to return success
+        mock_extract_contents.return_value = {
+            "success": True,
+            "total_files": 1,
+            "errors": []
+        }
 
         # Call the function to add the file to the Database
         add_file_to_db(zip_path)
