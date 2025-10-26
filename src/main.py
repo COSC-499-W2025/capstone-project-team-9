@@ -3,6 +3,7 @@ from upload_file import add_file_to_db
 from project_manager import list_projects
 from consent.consent_manager import ConsentManager
 from collaborative.collaborative_manager import CollaborativeManager
+from src.analysis.key_metrics import analyze_project_from_db
 
 def main():
     print("STARTING BACKEND SETUP...")
@@ -41,7 +42,8 @@ def main():
         print("-"*50)
         print("1. Upload a ZIP file")
         print("2. List stored projects")
-        print("3. Exit")
+        print("3. Analyze project metrics")
+        print("4. Exit")
         print("-"*50)
         
         choice = input("Choose an option (1-3): ").strip()
@@ -51,11 +53,17 @@ def main():
             add_file_to_db(filepath)
         elif choice == '2':
             list_projects()
-        elif choice == '3':
+        elif choice == "3":
+            project_id = input("Enter the project ID to analyze: ").strip()
+            if project_id.isdigit():
+                analyze_project_from_db(int(project_id))
+            else:
+                print("Invalid project ID.")
+        elif choice == "4":
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
+            print("Invalid choice. Please enter 1–4.")
 
     # Initialize CollabrativeManager
     manager = CollaborativeManager()

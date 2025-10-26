@@ -1,67 +1,68 @@
-import zipfile
-from datetime import datetime
-from config.db_config import get_connection
-from project_manager import get_project_by_id
-from src.analysis.activity_classifier import aggregate
+from typing import Dict, Any, List, Tuple
+from src.config.db_config import get_connection
+from src.analysis.activity_classifier import aggregate as agg_by_activity
 
 
-def init_metrics_table():
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS project_metrics(
-            id SERIAL PRIMARY KEY,
-            project_id INTEGER,
-            activity_type TEXT,
-            file_count INT,
-            total_bytes BIGINT,
-            contribution_score FLOAT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    """)
-    conn.commit()
-    cur.close()
-    conn.close()
+def fetch_records_from_db(project_id: int) -> List[Tuple[str, int, str, int]]:
+    sql = """
+    SELECT
+      path,
+      COALESCE(size_bytes, octet_length(content)) AS size_bytes,
+      COALESCE(language, 'Unknown') AS language,
+      COALESCE(num_lines, (length(content) - length(replace(content, E'\n',''))) + 1) AS num_lines
+    FROM file_contents
+    WHERE project_id = %s;
+    """
+    with get_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, (project_id,))
+        rows = cur.fetchall()
+    return rows
 
 
-def read_zip(zip_path):
-    files, sizes = [], {}
-    with zipfile.ZipFile(zip_path, "r") as zf:
-        for info in zf.infolist():
-            files.append(info.filename)
-            sizes[info.filename] = info.file_size
-    return files, sizes
+def aggregate_by_language(rows: List[Tuple[str, int, str, int]]) -> List[Dict[str, Any]]:
+    stats: Dict[str, Dict[str, int]] = {}
+    for _, _, lang, lines in rows:
+        bucket = stats.setdefault(lang, {"files": 0, "lines": 0})
+        bucket["files"] += 1
+        bucket["lines"] += int(lines or 0)
+    return [
+        {"language": k, "files": v["files"], "total_lines": v["lines"]}
+        for k, v in sorted(stats.items(), key=lambda x: -x[1]["lines"])
+    ]
 
 
-def analyze_project(project_id):
-    project = get_project_by_id(project_id)
-    if not project:
-        print("Project not found.")
-        return
-    files, sizes = read_zip(project["filepath"])
-    agg = aggregate(files, sizes)
-    save_metrics(project_id, agg)
-    print_summary(project["filename"], agg)
-    return agg
+def aggregate_by_activity(rows: List[Tuple[str, int, str, int]]) -> Dict[str, Any]:
+    files = [r[0] for r in rows]
+    sizes = {r[0]: int(r[1] or 0) for r in rows}
+    return agg_by_activity(files, sizes)
 
 
-def save_metrics(pid, agg):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("DELETE FROM project_metrics WHERE project_id=%s", (pid,))
-    for t, v in agg.items():
-        cur.execute("""
-            INSERT INTO project_metrics
-            (project_id, activity_type, file_count, total_bytes, contribution_score, created_at)
-            VALUES (%s,%s,%s,%s,%s,%s)
-        """, (pid, t, v["count"], v["bytes"], v["score"], datetime.utcnow()))
-    conn.commit()
-    cur.close()
-    conn.close()
+def analyze_project_from_db(project_id: int) -> Dict[str, Any]:
+    rows = fetch_records_from_db(project_id)
+    by_lang = aggregate_by_language(rows)
+    by_activity = aggregate_by_activity(rows)
+    totals_files = len(rows)
+    totals_lines = sum(int(r[3] or 0) for r in rows)
+
+    result = {
+        "by_language": by_lang,
+        "by_activity": by_activity,
+        "totals": {"files": totals_files, "lines": totals_lines},
+    }
+    print_summary(f"project:{project_id}", result)
+    return result
 
 
-def print_summary(name, agg):
-    print("\n----- Key Metrics for", name, "-----")
+def print_summary(name: str, metrics: Dict[str, Any]) -> None:
+    print(f"\n----- Key Metrics for {name} -----")
+    print("== By Language ==")
+    print(f"{'Language':<16}{'Files':>8}{'Lines':>12}")
+    for r in metrics["by_language"]:
+        print(f"{r['language']:<16}{r['files']:>8}{r['total_lines']:>12}")
+
+    print("\n== By Activity Type ==")
     print(f"{'Type':<12}{'Files':>8}{'Bytes':>12}{'Score':>14}")
-    for t, v in sorted(agg.items(), key=lambda x: -x[1]["score"]):
+    for t, v in sorted(metrics["by_activity"].items(), key=lambda x: -x[1]["score"]):
         print(f"{t:<12}{v['count']:>8}{v['bytes']:>12}{v['score']:>14.2f}")
+
+    print(f"\nTotals: files={metrics['totals']['files']}, lines={metrics['totals']['lines']}")
