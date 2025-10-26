@@ -74,8 +74,28 @@ def summarize_project_menu():
         except ValueError:
             print("Please enter a valid number or 'q' to quit")
 
+def ensure_user_preferences_schema():
+    """Ensure user_preferences table has all required columns and defaults."""
+    try:
+        with get_connection() as conn, conn.cursor() as cur:
+            cur.execute("""
+                ALTER TABLE user_preferences
+                ADD COLUMN IF NOT EXISTS collaborative BOOLEAN DEFAULT FALSE;
+            """)
+            cur.execute("""
+                ALTER TABLE user_preferences
+                ALTER COLUMN consent SET DEFAULT TRUE;
+            """)
+            conn.commit()
+        print("✓ user_preferences schema verified/updated")
+    except Exception as e:
+        print(f"[WARN] Failed to update user_preferences schema: {e}")
+
 def main():
     print("STARTING BACKEND SETUP...")
+
+    # Ensure user_preferences schema is up to date
+    ensure_user_preferences_schema()
     
     # Initialize database tables
     try:
