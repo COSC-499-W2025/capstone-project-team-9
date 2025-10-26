@@ -180,34 +180,49 @@ class TestUploadFile:
         assert result.error_type == "DIRECTORY_ERROR"
         assert "Failed to create upload directory" in result.message
     
-    def test_upload_result_to_dict(self):
-        """Test UploadResult.to_dict() method"""
-        result = UploadResult(
-            success=True,
-            message="Test message",
-            error_type=None,
-            data={"key": "value"}
-        )
+    @patch('src.upload_file.get_connection')
+    def test_upload_result_to_dict(self, mock_get_connection):
+        """Test UploadResult.to_dict() method from actual upload operation"""
+        zip_path = self.create_test_zip()
         
+        # Mock successful database operation
+        mock_conn = Mock()
+        mock_cursor = Mock()
+        mock_get_connection.return_value = mock_conn
+        mock_conn.cursor.return_value = mock_cursor
+        mock_cursor.fetchone.return_value = [456]
+        
+        # Execute actual upload
+        result = add_file_to_db(zip_path)
+        
+        # Convert to dict and verify structure
         result_dict = result.to_dict()
+        assert isinstance(result_dict, dict)
         assert result_dict["success"] is True
-        assert result_dict["message"] == "Test message"
+        assert "message" in result_dict
+        assert "error_type" in result_dict
+        assert "data" in result_dict
         assert result_dict["error_type"] is None
-        assert result_dict["data"]["key"] == "value"
+        assert result_dict["data"]["file_id"] == 456
+        assert result_dict["data"]["filename"] == "test.zip"
     
     def test_upload_result_with_error(self):
-        """Test UploadResult with error information"""
-        result = UploadResult(
-            success=False,
-            message="Error occurred",
-            error_type="TEST_ERROR",
-            data={"detail": "Test detail"}
-        )
+        """Test UploadResult error handling from actual failed operation"""
+        # Test with multiple error scenarios
+        nonexistent_path = os.path.join(self.test_dir, "nonexistent.zip")
+        result = add_file_to_db(nonexistent_path)
         
+        # Verify error result structure
+        assert isinstance(result, UploadResult)
         assert result.success is False
-        assert result.error_type == "TEST_ERROR"
-        assert result.message == "Error occurred"
-        assert result.data["detail"] == "Test detail"
+        assert result.error_type == "FILE_NOT_FOUND"
+        assert len(result.message) > 0
+        
+        # Test to_dict() on error result
+        result_dict = result.to_dict()
+        assert result_dict["success"] is False
+        assert result_dict["error_type"] == "FILE_NOT_FOUND"
+        assert "does not exist" in result_dict["message"]
 
 
 if __name__ == "__main__":
