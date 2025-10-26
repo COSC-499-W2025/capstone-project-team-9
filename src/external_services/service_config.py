@@ -1,4 +1,4 @@
-from config.db_config import get_connection
+from src.config.db_config import get_connection
 
 
 class ServiceConfig:
