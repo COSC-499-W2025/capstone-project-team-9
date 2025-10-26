@@ -1,4 +1,4 @@
-from .service_config import ServiceConfig
+from external_services.service_config import ServiceConfig
 
 
 class ExternalServicePermission:

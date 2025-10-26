@@ -9,9 +9,9 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from src.analysis.analysis_router import AnalysisRouter
-from src.external_services.permission_manager import ExternalServicePermission
-from src.external_services.service_config import ServiceConfig
+from analysis.analysis_router import AnalysisRouter
+from external_services.permission_manager import ExternalServicePermission
+from external_services.service_config import ServiceConfig
 
 
 class TestAnalysisRouter:
@@ -26,8 +26,8 @@ class TestAnalysisRouter:
     def clean_db(self):
         """Clean up test data before and after tests."""
        
-        from src.config.db_config import get_connection
-        from src.external_services.service_config import ServiceConfig
+        from config.db_config import get_connection
+        from external_services.service_config import ServiceConfig
         config = ServiceConfig()
         config.initialize_table()
         
