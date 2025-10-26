@@ -23,6 +23,6 @@ I implement this feature by adding class to store feedback information from each
 I also rewrote some of the codes in main.py and upload_file.py to accommodate this change.
 
 ### PR reviewed: 
-1. [Be able to identify the activity type and the amount of contribution](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/75)
-2. [Be able to identify the activity type and the amount of contribution](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/83)
-3. [internal analysis #39](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/78)
+1. [Be able to identify the activity type and the amount of contribution #75](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/75)
+2. [Be able to identify the activity type and the amount of contribution #83](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/83)
+3. [internal analysis #78](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/78)
