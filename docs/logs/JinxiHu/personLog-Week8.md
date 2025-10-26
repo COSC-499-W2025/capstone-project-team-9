@@ -14,7 +14,7 @@ This week, our team focus on pushing the project backend development.
 This week I focus on issue development and code review.
 
 ### issur developed:
-[1. [Display error message on the UI, Inform the user of the error type #29](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/33)](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/29)
+1. [Display error message on the UI, Inform the user of the error type #29](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/33)
 PR: [Display error message on the UI, Inform the user of the error type #29](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/79)
 
 The main purpose of this issue is to allow users to better understand the situation by displaying detailed information on whether the file upload is successful or not on the current UI interface.
