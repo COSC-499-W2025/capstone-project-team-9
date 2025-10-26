@@ -97,3 +97,32 @@ I worked on the following two issues from **Milestone #1**:
 
 These two tasks significantly improved the overall **data flow** and **user experience**. With file upload now fully supported and preferences automatically updated, the backend is much closer to production-ready behavior and better aligned with the project’s long-term goals.
 Our team continued to work in a **highly collegial** manner — supporting each other through code reviews, bug troubleshooting, and regular communication — which greatly improved our development efficiency.
+
+
+---
+
+### **Week 8: October 19th – October 25th**
+
+**Tasks worked on:**
+
+![week 8 log](week8.png)
+
+**Weekly Goals Recap**
+
+This week, I continued contributing to the **backend feature development** phase, focusing on **data processing and contribution tracking**.  
+Specifically, I completed two issues that are part of the **project analytics module**:
+
+- 🥇 **Issue #49 — “Identify activity type and amount of contribution made by the user”**  
+  - Implemented logic to classify user actions (e.g., commits, merges, file uploads) and quantify their contribution.  
+  - Integrated backend processing to automatically recognize and record different types of user activities within the database.  
+  - This lays the groundwork for generating contribution analytics in future sprints.
+
+- 🥈 **Issue #50 — “[Rank Projects] Store the amount of work a user has contributed to a project”**  
+  - Developed a feature to calculate and persist each user’s contribution score to individual projects.  
+  - This allows the system to **rank projects and users** based on activity and contribution level, providing the foundation for future visualization and reporting.
+
+This week involved both **coding and testing**, ensuring the new contribution-tracking mechanisms worked as expected.  
+Our team continued to collaborate effectively through regular discussions and reviews, keeping progress smooth and well-coordinated.
+
+---
+
