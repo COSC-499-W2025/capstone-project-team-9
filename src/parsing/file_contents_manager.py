@@ -296,6 +296,17 @@ def get_file_statistics(uploaded_file_id):
         
         stats = cursor.fetchone()
         
+        # Handle case where no files are found
+        if not stats or len(stats) < 4:
+            return {
+                "total_files": 0,
+                "total_size_bytes": 0,
+                "text_files": 0,
+                "binary_files": 0,
+                "file_extensions": [],
+                "folders": []
+            }
+        
         # Get file extensions
         cursor.execute("""
             SELECT file_extension, COUNT(*) as count
@@ -307,14 +318,10 @@ def get_file_statistics(uploaded_file_id):
         
         extensions = cursor.fetchall()
         
-        # Get folder structure
+        # Get folder structure (simplified approach)
         cursor.execute("""
-            SELECT DISTINCT 
-                CASE 
-                    WHEN file_path LIKE '%/%' THEN 
-                        substring(file_path from 1 for position('/' in reverse(file_path)) - 1)
-                    ELSE 'root'
-                END as folder,
+            SELECT 
+                COALESCE(split_part(file_path, '/', 1), 'root') as folder,
                 COUNT(*) as file_count
             FROM file_contents
             WHERE uploaded_file_id = %s
@@ -326,7 +333,7 @@ def get_file_statistics(uploaded_file_id):
         
         return {
             "total_files": stats[0] or 0,
-            "total_size_bytes": stats[1] or 0,
+            "total_size_bytes": int(stats[1]) if stats[1] else 0,
             "text_files": stats[2] or 0,
             "binary_files": stats[3] or 0,
             "file_extensions": [{"extension": ext[0], "count": ext[1]} for ext in extensions],

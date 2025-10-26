@@ -13,8 +13,7 @@ def get_connection():
             host=os.getenv("POSTGRES_HOST"), # host
             port=os.getenv("POSTGRES_PORT") # port
         )
-        print("WE GOOD!")
         return conn
     except Exception as e:
-        print("WE BAD:", e)
+        print(f"Database connection failed: {e}")
         return None
