@@ -1,6 +1,6 @@
 # Week 7 Personal Logs
 
-![image](/docs/logs/RyanEveson/Images/Week8Log.png)
+![image](/docs/logs/RyanEveson/Images/Week8log.png)
 
 ### This Sprints Progress
 - This is my PR Description: This pr is a extension of the upload files functionality. It encompasses the sub task of storing all the file contents in a new database. This database is called file_contents and contains all the needed information about the file that is being Stored. It stores information about the extension type, the lines of code, the folder its from etc. this function runs in unison with the upload files function that Sami completed last week. When you store the data.
