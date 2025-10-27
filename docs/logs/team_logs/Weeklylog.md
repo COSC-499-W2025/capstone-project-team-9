@@ -265,6 +265,16 @@ Suggested points:
 
 ---
 
+### **Evan**
+*(Please fill out your Week 8 items.)*  
+Suggested points:
+- New feature(s) completed: identifying what each contributor did in a collaborative project and creating multiple metrics. 
+- Refactors and CLI polish: refactoring the methods for outputing the metrics so that the code is not redundant
+- Issue references and tests: issue 43
+**Requirements addressed:**
+Extrapolate individual contributions for a given collaboration project
+---
+
 ## Current Status
 - Local-only analysis integrated alongside external-service path (clean separation of strategies)
 - Basic analysis **does not require API keys**
@@ -310,7 +320,7 @@ Suggested points:
 - Expand error handling and user messaging for partial analyses
 - Continue test coverage growth and docs updates
 - Kevin will working on the Feature: Retrieve Portfolio Information #24
-- Evin will working on xxxx
+- Evan will working on putting collaborative contributions into the database, creating percentages of the work each collaborator has done, sorting projects between individual and collaborative.
 - Eric will work on deleting previously generated insights and displaying more key metrics of a project
 ---
 
