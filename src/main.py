@@ -3,8 +3,8 @@ from upload_file import add_file_to_db
 from project_manager import list_projects
 from consent.consent_manager import ConsentManager
 from collaborative.collaborative_manager import CollaborativeManager
-from src.analysis.key_metrics import analyze_project_from_db
-from src.project_summarizer import summarize_project, get_available_projects
+from analysis.key_metrics import analyze_project_from_db
+from project_summarizer import summarize_project, get_available_projects
 
 def ensure_user_preferences_schema():
     """Ensure user_preferences table has all required columns and defaults."""
