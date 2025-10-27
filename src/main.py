@@ -4,6 +4,11 @@ from project_manager import list_projects
 from consent.consent_manager import ConsentManager
 from collaborative.collaborative_manager import CollaborativeManager
 from project_summarizer import summarize_project, get_available_projects
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src/collaborative")))
+from identify_contributors import identify_contributors
+
 
 def summarize_project_menu():
     """Handle the project summarization menu."""
@@ -119,6 +124,23 @@ def main():
         return
     else:
         print("Collaborative granted. Doing colabrative and individual.")
+        # Path to the ZIP file
+        zip_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../test.zip"))
+        ic = identify_contributors(zip_path)
+        try:
+            # Extract the repo
+            repo_path = ic.extract_repo()
+            if repo_path is None:
+                print("No git repository found in the ZIP.")
+                return
+            # Get commit counts per author
+            commit_counts = ic.get_commit_counts()
+            print("Commit counts per user:")
+            for user, count in commit_counts.items():
+                print(f"{user}: {count} commits")
+        finally:
+            # Cleanup temporary extracted files
+            ic.cleanup()
 
 if __name__ == "__main__":
     main()
