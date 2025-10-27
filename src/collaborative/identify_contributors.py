@@ -1,4 +1,4 @@
-# repo_analyzer.py
+#identify_contributors.py
 import os
 import zipfile
 import subprocess
