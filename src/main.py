@@ -7,28 +7,52 @@ from analysis.key_metrics import analyze_project_from_db
 from project_summarizer import summarize_project, get_available_projects
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src/collaborative")))
-from identify_contributors import identify_contributors
+from collaborative.identify_contributors import identify_contributors
+from database.user_preferences import get_user_git_username, update_user_git_username
 
 consent_manager = ConsentManager(user_id="default_user")
 collab_manager = CollaborativeManager()
 
 def ensure_user_preferences_schema():
-    """Ensure user_preferences table has all required columns and defaults."""
+    """Debug version to check why git_username is not being added."""
     try:
         with get_connection() as conn, conn.cursor() as cur:
+            
+            # Check if table exists
+            cur.execute("""
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM information_schema.tables
+                    WHERE table_name = 'user_preferences'
+                );
+            """)
+            table_exists = cur.fetchone()[0]
+            print("Table exists:", table_exists)
+            
+            # Add git_username column if missing
+            cur.execute("""
+                SELECT column_name 
+                FROM information_schema.columns
+                WHERE table_name = 'user_preferences' AND column_name = 'git_username';
+            """)
+            column_exists = cur.fetchone()
+            print("git_username column exists before ALTER:", column_exists)
             cur.execute("""
                 ALTER TABLE user_preferences
-                ADD COLUMN IF NOT EXISTS collaborative BOOLEAN DEFAULT FALSE;
+                ADD COLUMN IF NOT EXISTS git_username VARCHAR(255);
             """)
+            # Check after
             cur.execute("""
-                ALTER TABLE user_preferences
-                ALTER COLUMN consent SET DEFAULT TRUE;
+                SELECT column_name 
+                FROM information_schema.columns
+                WHERE table_name = 'user_preferences' AND column_name = 'git_username';
             """)
+            column_exists_after = cur.fetchone()
+            print("git_username column exists after ALTER:", column_exists_after)
             conn.commit()
-        print("user_preferences schema verified/updated")
     except Exception as e:
-        print(f"[WARN] Failed to update user_preferences schema: {e}")
+        print(f"[WARN] Exception caught: {e}")
+
 
 
 def summarize_project_menu():
@@ -80,24 +104,7 @@ def summarize_project_menu():
                 print(f"Please enter a number between 1 and {len(projects)}")
         except ValueError:
             print("Please enter a valid number or 'q' to quit")
-
-def ensure_user_preferences_schema():
-    """Ensure user_preferences table has all required columns and defaults."""
-    try:
-        with get_connection() as conn, conn.cursor() as cur:
-            cur.execute("""
-                ALTER TABLE user_preferences
-                ADD COLUMN IF NOT EXISTS collaborative BOOLEAN DEFAULT FALSE;
-            """)
-            cur.execute("""
-                ALTER TABLE user_preferences
-                ALTER COLUMN consent SET DEFAULT TRUE;
-            """)
-            conn.commit()
-        print("user_preferences schema verified/updated")
-    except Exception as e:
-        print(f"[WARN] Failed to update user_preferences schema: {e}")
-
+just_changed = False
 def ask_user_preferences(is_start):
     if consent_manager.has_access() and not is_start:
         while True:
@@ -136,6 +143,11 @@ def ask_user_preferences(is_start):
             print("Collaborative not granted. Doing individual.")
         else:
             print("Collaborative granted. Doing colabrative and individual.")
+            if not get_user_git_username() or get_user_git_username()[0] is None:
+                response = input("\nWhat is you GitHub user name: ").strip()
+                update_user_git_username(response)
+                just_changed = True
+            print("\nYour github username is:"+str(get_user_git_username()))
             # Path to the ZIP file
             zip_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../test.zip"))
             ic = identify_contributors(zip_path)
@@ -153,6 +165,17 @@ def ask_user_preferences(is_start):
             finally:
                 # Cleanup temporary extracted files
                 ic.cleanup()
+
+    if not just_changed and not get_user_git_username()[0] is None:
+        while True:
+            response = input("\nWould you like to change you GitHub username? (y/n)")
+            if response in ['yes', 'y']:
+                new_username = input("\nWhat is you GitHub user name: ").strip()
+                update_user_git_username(new_username)
+            elif response in ['no', 'n']:
+                break
+            else:
+                print("Invalid input. Please enter 'yes' or 'no'.")
 
 def main():
     print("STARTING BACKEND SETUP...")
