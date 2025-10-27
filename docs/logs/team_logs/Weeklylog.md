@@ -215,13 +215,13 @@ Suggested points:
 ---
 
 ### **Sami**
-*(Please fill out your Week 8 items.)*  
-Suggested points:
-- PRs, bug fixes, reviews  
-- Testing or infra contributions  
-- Issue references
-
+- Worked on implementing a new project summary feature
+- The feature incorporated 4 sub issues which were also pushed this week
+- Refactored code, and imports for better generalization (i.e. some files would only work on specific computers)
+- Reviewed 5 PR's and helped with code changes
+- Created a new document for keeping track of features in our project
 **Requirements addressed:**
+- Issue #21, #60, #61, #62, #63
 
 ---
 
@@ -285,7 +285,8 @@ Suggested points:
 | **Kevin** | **Eric** | Review of analysis data flow / DB interactions |
 | **Kevin** | **Jinxi** | Review of file handling & temp-data utilities |
 | **Ryan** | **Evan** | Review of consent/UI interactions |
-| *(Add more rows here)* |  |  |
+| **Sami** | **Eric**  | Identifying Activity Type and Amount of Contribution |
+| **Sami** | **Jinxi**  | Storing Extracted Data |
 
 ---
 
