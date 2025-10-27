@@ -133,12 +133,23 @@ def main():
             if repo_path is None:
                 print("No git repository found in the ZIP.")
                 return
-            # Get metric counts per author
-            commit_counts = ic.get_commit_counts()
-            print("Counts per user:")
-            for user, count in commit_counts.items():
-                print(f"{user}: {count} commits")
-            
+            # Get the full contribution profile
+            profile = ic.get_full_contribution_profile()
+
+            print("Contribution profile per user:\n")
+            for author, data in profile.items():
+                print(f"Author: {author}")
+                # Commits
+                print(f"  Commits: {data['commits']}")
+                # Lines added/deleted/cumulative
+                lines = data['lines']
+                print(f"  Lines: Added={lines['added']}, Deleted={lines['deleted']}, Cumulative={lines['cumulative']}")
+                # Files created/modified/deleted
+                print("  Files:")
+                for category, info in data['files'].items():
+                    files_str = ", ".join(sorted(info['files']))  # sorted optional
+                    print(f"    {category.capitalize()} ({info['count']}): {files_str}")
+                print()  # Blank line between authors
         finally:
             # Cleanup temporary extracted files
             ic.cleanup()
