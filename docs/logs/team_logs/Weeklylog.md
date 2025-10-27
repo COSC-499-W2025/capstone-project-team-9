@@ -294,6 +294,8 @@ Suggested points:
 | **Ryan** | **Evan** | Review of consent/UI interactions |
 | **Sami** | **Eric**  | Identifying Activity Type and Amount of Contribution |
 | **Sami** | **Jinxi**  | Storing Extracted Data |
+| **Jinxi** | **Eric** | Review of analysis data flow / DB interactions |
+| **Jinxi** | **Kevin** | Review of analysis data flow / DB interactions |
 
 ---
 
