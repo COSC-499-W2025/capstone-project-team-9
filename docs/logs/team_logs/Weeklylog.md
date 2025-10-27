@@ -295,7 +295,7 @@ Extrapolate individual contributions for a given collaboration project
 - Active coordination using the shared Projects board and Discord
 - We met up 3 times this week and discussed areas that we were struggling in and needed help
 
-### Things to work on
+### Things to work on / Reflection
 - We need to ensure that we are understanding the code that others are writing and leaving more in depth reviews of code. we dont just want to review code by running the tests.
 - We need to work on reducing code repitition. There are a lot of features that overlap and we are rewriting a lot of code. this will need ot be refactored later on to ensure no code overlap occurs
 
