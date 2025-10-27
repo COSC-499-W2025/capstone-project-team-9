@@ -199,9 +199,8 @@ This PR implements the **LOCAL analysis methods** that work entirely without ext
 - Extracts skills from: **languages, frameworks, testing, documentation, version control**
 
 **Requirements addressed:**
-- Issue #81 – Implement Local-Only Analysis
-- Issue #85 – Improve Skill Extraction and Categorization
-
+- Issue #39 - internal analysis
+  
 ---
 
 ### **Eric**
@@ -300,7 +299,9 @@ Suggested points:
 - Integrate local analysis outputs into user-visible reports
 - Expand error handling and user messaging for partial analyses
 - Continue test coverage growth and docs updates
-
+- Kevin will working on the Feature: Retrieve Portfolio Information #24
+- Evin will working on xxxx
+- next person
 ---
 
 ## Burnup Chart
