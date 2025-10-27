@@ -28,10 +28,10 @@ def init_file_contents_table():
         """)
         conn.commit()
         cursor.close()
-        print("✓ File contents table initialized")
+        print("File contents table initialized")
     except Exception as e:
         conn.rollback()
-        print(f"✗ Error initializing file_contents table: {e}")
+        print(f"Error initializing file_contents table: {e}")
         raise
     finally:
         conn.close()
@@ -153,7 +153,7 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
                 _insert_batch(cursor, batch_data)
             
             conn.commit()
-            print(f"✓ Successfully extracted {len(extracted_files)} files from zip")
+            print(f"Successfully extracted {len(extracted_files)} files from zip")
             
             return {
                 "success": True,

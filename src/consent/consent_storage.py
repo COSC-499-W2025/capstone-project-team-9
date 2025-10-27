@@ -40,11 +40,11 @@ class ConsentStorage:
             
             conn.commit()
             cursor.close()
-            print("✓ Consent table initialized")
+            print("Consent table initialized")
             
         except Exception as e:
             conn.rollback()
-            print(f"✗ Error initializing consent table: {e}")
+            print(f"Error initializing consent table: {e}")
             raise
         finally:
             conn.close()
@@ -89,7 +89,7 @@ class ConsentStorage:
             
         except Exception as e:
             conn.rollback()
-            print(f"✗ Error storing consent: {e}")
+            print(f"Error storing consent: {e}")
             return False
         finally:
             conn.close()
@@ -160,7 +160,7 @@ class ConsentStorage:
             
         except Exception as e:
             conn.rollback()
-            print(f"✗ Error withdrawing consent: {e}")
+            print(f"Error withdrawing consent: {e}")
             return False
         finally:
             conn.close()
