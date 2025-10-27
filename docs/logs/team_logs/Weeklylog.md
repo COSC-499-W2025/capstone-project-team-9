@@ -204,13 +204,20 @@ This PR implements the **LOCAL analysis methods** that work entirely without ext
 ---
 
 ### **Eric**
-*(Please fill out your Week 8 items.)*  
-Suggested points:
-- Features or improvements delivered  
-- Any database / analysis enhancements  
-- Issue references and testing notes
+This week, I continued contributing to the backend feature development phase, focusing on data processing and contribution tracking.
+Specifically, I completed two issues that are part of the project analytics module:
 
-**Requirements addressed:**
+🥇 Issue #49 — “Identify activity type and amount of contribution made by the user”
+
+Implemented logic to classify user actions (e.g., commits, merges, file uploads) and quantify their contribution.
+Integrated backend processing to automatically recognize and record different types of user activities within the database.
+This lays the groundwork for generating contribution analytics in future sprints.
+🥈 Issue #50 — “[Rank Projects] Store the amount of work a user has contributed to a project”
+
+Developed a feature to calculate and persist each user’s contribution score to individual projects.
+This allows the system to rank projects and users based on activity and contribution level, providing the foundation for future visualization and reporting.
+This week involved both coding and testing, ensuring the new contribution-tracking mechanisms worked as expected.
+Our team continued to collaborate effectively through regular discussions and reviews, keeping progress smooth and well-coordinated.
 
 ---
 
@@ -302,7 +309,7 @@ Suggested points:
 - Continue test coverage growth and docs updates
 - Kevin will working on the Feature: Retrieve Portfolio Information #24
 - Evin will working on xxxx
-- next person
+- Eric will work on deleting previously generated insights and displaying more key metrics of a project
 ---
 
 ## Burnup Chart
