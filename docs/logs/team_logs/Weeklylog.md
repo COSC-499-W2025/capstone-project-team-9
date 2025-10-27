@@ -304,6 +304,5 @@ Suggested points:
 ---
 
 ## Burnup Chart
-*(Update with latest images for Week 8)*
-<img width="1058" height="572" alt="image" src="<!-- paste week8 chart link 1 here -->" />
-<img width="1072" height="565" alt="image" src="<!-- paste week8 chart link 2 here -->" />
+<img width="1052" height="619" alt="image" src="https://github.com/user-attachments/assets/91ae903f-5a34-4592-8a1d-cf0678530db2" />
+<img width="1109" height="689" alt="image" src="https://github.com/user-attachments/assets/884639c3-e3a5-45f4-8cba-3ec0f6028c90" />
