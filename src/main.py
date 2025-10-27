@@ -3,7 +3,26 @@ from upload_file import add_file_to_db
 from project_manager import list_projects
 from consent.consent_manager import ConsentManager
 from collaborative.collaborative_manager import CollaborativeManager
+from analysis.key_metrics import analyze_project_from_db
 from project_summarizer import summarize_project, get_available_projects
+
+def ensure_user_preferences_schema():
+    """Ensure user_preferences table has all required columns and defaults."""
+    try:
+        with get_connection() as conn, conn.cursor() as cur:
+            cur.execute("""
+                ALTER TABLE user_preferences
+                ADD COLUMN IF NOT EXISTS collaborative BOOLEAN DEFAULT FALSE;
+            """)
+            cur.execute("""
+                ALTER TABLE user_preferences
+                ALTER COLUMN consent SET DEFAULT TRUE;
+            """)
+            conn.commit()
+        print("✓ user_preferences schema verified/updated")
+    except Exception as e:
+        print(f"[WARN] Failed to update user_preferences schema: {e}")
+
 
 def summarize_project_menu():
     """Handle the project summarization menu."""
@@ -55,8 +74,28 @@ def summarize_project_menu():
         except ValueError:
             print("Please enter a valid number or 'q' to quit")
 
+def ensure_user_preferences_schema():
+    """Ensure user_preferences table has all required columns and defaults."""
+    try:
+        with get_connection() as conn, conn.cursor() as cur:
+            cur.execute("""
+                ALTER TABLE user_preferences
+                ADD COLUMN IF NOT EXISTS collaborative BOOLEAN DEFAULT FALSE;
+            """)
+            cur.execute("""
+                ALTER TABLE user_preferences
+                ALTER COLUMN consent SET DEFAULT TRUE;
+            """)
+            conn.commit()
+        print("✓ user_preferences schema verified/updated")
+    except Exception as e:
+        print(f"[WARN] Failed to update user_preferences schema: {e}")
+
 def main():
     print("STARTING BACKEND SETUP...")
+
+    # Ensure user_preferences schema is up to date
+    ensure_user_preferences_schema()
     
     # Initialize database tables
     try:
@@ -92,8 +131,9 @@ def main():
         print("-"*50)
         print("1. Upload a ZIP file")
         print("2. List stored projects")
-        print("3. Summarize a project")
-        print("4. Exit")
+        print("3. Analyze project metrics")
+        print("4. Summarize a project")
+        print("5. Exit")
         print("-"*50)
         
         choice = input("Choose an option (1-4): ").strip()
@@ -104,12 +144,18 @@ def main():
         elif choice == '2':
             list_projects()
         elif choice == '3':
-            summarize_project_menu()
+            project_id = input("Enter the project ID to analyze: ").strip()
+            if project_id.isdigit():
+                analyze_project_from_db(int(project_id))
+            else:
+                print("Invalid project ID.")
         elif choice == '4':
+            summarize_project_menu()
+        elif choice == '5':
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter 1, 2, 3, or 4.")
+            print("Invalid choice. Please enter 1–5.")
 
     # Initialize CollabrativeManager
     manager = CollaborativeManager()
