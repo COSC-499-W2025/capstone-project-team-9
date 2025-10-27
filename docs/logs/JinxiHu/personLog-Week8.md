@@ -14,7 +14,7 @@ This week, our team focus on pushing the project backend development.
 This week I focus on Back-end information display function development and code review.
 
 ### issur developed:
-1. [Display error message on the UI, Inform the user of the error type #29](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/33)
+1. [Display error message on the UI, Inform the user of the error type #29](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/29)
 
 PR: [Display error message on the UI, Inform the user of the error type #29](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/79)
 
