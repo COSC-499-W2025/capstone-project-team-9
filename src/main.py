@@ -104,7 +104,7 @@ def summarize_project_menu():
                 print(f"Please enter a number between 1 and {len(projects)}")
         except ValueError:
             print("Please enter a valid number or 'q' to quit")
-just_changed = False
+
 def ask_user_preferences(is_start):
     if consent_manager.has_access() and not is_start:
         while True:
@@ -125,6 +125,7 @@ def ask_user_preferences(is_start):
         else:
             print("User consent granted.\n")
 
+    just_changed = False
     prefs = collab_manager.get_preferences()
     if prefs and prefs[1] and not is_start: 
         while True:
@@ -166,7 +167,7 @@ def ask_user_preferences(is_start):
                 # Cleanup temporary extracted files
                 ic.cleanup()
 
-    if not just_changed and not get_user_git_username()[0] is None:
+    if not just_changed and not get_user_git_username()[0] is None and not is_start:
         while True:
             response = input("\nWould you like to change you GitHub username? (y/n)")
             if response in ['yes', 'y']:
