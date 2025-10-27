@@ -249,6 +249,7 @@ Update and part overwrite the file upload function to implement better feedback 
 - Modify the codes in **upload_file.py** so that all functions can use a object of **UploadResult** to store status of uploading process and return it back to main.py when upload success or failure.
 - Modify the codes in **main.py**, so thant it can show print the **UploadResult** out.
 - Add test functions for bothe modify in **upload_file.py** and **main.py**.
+  
 **Requirements addressed:**
 - issue 29 - Display error message on the UI, Inform the user of the error type
 ---
