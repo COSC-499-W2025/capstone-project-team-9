@@ -133,11 +133,12 @@ def main():
             if repo_path is None:
                 print("No git repository found in the ZIP.")
                 return
-            # Get commit counts per author
+            # Get metric counts per author
             commit_counts = ic.get_commit_counts()
-            print("Commit counts per user:")
+            print("Counts per user:")
             for user, count in commit_counts.items():
                 print(f"{user}: {count} commits")
+            
         finally:
             # Cleanup temporary extracted files
             ic.cleanup()

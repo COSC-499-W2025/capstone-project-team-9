@@ -88,10 +88,11 @@ class identify_contributors:
                 if current_author:
                     lines_by_author[current_author]["added"] += added
                     lines_by_author[current_author]["deleted"] += deleted
-                    lines_by_author[current_author]["cumulative"] += (added-deleted)
             except ValueError:
                 # Skip lines that don't match expected format
                 continue
+        for author, data in lines_by_author.items():
+            data["cumulative"] = data["added"] - data["deleted"]
         return dict(lines_by_author)
 
     def get_file_contributions(self) -> dict[str, dict[str, dict]]:
@@ -160,3 +161,113 @@ class identify_contributors:
         """
         if hasattr(self, "temp_dir"):
             self.temp_dir.cleanup()
+
+    def get_full_contribution_profile(self) -> dict[str, dict]:
+        """
+        Returns a combined dictionary for each author containing:
+        - commit count
+        - lines added, deleted, cumulative
+        - files touched (created, modified, deleted) with counts and sets
+        Example output:
+            {
+                "Alice": {
+                    "commits": 10,
+                    "lines": {"added": 120, "deleted": 10, "cumulative": 110},
+                    "files": {
+                        "created": {"count": 2, "files": {"file1.py", "file2.txt"}},
+                        "modified": {"count": 1, "files": {"file3.py"}},
+                        "deleted": {"count": 1, "files": {"old_file.txt"}}
+                    }
+                },
+                "Bob": {
+                    "commits": 5,
+                    "lines": {"added": 50, "deleted": 5, "cumulative": 45},
+                    "files": {
+                        "created": {"count": 0, "files": set()},
+                        "modified": {"count": 1, "files": {"file4.py"}},
+                        "deleted": {"count": 0, "files": set()}
+                    }
+                }
+            }
+        Must call extract_repo() first.
+        """
+        if not self.repo_dir:
+            raise ValueError("Repository not extracted. Call extract_repo() first.")
+        # --- Commit counts ---
+        result_commits = subprocess.run(
+            ["git", "-C", self.repo_dir, "log", "--pretty=format:%an"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        commit_counts = Counter(result_commits.stdout.splitlines())
+        # --- Line changes ---
+        result_lines = subprocess.run(
+            ["git", "-C", self.repo_dir, "log", "--pretty=format:%an", "--numstat"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        lines_by_author = defaultdict(lambda: {"added": 0, "deleted": 0})
+        current_author = None
+        for line in result_lines.stdout.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            if "\t" not in line:
+                current_author = line
+                continue
+            try:
+                added_str, deleted_str, _ = line.split("\t")
+                added = int(added_str) if added_str != "-" else 0
+                deleted = int(deleted_str) if deleted_str != "-" else 0
+                if current_author:
+                    lines_by_author[current_author]["added"] += added
+                    lines_by_author[current_author]["deleted"] += deleted
+            except ValueError:
+                continue
+        # Add cumulative
+        for author, data in lines_by_author.items():
+            data["cumulative"] = data["added"] - data["deleted"]
+        # --- File contributions ---
+        result_files = subprocess.run(
+            ["git", "-C", self.repo_dir, "log", "--name-status", "--pretty=format:%an"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        file_sets = defaultdict(lambda: {"created": set(), "modified": set(), "deleted": set()})
+        current_author = None
+        for line in result_files.stdout.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            if "\t" not in line:
+                current_author = line
+                continue
+            if current_author is None:
+                continue
+            status, file_path = line.split("\t", 1)
+            status = status.upper()
+            if status == "A":
+                file_sets[current_author]["created"].add(file_path)
+            elif status == "M":
+                file_sets[current_author]["modified"].add(file_path)
+            elif status == "D":
+                file_sets[current_author]["deleted"].add(file_path)
+
+        # --- Merge all data into one dictionary ---
+        all_authors = set(commit_counts.keys()) | set(lines_by_author.keys()) | set(file_sets.keys())
+        full_profile = {}
+        for author in all_authors:
+            full_profile[author] = {
+                "commits": commit_counts.get(author, 0),
+                "lines": lines_by_author.get(author, {"added": 0, "deleted": 0, "cumulative": 0}),
+                "files": {
+                    "created": {"count": len(file_sets[author]["created"]), "files": file_sets[author]["created"]},
+                    "modified": {"count": len(file_sets[author]["modified"]), "files": file_sets[author]["modified"]},
+                    "deleted": {"count": len(file_sets[author]["deleted"]), "files": file_sets[author]["deleted"]}
+                }
+            }
+
+        return full_profile
