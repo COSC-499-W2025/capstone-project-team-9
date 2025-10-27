@@ -4,6 +4,7 @@ import zipfile
 import json
 from config.db_config import get_connection
 from parsing.file_validator import validate_uploaded_file, WrongFormatError
+from parsing.file_contents_manager import init_file_contents_table, extract_and_store_file_contents, get_file_contents_by_upload_id
 
 UPLOAD_FOLDER = "data/uploads"
 
@@ -44,10 +45,14 @@ def init_uploaded_files_table():
         """)
         conn.commit()
         cursor.close()
-        print("✓ Uploaded files table initialized")
+        print(" Uploaded files table initialized")
+        
+        # Also initialize the file contents table
+        init_file_contents_table()
+        
     except Exception as e:
         conn.rollback()
-        print(f"✗ Error initializing uploaded_files table: {e}")
+        print(f" Error initializing uploaded_files table: {e}")
         raise
     finally:
         conn.close()
@@ -139,7 +144,7 @@ def add_file_to_db(filepath) -> UploadResult:
             RETURNING id
         """, (filename, dest_path, "uploaded", json.dumps({"files": file_contents})))
         
-        file_id = cur.fetchone()[0]
+        uploaded_file_id = cur.fetchone()[0]
         conn.commit()
         
         return UploadResult(
@@ -154,6 +159,7 @@ def add_file_to_db(filepath) -> UploadResult:
                 "files": file_contents
             }
         )
+
     except Exception as e:
         conn.rollback()
         return UploadResult(
@@ -163,4 +169,60 @@ def add_file_to_db(filepath) -> UploadResult:
             data={"filename": filename}
         )
     finally:
+        conn.close()
+
+
+def get_uploaded_file_contents(uploaded_file_id):
+    """
+    Retrieve all file contents for a specific uploaded file.
+    
+    Args:
+        uploaded_file_id (int): The ID of the uploaded file record
+    
+    Returns:
+        list: List of file content records
+    """
+    return get_file_contents_by_upload_id(uploaded_file_id)
+
+
+def list_uploaded_files():
+    """
+    Get a list of all uploaded files with their metadata.
+    
+    Returns:
+        list: List of uploaded file records
+    """
+    conn = get_connection()
+    if not conn:
+        print("Could not connect to database.")
+        return []
+    
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT id, filename, filepath, status, metadata, created_at
+            FROM uploaded_files
+            ORDER BY created_at DESC
+        """)
+        
+        results = cursor.fetchall()
+        files = []
+        
+        for row in results:
+            files.append({
+                "id": row[0],
+                "filename": row[1],
+                "filepath": row[2],
+                "status": row[3],
+                "metadata": row[4],
+                "created_at": row[5]
+            })
+        
+        return files
+        
+    except Exception as e:
+        print(f"Error retrieving uploaded files: {e}")
+        return []
+    finally:
+        cursor.close()
         conn.close()
