@@ -109,6 +109,15 @@ def main():
     except Exception as e:
         print(f"Failed to initialize database tables: {e}")
         return
+    
+    # Test database connection
+    conn = get_connection()
+    if conn:
+        print("Database is connected!")
+        conn.close()
+    else:
+        print("Database is not connected.")
+        return
 
     # Initialize ConsentManager
     manager = ConsentManager(user_id="default_user")
@@ -119,15 +128,32 @@ def main():
         return
     else:
         print("User consent granted. Proceeding with backend setup.")
-
-    # Test database connection
-    conn = get_connection()
-    if conn:
-        print("Database is connected!")
-        conn.close()
-    else:
-        print("Database is not connected.")
+    
+    # Initialize CollabrativeManager
+    manager = CollaborativeManager()
+    # Check/request user consent
+    if not manager.request_collaborative_if_needed():
+        print("Collaborative not granted. Doing individual.")
         return
+    else:
+        print("Collaborative granted. Doing colabrative and individual.")
+        # Path to the ZIP file
+        zip_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../test.zip"))
+        ic = identify_contributors(zip_path)
+        try:
+            # Extract the repo
+            repo_path = ic.extract_repo()
+            if repo_path is None:
+                print("No git repository found in the ZIP.")
+                return
+            # Get commit counts per author
+            commit_counts = ic.get_commit_counts()
+            print("Commit counts per user:")
+            for user, count in commit_counts.items():
+                print(f"{user}: {count} commits")
+        finally:
+            # Cleanup temporary extracted files
+            ic.cleanup()
     
     # Main menu interface
     while True:
@@ -161,32 +187,6 @@ def main():
             break
         else:
             print("Invalid choice. Please enter 1–5.")
-
-    # Initialize CollabrativeManager
-    manager = CollaborativeManager()
-    # Check/request user consent
-    if not manager.request_collaborative_if_needed():
-        print("Collaborative not granted. Doing individual.")
-        return
-    else:
-        print("Collaborative granted. Doing colabrative and individual.")
-        # Path to the ZIP file
-        zip_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../test.zip"))
-        ic = identify_contributors(zip_path)
-        try:
-            # Extract the repo
-            repo_path = ic.extract_repo()
-            if repo_path is None:
-                print("No git repository found in the ZIP.")
-                return
-            # Get commit counts per author
-            commit_counts = ic.get_commit_counts()
-            print("Commit counts per user:")
-            for user, count in commit_counts.items():
-                print(f"{user}: {count} commits")
-        finally:
-            # Cleanup temporary extracted files
-            ic.cleanup()
 
 if __name__ == "__main__":
     main()
