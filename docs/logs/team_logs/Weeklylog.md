@@ -329,6 +329,7 @@ We need to ensure that we are understanding the code that others are writing and
 - Evan will working on putting collaborative contributions into the database, creating percentages of the work each collaborator has done, sorting projects between individual and collaborative.
 - Eric will work on deleting previously generated insights and displaying more key metrics of a project
 - Ryan Will be working on Ranking and summarize ranking over the next 2 weeks. I am going to work on this by using Kevin And Erics PRs that they made this week and the metrics that they created to deteremine the best project and output the top ranked projects.
+- Jinxi will work on update user information in db function, and code reviewing.
 1. plan for rank importance: There is a ranking score that is given by Eric’s code. With Kevin’s metrics that he pulled, and the score that Eric gets, i will create a weighted avg of all projects and rank them.
 2. Plan for summarize top projects:I will just summarize the summary of the top 3 projects using samis Summarizing logic. This should be a small PR and i will be able to help anyone who needs help
 3. This will just be added to the main.py and will allow the user to get a summary of the top 3 projects. It will not show any information about any other projects.
