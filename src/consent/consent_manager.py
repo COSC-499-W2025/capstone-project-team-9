@@ -29,7 +29,7 @@ class ConsentManager:
             self.storage.initialize_consent_table()
             return True
         except Exception as e:
-            print(f"✗ Failed to initialize consent system: {e}")
+            print(f"Failed to initialize consent system: {e}")
             return False
     
     def request_consent_if_needed(self):
@@ -42,7 +42,7 @@ class ConsentManager:
         """
         # Sub-issue #14: Check if consent already exists
         if self.storage.has_valid_consent(self.user_id):
-            print("✓ Valid consent exists. Access granted.\n")
+            print("Valid consent exists. Access granted.\n")
             return True
         
         # Sub-issue #11: Display consent information
@@ -53,7 +53,7 @@ class ConsentManager:
         if self.storage.store_consent(consent_granted, self.user_id):
             return consent_granted
         else:
-            print("✗ Error storing consent.")
+            print("Error storing consent.")
             return False
     
     def has_access(self):
@@ -70,7 +70,7 @@ class ConsentManager:
         consent_data = self.storage.get_consent_status(self.user_id)
         
         if not consent_data or not consent_data['consent_given']:
-            print("\n✗ No active consent to withdraw.\n")
+            print("\nNo active consent to withdraw.\n")
             return False
         
         print("\n" + "="*70)
@@ -82,11 +82,11 @@ class ConsentManager:
         
         if response in ['yes', 'y']:
             if self.storage.withdraw_consent(self.user_id):
-                print("\n✓ Consent withdrawn successfully.")
-                print("✗ Application no longer has data access.\n")
+                print("\nConsent withdrawn successfully.")
+                print("Application no longer has data access.\n")
                 return True
         
-        print("\n✓ Withdrawal cancelled.\n")
+        print("\nWithdrawal cancelled.\n")
         return False
     
     def require_consent(self, func):
@@ -123,7 +123,7 @@ def requires_consent(func):
     def wrapper(*args, **kwargs):
         manager = ConsentManager()
         if not manager.has_access():
-            print("\n✗ ACCESS DENIED: Valid consent required.\n")
+            print("\nACCESS DENIED: Valid consent required.\n")
             raise PermissionError("Data access denied")
         return func(*args, **kwargs)
     return wrapper

@@ -78,10 +78,10 @@ and generate insights about your projects and contributions.
             response = input("\nDo you consent to data access? (yes/no): ").strip().lower()
             
             if response in ['yes', 'y']:
-                print("\n✓ Consent granted. Thank you!")
+                print("\nConsent granted. Thank you!")
                 return True
             elif response in ['no', 'n']:
-                print("\n✗ Consent denied. The application cannot proceed without consent.")
+                print("\nConsent denied. The application cannot proceed without consent.")
                 return False
             else:
                 print("Invalid input. Please enter 'yes' or 'no'.")
