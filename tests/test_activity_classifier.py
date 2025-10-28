@@ -1,4 +1,9 @@
-from src.analysis.activity_classifier import classify_file, aggregate
+import pytest
+import sys
+import os
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+from analysis.activity_classifier import classify_file, aggregate
 
 def test_classify_file():
     assert classify_file("src/main.py") == "code"
