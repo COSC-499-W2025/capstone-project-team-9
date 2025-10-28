@@ -8,6 +8,23 @@ from parsing.file_contents_manager import init_file_contents_table, extract_and_
 
 UPLOAD_FOLDER = "data/uploads"
 
+class UploadResult:
+    """Encapsulates the result of an upload operation"""
+    def __init__(self, success: bool, message: str, error_type: str = None, data: dict = None):
+        self.success = success
+        self.message = message
+        self.error_type = error_type
+        self.data = data or {}
+    
+    def to_dict(self):
+        """Convert to dictionary format for UI consumption"""
+        return {
+            "success": self.success,
+            "message": self.message,
+            "error_type": self.error_type,
+            "data": self.data
+        }
+
 def init_uploaded_files_table():
     """Create the uploaded_files table if it doesn't exist."""
     conn = get_connection()
@@ -40,41 +57,85 @@ def init_uploaded_files_table():
     finally:
         conn.close()
 
-def add_file_to_db(filepath):
-    if not os.path.exists(filepath):
-        print("File does not exist.")
-        return
+def add_file_to_db(filepath) -> UploadResult:
+    """
+    Upload file to database with comprehensive error handling
     
-    # Validate file format
+    Args:
+        filepath: Path to the file to upload
+        
+    Returns:
+        UploadResult: Object containing success status, message, error type, and data
+    """
+    # 1. Check if file exists
+    if not os.path.exists(filepath):
+        return UploadResult(
+            success=False,
+            message=f"File does not exist: {filepath}",
+            error_type="FILE_NOT_FOUND"
+        )
+    
+    # 2. Validate file format
     try:
         validate_uploaded_file(filepath)
     except WrongFormatError as e:
-        print(f"Invalid file format: {e}")
-        return
+        return UploadResult(
+            success=False,
+            message=f"Invalid file format: {str(e)}",
+            error_type="INVALID_FORMAT",
+            data={"filepath": filepath}
+        )
     
     filename = os.path.basename(filepath)
     dest_path = os.path.join(UPLOAD_FOLDER, filename)
     
-    # Create upload directory if it doesn't exist
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    # 3. Create upload directory
+    try:
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    except Exception as e:
+        return UploadResult(
+            success=False,
+            message=f"Failed to create upload directory: {str(e)}",
+            error_type="DIRECTORY_ERROR"
+        )
     
-    # Copy file to upload folder
-    shutil.copy(filepath, dest_path)
-    print(f"File copied to {dest_path}")
+    # 4. Copy file to upload folder
+    try:
+        shutil.copy(filepath, dest_path)
+        print(f"File copied to {dest_path}")
+    except Exception as e:
+        return UploadResult(
+            success=False,
+            message=f"File copy failed: {str(e)}",
+            error_type="COPY_ERROR",
+            data={"source": filepath, "destination": dest_path}
+        )
     
-    # Extract metadata from zip
+    # 5. Extract metadata from zip
     file_contents = []
-    if zipfile.is_zipfile(dest_path):
-        with zipfile.ZipFile(dest_path, 'r') as zip_ref:
-            file_contents = zip_ref.namelist()
-        print(f"Files inside zip: {file_contents}")
+    try:
+        if zipfile.is_zipfile(dest_path):
+            with zipfile.ZipFile(dest_path, 'r') as zip_ref:
+                file_contents = zip_ref.namelist()
+            print(f"Files inside zip: {file_contents}")
+    except Exception as e:
+        return UploadResult(
+            success=False,
+            message=f"ZIP file extraction failed: {str(e)}",
+            error_type="ZIP_EXTRACTION_ERROR",
+            data={"filepath": dest_path}
+        )
     
-    # Store in database
+    # 6. Connect to database
     conn = get_connection()
     if not conn:
-        print("Could not connect to database.")
-        return
+        return UploadResult(
+            success=False,
+            message="Could not connect to database",
+            error_type="DATABASE_CONNECTION_ERROR"
+        )
     
+    # 7. Save to database
     try:
         cur = conn.cursor()
         cur.execute("""
@@ -85,22 +146,28 @@ def add_file_to_db(filepath):
         
         uploaded_file_id = cur.fetchone()[0]
         conn.commit()
-        print("File metadata saved to database.")
         
-        # Extract and store file contents
-        print("Extracting file contents...")
-        extraction_result = extract_and_store_file_contents(uploaded_file_id, dest_path)
-        
-        if extraction_result["success"]:
-            print(f" Successfully extracted {extraction_result['total_files']} files")
-            if extraction_result["errors"]:
-                print(f" {len(extraction_result['errors'])} files had errors during extraction")
-        else:
-            print(f" Error extracting file contents: {extraction_result['error']}")
-        
+        return UploadResult(
+            success=True,
+            message=f"File '{filename}' uploaded successfully!",
+            error_type=None,
+            data={
+                "file_id": file_id,
+                "filename": filename,
+                "filepath": dest_path,
+                "file_count": len(file_contents),
+                "files": file_contents
+            }
+        )
+
     except Exception as e:
-        print(f"Error saving to database: {e}")
         conn.rollback()
+        return UploadResult(
+            success=False,
+            message=f"Database save failed: {str(e)}",
+            error_type="DATABASE_SAVE_ERROR",
+            data={"filename": filename}
+        )
     finally:
         conn.close()
 
