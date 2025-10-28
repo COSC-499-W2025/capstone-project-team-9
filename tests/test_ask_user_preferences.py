@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, ANY
 import builtins
 import os
 import sys
@@ -12,16 +12,14 @@ import main
 def mock_managers():
     with patch('main.consent_manager') as consent_manager, \
          patch('main.collab_manager') as collab_manager, \
-         patch('database.user_preferences.get_user_git_username') as get_git, \
-         patch('database.user_preferences.update_user_git_username') as update_git, \
-         patch('collaborative.identify_contributors') as identify_contributors:
+         patch('main.get_user_git_username') as get_git, \
+         patch('main.update_user_git_username') as update_git, \
+         patch('main.identify_contributors') as identify_contributors:
 
         yield {
             'consent_manager': consent_manager,
             'collab_manager': collab_manager,
             'get_git': get_git,
-            'update_git': update_git,
-            'identify_contributors': identify_contributors
         }
 
 def test_ask_user_preferences_full(mock_managers):
@@ -35,27 +33,13 @@ def test_ask_user_preferences_full(mock_managers):
     col.request_collaborative_if_needed.return_value = True
     col.update_collaborative = MagicMock()
 
-    git_mock = mock_managers['get_git']
-    # First call triggers initial username update
-    # Second call returns the username so the "change username" loop can run
-    git_mock.side_effect = [(None,), ("myusername",)]
-
-    update_git_mock = mock_managers['update_git']
-
-    ic_mock = MagicMock()
-    ic_mock.extract_repo.return_value = "/fake/repo"
-    ic_mock.get_commit_counts.return_value = {"user1": 5}
-    ic_mock.cleanup = MagicMock()
-    mock_managers['identify_contributors'].return_value = ic_mock
-
     # Input sequence to match function flow
     inputs = iter([
         'yes',         # withdraw consent
+        'yes',         # confirm withdraw
         'yes',         # not include collaborative
-        'myusername',  # GitHub username
         'yes',         # change GitHub username
-        'newusername', # new username input
-        'no'           # end username change loop
+        'myusername'   # new username input
     ])
 
     with patch.object(builtins, 'input', lambda _: next(inputs)), \
@@ -65,15 +49,6 @@ def test_ask_user_preferences_full(mock_managers):
     # Assertions
     cm.withdraw.assert_called_once()
     col.update_collaborative.assert_called_once_with(False)
-
-    # Ensure both username updates are called
-    #update_git_mock.assert_any_call('myusername')
-    #update_git_mock.assert_any_call('newusername')
-
-    # Check contributor extraction and commit counts
-    #ic_mock.extract_repo.assert_called_once()
-    #ic_mock.get_commit_counts.assert_called_once()
-    #ic_mock.cleanup.assert_called_once()
 
 def test_ask_user_preferences_no_access(mock_managers):
     cm = mock_managers['consent_manager']

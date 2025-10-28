@@ -169,10 +169,11 @@ def ask_user_preferences(is_start):
 
     if not just_changed and not get_user_git_username()[0] is None and not is_start:
         while True:
-            response = input("\nWould you like to change you GitHub username? (y/n)")
+            response = input("\nWould you like to change you GitHub username? (y/n) ")
             if response in ['yes', 'y']:
                 new_username = input("\nWhat is you GitHub user name: ").strip()
                 update_user_git_username(new_username)
+                break
             elif response in ['no', 'n']:
                 break
             else:
