@@ -4,6 +4,7 @@ from project_manager import list_projects
 from consent.consent_manager import ConsentManager
 from collaborative.collaborative_manager import CollaborativeManager
 from analysis.key_metrics import analyze_project_from_db
+from analysis.project_ranking import rank_all_projects, display_rankings
 from project_summarizer import summarize_project, get_available_projects
 import os
 import sys
@@ -190,11 +191,12 @@ def main():
         print("2. List stored projects")
         print("3. Analyze project metrics")
         print("4. Summarize a project")
-        print("5. Change preferences")
-        print("6. Exit")
+        print("5. Rank all projects")
+        print("6. Change preferences")
+        print("7. Exit")
         print("-"*50)
         
-        choice = input("Choose an option (1-6): ").strip()
+        choice = input("Choose an option (1-7): ").strip()
         
         if choice == '1':
             filepath = input("Enter the path to your zip file (full or relative): ")
@@ -210,12 +212,17 @@ def main():
         elif choice == '4':
             summarize_project_menu()
         elif choice == '5':
-            ask_user_preferences(False)
+            print("\nRanking all projects...")
+            ranked = rank_all_projects()
+            display_rankings(ranked)
+            input("\nPress Enter to continue...")
         elif choice == '6':
+            ask_user_preferences(False)
+        elif choice == '7':
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter 1-6.")
+            print("Invalid choice. Please enter 1-7.")
 
 if __name__ == "__main__":
     main()
