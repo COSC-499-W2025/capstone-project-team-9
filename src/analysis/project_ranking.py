@@ -1,6 +1,6 @@
 """
 Project Ranking Module
-Ranks projects using database Key Metrics only (no local analyzer paths)
+Ranks projects using database Key Metrics that are pulled rom uploaded files and file contents from other features
 """
 from typing import Dict, List, Any
 from config.db_config import get_connection
@@ -10,21 +10,38 @@ import os
 
 def calculate_project_score(analysis_data: Dict[str, Any]) -> float:
     """
-    Calculate a composite score for ranking projects.
-    
-    Args:
-        analysis_data: Analysis results from key_metrics or local_analyzer
-        
-    Returns:
-        float: Composite score (higher = better project)
+    this is a function to calculate the score of a project based on the analysis data
+    the score is calculated based on the following factors:
+    - total lines of code
+    - number of files
+    - number of languages
+    - number of frameworks
+    - number of skills
+    - number of tests
+    - number of documentation
+    - number of configuration
+    - number of code files
+    - number of document files
     """
     score = 0.0
     
     # Database key_metrics result
     if "by_activity" in analysis_data:
-        # Sum weighted activity scores
-        for _, data in analysis_data["by_activity"].items():
-            score += data.get("score", 0.0)
+        # Calculate score based on activity types (count and bytes, not pre-calculated score)
+        # Weights based on activity type importance (matching activity_classifier weights)
+        activity_weights = {"code": 3, "doc": 1.5, "data": 2, "media": 1, "config": 1, "other": 1}
+        
+        for activity_type, data in analysis_data["by_activity"].items():
+            # Use count and bytes instead of pre-calculated score
+            file_count = data.get("count", 0)
+            total_bytes = data.get("bytes", 0)
+            weight = activity_weights.get(activity_type, 1)
+            
+            # File count contribution
+            score += file_count * weight * 10
+            
+            # Size contribution (normalized, smaller impact than count)
+            score += total_bytes / 1000 * weight * 0.1
 
         # Overall size/complexity signal
         total_lines = analysis_data.get("totals", {}).get("lines", 0)
@@ -109,29 +126,6 @@ def rank_local_project(project_path: str) -> Dict[str, Any]:
     raise NotImplementedError("Local ranking disabled; use key-metrics-based ranking from DB.")
 
 
-def rank_local_project(project_path: str) -> Dict[str, Any]:
-    """
-    Rank a local project by analyzing it with LocalAnalyzer.
-    
-    Args:
-        project_path: Path to the project directory
-        
-    Returns:
-        Dict with ranking results
-    """
-    if not os.path.exists(project_path):
-        raise FileNotFoundError(f"Project path does not exist: {project_path}")
-    
-    analyzer = LocalAnalyzer()
-    analysis = analyzer.analyze_project(project_path)
-    score = calculate_project_score(analysis)
-    
-    return {
-        "project_path": project_path,
-        "score": score,
-        "analysis": analysis
-    }
-
 
 def display_rankings(ranked_projects: List[Dict[str, Any]]):
     """
@@ -168,7 +162,7 @@ def display_rankings(ranked_projects: List[Dict[str, Any]]):
             print(f"Lines: {top_project['analysis']['totals']['lines']}")
             print("\nBy Activity Type:")
             for activity, data in sorted(top_project["analysis"]["by_activity"].items(), 
-                                        key=lambda x: x[1].get("score", 0), reverse=True):
+                                        key=lambda x: x[1].get("count", 0), reverse=True):
                 print(f"  {activity}: {data['count']} files, {data['bytes']} bytes")
         # Back-compat for any local dicts
         elif "structure" in top_project["analysis"]:
