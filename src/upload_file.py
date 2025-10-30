@@ -147,12 +147,16 @@ def add_file_to_db(filepath) -> UploadResult:
         uploaded_file_id = cur.fetchone()[0]
         conn.commit()
         
+        # Extract and store file contents
+        print("Extracting file contents...")
+        extraction_result = extract_and_store_file_contents(uploaded_file_id, dest_path)
+
         return UploadResult(
             success=True,
             message=f"File '{filename}' uploaded successfully!",
             error_type=None,
             data={
-                "file_id": file_id,
+                "file_id": uploaded_file_id,
                 "filename": filename,
                 "filepath": dest_path,
                 "file_count": len(file_contents),
@@ -224,5 +228,7 @@ def list_uploaded_files():
         print(f"Error retrieving uploaded files: {e}")
         return []
     finally:
-        cursor.close()
-        conn.close()
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
