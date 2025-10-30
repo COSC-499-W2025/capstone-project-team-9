@@ -152,7 +152,7 @@ def add_file_to_db(filepath) -> UploadResult:
             message=f"File '{filename}' uploaded successfully!",
             error_type=None,
             data={
-                "file_id": file_id,
+                "file_id": uploaded_file_id,
                 "filename": filename,
                 "filepath": dest_path,
                 "file_count": len(file_contents),
@@ -224,5 +224,7 @@ def list_uploaded_files():
         print(f"Error retrieving uploaded files: {e}")
         return []
     finally:
-        cursor.close()
-        conn.close()
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
