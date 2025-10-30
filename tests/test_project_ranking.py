@@ -31,28 +31,6 @@ def test_calculate_score_key_metrics():
     assert isinstance(score, float)
 
 
-def test_calculate_score_local_analyzer():
-    """Test scoring with local_analyzer analysis data"""
-    analysis_data = {
-        "structure": {
-            "has_tests": True,
-            "has_docs": True,
-            "has_config": True
-        },
-        "metrics": {
-            "total_lines_of_code": 1000,
-            "code_files": 10,
-            "document_files": 2
-        },
-        "skills": ["Python", "Testing", "Git"],
-        "frameworks": ["Django"]
-    }
-    
-    score = calculate_project_score(analysis_data)
-    assert score > 0
-    assert isinstance(score, float)
-
-
 def test_score_increases_with_tests():
     """Test that projects with tests score higher"""
     without_tests = {

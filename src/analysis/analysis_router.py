@@ -1,4 +1,4 @@
-from external_services.permission_manager import ExternalServicePermission
+from src.external_services.permission_manager import ExternalServicePermission
 
 
 class AnalysisRouter:
