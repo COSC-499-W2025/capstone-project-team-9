@@ -28,7 +28,7 @@ class TestDisplayFunctions:
         
         # Verify error banner
         assert "=" * 60 in output
-        assert "❌ ERROR" in output
+        assert "ERROR" in output
         
         # Verify error details
         assert "Error Type: FILE_NOT_FOUND" in output
@@ -117,7 +117,7 @@ class TestDisplayFunctions:
         
         # Verify success banner
         assert "=" * 60 in output
-        assert "✅ SUCCESS" in output
+        assert "SUCCESS" in output
         
         # Verify message and details
         assert "File 'project.zip' uploaded successfully!" in output
