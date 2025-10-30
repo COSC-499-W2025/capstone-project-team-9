@@ -147,6 +147,10 @@ def add_file_to_db(filepath) -> UploadResult:
         uploaded_file_id = cur.fetchone()[0]
         conn.commit()
         
+        # Extract and store file contents
+        print("Extracting file contents...")
+        extraction_result = extract_and_store_file_contents(uploaded_file_id, dest_path)
+
         return UploadResult(
             success=True,
             message=f"File '{filename}' uploaded successfully!",
