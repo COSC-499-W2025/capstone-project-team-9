@@ -9,7 +9,7 @@ import os
 import json
 from datetime import datetime, timedelta
 from collections import Counter, defaultdict
-from config.db_config import get_connection
+from config.db_config import with_db_cursor
 from project_manager import get_project_by_id
 from parsing.file_contents_manager import get_file_contents_by_upload_id, get_file_statistics
 from common.constants import LANGUAGE_EXTENSIONS, PROJECT_TYPE_INDICATORS
@@ -381,25 +381,20 @@ def get_available_projects():
     Returns:
         list: List of project information
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return []
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, filename, created_at
-            FROM uploaded_files
-            ORDER BY filename ASC
-        """)
-        
-        projects = cursor.fetchall()
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT id, filename, created_at
+                FROM uploaded_files
+                ORDER BY filename ASC
+            """)
+            
+            projects = cursor.fetchall()
         return [{"id": row[0], "filename": row[1], "created_at": row[2]} for row in projects]
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return []
     except Exception as e:
         print(f"Error retrieving projects: {e}")
         return []
-    finally:
-        cursor.close()
-        conn.close()

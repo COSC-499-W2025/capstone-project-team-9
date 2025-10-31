@@ -2,26 +2,20 @@
 # it will list the projects in alphabetical order.
 # it will also list the individual files in the projects if there are any.
 import json
-from config.db_config import get_connection
+from config.db_config import with_db_cursor
 
 
 def list_projects():
-
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return []
-# get the projects from the database
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, filename, status, metadata, created_at
-            FROM uploaded_files
-            ORDER BY filename ASC
-        """)
-        projects = cursor.fetchall()
-        cursor.close()
-# if there are no projects, return an empty list
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT id, filename, status, metadata, created_at
+                FROM uploaded_files
+                ORDER BY filename ASC
+            """)
+            projects = cursor.fetchall()
+        
+        # if there are no projects, return an empty list
         if not projects:
             print("No projects found in database.")
             return []
@@ -96,31 +90,24 @@ def list_projects():
         
         return projects
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return []
     except Exception as e:
         print(f"Error retrieving projects: {e}")
         return []
-    finally:
-        conn.close()
 
 # this function will get a project by its id
 def get_project_by_id(project_id):
-
-    conn = get_connection()
-    # if the connection is not successful, return None
-    if not conn:
-        print("Could not connect to database.")
-        return None
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, filename, filepath, status, metadata, created_at
-            FROM uploaded_files
-            WHERE id = %s
-        """, (project_id,))
-        
-        project = cursor.fetchone()
-        cursor.close()
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT id, filename, filepath, status, metadata, created_at
+                FROM uploaded_files
+                WHERE id = %s
+            """, (project_id,))
+            
+            project = cursor.fetchone()
         
         if not project:
             print(f"Project with ID {project_id} not found.")
@@ -138,29 +125,24 @@ def get_project_by_id(project_id):
             'created_at': created_at
         }
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return None
     except Exception as e:
         print(f"Error retrieving project: {e}")
         return None
-    finally:
-        conn.close()
 
 # this function will get the total number of projects in the database
 def get_project_count():
-
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return 0
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM uploaded_files")
-        count = cursor.fetchone()[0]
-        cursor.close()
+        with with_db_cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM uploaded_files")
+            count = cursor.fetchone()[0]
         return count
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return 0
     except Exception as e:
         print(f"Error getting project count: {e}")
         return 0
-    finally:
-        conn.close()

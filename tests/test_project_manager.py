@@ -3,7 +3,7 @@ import sys
 import os
 import pytest
 from datetime import datetime
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, MagicMock
 
 # Adjust the path to import from src
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
@@ -13,15 +13,15 @@ from src.project_manager import list_projects, get_project_by_id, get_project_co
 class TestProjectManager:
     """Test suite for project_manager functionality"""
     
-    @patch('src.project_manager.get_connection')
+    @patch('src.project_manager.with_db_cursor')
     # this test will test the list_projects function when there are individual files in the projects
-    def test_list_projects_individual_files(self, mock_get_connection):
+    def test_list_projects_individual_files(self, mock_with_db_cursor):
         """Test that individual files are properly extracted and sorted"""
-        # Mock database connection and cursor
-        mock_conn = Mock()
+        # Mock database cursor
         mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
         
         # Mock database results with nested folder structure
         mock_projects = [
@@ -34,23 +34,21 @@ class TestProjectManager:
         result = list_projects()
         
         # Verify database operations
-        mock_get_connection.assert_called_once()
+        mock_with_db_cursor.assert_called_once()
         mock_cursor.execute.assert_called_once()
-        mock_cursor.close.assert_called_once()
-        mock_conn.close.assert_called_once()
         
         # Verify return value (should still return original projects)
         assert result == mock_projects
     
-    @patch('src.project_manager.get_connection')
+    @patch('src.project_manager.with_db_cursor')
     # this test will test the list_projects function when there are no projects in the database
-    def test_list_projects_no_projects(self, mock_get_connection):
+    def test_list_projects_no_projects(self, mock_with_db_cursor):
         """Test listing when no projects exist"""
-        # Mock database connection
-        mock_conn = Mock()
+        # Mock database cursor
         mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
         
         # Mock empty results
         mock_cursor.fetchall.return_value = []
@@ -61,12 +59,12 @@ class TestProjectManager:
         # Verify return value
         assert result == []
     
-    @patch('src.project_manager.get_connection')
+    @patch('src.project_manager.with_db_cursor')
     # this test will test the list_projects function when the database connection fails
-    def test_list_projects_database_connection_failure(self, mock_get_connection):
+    def test_list_projects_database_connection_failure(self, mock_with_db_cursor):
         """Test handling of database connection failure"""
         # Mock database connection failure
-        mock_get_connection.return_value = None
+        mock_with_db_cursor.side_effect = ConnectionError("Could not connect to database")
         
         # Call the function
         result = list_projects()
@@ -74,15 +72,15 @@ class TestProjectManager:
         # Verify return value
         assert result == []
     
-    @patch('src.project_manager.get_connection')
+    @patch('src.project_manager.with_db_cursor')
     # this test will test the get_project_by_id function
-    def test_get_project_by_id_success(self, mock_get_connection):
+    def test_get_project_by_id_success(self, mock_with_db_cursor):
         """Test successful project retrieval by ID"""
-        # Mock database connection
-        mock_conn = Mock()
+        # Mock database cursor
         mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
         
         # Mock database result
         mock_project = (1, "test_project.zip", "/path/to/file", "uploaded", '{"files": ["file1.py"]}', datetime(2024, 1, 1, 10, 0, 0))
@@ -93,8 +91,6 @@ class TestProjectManager:
         
         # Verify database operations
         mock_cursor.execute.assert_called_once()
-        mock_cursor.close.assert_called_once()
-        mock_conn.close.assert_called_once()
         
         # Verify return value
         expected = {
@@ -107,15 +103,15 @@ class TestProjectManager:
         }
         assert result == expected
     
-    @patch('src.project_manager.get_connection')
+    @patch('src.project_manager.with_db_cursor')
     # this test will test the get_project_by_id function when the project does not exist
-    def test_get_project_by_id_not_found(self, mock_get_connection):
+    def test_get_project_by_id_not_found(self, mock_with_db_cursor):
         """Test project retrieval when project doesn't exist"""
-        # Mock database connection
-        mock_conn = Mock()
+        # Mock database cursor
         mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
         
         # Mock empty result
         mock_cursor.fetchone.return_value = None
@@ -126,15 +122,15 @@ class TestProjectManager:
         # Verify return value
         assert result is None
     
-    @patch('src.project_manager.get_connection')
+    @patch('src.project_manager.with_db_cursor')
     # this test will test the get_project_count function
-    def test_get_project_count_success(self, mock_get_connection):
+    def test_get_project_count_success(self, mock_with_db_cursor):
         """Test successful project count retrieval"""
-        # Mock database connection
-        mock_conn = Mock()
+        # Mock database cursor
         mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
         
         # Mock count result
         mock_cursor.fetchone.return_value = (5,)
@@ -144,8 +140,6 @@ class TestProjectManager:
         
         # Verify database operations
         mock_cursor.execute.assert_called_once()
-        mock_cursor.close.assert_called_once()
-        mock_conn.close.assert_called_once()
         
         # Verify return value
         assert result == 5

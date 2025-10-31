@@ -1,40 +1,33 @@
 import os
 import zipfile
 import json
-from config.db_config import get_connection
+from config.db_config import with_db_cursor, with_db_connection
 
 
 def init_file_contents_table():
     """Create the file_contents table if it doesn't exist."""
-    conn = get_connection()
-    if not conn:
-        raise Exception("Failed to connect to database")
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS file_contents (
-                id SERIAL PRIMARY KEY,
-                uploaded_file_id INTEGER REFERENCES uploaded_files(id) ON DELETE CASCADE,
-                file_path VARCHAR(1000) NOT NULL,
-                file_name VARCHAR(255) NOT NULL,
-                file_extension VARCHAR(50),
-                file_size BIGINT,
-                file_content TEXT, -- Stores line count as string for text files, "0" for binary files
-                content_type VARCHAR(100),
-                is_binary BOOLEAN DEFAULT FALSE,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        """)
-        conn.commit()
-        cursor.close()
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS file_contents (
+                    id SERIAL PRIMARY KEY,
+                    uploaded_file_id INTEGER REFERENCES uploaded_files(id) ON DELETE CASCADE,
+                    file_path VARCHAR(1000) NOT NULL,
+                    file_name VARCHAR(255) NOT NULL,
+                    file_extension VARCHAR(50),
+                    file_size BIGINT,
+                    file_content TEXT, -- Stores line count as string for text files, "0" for binary files
+                    content_type VARCHAR(100),
+                    is_binary BOOLEAN DEFAULT FALSE,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
         print("File contents table initialized")
+    except ConnectionError:
+        raise Exception("Failed to connect to database")
     except Exception as e:
-        conn.rollback()
         print(f"Error initializing file_contents table: {e}")
         raise
-    finally:
-        conn.close()
 
 
 def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1000, batch_size=50):
@@ -59,101 +52,95 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
         print(f"Not a valid zip file: {zip_file_path}")
         return {"success": False, "error": "Invalid zip file"}
     
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return {"success": False, "error": "Database connection failed"}
-    
     extracted_files = []
     errors = []
     processed_count = 0
     
     try:
-        cursor = conn.cursor()
-        
-        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-            file_list = zip_ref.namelist()
-            total_files = len([f for f in file_list if not f.endswith('/')])
-            
-            print(f"Found {total_files} files in zip archive")
-            
-            if total_files > max_files:
-                print(f"Warning: Zip contains {total_files} files, but processing limit is {max_files}")
-                return {"success": False, "error": f"Too many files ({total_files}). Maximum allowed: {max_files}"}
-            
-            # Process files in batches for better memory management
-            batch_data = []
-            
-            for file_path in file_list:
-                try:
-                    # Skip directories
-                    if file_path.endswith('/'):
-                        continue
-                    
-                    # Extract file info
-                    file_name = os.path.basename(file_path)
-                    file_extension = os.path.splitext(file_name)[1].lower()
-                    
-                    # Get file info from zip
-                    file_info = zip_ref.getinfo(file_path)
-                    file_size = file_info.file_size
-                    
-                    # Determine if file is binary
-                    is_binary = _is_binary_file(file_extension)
-                    
-                    # Read file content and count lines
-                    file_content = None
-                    content_type = _get_content_type(file_extension)
-                    
-                    if not is_binary:
-                        try:
-                            # Try to read as text and count lines
-                            text_content = zip_ref.read(file_path).decode('utf-8')
-                            line_count = len(text_content.splitlines())
-                            file_content = str(line_count)  # Store line count as string
-                        except UnicodeDecodeError:
-                            # If UTF-8 fails, try other encodings
+        with with_db_connection() as (conn, cursor):
+            with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+                file_list = zip_ref.namelist()
+                total_files = len([f for f in file_list if not f.endswith('/')])
+                
+                print(f"Found {total_files} files in zip archive")
+                
+                if total_files > max_files:
+                    print(f"Warning: Zip contains {total_files} files, but processing limit is {max_files}")
+                    return {"success": False, "error": f"Too many files ({total_files}). Maximum allowed: {max_files}"}
+                
+                # Process files in batches for better memory management
+                batch_data = []
+                
+                for file_path in file_list:
+                    try:
+                        # Skip directories
+                        if file_path.endswith('/'):
+                            continue
+                        
+                        # Extract file info
+                        file_name = os.path.basename(file_path)
+                        file_extension = os.path.splitext(file_name)[1].lower()
+                        
+                        # Get file info from zip
+                        file_info = zip_ref.getinfo(file_path)
+                        file_size = file_info.file_size
+                        
+                        # Determine if file is binary
+                        is_binary = _is_binary_file(file_extension)
+                        
+                        # Read file content and count lines
+                        file_content = None
+                        content_type = _get_content_type(file_extension)
+                        
+                        if not is_binary:
                             try:
-                                text_content = zip_ref.read(file_path).decode('latin-1')
+                                # Try to read as text and count lines
+                                text_content = zip_ref.read(file_path).decode('utf-8')
                                 line_count = len(text_content.splitlines())
                                 file_content = str(line_count)  # Store line count as string
-                            except:
-                                # If all text decoding fails, mark as binary
-                                is_binary = True
-                                file_content = "0"  # Binary files have 0 lines
+                            except UnicodeDecodeError:
+                                # If UTF-8 fails, try other encodings
+                                try:
+                                    text_content = zip_ref.read(file_path).decode('latin-1')
+                                    line_count = len(text_content.splitlines())
+                                    file_content = str(line_count)  # Store line count as string
+                                except:
+                                    # If all text decoding fails, mark as binary
+                                    is_binary = True
+                                    file_content = "0"  # Binary files have 0 lines
+                        
+                        # Add to batch
+                        batch_data.append((
+                            uploaded_file_id, file_path, file_name, file_extension,
+                            file_size, file_content, content_type, is_binary
+                        ))
+                        
+                        extracted_files.append({
+                            "file_path": file_path,
+                            "file_name": file_name,
+                            "file_size": file_size,
+                            "is_binary": is_binary
+                        })
+                        
+                        processed_count += 1
+                        
+                        # Process batch when it reaches batch_size
+                        if len(batch_data) >= batch_size:
+                            _insert_batch(cursor, batch_data)
+                            batch_data = []
+                            print(f"Processed {processed_count}/{total_files} files...")
                     
-                    # Add to batch
-                    batch_data.append((
-                        uploaded_file_id, file_path, file_name, file_extension,
-                        file_size, file_content, content_type, is_binary
-                    ))
-                    
-                    extracted_files.append({
-                        "file_path": file_path,
-                        "file_name": file_name,
-                        "file_size": file_size,
-                        "is_binary": is_binary
-                    })
-                    
-                    processed_count += 1
-                    
-                    # Process batch when it reaches batch_size
-                    if len(batch_data) >= batch_size:
-                        _insert_batch(cursor, batch_data)
-                        batch_data = []
-                        print(f"Processed {processed_count}/{total_files} files...")
-                    
-                except Exception as e:
-                    error_msg = f"Error processing {file_path}: {str(e)}"
-                    errors.append(error_msg)
-                    print(error_msg)
-            
-            # Insert remaining files in the last batch
-            if batch_data:
-                _insert_batch(cursor, batch_data)
-            
-            conn.commit()
-            print(f"Successfully extracted {len(extracted_files)} files from zip")
+                    except Exception as e:
+                        error_msg = f"Error processing {file_path}: {str(e)}"
+                        errors.append(error_msg)
+                        print(error_msg)
+                
+                # Insert remaining files in the last batch
+                if batch_data:
+                    _insert_batch(cursor, batch_data)
+                
+                conn.commit()
+                print(f"Successfully extracted {len(extracted_files)} files from zip")
             
             return {
                 "success": True,
@@ -163,14 +150,13 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
                 "processed_count": processed_count
             }
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return {"success": False, "error": "Database connection failed"}
     except Exception as e:
-        conn.rollback()
         error_msg = f"Error extracting zip contents: {str(e)}"
         print(error_msg)
         return {"success": False, "error": error_msg}
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def _insert_batch(cursor, batch_data):
@@ -198,32 +184,26 @@ def get_file_contents_by_folder(uploaded_file_id, folder_path=""):
     Returns:
         dict: File line counts organized by folder structure
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return {}
-    
     try:
-        cursor = conn.cursor()
-        
-        if folder_path:
-            cursor.execute("""
-                SELECT file_path, file_name, file_extension, file_size,
-                       file_content, content_type, is_binary, created_at
-                FROM file_contents
-                WHERE uploaded_file_id = %s AND file_path LIKE %s
-                ORDER BY file_path
-            """, (uploaded_file_id, f"{folder_path}%"))
-        else:
-            cursor.execute("""
-                SELECT file_path, file_name, file_extension, file_size,
-                       file_content, content_type, is_binary, created_at
-                FROM file_contents
-                WHERE uploaded_file_id = %s
-                ORDER BY file_path
-            """, (uploaded_file_id,))
-        
-        results = cursor.fetchall()
+        with with_db_cursor() as cursor:
+            if folder_path:
+                cursor.execute("""
+                    SELECT file_path, file_name, file_extension, file_size,
+                           file_content, content_type, is_binary, created_at
+                    FROM file_contents
+                    WHERE uploaded_file_id = %s AND file_path LIKE %s
+                    ORDER BY file_path
+                """, (uploaded_file_id, f"{folder_path}%"))
+            else:
+                cursor.execute("""
+                    SELECT file_path, file_name, file_extension, file_size,
+                           file_content, content_type, is_binary, created_at
+                    FROM file_contents
+                    WHERE uploaded_file_id = %s
+                    ORDER BY file_path
+                """, (uploaded_file_id,))
+            
+            results = cursor.fetchall()
         
         # Organize files by folder structure
         folder_structure = {}
@@ -257,12 +237,12 @@ def get_file_contents_by_folder(uploaded_file_id, folder_path=""):
         
         return folder_structure
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return {}
     except Exception as e:
         print(f"Error retrieving file contents by folder: {e}")
         return {}
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def get_file_statistics(uploaded_file_id):
@@ -275,61 +255,55 @@ def get_file_statistics(uploaded_file_id):
     Returns:
         dict: File statistics
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return {}
-    
     try:
-        cursor = conn.cursor()
-        
-        # Get basic counts
-        cursor.execute("""
-            SELECT 
-                COUNT(*) as total_files,
-                SUM(file_size) as total_size,
-                COUNT(CASE WHEN is_binary = false THEN 1 END) as text_files,
-                COUNT(CASE WHEN is_binary = true THEN 1 END) as binary_files
-            FROM file_contents
-            WHERE uploaded_file_id = %s
-        """, (uploaded_file_id,))
-        
-        stats = cursor.fetchone()
-        
-        # Handle case where no files are found
-        if not stats or len(stats) < 4:
-            return {
-                "total_files": 0,
-                "total_size_bytes": 0,
-                "text_files": 0,
-                "binary_files": 0,
-                "file_extensions": [],
-                "folders": []
-            }
-        
-        # Get file extensions
-        cursor.execute("""
-            SELECT file_extension, COUNT(*) as count
-            FROM file_contents
-            WHERE uploaded_file_id = %s AND file_extension != ''
-            GROUP BY file_extension
-            ORDER BY count DESC
-        """, (uploaded_file_id,))
-        
-        extensions = cursor.fetchall()
-        
-        # Get folder structure (simplified approach)
-        cursor.execute("""
-            SELECT 
-                COALESCE(split_part(file_path, '/', 1), 'root') as folder,
-                COUNT(*) as file_count
-            FROM file_contents
-            WHERE uploaded_file_id = %s
-            GROUP BY folder
-            ORDER BY folder
-        """, (uploaded_file_id,))
-        
-        folders = cursor.fetchall()
+        with with_db_cursor() as cursor:
+            # Get basic counts
+            cursor.execute("""
+                SELECT 
+                    COUNT(*) as total_files,
+                    SUM(file_size) as total_size,
+                    COUNT(CASE WHEN is_binary = false THEN 1 END) as text_files,
+                    COUNT(CASE WHEN is_binary = true THEN 1 END) as binary_files
+                FROM file_contents
+                WHERE uploaded_file_id = %s
+            """, (uploaded_file_id,))
+            
+            stats = cursor.fetchone()
+            
+            # Handle case where no files are found
+            if not stats or len(stats) < 4:
+                return {
+                    "total_files": 0,
+                    "total_size_bytes": 0,
+                    "text_files": 0,
+                    "binary_files": 0,
+                    "file_extensions": [],
+                    "folders": []
+                }
+            
+            # Get file extensions
+            cursor.execute("""
+                SELECT file_extension, COUNT(*) as count
+                FROM file_contents
+                WHERE uploaded_file_id = %s AND file_extension != ''
+                GROUP BY file_extension
+                ORDER BY count DESC
+            """, (uploaded_file_id,))
+            
+            extensions = cursor.fetchall()
+            
+            # Get folder structure (simplified approach)
+            cursor.execute("""
+                SELECT 
+                    COALESCE(split_part(file_path, '/', 1), 'root') as folder,
+                    COUNT(*) as file_count
+                FROM file_contents
+                WHERE uploaded_file_id = %s
+                GROUP BY folder
+                ORDER BY folder
+            """, (uploaded_file_id,))
+            
+            folders = cursor.fetchall()
         
         return {
             "total_files": stats[0] or 0,
@@ -340,12 +314,12 @@ def get_file_statistics(uploaded_file_id):
             "folders": [{"folder": folder[0], "file_count": folder[1]} for folder in folders]
         }
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return {}
     except Exception as e:
         print(f"Error getting file statistics: {e}")
         return {}
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def get_file_contents_by_upload_id(uploaded_file_id):
@@ -358,24 +332,19 @@ def get_file_contents_by_upload_id(uploaded_file_id):
     Returns:
         list: List of file line count records
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return []
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, file_path, file_name, file_extension, file_size,
-                   file_content, content_type, is_binary, created_at
-            FROM file_contents
-            WHERE uploaded_file_id = %s
-            ORDER BY file_path
-        """, (uploaded_file_id,))
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT id, file_path, file_name, file_extension, file_size,
+                       file_content, content_type, is_binary, created_at
+                FROM file_contents
+                WHERE uploaded_file_id = %s
+                ORDER BY file_path
+            """, (uploaded_file_id,))
+            
+            results = cursor.fetchall()
         
-        results = cursor.fetchall()
         files = []
-        
         for row in results:
             files.append({
                 "id": row[0],
@@ -391,12 +360,12 @@ def get_file_contents_by_upload_id(uploaded_file_id):
         
         return files
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return []
     except Exception as e:
         print(f"Error retrieving file contents: {e}")
         return []
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def _is_binary_file(file_extension):
