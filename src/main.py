@@ -98,6 +98,38 @@ def ensure_user_preferences_schema():
     except Exception as e:
         print(f"[WARN] Failed to update user_preferences schema: {e}")
 
+def display_error(result):
+    """Format and display error information"""
+    print("\n" + "="*60)
+    print("ERROR")
+    print("="*60)
+    print(f"Error Type: {result.error_type}")
+    print(f"Message: {result.message}")
+    if result.data:
+        print("\nDetails:")
+        for key, value in result.data.items():
+            print(f"  • {key}: {value}")
+    print("="*60 + "\n")
+
+def display_success(result):
+    """Format and display success information"""
+    print("\n" + "="*60)
+    print("SUCCESS")
+    print("="*60)
+    print(f"Message: {result.message}")
+    if result.data:
+        print("\nDetails:")
+        for key, value in result.data.items():
+            if key != "files":  # files list is too long, handle separately
+                print(f"  • {key}: {value}")
+        if "files" in result.data and result.data["files"]:
+            print(f"\nContains {len(result.data['files'])} files:")
+            for i, file in enumerate(result.data['files'][:5], 1):
+                print(f"  {i}. {file}")
+            if len(result.data['files']) > 5:
+                print(f"  ... and {len(result.data['files']) - 5} more files")
+    print("="*60 + "\n")
+
 def ask_user_preferences(is_start):
     if consent_manager.has_access() and not is_start:
         while True:
@@ -209,8 +241,14 @@ def main():
         choice = input("Choose an option (1-6): ").strip()
         
         if choice == '1':
-            filepath = input("Enter the path to your zip file (full or relative): ")
-            add_file_to_db(filepath)
+            filepath = input("Enter the path to your zip file: ")
+            result = add_file_to_db(filepath)
+            
+            if result.success:
+                display_success(result)
+            else:
+                display_error(result)
+                
         elif choice == '2':
             list_projects()
         elif choice == '3':
