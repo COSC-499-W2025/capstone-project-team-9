@@ -12,39 +12,7 @@ class LocalAnalyzer:
     """
     
     # Language detection patterns
-    LANGUAGE_EXTENSIONS = {
-        '.py': 'Python',
-        '.js': 'JavaScript',
-        '.jsx': 'JavaScript (React)',
-        '.ts': 'TypeScript',
-        '.tsx': 'TypeScript (React)',
-        '.java': 'Java',
-        '.cpp': 'C++',
-        '.c': 'C',
-        '.h': 'C/C++ Header',
-        '.cs': 'C#',
-        '.rb': 'Ruby',
-        '.php': 'PHP',
-        '.go': 'Go',
-        '.rs': 'Rust',
-        '.swift': 'Swift',
-        '.kt': 'Kotlin',
-        '.scala': 'Scala',
-        '.r': 'R',
-        '.m': 'MATLAB/Objective-C',
-        '.sql': 'SQL',
-        '.html': 'HTML',
-        '.css': 'CSS',
-        '.scss': 'SCSS',
-        '.sass': 'SASS',
-        '.json': 'JSON',
-        '.xml': 'XML',
-        '.yml': 'YAML',
-        '.yaml': 'YAML',
-        '.sh': 'Shell Script',
-        '.bash': 'Bash Script',
-        '.ps1': 'PowerShell',
-    }
+    from common.constants import LANGUAGE_EXTENSIONS as LANGUAGE_EXTENSIONS
     
     # Framework detection patterns (in file content or names)
     FRAMEWORK_PATTERNS = {
@@ -62,27 +30,10 @@ class LocalAnalyzer:
     }
     
     # Document types
-    DOCUMENT_EXTENSIONS = {
-        '.md': 'Markdown',
-        '.txt': 'Text',
-        '.pdf': 'PDF',
-        '.doc': 'Word Document',
-        '.docx': 'Word Document',
-        '.rst': 'reStructuredText',
-    }
+    from common.constants import DOCUMENT_EXTENSIONS as DOCUMENT_EXTENSIONS
     
     # Design file types
-    DESIGN_EXTENSIONS = {
-        '.png': 'PNG Image',
-        '.jpg': 'JPEG Image',
-        '.jpeg': 'JPEG Image',
-        '.gif': 'GIF Image',
-        '.svg': 'SVG Vector',
-        '.psd': 'Photoshop',
-        '.ai': 'Illustrator',
-        '.sketch': 'Sketch',
-        '.fig': 'Figma',
-    }
+    from common.constants import DESIGN_EXTENSIONS as DESIGN_EXTENSIONS
     
     def __init__(self):
         """Initialize the local analyzer."""
