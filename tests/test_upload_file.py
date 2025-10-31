@@ -42,7 +42,7 @@ class TestUploadFile:
     
     @patch('src.upload_file.extract_and_store_file_contents')
     @patch('src.upload_file.get_connection')
-    def test_add_file_to_db_success(self, mock_get_connection):
+    def test_add_file_to_db_success(self, mock_get_connection, mock_extract_and_store_file_contents):
 
         """Test successful file upload to database"""
         # Create a valid ZIP file for testing
