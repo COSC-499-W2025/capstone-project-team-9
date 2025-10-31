@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional
 from datetime import datetime
+from common.constants import LANGUAGE_EXTENSIONS, DOCUMENT_EXTENSIONS, DESIGN_EXTENSIONS
 
 
 class LocalAnalyzer:
@@ -12,7 +13,9 @@ class LocalAnalyzer:
     """
     
     # Language detection patterns
-    from common.constants import LANGUAGE_EXTENSIONS as LANGUAGE_EXTENSIONS
+    LANGUAGE_EXTENSIONS = LANGUAGE_EXTENSIONS
+    DOCUMENT_EXTENSIONS = DOCUMENT_EXTENSIONS
+    DESIGN_EXTENSIONS = DESIGN_EXTENSIONS
     
     # Framework detection patterns (in file content or names)
     FRAMEWORK_PATTERNS = {
@@ -28,12 +31,6 @@ class LocalAnalyzer:
         'PostgreSQL': [r'psycopg2', r'postgresql://'],
         'MongoDB': [r'mongoose', r'mongodb://'],
     }
-    
-    # Document types
-    from common.constants import DOCUMENT_EXTENSIONS as DOCUMENT_EXTENSIONS
-    
-    # Design file types
-    from common.constants import DESIGN_EXTENSIONS as DESIGN_EXTENSIONS
     
     def __init__(self):
         """Initialize the local analyzer."""
@@ -219,8 +216,12 @@ class LocalAnalyzer:
                     metrics['total_file_size_bytes'] += file_size
                     file_sizes.append(file_size)
                     
-                    # Categorize files
-                    if ext in self.LANGUAGE_EXTENSIONS:
+                    # Categorize files (check documents first since .md can be in both)
+                    if ext in self.DOCUMENT_EXTENSIONS:
+                        metrics['document_files'] += 1
+                    elif ext in self.DESIGN_EXTENSIONS:
+                        metrics['design_files'] += 1
+                    elif ext in self.LANGUAGE_EXTENSIONS:
                         metrics['code_files'] += 1
                         # Count lines of code
                         try:
@@ -228,10 +229,6 @@ class LocalAnalyzer:
                                 metrics['total_lines_of_code'] += sum(1 for _ in f)
                         except Exception:
                             pass
-                    elif ext in self.DOCUMENT_EXTENSIONS:
-                        metrics['document_files'] += 1
-                    elif ext in self.DESIGN_EXTENSIONS:
-                        metrics['design_files'] += 1
                     else:
                         metrics['other_files'] += 1
                 
@@ -325,13 +322,13 @@ class LocalAnalyzer:
                 # Count by extension
                 breakdown['by_extension'][ext] = breakdown['by_extension'].get(ext, 0) + 1
                 
-                # Count by category
-                if ext in self.LANGUAGE_EXTENSIONS:
-                    breakdown['by_category']['code'] += 1
-                elif ext in self.DOCUMENT_EXTENSIONS:
+                # Count by category (check documents first since .md can be in both)
+                if ext in self.DOCUMENT_EXTENSIONS:
                     breakdown['by_category']['documents'] += 1
                 elif ext in self.DESIGN_EXTENSIONS:
                     breakdown['by_category']['design'] += 1
+                elif ext in self.LANGUAGE_EXTENSIONS:
+                    breakdown['by_category']['code'] += 1
                 elif ext in ['.json', '.yml', '.yaml', '.xml', '.env', '.ini']:
                     breakdown['by_category']['config'] += 1
                 else:

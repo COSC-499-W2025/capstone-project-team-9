@@ -53,7 +53,7 @@ def _select_project_interactive(title: str):
 
     while True:
         try:
-            choice = input(f"Select a project (1-{len(projects)}) or 'q' to cancel: ").strip()
+            choice = input(f"Select a project (1-{len(projects)}) or 'q' to quit: ").strip()
             if choice.lower() == 'q':
                 return None
             choice_num = int(choice)
@@ -62,7 +62,7 @@ def _select_project_interactive(title: str):
             else:
                 print(f"Please enter a number between 1 and {len(projects)}")
         except ValueError:
-            print("Please enter a valid number or 'q' to cancel")
+            print("Please enter a valid number or 'q' to quit")
 
 
 def summarize_project_menu():
