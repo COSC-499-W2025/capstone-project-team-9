@@ -5,8 +5,8 @@ class _FakeCursor:
         self._calls = []
         self.rowcount = 0
         self._last_sql = ""
-    # support with ... as ... 
-    def __enter__(self): 
+    # support with ... as ...
+    def __enter__(self):
         return self
     def __exit__(self, exc_type, exc, tb):
         pass
@@ -21,6 +21,8 @@ class _FakeCursor:
             self.rowcount = 3
         elif "FROM file_contents" in sql_strip:
             self.rowcount = 5
+        elif "FROM uploaded_files" in sql_strip:
+            self.rowcount = 1
         else:
             self.rowcount = 0
 
@@ -30,7 +32,7 @@ class _FakeCursor:
             return (1,)
         return None
 
-    def close(self): 
+    def close(self):
         pass
 
 
@@ -38,16 +40,16 @@ class _FakeConn:
     def __init__(self):
         self.cur = _FakeCursor()
     # with get_connection() as conn need to return a context-supporting connection
-    def __enter__(self): 
+    def __enter__(self):
         return self
-    def __exit__(self, exc_type, exc, tb): 
+    def __exit__(self, exc_type, exc, tb):
         pass
     # with conn.cursor() as cur need to return a context-supporting cursor
-    def cursor(self):  
+    def cursor(self):
         return self.cur
-    def commit(self): 
+    def commit(self):
         pass
-    def close(self): 
+    def close(self):
         pass
 
 
@@ -55,7 +57,8 @@ def test_delete_insights(monkeypatch):
     from src.tools import cleanup_insights as ci
     monkeypatch.setattr(ci, "get_connection", lambda: _FakeConn())
 
-    metrics, files = delete_insights(42)
+    metrics, files, projects = delete_insights(42)
 
     assert metrics == 3
     assert files == 5
+    assert projects == 1

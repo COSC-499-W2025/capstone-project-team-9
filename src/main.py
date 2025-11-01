@@ -266,10 +266,10 @@ def main():
         elif choice == '6':
             pid = input("Enter project ID to clean: ").strip()
             if pid.isdigit():
-                confirm = input(f"Delete insights for project {pid}? This cannot be undone. (y/n): ").strip().lower()
+                confirm = input(f"Delete insights and the uploaded file for project {pid}? This cannot be undone. (y/n): ").strip().lower()
                 if confirm in ('y', 'yes'):
-                    m, f = delete_insights(int(pid))
-                    print(f"Deleted: project_metrics={m}, file_contents={f}")
+                    m, f, p = delete_insights(int(pid))
+                    print(f"Deleted: project_metrics={m}, file_contents={f}, uploaded_files={p}")
                 else:
                     print("Cancelled.")
             else:
@@ -278,7 +278,7 @@ def main():
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter 1-6.")
+            print("Invalid choice. Please enter 1-7.")
 
 if __name__ == "__main__":
     main()
