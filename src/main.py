@@ -31,72 +31,54 @@ def ensure_user_preferences_schema():
         print(f"[WARN] Failed to update user_preferences schema: {e}")
 
 
+def _select_project_interactive(title: str):
+    """Unified project selection UI. Returns selected project dict or None."""
+    print("\n" + "-"*50)
+    print(title)
+    print("-"*50)
+
+    projects = get_available_projects()
+
+    if not projects:
+        print("No projects found in database.")
+        print("Please upload a project first using option 1.")
+        return None
+
+    print("Available projects:")
+    for i, project in enumerate(projects, 1):
+        created_date = project['created_at'].strftime("%Y-%m-%d") if project['created_at'] else "Unknown"
+        print(f"{i}. {project['filename']} (ID: {project['id']}, Created: {created_date})")
+
+    print("-"*50)
+
+    while True:
+        try:
+            choice = input(f"Select a project (1-{len(projects)}) or 'q' to quit: ").strip()
+            if choice.lower() == 'q':
+                return None
+            choice_num = int(choice)
+            if 1 <= choice_num <= len(projects):
+                return projects[choice_num - 1]
+            else:
+                print(f"Please enter a number between 1 and {len(projects)}")
+        except ValueError:
+            print("Please enter a valid number or 'q' to quit")
+
+
 def summarize_project_menu():
     """Handle the project summarization menu."""
     print("\n" + "-"*50)
     print("Project Summarization")
     print("-"*50)
     
-    # Get available projects
-    projects = get_available_projects()
-    
-    if not projects:
-        print("No projects found in database.")
-        print("Please upload a project first using option 1.")
+    selected_project = _select_project_interactive("Project Summarization")
+    if not selected_project:
         return
-    
-    # Display available projects
-    print("Available projects:")
-    for i, project in enumerate(projects, 1):
-        created_date = project['created_at'].strftime("%Y-%m-%d") if project['created_at'] else "Unknown"
-        print(f"{i}. {project['filename']} (ID: {project['id']}, Created: {created_date})")
-    
-    print("-"*50)
-    
-    # Get user selection
-    while True:
-        try:
-            choice = input(f"Select a project to summarize (1-{len(projects)}) or 'q' to quit: ").strip()
-            
-            if choice.lower() == 'q':
-                return
-            
-            choice_num = int(choice)
-            if 1 <= choice_num <= len(projects):
-                selected_project = projects[choice_num - 1]
-                print(f"\nGenerating summary for: {selected_project['filename']}")
-                print("Please wait...")
-                
-                # Generate and display summary
-                summary = summarize_project(selected_project['id'])
-                print(summary)
-                
-                # Ask if user wants to continue
-                continue_choice = input("\nPress Enter to continue or 'q' to quit: ").strip()
-                if continue_choice.lower() == 'q':
-                    return
-                break
-            else:
-                print(f"Please enter a number between 1 and {len(projects)}")
-        except ValueError:
-            print("Please enter a valid number or 'q' to quit")
-
-def ensure_user_preferences_schema():
-    """Ensure user_preferences table has all required columns and defaults."""
-    try:
-        with get_connection() as conn, conn.cursor() as cur:
-            cur.execute("""
-                ALTER TABLE user_preferences
-                ADD COLUMN IF NOT EXISTS collaborative BOOLEAN DEFAULT FALSE;
-            """)
-            cur.execute("""
-                ALTER TABLE user_preferences
-                ALTER COLUMN consent SET DEFAULT TRUE;
-            """)
-            conn.commit()
-        print("user_preferences schema verified/updated")
-    except Exception as e:
-        print(f"[WARN] Failed to update user_preferences schema: {e}")
+    print(f"\nGenerating summary for: {selected_project['filename']}")
+    print("Please wait...")
+    summary = summarize_project(selected_project['id'])
+    print(summary)
+    input("\nPress Enter to continue...")
 
 def display_error(result):
     """Format and display error information"""
@@ -252,11 +234,9 @@ def main():
         elif choice == '2':
             list_projects()
         elif choice == '3':
-            project_id = input("Enter the project ID to analyze: ").strip()
-            if project_id.isdigit():
-                analyze_project_from_db(int(project_id))
-            else:
-                print("Invalid project ID.")
+            selected_project = _select_project_interactive("Analyze project metrics")
+            if selected_project:
+                analyze_project_from_db(int(selected_project['id']))
         elif choice == '4':
             summarize_project_menu()
         elif choice == '5':

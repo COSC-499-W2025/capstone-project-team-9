@@ -9,52 +9,18 @@ import os
 import json
 from datetime import datetime, timedelta
 from collections import Counter, defaultdict
-from config.db_config import get_connection
+from config.db_config import with_db_cursor
 from project_manager import get_project_by_id
 from parsing.file_contents_manager import get_file_contents_by_upload_id, get_file_statistics
+from common.constants import LANGUAGE_EXTENSIONS, PROJECT_TYPE_INDICATORS
 
 
 class ProjectSummarizer:
     """Main class for generating project summaries."""
     
     def __init__(self):
-        self.language_extensions = {
-            # Web Technologies
-            '.html': 'HTML', '.htm': 'HTML', '.css': 'CSS', '.js': 'JavaScript',
-            '.jsx': 'React JSX', '.ts': 'TypeScript', '.tsx': 'React TypeScript',
-            '.vue': 'Vue.js', '.svelte': 'Svelte',
-            
-            # Backend Languages
-            '.py': 'Python', '.java': 'Java', '.cpp': 'C++', '.c': 'C',
-            '.cs': 'C#', '.php': 'PHP', '.rb': 'Ruby', '.go': 'Go',
-            '.rs': 'Rust', '.swift': 'Swift', '.kt': 'Kotlin',
-            
-            # Scripting Languages
-            '.sh': 'Shell Script', '.bat': 'Batch', '.ps1': 'PowerShell',
-            '.r': 'R', '.m': 'MATLAB', '.pl': 'Perl', '.lua': 'Lua',
-            
-            # Data & Config
-            '.json': 'JSON', '.xml': 'XML', '.yaml': 'YAML', '.yml': 'YAML',
-            '.toml': 'TOML', '.ini': 'INI', '.cfg': 'Config', '.conf': 'Config',
-            '.sql': 'SQL', '.md': 'Markdown', '.txt': 'Text',
-            
-            # Mobile Development
-            '.dart': 'Dart', '.scala': 'Scala',
-            
-            # Other
-            '.dockerfile': 'Dockerfile', '.dockerignore': 'Docker Ignore',
-            '.gitignore': 'Git Ignore', '.gitattributes': 'Git Attributes'
-        }
-        
-        self.project_type_indicators = {
-            'web': ['.html', '.css', '.js', '.jsx', '.ts', '.tsx', '.vue', '.svelte'],
-            'backend': ['.py', '.java', '.cpp', '.c', '.cs', '.php', '.rb', '.go', '.rs'],
-            'mobile': ['.dart', '.swift', '.kt', '.java'],
-            'data_science': ['.py', '.r', '.m', '.ipynb'],
-            'devops': ['.dockerfile', '.yml', '.yaml', '.sh', '.bat', '.ps1'],
-            'documentation': ['.md', '.txt', '.rst'],
-            'database': ['.sql', '.db', '.sqlite']
-        }
+        self.language_extensions = LANGUAGE_EXTENSIONS
+        self.project_type_indicators = PROJECT_TYPE_INDICATORS
     
     def generate_project_summary(self, project_id):
         """
@@ -415,25 +381,20 @@ def get_available_projects():
     Returns:
         list: List of project information
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return []
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, filename, created_at
-            FROM uploaded_files
-            ORDER BY filename ASC
-        """)
-        
-        projects = cursor.fetchall()
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT id, filename, created_at
+                FROM uploaded_files
+                ORDER BY filename ASC
+            """)
+            
+            projects = cursor.fetchall()
         return [{"id": row[0], "filename": row[1], "created_at": row[2]} for row in projects]
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return []
     except Exception as e:
         print(f"Error retrieving projects: {e}")
         return []
-    finally:
-        cursor.close()
-        conn.close()
