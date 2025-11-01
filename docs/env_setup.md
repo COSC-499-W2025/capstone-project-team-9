@@ -60,3 +60,5 @@ $env:PYTHONPATH = "."; pytest -v
 
 # Database Command
 docker exec -it artifact_db psql -U devuser -d artifact_data
+
+# Before test you should do: run **python src/main.py** in main branch
