@@ -99,6 +99,38 @@ def ensure_user_preferences_schema():
     except Exception as e:
         print(f"[WARN] Failed to update user_preferences schema: {e}")
 
+def display_error(result):
+    """Format and display error information"""
+    print("\n" + "="*60)
+    print("ERROR")
+    print("="*60)
+    print(f"Error Type: {result.error_type}")
+    print(f"Message: {result.message}")
+    if result.data:
+        print("\nDetails:")
+        for key, value in result.data.items():
+            print(f"  • {key}: {value}")
+    print("="*60 + "\n")
+
+def display_success(result):
+    """Format and display success information"""
+    print("\n" + "="*60)
+    print("SUCCESS")
+    print("="*60)
+    print(f"Message: {result.message}")
+    if result.data:
+        print("\nDetails:")
+        for key, value in result.data.items():
+            if key != "files":  # files list is too long, handle separately
+                print(f"  • {key}: {value}")
+        if "files" in result.data and result.data["files"]:
+            print(f"\nContains {len(result.data['files'])} files:")
+            for i, file in enumerate(result.data['files'][:5], 1):
+                print(f"  {i}. {file}")
+            if len(result.data['files']) > 5:
+                print(f"  ... and {len(result.data['files']) - 5} more files")
+    print("="*60 + "\n")
+
 def ask_user_preferences(is_start):
     if consent_manager.has_access() and not is_start:
         while True:
@@ -146,11 +178,23 @@ def ask_user_preferences(is_start):
                 if repo_path is None:
                     print("No git repository found in the ZIP.")
                     return
-                # Get commit counts per author
-                commit_counts = ic.get_commit_counts()
-                print("Commit counts per user:")
-                for user, count in commit_counts.items():
-                    print(f"{user}: {count} commits")
+                # Get the full contribution profile
+                profile = ic.get_full_contribution_profile()
+
+                print("Contribution profile per user:\n")
+                for author, data in profile.items():
+                    print(f"Author: {author}")
+                    # Commits
+                    print(f"  Commits: {data['commits']}")
+                    # Lines added/deleted/cumulative
+                    lines = data['lines']
+                    print(f"  Lines: Added={lines['added']}, Deleted={lines['deleted']}, Cumulative={lines['cumulative']}")
+                    # Files created/modified/deleted
+                    print("  Files:")
+                    for category, info in data['files'].items():
+                        files_str = ", ".join(sorted(info['files']))  # sorted optional
+                        print(f"    {category.capitalize()} ({info['count']}): {files_str}")
+                    print()  # Blank line between authors
             finally:
                 # Cleanup temporary extracted files
                 ic.cleanup()
@@ -199,8 +243,14 @@ def main():
         choice = input("Choose an option (1-7): ").strip()
         
         if choice == '1':
-            filepath = input("Enter the path to your zip file (full or relative): ")
-            add_file_to_db(filepath)
+            filepath = input("Enter the path to your zip file: ")
+            result = add_file_to_db(filepath)
+            
+            if result.success:
+                display_success(result)
+            else:
+                display_error(result)
+                
         elif choice == '2':
             list_projects()
         elif choice == '3':
