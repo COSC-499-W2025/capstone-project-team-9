@@ -3,15 +3,12 @@ from upload_file import add_file_to_db
 from project_manager import list_projects
 from consent.consent_manager import ConsentManager
 from collaborative.collaborative_manager import CollaborativeManager
-from analysis.key_metrics import analyze_project_from_db
-from analysis.project_ranking import rank_all_projects, display_rankings
 from project_summarizer import summarize_project, get_available_projects
 from external_services.external_service_prompt import request_external_service_permission
 from project_analyzer import analyze_project_by_id
 import os
 import sys
-from collaborative.identify_contributors import identify_contributors
-from database.user_preferences import get_user_git_username, update_user_git_username
+
 
 def display_error(result):
     """Display error information to user."""
@@ -32,45 +29,6 @@ def display_error(result):
     
     print("="*70 + "\n")
 
-def ensure_user_preferences_schema():
-    """Debug version to check why git_username is not being added."""
-    try:
-        with get_connection() as conn, conn.cursor() as cur:
-            
-            # Check if table exists
-            cur.execute("""
-                SELECT EXISTS (
-                    SELECT 1
-                    FROM information_schema.tables
-                    WHERE table_name = 'user_preferences'
-                );
-            """)
-            table_exists = cur.fetchone()[0]
-            print("Table exists:", table_exists)
-            
-            # Add git_username column if missing
-            cur.execute("""
-                SELECT column_name 
-                FROM information_schema.columns
-                WHERE table_name = 'user_preferences' AND column_name = 'git_username';
-            """)
-            column_exists = cur.fetchone()
-            print("git_username column exists before ALTER:", column_exists)
-            cur.execute("""
-                ALTER TABLE user_preferences
-                ADD COLUMN IF NOT EXISTS git_username VARCHAR(255);
-            """)
-            # Check after
-            cur.execute("""
-                SELECT column_name 
-                FROM information_schema.columns
-                WHERE table_name = 'user_preferences' AND column_name = 'git_username';
-            """)
-            column_exists_after = cur.fetchone()
-            print("git_username column exists after ALTER:", column_exists_after)
-            conn.commit()
-    except Exception as e:
-        print(f"[WARN] Exception caught: {e}")
 
 def display_success(result):
     """Display success information to user."""
@@ -113,85 +71,56 @@ def display_success(result):
     print("="*70 + "\n")
 
 
-def _select_project_interactive(title: str):
-    """Unified project selection UI. Returns selected project dict or None."""
-    print("\n" + "-"*50)
-    print(title)
-    print("-"*50)
-
-    projects = get_available_projects()
-
-    if not projects:
-        print("No projects found in database.")
-        print("Please upload a project first using option 1.")
-        return None
-
-    print("Available projects:")
-    for i, project in enumerate(projects, 1):
-        created_date = project['created_at'].strftime("%Y-%m-%d") if project['created_at'] else "Unknown"
-        print(f"{i}. {project['filename']} (ID: {project['id']}, Created: {created_date})")
-
-    print("-"*50)
-
-    while True:
-        try:
-            choice = input(f"Select a project (1-{len(projects)}) or 'q' to quit: ").strip()
-            if choice.lower() == 'q':
-                return None
-            choice_num = int(choice)
-            if 1 <= choice_num <= len(projects):
-                return projects[choice_num - 1]
-            else:
-                print(f"Please enter a number between 1 and {len(projects)}")
-        except ValueError:
-            print("Please enter a valid number or 'q' to quit")
-
 def summarize_project_menu():
     """Handle the project summarization menu."""
     print("\n" + "-"*50)
     print("Project Summarization")
     print("-"*50)
     
-    selected_project = _select_project_interactive("Project Summarization")
-    if not selected_project:
+    # Get available projects
+    projects = get_available_projects()
+    
+    if not projects:
+        print("No projects found in database.")
+        print("Please upload a project first using option 1.")
         return
-    print(f"\nGenerating summary for: {selected_project['filename']}")
-    print("Please wait...")
-    summary = summarize_project(selected_project['id'])
-    print(summary)
-    input("\nPress Enter to continue...")
+    
+    # Display available projects
+    print("Available projects:")
+    for i, project in enumerate(projects, 1):
+        created_date = project['created_at'].strftime("%Y-%m-%d") if project['created_at'] else "Unknown"
+        print(f"{i}. {project['filename']} (ID: {project['id']}, Created: {created_date})")
+    
+    print("-"*50)
+    
+    # Get user selection
+    while True:
+        try:
+            choice = input(f"Select a project to summarize (1-{len(projects)}) or 'q' to quit: ").strip()
+            
+            if choice.lower() == 'q':
+                return
+            
+            choice_num = int(choice)
+            if 1 <= choice_num <= len(projects):
+                selected_project = projects[choice_num - 1]
+                print(f"\nGenerating summary for: {selected_project['filename']}")
+                print("Please wait...")
+                
+                # Generate and display summary
+                summary = summarize_project(selected_project['id'])
+                print(summary)
+                
+                # Ask if user wants to continue
+                continue_choice = input("\nPress Enter to continue or 'q' to quit: ").strip()
+                if continue_choice.lower() == 'q':
+                    return
+                break
+            else:
+                print(f"Please enter a number between 1 and {len(projects)}")
+        except ValueError:
+            print("Please enter a valid number or 'q' to quit")
 
-def display_error(result):
-    """Format and display error information"""
-    print("\n" + "="*60)
-    print("ERROR")
-    print("="*60)
-    print(f"Error Type: {result.error_type}")
-    print(f"Message: {result.message}")
-    if result.data:
-        print("\nDetails:")
-        for key, value in result.data.items():
-            print(f"  • {key}: {value}")
-    print("="*60 + "\n")
-
-def display_success(result):
-    """Format and display success information"""
-    print("\n" + "="*60)
-    print("SUCCESS")
-    print("="*60)
-    print(f"Message: {result.message}")
-    if result.data:
-        print("\nDetails:")
-        for key, value in result.data.items():
-            if key != "files":  # files list is too long, handle separately
-                print(f"  • {key}: {value}")
-        if "files" in result.data and result.data["files"]:
-            print(f"\nContains {len(result.data['files'])} files:")
-            for i, file in enumerate(result.data['files'][:5], 1):
-                print(f"  {i}. {file}")
-            if len(result.data['files']) > 5:
-                print(f"  ... and {len(result.data['files']) - 5} more files")
-    print("="*60 + "\n")
 
 def analyze_project_menu():
     """
@@ -245,52 +174,6 @@ def analyze_project_menu():
         except ValueError:
             print("Please enter a valid number or 'q' to quit")
 
-    just_changed = False
-    prefs = collab_manager.get_preferences()
-    if prefs and prefs[1] and not is_start: 
-        while True:
-            response = input("\nWould you like to not include collaborative work? (yes/no): ").strip().lower()
-            if response in ['yes', 'y']:
-                collab_manager.update_collaborative(False)
-                print("\nCollaborative not granted. Thank you!")
-                break
-            elif response in ['no', 'n']:
-                break
-            else:
-                print("Invalid input. Please enter 'yes' or 'no'.")
-    else:
-        # Check/request user consent
-        if not collab_manager.request_collaborative_if_needed():
-            print("Collaborative not granted. Doing individual.")
-        else:
-            print("Collaborative granted. Doing colabrative and individual.")
-            if not get_user_git_username() or get_user_git_username()[0] is None:
-                response = input("\nWhat is you GitHub user name: ").strip()
-                update_user_git_username(response)
-                just_changed = True
-            print("\nYour github username is:"+str(get_user_git_username()))
-            # Path to the ZIP file
-            zip_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../test.zip"))
-            ic = identify_contributors(zip_path)
-            # Extract the repo
-            repo_path = ic.extract_repo()
-            if repo_path is None:
-                print("No git repository found in the ZIP.")
-                return
-            # Get the full contribution profile
-            profile = ic.get_full_contribution_profile()
-                
-        if not just_changed and not get_user_git_username()[0] is None and not is_start:
-            while True:
-                response = input("\nWould you like to change you GitHub username? (y/n) ")
-                if response in ['yes', 'y']:
-                    new_username = input("\nWhat is you GitHub user name: ").strip()
-                    update_user_git_username(new_username)
-                    break
-                elif response in ['no', 'n']:
-                    break
-                else:
-                    print("Invalid input. Please enter 'yes' or 'no'.")
 
 def manage_external_services_menu():
     """
@@ -345,6 +228,7 @@ def manage_external_services_menu():
     else:
         print("Invalid choice. Please enter 1, 2, 3, or 4.")
 
+
 def main():
     print("STARTING BACKEND SETUP...")
     
@@ -367,6 +251,7 @@ def main():
     else:
         print("User consent granted. Proceeding with backend setup.")
 
+    # Initialize CollaborativeManager (MOVED HERE - Issue #10 fix)
     collab_manager = CollaborativeManager()
     
     # Check/request collaborative consent
@@ -391,16 +276,13 @@ def main():
         print("="*70)
         print("1. Upload a ZIP file")
         print("2. List stored projects")
-        print("3. Analyze project metrics")
-        print("4. Summarize a project (basic summary)")
-        print("5. Analyze a project (detailed analysis with local fallback)")
-        print("6. Rank all projects")
-        print("7. Manage external service settings")
-        print("8. Cleanup insights for a project")
-        print("9. Exit")
+        print("3. Summarize a project (basic summary)")
+        print("4. Analyze a project (detailed analysis with local fallback)")
+        print("5. Manage external service settings")
+        print("6. Exit")
         print("="*70)
         
-        choice = input("Choose an option (1-9): ").strip()
+        choice = input("Choose an option (1-6): ").strip()
         
         if choice == '1':
             filepath = input("Enter the path to your zip file: ")
@@ -410,46 +292,20 @@ def main():
             list_projects()
             
         elif choice == '3':
-            selected_project = _select_project_interactive("Analyze project metrics")
-            if selected_project:
-                analyze_project_from_db(int(selected_project['id']))
-                
-        elif choice == '4':
             summarize_project_menu()
             
-        elif choice == '5':
+        elif choice == '4':
             analyze_project_menu()
             
-        elif choice == '6':
-            print("\nRanking all projects...")
-            ranked = rank_all_projects()
-            display_rankings(ranked)
-            input("\nPress Enter to continue...")
-            
-        elif choice == '7':
+        elif choice == '5':
             manage_external_services_menu()
             
-        elif choice == '8':
-            pid = input("Enter project ID to clean: ").strip()
-            if pid.isdigit():
-                confirm = input(
-                    f"Delete insights and the uploaded file for project {pid}? "
-                    f"This cannot be undone. (y/n): "
-                ).strip().lower()
-                if confirm in ('y', 'yes'):
-                    m, f, p = delete_insights(int(pid))
-                    print(f"Deleted: project_metrics={m}, file_contents={f}, uploaded_files={p}")
-                else:
-                    print("Cancelled.")
-            else:
-                print("Invalid project ID.")
-                
-        elif choice == '9':
+        elif choice == '6':
             print("Goodbye!")
             break
             
         else:
-            print("Invalid choice. Please enter 1-9.")
+            print("Invalid choice. Please enter 1, 2, 3, 4, 5, or 6.")
 
 if __name__ == "__main__":
     main()
