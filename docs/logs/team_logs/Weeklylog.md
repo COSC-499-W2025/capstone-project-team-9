@@ -539,4 +539,6 @@ Focus will shift next sprint toward expanding integration tests and automated va
 ---
 
 ## **Burnup Chart**
+<img width="1069" height="608" alt="image" src="https://github.com/user-attachments/assets/fb2f97cb-3291-4c63-9321-818d42328a84" />
+<img width="1086" height="671" alt="image" src="https://github.com/user-attachments/assets/68843e6b-89bd-4afa-b06b-c6746cd53580" />
 
