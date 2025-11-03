@@ -484,9 +484,12 @@ Focus will shift next sprint toward expanding integration tests and automated va
 ### **Peer Evaluations**
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-|           |           |             |
-|           |           |             |
-|           |           |             |
+| **Kevin** | **Eric** | Verified collaborative metrics integration and cleanup tool testing |
+| **Kevin** | **Ryan** | Reviewed refactoring PR dependencies and main workflow updates |
+| **Eric** | **Jinxi** | Reviewed upload function feedback integration |
+| **Ryan** | **Kevin** | Reviewed local analysis and permission handling (PR #102) |
+| **Sami** | **Eric** | Verified collaborative metric expansion and contribution logic |
+| **Jinxi** | **Kevin** | Reviewed local analysis menu updates and code structure |
 
 ---
 
