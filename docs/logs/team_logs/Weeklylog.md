@@ -486,7 +486,7 @@ Focus will shift next sprint toward expanding integration tests and automated va
 |-----------|-----------|-------------|
 | **Kevin** | **Eric** | Verified collaborative metrics integration and cleanup tool testing |
 | **Kevin** | **Sami** | Reviewed refactoring PR dependencies and main workflow updates |
-|Please Modify in this row| | |
+|Please Modify in this row| And delete this after everyone finished their weekly log| |
 
 ---
 
