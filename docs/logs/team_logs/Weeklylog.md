@@ -421,9 +421,13 @@ These refactors set the foundation for future scalability and easier feature dev
 ---
 
 ### **Evan**
-(Write what you worked on this week.)
-**Requirements addressed:**
-
+- I wrote the code for pull requests 106 and 103 which closed issues 93, 94, and 105
+- Both pull request included multiple tests or updating of tests to cover the new content
+- I reviewed others code for pull requests 104, 100, 102
+**Requirements addressed:** 
+Issues: #93, #94, #105
+**Impact**
+Added features for identifying collaborative projects from individual projects and collecting the users name so that we can identify which contributor they are. I also added the ability to change preferences which adds flexibility.
 ---
 
 ### **JinXi**
@@ -496,7 +500,8 @@ Focus will shift next sprint toward expanding integration tests and automated va
 - **Refactoring awareness:** As more code becomes centralized, team members should review the new shared utilities (`common/constants.py`, `db_config.py`) before adding similar logic elsewhere.  
 - **PR coordination:** Some PRs depended on others (e.g., #100 before #101). Better scheduling or labeling (e.g., *“merge after”* notes) will help maintain clarity in future sprints.  
 - **Testing standardization:** Although coverage is strong, writing test cases with consistent naming and structure will make future maintenance easier.  
-- **Documentation depth:** Continue improving inline docstrings and README notes for new tools like `cleanup_insights.py` to help onboard new contributors.  
+- **Documentation depth:** Continue improving inline docstrings and README notes for new tools like `cleanup_insights.py` to help onboard new contributors. 
+- The refactoring broke a lot of code especially the database stuff. 
 - Overall, collaboration this sprint was highly effective—communication was proactive, and merge conflicts were resolved quickly.
 
 ### **Peer Evaluations**
@@ -504,6 +509,8 @@ Focus will shift next sprint toward expanding integration tests and automated va
 |-----------|-----------|-------------|
 | **Kevin** | **Eric** | Verified collaborative metrics integration and cleanup tool testing |
 | **Kevin** | **Sami** | Reviewed refactoring PR dependencies and main workflow updates |
+| **Evan** | **Ryan** | Reviewed project ranking PR |
+| **Evan** | **Eric** | Reviewed outside analysis consent PR |
 |Please Modify in this row| And delete this after everyone finished their weekly log| |
 
 ---
@@ -515,6 +522,7 @@ Focus will shift next sprint toward expanding integration tests and automated va
 - Kevin will keep working on the Feature: Retrieve resume and Retrieve Portfolio Information. 
 - Sami will working on xxxx
 - Eric plan to extend the existing analysis module to include project duration, active days, and activity frequency percentages. 
+- Evan will give a percentage or skills available from a collaborative project. 
 - JinXi will xxxxx
 
 ### **Future Work (long term)**
