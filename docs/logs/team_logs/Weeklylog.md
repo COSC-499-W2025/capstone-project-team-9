@@ -418,8 +418,14 @@ This feature enhances the system’s maintainability and data consistency by ens
 ---
 
 ### **JinXi**
-(Write what you worked on this week.)
-**Requirements addressed:**
+Fixed a bug in my code from last week that prevented the system from uploading files and saving files to the database. Check others' PR to make sure no problems in them. PR:
+[Fixed a spelling error and optimized the closing of sursor and conn. #97](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/97)
+
+This bug cause prevented the system from uploading files and saving files to the database. 
+The issue was resolved by accidentally deleting the original code that saved files while modifying the upload_file.py file and then adding it back.
+This means that future code modifications will require running the main program for testing.
+
+Moreover reviewed PR #95, #96, #98, #100, #101, #102
 
 ---
 
