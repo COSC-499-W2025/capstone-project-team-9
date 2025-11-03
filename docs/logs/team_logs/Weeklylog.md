@@ -467,13 +467,19 @@ Focus will shift next sprint toward expanding integration tests and automated va
 
 ---
 
-## **Team Collaboration & Peer Evaluation**
-
 ### **Collaboration Highlights**
-(Add notes about team communication, PR reviews, or sprint meetings.)
+- The team collaborated closely across multiple interconnected PRs, ensuring smooth merges between **refactoring**, **analysis**, and **collaborative metrics** features.  
+- Frequent Discord discussions and GitHub PR reviews helped coordinate large-scale refactoring (#100, #101) without breaking dependencies.  
+- Cross-review between members improved quality control—especially for database changes, constants migration, and new analysis workflows.  
+- Joint debugging sessions were held to verify database consistency after refactoring and to confirm new tests for cleanup and local analysis passed.  
+- Documentation for shared modules (like `db_config.py` and `constants.py`) was reviewed collectively to ensure all team members understood the updated architecture.  
 
 ### **Things to Work On / Reflection**
-(Add brief notes on challenges, improvements for next sprint, or workflow adjustments.)
+- **Refactoring awareness:** As more code becomes centralized, team members should review the new shared utilities (`common/constants.py`, `db_config.py`) before adding similar logic elsewhere.  
+- **PR coordination:** Some PRs depended on others (e.g., #100 before #101). Better scheduling or labeling (e.g., *“merge after”* notes) will help maintain clarity in future sprints.  
+- **Testing standardization:** Although coverage is strong, writing test cases with consistent naming and structure will make future maintenance easier.  
+- **Documentation depth:** Continue improving inline docstrings and README notes for new tools like `cleanup_insights.py` to help onboard new contributors.  
+- Overall, collaboration this sprint was highly effective—communication was proactive, and merge conflicts were resolved quickly.
 
 ### **Peer Evaluations**
 | Reviewer | Reviewee | Focus Area |
