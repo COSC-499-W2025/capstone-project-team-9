@@ -396,9 +396,7 @@ This feature ensures that users can still analyze their projects even if they ch
 
 ### **Eric**
 This week, I focused on completing Issue #87 — “Cleanup Old Insights”, an important maintenance feature for the project’s data-management module.
-
-🧹 Issue #87 — “Cleanup Old Insights”
-
+Issue #87 — “Cleanup Old Insights”
 Implemented a cleanup function to safely remove previously generated insight data from the database.
 --The feature now deletes both file_contents and the corresponding records in uploaded_files, ensuring that outdated or unused project data is fully cleared to free storage and prevent redundant analysis.
 --Added unit tests (test_cleanup_insights.py) using mock database connections to verify the deletion logic and row count behavior without touching real data.
@@ -426,9 +424,14 @@ This feature enhances the system’s maintainability and data consistency by ens
 ---
 
 ### **Ryan**
-(Write what you worked on this week.)
-**Requirements addressed:**
-
+This week I completed two tasks focused on improving system reliability and analytical output.
+- **PR #99 – Resolve Testing Problems:** Reviewed and fixed failing or redundant tests, removed invalid characters (including emojis) that caused encoding issues, and ensured all tests are meaningful, consistent, and aligned with recent refactoring.  
+- **PR #98 – Ranking Projects:** Implemented a ranking feature using Eric’s Key Metrics data to calculate project scores and display them through the CLI. This lays the groundwork for future LLM-based ranking and project summary integration.
+**Requirements addressed:**  
+- Issue #99 – Resolve Testing Problems  
+- Issue #98 – Implement Project Ranking Feature
+**Impact:**  
+Improved test stability across modules and introduced a foundational ranking system that enables users to compare projects quantitatively while preparing for advanced LLM-based evaluation in upcoming sprints.
 ---
 
 ## **Current Status**
