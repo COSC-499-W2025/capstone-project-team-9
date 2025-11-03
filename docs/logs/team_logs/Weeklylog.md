@@ -374,8 +374,23 @@ The overall goal this week was to **optimize code structure**, **increase mainta
 **Impact:** Fully supports **offline/local analysis** while ensuring privacy and transparency, completing a key part of the user consent system.
 
 ### **Kevin**
-(Write what you worked on this week.)
-**Requirements addressed:**
+This week, I completed **PR #102 – Analysis if User Declines Outside Sources**, which delivers the full **local analysis system** with privacy-aware behavior.  
+This feature ensures that users can still analyze their projects even if they choose not to use external APIs. The focus was on making the backend both **privacy-compliant** and **fully functional offline**.
+
+#### **Key Work Completed**
+- Implemented **ProjectAnalyzer** class to coordinate local and external analysis workflows.  
+- Added **external service permission prompts** that explain privacy implications clearly to the user.  
+- Integrated **local-only analysis** for language detection, framework recognition, testing patterns, documentation, and version-control metrics.  
+- Extended the **main CLI menu** to include:  
+  - `Analyze Project (with Local Fallback)`  
+  - `Manage External Service Settings`  
+- Added a new **database table** for tracking service permissions and analysis results.  
+- Wrote **19 comprehensive unit tests** (covering 95 %+ of new functionality).  
+- Verified that all user-declined external service scenarios now fall back to secure, offline analysis.
+
+**Requirements addressed:**  
+- Issue #102 – Analysis if User Declines Outside Sources  
+- (Supports Feature #10 – Conditional Analysis Routing)
 
 ---
 
