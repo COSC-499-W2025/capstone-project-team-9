@@ -502,11 +502,11 @@ Focus will shift next sprint toward expanding integration tests and automated va
 ## **Next Steps**
 
 ### **Immediate**
-Ryan will contiune working on Ranking projects, since this has some merge conflict.
-Kevin will keep working on the Feature: Retrieve resume and Retrieve Portfolio Information. 
-Sami will working on xxxx
-Eric will xxxxx
-JinXi will xxxxx
+- Ryan will contiune working on Ranking projects, since this has some merge conflict.
+- Kevin will keep working on the Feature: Retrieve resume and Retrieve Portfolio Information. 
+- Sami will working on xxxx
+- Eric plan to extend the existing analysis module to include project duration, active days, and activity frequency percentages. 
+- JinXi will xxxxx
 
 ### **Future Work (long term)**
 - **Ranking & Portfolio Features:**  
