@@ -342,9 +342,36 @@ We need to ensure that we are understanding the code that others are writing and
 # Sprint Report – Week 9 (2025/10/27 to 2025/11/02)
 
 ## **Overview**
-(Write a short summary of what this sprint focused on — e.g., new features, integration, testing, or documentation improvements.)
+This sprint focused on **refactoring repetitive code**, **improving database maintainability**, and **enhancing the collaborative analysis features**.  
+We introduced new utility modules to reduce redundancy, added metrics for more detailed contribution tracking, expanded local analysis capabilities, and implemented a database cleanup tool to simplify re-analysis workflows.  
+The overall goal this week was to **optimize code structure**, **increase maintainability**, and **strengthen analysis accuracy** across both individual and collaborative workflows.
 
 ## **Completed Work**
+#### **PR #101 – Refactoring (Part 1 & 2)**
+- Introduced a **`common/constants.py`** file to centralize shared constants across the codebase, eliminating repeated literals.  
+- Refactored **database connection logic** by creating a unified **`db_config.py`** module used across 15+ files.  
+- Greatly improved **code readability** and **maintenance consistency**.  
+- No feature changes or dependency updates, purely structural optimization.  
+**Impact:** Reduced code duplication, standardized configuration management, and prepared the backend for faster iteration.
+
+#### **PR #92 – Collaboration: Expanded Metrics**
+- Enhanced the **collaborative analytics module** to provide more in-depth contribution insights.  
+- Added functions to measure:  
+  - **Lines contributed per collaborator**  
+  - **Files modified**  
+  - **Summary of contributions**  
+- Ensures fairer, more transparent evaluation of teamwork.
+**Impact:** Strengthens the collaborative component by offering richer data on contributor activity.
+
+#### **PR #102 – Analysis if User Declines Outside Sources**
+- Implemented full **privacy-aware analysis fallback** when users opt out of external services.  
+- Added **permission prompts**, **privacy information**, and the **ProjectAnalyzer** class for local workflows.  
+- Built new menu options:  
+  - *Analyze Project*  
+  - *Manage External Service Settings*  
+- Added a **comprehensive 19-test suite (95%+ coverage)**.  
+- Introduced new **database tables** for storing permissions and results.
+**Impact:** Fully supports **offline/local analysis** while ensuring privacy and transparency, completing a key part of the user consent system.
 
 ### **Kevin**
 (Write what you worked on this week.)
