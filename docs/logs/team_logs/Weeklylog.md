@@ -338,3 +338,87 @@ We need to ensure that we are understanding the code that others are writing and
 ## Burnup Chart
 <img width="1052" height="619" alt="image" src="https://github.com/user-attachments/assets/91ae903f-5a34-4592-8a1d-cf0678530db2" />
 <img width="1109" height="689" alt="image" src="https://github.com/user-attachments/assets/884639c3-e3a5-45f4-8cba-3ec0f6028c90" />
+
+# Sprint Report – Week 9 (2025/10/27 to 2025/11/02)
+
+## **Overview**
+(Write a short summary of what this sprint focused on — e.g., new features, integration, testing, or documentation improvements.)
+
+## **Completed Work**
+
+### **Kevin**
+(Write what you worked on this week.)
+**Requirements addressed:**
+
+---
+
+### **Eric**
+(Write what you worked on this week.)
+**Requirements addressed:**
+
+---
+
+### **Sami**
+(Write what you worked on this week.)
+**Requirements addressed:**
+
+---
+
+### **Evan**
+(Write what you worked on this week.)
+**Requirements addressed:**
+
+---
+
+### **JinXi**
+(Write what you worked on this week.)
+**Requirements addressed:**
+
+---
+
+### **Ryan**
+(Write what you worked on this week.)
+**Requirements addressed:**
+
+---
+
+## **Current Status**
+(Summarize the current development progress — modules completed, new branches merged, or system readiness.)
+
+---
+
+## **Testing**
+(Document new tests added, coverage status, or issues discovered during testing.)
+
+---
+
+## **Team Collaboration & Peer Evaluation**
+
+### **Collaboration Highlights**
+(Add notes about team communication, PR reviews, or sprint meetings.)
+
+### **Things to Work On / Reflection**
+(Add brief notes on challenges, improvements for next sprint, or workflow adjustments.)
+
+### **Peer Evaluations**
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+|           |           |             |
+|           |           |             |
+|           |           |             |
+
+---
+
+## **Next Steps**
+
+### **Immediate**
+(Add tasks planned for next sprint start — merges, fixes, or minor improvements.)
+
+### **Future Work**
+(List upcoming larger goals, integrations, or features.)
+
+---
+
+## **Burnup Chart**
+<img width="1050" height="600" alt="image" src="<!-- paste week9 chart link 1 here -->" />
+<img width="1050" height="600" alt="image" src="<!-- paste week9 chart link 2 here -->" />
