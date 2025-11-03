@@ -499,13 +499,6 @@ Focus will shift next sprint toward expanding integration tests and automated va
 - **Documentation depth:** Continue improving inline docstrings and README notes for new tools like `cleanup_insights.py` to help onboard new contributors.  
 - Overall, collaboration this sprint was highly effective—communication was proactive, and merge conflicts were resolved quickly.
 
-### **Peer Evaluations**
-| Reviewer | Reviewee | Focus Area |
-|-----------|-----------|-------------|
-| **Kevin** | **Eric** | Verified collaborative metrics integration and cleanup tool testing |
-| **Kevin** | **Sami** | Reviewed refactoring PR dependencies and main workflow updates |
-|Please Modify in this row| And delete this after everyone finished their weekly log| |
-
 ---
 
 ## **Next Steps**
