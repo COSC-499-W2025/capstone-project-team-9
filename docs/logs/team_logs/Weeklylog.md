@@ -395,8 +395,15 @@ This feature ensures that users can still analyze their projects even if they ch
 ---
 
 ### **Eric**
-(Write what you worked on this week.)
-**Requirements addressed:**
+This week, I focused on completing Issue #87 — “Cleanup Old Insights”, an important maintenance feature for the project’s data-management module.
+
+🧹 Issue #87 — “Cleanup Old Insights”
+
+Implemented a cleanup function to safely remove previously generated insight data from the database.
+--The feature now deletes both file_contents and the corresponding records in uploaded_files, ensuring that outdated or unused project data is fully cleared to free storage and prevent redundant analysis.
+--Added unit tests (test_cleanup_insights.py) using mock database connections to verify the deletion logic and row count behavior without touching real data.
+--Integrated the cleanup option into the main menu, allowing users to manually trigger data cleanup through the CLI interface with confirmation prompts.
+This feature enhances the system’s maintainability and data consistency by ensuring that obsolete projects and their artifacts can be removed cleanly.
 
 ---
 
