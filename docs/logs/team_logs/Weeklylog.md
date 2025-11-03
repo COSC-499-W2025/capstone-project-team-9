@@ -500,7 +500,6 @@ Eric will xxxxx
 JinXi will xxxxx
 
 ### **Future Work (long term)**
-(List upcoming larger goals, integrations, or features.)
 - **Ranking & Portfolio Features:**  
   - Implement project ranking based on combined metrics (activity, skill diversity, collaboration level, and recency).  
   - Develop visual or textual summaries highlighting top projects and individual strengths.  
