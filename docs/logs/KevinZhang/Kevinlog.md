@@ -61,7 +61,7 @@ I created the `LocalAnalyzer` class in `src/analysis/local_analyzer.py` - a comp
 
 <img width="1054" height="600" alt="image" src="https://github.com/user-attachments/assets/4e89a800-cd0e-4914-9d8f-8af3617f5980" />
 
-# Personal Log – Week 9 (2025/10/27 to 2025/11/02)
+# What I did this week – Week 9 (2025/10/27 to 2025/11/02)
 
 ## Overview
 This week I focused on implementing a new analysis workflow that functions completely offline and respects user privacy preferences.  
