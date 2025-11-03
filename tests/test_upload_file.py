@@ -5,7 +5,7 @@ import pytest
 import zipfile
 import tempfile
 import shutil
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 
 # Adjust the path to import from src
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
@@ -41,18 +41,18 @@ class TestUploadFile:
         return file_path
     
     @patch('src.upload_file.extract_and_store_file_contents')
-    @patch('src.upload_file.with_db_cursor')
-    def test_add_file_to_db_success(self, mock_with_db_cursor, mock_extract_and_store_file_contents):
+    @patch('src.upload_file.get_connection')
+    def test_add_file_to_db_success(self, mock_get_connection, mock_extract_and_store_file_contents):
 
         """Test successful file upload to database"""
         # Create a valid ZIP file for testing
         zip_path = self.create_test_zip()
         
-        # Mock the database cursor
+        # Mock the database connection
+        mock_conn = Mock()
         mock_cursor = Mock()
-        mock_context = MagicMock()
-        mock_context.__enter__.return_value = mock_cursor
-        mock_with_db_cursor.return_value = mock_context
+        mock_get_connection.return_value = mock_conn
+        mock_conn.cursor.return_value = mock_cursor
         mock_cursor.fetchone.return_value = [123]  # Mock file_id
 
         # Call the function to add the file to the Database
@@ -68,8 +68,10 @@ class TestUploadFile:
         assert result.data["file_count"] >= 1
         
         # Verify database operations
-        mock_with_db_cursor.assert_called_once()
+        mock_get_connection.assert_called_once()
         mock_cursor.execute.assert_called_once()
+        mock_conn.commit.assert_called_once()
+        mock_conn.close.assert_called_once()
         
         # Verify the execute call contains correct parameters
         call_args = mock_cursor.execute.call_args
@@ -101,15 +103,14 @@ class TestUploadFile:
         assert result.error_type == "INVALID_FORMAT"
         assert "Invalid file format" in result.message
     
-    @patch('src.upload_file.extract_and_store_file_contents')
-    @patch('src.upload_file.with_db_cursor')
+    @patch('src.upload_file.get_connection')
     # This is a mock database connection and it mocks it to return None to see if the function handles it correctly when the database fails to connect
-    def test_add_file_to_db_database_connection_failure(self, mock_with_db_cursor, mock_extract_and_store_file_contents):
+    def test_add_file_to_db_database_connection_failure(self, mock_get_connection):
         """Test handling of database connection failure"""
         zip_path = self.create_test_zip()
         
         # Mock database connection failure
-        mock_with_db_cursor.side_effect = ConnectionError("Could not connect to database")
+        mock_get_connection.return_value = None
         
         # Should return UploadResult with database error
         result = add_file_to_db(zip_path)
@@ -131,17 +132,16 @@ class TestUploadFile:
         assert result.error_type == "INVALID_FORMAT"
         assert "Invalid file format" in result.message
     
-    @patch('src.upload_file.extract_and_store_file_contents')
-    @patch('src.upload_file.with_db_cursor')
-    def test_add_file_to_db_database_save_failure(self, mock_with_db_cursor, mock_extract_and_store_file_contents):
+    @patch('src.upload_file.get_connection')
+    def test_add_file_to_db_database_save_failure(self, mock_get_connection):
         """Test handling of database save failure"""
         zip_path = self.create_test_zip()
         
-        # Mock database cursor that fails on execute
+        # Mock database connection that fails on execute
+        mock_conn = Mock()
         mock_cursor = Mock()
-        mock_context = MagicMock()
-        mock_context.__enter__.return_value = mock_cursor
-        mock_with_db_cursor.return_value = mock_context
+        mock_get_connection.return_value = mock_conn
+        mock_conn.cursor.return_value = mock_cursor
         mock_cursor.execute.side_effect = Exception("Database error")
         
         result = add_file_to_db(zip_path)
@@ -149,6 +149,8 @@ class TestUploadFile:
         assert result.success is False
         assert result.error_type == "DATABASE_SAVE_ERROR"
         assert "Database save failed" in result.message
+        mock_conn.rollback.assert_called_once()
+        mock_conn.close.assert_called_once()
     
     @patch('src.upload_file.shutil.copy')
     def test_add_file_to_db_copy_failure(self, mock_copy):
@@ -180,17 +182,16 @@ class TestUploadFile:
         assert result.error_type == "DIRECTORY_ERROR"
         assert "Failed to create upload directory" in result.message
     
-    @patch('src.upload_file.extract_and_store_file_contents')
-    @patch('src.upload_file.with_db_cursor')
-    def test_upload_result_to_dict(self, mock_with_db_cursor, mock_extract_and_store_file_contents):
+    @patch('src.upload_file.get_connection')
+    def test_upload_result_to_dict(self, mock_get_connection):
         """Test UploadResult.to_dict() method from actual upload operation"""
         zip_path = self.create_test_zip()
         
         # Mock successful database operation
+        mock_conn = Mock()
         mock_cursor = Mock()
-        mock_context = MagicMock()
-        mock_context.__enter__.return_value = mock_cursor
-        mock_with_db_cursor.return_value = mock_context
+        mock_get_connection.return_value = mock_conn
+        mock_conn.cursor.return_value = mock_cursor
         mock_cursor.fetchone.return_value = [456]
         
         # Execute actual upload
