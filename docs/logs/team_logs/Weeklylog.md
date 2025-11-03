@@ -420,5 +420,3 @@ We need to ensure that we are understanding the code that others are writing and
 ---
 
 ## **Burnup Chart**
-<img width="1050" height="600" alt="image" src="<!-- paste week9 chart link 1 here -->" />
-<img width="1050" height="600" alt="image" src="<!-- paste week9 chart link 2 here -->" />
