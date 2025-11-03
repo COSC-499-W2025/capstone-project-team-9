@@ -60,3 +60,33 @@ I created the `LocalAnalyzer` class in `src/analysis/local_analyzer.py` - a comp
 - Feature: Retrieve Portfolio Information #24
 
 <img width="1054" height="600" alt="image" src="https://github.com/user-attachments/assets/4e89a800-cd0e-4914-9d8f-8af3617f5980" />
+
+# Personal Log – Week 9 (2025/10/27 to 2025/11/02)
+
+## Overview
+This week I focused on implementing a new analysis workflow that functions completely offline and respects user privacy preferences.  
+I completed PR #102, which allows the system to perform local analysis when a user declines external service usage.  
+In addition to this, I participated in code reviews, testing, and team discussions to ensure the stability of the refactored backend.
+
+## What I Did
+- Implemented **ProjectAnalyzer** class to coordinate both local and external analysis workflows.  
+- Added permission prompts and privacy handling for users who opt out of external APIs.  
+- Integrated the new local analysis workflow into the command-line interface, adding options for “Analyze Project” and “Manage External Services.”  
+- Created and updated database tables to store service permissions and analysis results.  
+- Wrote and verified **19 unit tests** to ensure analysis routing and fallback behavior worked correctly.  
+- Collaborated with teammates on refactoring and testing tasks to maintain consistency across the system.  
+- Reviewed teammate code to confirm compatibility with the new local analysis logic.  
+- Participated in team meetings and debugging sessions to coordinate progress and fix test issues.
+
+## Reflection
+This week’s work significantly improved the system’s flexibility and privacy compliance.  
+The local analysis implementation ensures that users can run meaningful project evaluations without internet access or external API dependencies.  
+Through collaboration and testing, I helped strengthen the project’s reliability and modular design while reinforcing good testing and documentation practices.
+<img width="1044" height="613" alt="image" src="https://github.com/user-attachments/assets/46b7cd37-bcd0-4328-8568-06676c91ea13" />
+
+### **Next Steps**
+- Feature: Retrieve Portfolio Information #24 and resume information
+- Debugging, refactoring. 
+
+### **Next Steps**###
+<img width="1044" height="613" alt="image" src="https://github.com/user-attachments/assets/891222a2-5135-4c26-985e-c41af51b6e9f" />
