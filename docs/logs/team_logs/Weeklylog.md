@@ -511,6 +511,11 @@ Focus will shift next sprint toward expanding integration tests and automated va
 | **Kevin** | **Sami** | Reviewed refactoring PR dependencies and main workflow updates |
 | **Evan** | **Ryan** | Reviewed project ranking PR |
 | **Evan** | **Eric** | Reviewed outside analysis consent PR |
+| **Sami** | **Kevin** | Analysis with Local Feedback PR |
+| **Sami** | **Evan** | Reviewed collaboration more metrics PR |
+| **Sami** | **Eric** | Reviewed Clean Up Old Insights by Project PR |
+| **Sami** | **Jinxi** | Reviewed Optimizing, and Fixing spelling errors  PR |
+| **Sami** | **Ryan** | Reviewed test fix PR |
 |Please Modify in this row| And delete this after everyone finished their weekly log| |
 
 ---
@@ -520,7 +525,7 @@ Focus will shift next sprint toward expanding integration tests and automated va
 ### **Immediate**
 - Ryan will contiune working on Ranking projects, since this has some merge conflict.
 - Kevin will keep working on the Feature: Retrieve resume and Retrieve Portfolio Information. 
-- Sami will working on xxxx
+- Sami will work on organizing, and planning our next steps for November's milestone. This includes verifying feature completion, refactoring, and bug fixes. 
 - Eric plan to extend the existing analysis module to include project duration, active days, and activity frequency percentages. 
 - Evan will give a percentage or skills available from a collaborative project. 
 - JinXi will xxxxx
