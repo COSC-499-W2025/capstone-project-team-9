@@ -406,8 +406,17 @@ This feature enhances the system’s maintainability and data consistency by ens
 ---
 
 ### **Sami**
-(Write what you worked on this week.)
-**Requirements addressed:**
+This week I focused on backend refactoring to reduce repetitive code and improve maintainability across the project.
+- **PR #100 & #101 – Refactoring:**  
+  - Consolidated repeated database connection logic into a shared module (`db_config.py`), now used across multiple files.  
+  - Created a new `common/constants.py` file to centralize frequently used constants and configuration values.  
+  - Updated imports and removed redundant code throughout the backend to ensure consistency.  
+  - Verified that all refactored modules work seamlessly with existing features and tests.
+**Requirements addressed:**  
+- Issue #101 – Codebase Refactoring and Optimization  
+**Impact:**  
+Improved code organization, reduced duplication, and increased backend maintainability.  
+These refactors set the foundation for future scalability and easier feature development.
 
 ---
 
