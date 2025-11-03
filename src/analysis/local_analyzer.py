@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional
 from datetime import datetime
+from common.constants import LANGUAGE_EXTENSIONS, DOCUMENT_EXTENSIONS, DESIGN_EXTENSIONS
 
 
 class LocalAnalyzer:
@@ -12,39 +13,9 @@ class LocalAnalyzer:
     """
     
     # Language detection patterns
-    LANGUAGE_EXTENSIONS = {
-        '.py': 'Python',
-        '.js': 'JavaScript',
-        '.jsx': 'JavaScript (React)',
-        '.ts': 'TypeScript',
-        '.tsx': 'TypeScript (React)',
-        '.java': 'Java',
-        '.cpp': 'C++',
-        '.c': 'C',
-        '.h': 'C/C++ Header',
-        '.cs': 'C#',
-        '.rb': 'Ruby',
-        '.php': 'PHP',
-        '.go': 'Go',
-        '.rs': 'Rust',
-        '.swift': 'Swift',
-        '.kt': 'Kotlin',
-        '.scala': 'Scala',
-        '.r': 'R',
-        '.m': 'MATLAB/Objective-C',
-        '.sql': 'SQL',
-        '.html': 'HTML',
-        '.css': 'CSS',
-        '.scss': 'SCSS',
-        '.sass': 'SASS',
-        '.json': 'JSON',
-        '.xml': 'XML',
-        '.yml': 'YAML',
-        '.yaml': 'YAML',
-        '.sh': 'Shell Script',
-        '.bash': 'Bash Script',
-        '.ps1': 'PowerShell',
-    }
+    LANGUAGE_EXTENSIONS = LANGUAGE_EXTENSIONS
+    DOCUMENT_EXTENSIONS = DOCUMENT_EXTENSIONS
+    DESIGN_EXTENSIONS = DESIGN_EXTENSIONS
     
     # Framework detection patterns (in file content or names)
     FRAMEWORK_PATTERNS = {
@@ -59,29 +30,6 @@ class LocalAnalyzer:
         'Docker': ['Dockerfile', 'docker-compose.yml'],
         'PostgreSQL': [r'psycopg2', r'postgresql://'],
         'MongoDB': [r'mongoose', r'mongodb://'],
-    }
-    
-    # Document types
-    DOCUMENT_EXTENSIONS = {
-        '.md': 'Markdown',
-        '.txt': 'Text',
-        '.pdf': 'PDF',
-        '.doc': 'Word Document',
-        '.docx': 'Word Document',
-        '.rst': 'reStructuredText',
-    }
-    
-    # Design file types
-    DESIGN_EXTENSIONS = {
-        '.png': 'PNG Image',
-        '.jpg': 'JPEG Image',
-        '.jpeg': 'JPEG Image',
-        '.gif': 'GIF Image',
-        '.svg': 'SVG Vector',
-        '.psd': 'Photoshop',
-        '.ai': 'Illustrator',
-        '.sketch': 'Sketch',
-        '.fig': 'Figma',
     }
     
     def __init__(self):
@@ -268,8 +216,12 @@ class LocalAnalyzer:
                     metrics['total_file_size_bytes'] += file_size
                     file_sizes.append(file_size)
                     
-                    # Categorize files
-                    if ext in self.LANGUAGE_EXTENSIONS:
+                    # Categorize files (check documents first since .md can be in both)
+                    if ext in self.DOCUMENT_EXTENSIONS:
+                        metrics['document_files'] += 1
+                    elif ext in self.DESIGN_EXTENSIONS:
+                        metrics['design_files'] += 1
+                    elif ext in self.LANGUAGE_EXTENSIONS:
                         metrics['code_files'] += 1
                         # Count lines of code
                         try:
@@ -277,10 +229,6 @@ class LocalAnalyzer:
                                 metrics['total_lines_of_code'] += sum(1 for _ in f)
                         except Exception:
                             pass
-                    elif ext in self.DOCUMENT_EXTENSIONS:
-                        metrics['document_files'] += 1
-                    elif ext in self.DESIGN_EXTENSIONS:
-                        metrics['design_files'] += 1
                     else:
                         metrics['other_files'] += 1
                 
@@ -374,13 +322,13 @@ class LocalAnalyzer:
                 # Count by extension
                 breakdown['by_extension'][ext] = breakdown['by_extension'].get(ext, 0) + 1
                 
-                # Count by category
-                if ext in self.LANGUAGE_EXTENSIONS:
-                    breakdown['by_category']['code'] += 1
-                elif ext in self.DOCUMENT_EXTENSIONS:
+                # Count by category (check documents first since .md can be in both)
+                if ext in self.DOCUMENT_EXTENSIONS:
                     breakdown['by_category']['documents'] += 1
                 elif ext in self.DESIGN_EXTENSIONS:
                     breakdown['by_category']['design'] += 1
+                elif ext in self.LANGUAGE_EXTENSIONS:
+                    breakdown['by_category']['code'] += 1
                 elif ext in ['.json', '.yml', '.yaml', '.xml', '.env', '.ini']:
                     breakdown['by_category']['config'] += 1
                 else:

@@ -1,6 +1,6 @@
 # src/database/user_preferences.py
 
-from config.db_config import get_connection
+from config.db_config import with_db_cursor
 
 def init_user_preferences_table():
     """
@@ -14,6 +14,7 @@ def init_user_preferences_table():
             user_id SERIAL PRIMARY KEY,
             consent BOOLEAN NOT NULL,
             collaborative BOOLEAN NOT NULL,
+            git_username VARCHAR(255),
             last_updated TIMESTAMP DEFAULT NOW()
         );
     """)
@@ -26,16 +27,18 @@ def update_user_preferences(consent: bool):
     Update the user's consent preference in the database.
     If the record doesn't exist, insert it.
     """
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO user_preferences (user_id, consent, last_updated)
-        VALUES (1, %s, NOW())
-        ON CONFLICT (user_id)
-        DO UPDATE SET consent = EXCLUDED.consent, last_updated = NOW();
-    """, (consent,))
-    conn.commit()
-    conn.close()
+    try:
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO user_preferences (user_id, consent, last_updated)
+                VALUES (1, %s, NOW())
+                ON CONFLICT (user_id)
+                DO UPDATE SET consent = EXCLUDED.consent, last_updated = NOW();
+            """, (consent,))
+    except ConnectionError:
+        raise Exception("Failed to connect to database")
+    except Exception as e:
+        raise Exception(f"Error updating user preferences: {e}")
 
 
 def get_user_preferences():
@@ -44,28 +47,33 @@ def get_user_preferences():
     Returns:
         tuple: (consent: bool, last_updated: datetime) or None
     """
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT consent, last_updated FROM user_preferences WHERE user_id = 1;")
-    result = cursor.fetchone()
-    conn.close()
-    return result
+    try:
+        with with_db_cursor() as cursor:
+            cursor.execute("SELECT consent, last_updated FROM user_preferences WHERE user_id = 1;")
+            result = cursor.fetchone()
+        return result
+    except ConnectionError:
+        return None
+    except Exception:
+        return None
 
 def update_user_collaboration(collaborative: bool):
     """
     Update the user's consent preference in the database.
     If the record doesn't exist, insert it.
     """
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO user_preferences (user_id, collaborative, last_updated)
-        VALUES (1, %s, NOW())
-        ON CONFLICT (user_id)
-        DO UPDATE SET consent = EXCLUDED.consent, last_updated = NOW();
-    """, (collaborative,))
-    conn.commit()
-    conn.close()
+    try:
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO user_preferences (user_id, collaborative, last_updated)
+                VALUES (1, %s, NOW())
+                ON CONFLICT (user_id)
+                DO UPDATE SET consent = EXCLUDED.consent, last_updated = NOW();
+            """, (collaborative,))
+    except ConnectionError:
+        raise Exception("Failed to connect to database")
+    except Exception as e:
+        raise Exception(f"Error updating user collaboration: {e}")
 
 
 def get_user_callaboration():
@@ -77,6 +85,26 @@ def get_user_callaboration():
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT collaborative, last_updated FROM user_preferences WHERE user_id = 1;")
+    result = cursor.fetchone()
+    conn.close()
+    return result
+
+def update_user_git_username(git_username: str):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO user_preferences (user_id, git_username, last_updated)
+        VALUES (1, %s, NOW())
+        ON CONFLICT (user_id)
+        DO UPDATE SET git_username = EXCLUDED.git_username, last_updated = NOW();
+    """, (git_username,))
+    conn.commit()
+    conn.close()
+
+def get_user_git_username():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT git_username FROM user_preferences WHERE user_id = 1;")
     result = cursor.fetchone()
     conn.close()
     return result

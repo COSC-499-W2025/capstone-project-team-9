@@ -2,7 +2,7 @@ import os
 import shutil
 import zipfile
 import json
-from config.db_config import get_connection
+from config.db_config import with_db_cursor
 from parsing.file_validator import validate_uploaded_file, WrongFormatError
 from parsing.file_contents_manager import init_file_contents_table, extract_and_store_file_contents, get_file_contents_by_upload_id
 
@@ -27,10 +27,6 @@ class UploadResult:
 
 def init_uploaded_files_table():
     """Create the uploaded_files table if it doesn't exist."""
-    conn = get_connection()
-    if not conn:
-        raise Exception("Failed to connect to database")
-    
     try:
         cursor = conn.cursor()
         cursor.execute("""
@@ -51,12 +47,11 @@ def init_uploaded_files_table():
         # Also initialize the file contents table
         init_file_contents_table()
         
+    except ConnectionError:
+        raise Exception("Failed to connect to database")
     except Exception as e:
-        conn.rollback()
         print(f" Error initializing uploaded_files table: {e}")
         raise
-    finally:
-        conn.close()
 
 def add_file_to_db(filepath) -> UploadResult:
     """
@@ -127,16 +122,7 @@ def add_file_to_db(filepath) -> UploadResult:
             data={"filepath": dest_path}
         )
     
-    # 6. Connect to database
-    conn = get_connection()
-    if not conn:
-        return UploadResult(
-            success=False,
-            message="Could not connect to database",
-            error_type="DATABASE_CONNECTION_ERROR"
-        )
-    
-    # 7. Save to database
+    # 6. Save to database
     try:
         cur = conn.cursor()
         with open(dest_path, "rb") as f:
@@ -149,7 +135,6 @@ def add_file_to_db(filepath) -> UploadResult:
         
         uploaded_file_id = cur.fetchone()[0]
         conn.commit()
-        
         # Extract and store file contents
         print("Extracting file contents...")
         extraction_result = extract_and_store_file_contents(uploaded_file_id, dest_path)
@@ -167,16 +152,19 @@ def add_file_to_db(filepath) -> UploadResult:
             }
         )
 
+    except ConnectionError:
+        return UploadResult(
+            success=False,
+            message="Could not connect to database",
+            error_type="DATABASE_CONNECTION_ERROR"
+        )
     except Exception as e:
-        conn.rollback()
         return UploadResult(
             success=False,
             message=f"Database save failed: {str(e)}",
             error_type="DATABASE_SAVE_ERROR",
             data={"filename": filename}
         )
-    finally:
-        conn.close()
 
 
 def get_uploaded_file_contents(uploaded_file_id):
@@ -199,22 +187,17 @@ def list_uploaded_files():
     Returns:
         list: List of uploaded file records
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return []
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, filename, filepath, status, metadata, created_at
-            FROM uploaded_files
-            ORDER BY created_at DESC
-        """)
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT id, filename, filepath, status, metadata, created_at
+                FROM uploaded_files
+                ORDER BY created_at DESC
+            """)
+            
+            results = cursor.fetchall()
         
-        results = cursor.fetchall()
         files = []
-        
         for row in results:
             files.append({
                 "id": row[0],
@@ -227,11 +210,9 @@ def list_uploaded_files():
         
         return files
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return []
     except Exception as e:
         print(f"Error retrieving uploaded files: {e}")
         return []
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()

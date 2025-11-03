@@ -7,10 +7,6 @@ from config.db_config import get_connection
 
 def init_file_contents_table():
     """Create the file_contents table if it doesn't exist."""
-    conn = get_connection()
-    if not conn:
-        raise Exception("Failed to connect to database")
-    
     try:
         cursor = conn.cursor()
         cursor.execute("""
@@ -30,12 +26,11 @@ def init_file_contents_table():
         conn.commit()
         cursor.close()
         print("File contents table initialized")
+    except ConnectionError:
+        raise Exception("Failed to connect to database")
     except Exception as e:
-        conn.rollback()
         print(f"Error initializing file_contents table: {e}")
         raise
-    finally:
-        conn.close()
 
 
 def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1000, batch_size=50):
@@ -59,11 +54,6 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
     if not zipfile.is_zipfile(zip_file_path):
         print(f"Not a valid zip file: {zip_file_path}")
         return {"success": False, "error": "Invalid zip file"}
-    
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return {"success": False, "error": "Database connection failed"}
     
     extracted_files = []
     errors = []
@@ -129,14 +119,13 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
                 "processed_count": processed_count
             }
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return {"success": False, "error": "Database connection failed"}
     except Exception as e:
-        conn.rollback()
         error_msg = f"Error extracting zip contents: {str(e)}"
         print(error_msg)
         return {"success": False, "error": error_msg}
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def _insert_batch(cursor, batch_data):
@@ -188,32 +177,26 @@ def get_file_contents_by_folder(uploaded_file_id, folder_path=""):
     Returns:
         dict: File line counts organized by folder structure
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return {}
-    
     try:
-        cursor = conn.cursor()
-        
-        if folder_path:
-            cursor.execute("""
-                SELECT file_path, file_name, file_extension, file_size,
-                       file_content, content_type, is_binary, created_at
-                FROM file_contents
-                WHERE uploaded_file_id = %s AND file_path LIKE %s
-                ORDER BY file_path
-            """, (uploaded_file_id, f"{folder_path}%"))
-        else:
-            cursor.execute("""
-                SELECT file_path, file_name, file_extension, file_size,
-                       file_content, content_type, is_binary, created_at
-                FROM file_contents
-                WHERE uploaded_file_id = %s
-                ORDER BY file_path
-            """, (uploaded_file_id,))
-        
-        results = cursor.fetchall()
+        with with_db_cursor() as cursor:
+            if folder_path:
+                cursor.execute("""
+                    SELECT file_path, file_name, file_extension, file_size,
+                           file_content, content_type, is_binary, created_at
+                    FROM file_contents
+                    WHERE uploaded_file_id = %s AND file_path LIKE %s
+                    ORDER BY file_path
+                """, (uploaded_file_id, f"{folder_path}%"))
+            else:
+                cursor.execute("""
+                    SELECT file_path, file_name, file_extension, file_size,
+                           file_content, content_type, is_binary, created_at
+                    FROM file_contents
+                    WHERE uploaded_file_id = %s
+                    ORDER BY file_path
+                """, (uploaded_file_id,))
+            
+            results = cursor.fetchall()
         
         # Organize files by folder structure
         folder_structure = {}
@@ -247,12 +230,12 @@ def get_file_contents_by_folder(uploaded_file_id, folder_path=""):
         
         return folder_structure
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return {}
     except Exception as e:
         print(f"Error retrieving file contents by folder: {e}")
         return {}
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def get_file_statistics(uploaded_file_id):
@@ -265,61 +248,55 @@ def get_file_statistics(uploaded_file_id):
     Returns:
         dict: File statistics
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return {}
-    
     try:
-        cursor = conn.cursor()
-        
-        # Get basic counts
-        cursor.execute("""
-            SELECT 
-                COUNT(*) as total_files,
-                SUM(file_size) as total_size,
-                COUNT(CASE WHEN is_binary = false THEN 1 END) as text_files,
-                COUNT(CASE WHEN is_binary = true THEN 1 END) as binary_files
-            FROM file_contents
-            WHERE uploaded_file_id = %s
-        """, (uploaded_file_id,))
-        
-        stats = cursor.fetchone()
-        
-        # Handle case where no files are found
-        if not stats or len(stats) < 4:
-            return {
-                "total_files": 0,
-                "total_size_bytes": 0,
-                "text_files": 0,
-                "binary_files": 0,
-                "file_extensions": [],
-                "folders": []
-            }
-        
-        # Get file extensions
-        cursor.execute("""
-            SELECT file_extension, COUNT(*) as count
-            FROM file_contents
-            WHERE uploaded_file_id = %s AND file_extension != ''
-            GROUP BY file_extension
-            ORDER BY count DESC
-        """, (uploaded_file_id,))
-        
-        extensions = cursor.fetchall()
-        
-        # Get folder structure (simplified approach)
-        cursor.execute("""
-            SELECT 
-                COALESCE(split_part(file_path, '/', 1), 'root') as folder,
-                COUNT(*) as file_count
-            FROM file_contents
-            WHERE uploaded_file_id = %s
-            GROUP BY folder
-            ORDER BY folder
-        """, (uploaded_file_id,))
-        
-        folders = cursor.fetchall()
+        with with_db_cursor() as cursor:
+            # Get basic counts
+            cursor.execute("""
+                SELECT 
+                    COUNT(*) as total_files,
+                    SUM(file_size) as total_size,
+                    COUNT(CASE WHEN is_binary = false THEN 1 END) as text_files,
+                    COUNT(CASE WHEN is_binary = true THEN 1 END) as binary_files
+                FROM file_contents
+                WHERE uploaded_file_id = %s
+            """, (uploaded_file_id,))
+            
+            stats = cursor.fetchone()
+            
+            # Handle case where no files are found
+            if not stats or len(stats) < 4:
+                return {
+                    "total_files": 0,
+                    "total_size_bytes": 0,
+                    "text_files": 0,
+                    "binary_files": 0,
+                    "file_extensions": [],
+                    "folders": []
+                }
+            
+            # Get file extensions
+            cursor.execute("""
+                SELECT file_extension, COUNT(*) as count
+                FROM file_contents
+                WHERE uploaded_file_id = %s AND file_extension != ''
+                GROUP BY file_extension
+                ORDER BY count DESC
+            """, (uploaded_file_id,))
+            
+            extensions = cursor.fetchall()
+            
+            # Get folder structure (simplified approach)
+            cursor.execute("""
+                SELECT 
+                    COALESCE(split_part(file_path, '/', 1), 'root') as folder,
+                    COUNT(*) as file_count
+                FROM file_contents
+                WHERE uploaded_file_id = %s
+                GROUP BY folder
+                ORDER BY folder
+            """, (uploaded_file_id,))
+            
+            folders = cursor.fetchall()
         
         return {
             "total_files": stats[0] or 0,
@@ -330,12 +307,12 @@ def get_file_statistics(uploaded_file_id):
             "folders": [{"folder": folder[0], "file_count": folder[1]} for folder in folders]
         }
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return {}
     except Exception as e:
         print(f"Error getting file statistics: {e}")
         return {}
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def get_file_contents_by_upload_id(uploaded_file_id):
@@ -348,24 +325,19 @@ def get_file_contents_by_upload_id(uploaded_file_id):
     Returns:
         list: List of file line count records
     """
-    conn = get_connection()
-    if not conn:
-        print("Could not connect to database.")
-        return []
-    
     try:
-        cursor = conn.cursor()
-        cursor.execute("""
-            SELECT id, file_path, file_name, file_extension, file_size,
-                   file_content, content_type, is_binary, created_at
-            FROM file_contents
-            WHERE uploaded_file_id = %s
-            ORDER BY file_path
-        """, (uploaded_file_id,))
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT id, file_path, file_name, file_extension, file_size,
+                       file_content, content_type, is_binary, created_at
+                FROM file_contents
+                WHERE uploaded_file_id = %s
+                ORDER BY file_path
+            """, (uploaded_file_id,))
+            
+            results = cursor.fetchall()
         
-        results = cursor.fetchall()
         files = []
-        
         for row in results:
             files.append({
                 "id": row[0],
@@ -381,12 +353,12 @@ def get_file_contents_by_upload_id(uploaded_file_id):
         
         return files
         
+    except ConnectionError:
+        print("Could not connect to database.")
+        return []
     except Exception as e:
         print(f"Error retrieving file contents: {e}")
         return []
-    finally:
-        cursor.close()
-        conn.close()
 
 
 def _is_binary_file(file_extension):

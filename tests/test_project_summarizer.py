@@ -365,14 +365,14 @@ class TestSummarizeProjectFunction:
 class TestGetAvailableProjects:
     """Test suite for the get_available_projects function"""
     
-    @patch('src.project_summarizer.get_connection')
-    def test_get_available_projects_success(self, mock_get_connection):
+    @patch('src.project_summarizer.with_db_cursor')
+    def test_get_available_projects_success(self, mock_with_db_cursor):
         """Test successful retrieval of available projects"""
-        # Mock database connection
-        mock_conn = Mock()
+        # Mock database cursor
         mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
         
         # Mock database results
         mock_projects = [
@@ -384,7 +384,7 @@ class TestGetAvailableProjects:
         projects = get_available_projects()
         
         # Verify the function calls
-        mock_get_connection.assert_called_once()
+        mock_with_db_cursor.assert_called_once()
         mock_cursor.execute.assert_called_once()
         mock_cursor.fetchall.assert_called_once()
         
@@ -395,23 +395,23 @@ class TestGetAvailableProjects:
         assert projects[1]['id'] == 2
         assert projects[1]['filename'] == 'project2.zip'
     
-    @patch('src.project_summarizer.get_connection')
-    def test_get_available_projects_no_connection(self, mock_get_connection):
+    @patch('src.project_summarizer.with_db_cursor')
+    def test_get_available_projects_no_connection(self, mock_with_db_cursor):
         """Test get_available_projects when database connection fails"""
-        mock_get_connection.return_value = None
+        mock_with_db_cursor.side_effect = ConnectionError("Could not connect to database")
         
         projects = get_available_projects()
         
         assert projects == []
     
-    @patch('src.project_summarizer.get_connection')
-    def test_get_available_projects_database_error(self, mock_get_connection):
+    @patch('src.project_summarizer.with_db_cursor')
+    def test_get_available_projects_database_error(self, mock_with_db_cursor):
         """Test get_available_projects when database query fails"""
-        # Mock database connection
-        mock_conn = Mock()
+        # Mock database cursor
         mock_cursor = Mock()
-        mock_get_connection.return_value = mock_conn
-        mock_conn.cursor.return_value = mock_cursor
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
         
         # Mock database error
         mock_cursor.execute.side_effect = Exception("Database error")
