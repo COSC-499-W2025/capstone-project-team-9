@@ -493,11 +493,32 @@ Focus will shift next sprint toward expanding integration tests and automated va
 ## **Next Steps**
 
 ### **Immediate**
-(Add tasks planned for next sprint start — merges, fixes, or minor improvements.)
+Ryan will contiune working on Ranking projects, since this has some merge conflict.
+Kevin will keep working on the Feature: Retrieve resume and Retrieve Portfolio Information. 
+Sami will working on xxxx
+Eric will xxxxx
+JinXi will xxxxx
 
-### **Future Work**
+### **Future Work (long term)**
 (List upcoming larger goals, integrations, or features.)
-
+- **Ranking & Portfolio Features:**  
+  - Implement project ranking based on combined metrics (activity, skill diversity, collaboration level, and recency).  
+  - Develop visual or textual summaries highlighting top projects and individual strengths.  
+- **Reporting & Visualization:**  
+  - Generate human-readable or exportable reports (PDF/HTML) summarizing project metrics, skills, and contributions.  
+  - Integrate CLI output with a dashboard or future web interface for richer analytics.  
+- **Enhanced Collaboration Insights:**  
+  - Use stored GitHub usernames to pull additional metadata (commits, authorship) for deeper contribution analysis.  
+  - Provide percentage breakdowns and role identification per collaborator.  
+- **Automated Maintenance:**  
+  - Schedule background cleanup or data-validation routines to prevent database bloat over time.  
+  - Add monitoring for duplicated or orphaned records after repeated uploads.  
+- **Scalability & Deployment:**  
+  - Containerize the finalized backend and test deployment stability with Docker Compose.  
+  - Prepare for CI/CD integration and automated test runs before merges.  
+- **User Experience Enhancements:**  
+  - Refine CLI interface with clearer feedback, color coding, and progress indicators.  
+  - Add help commands and inline documentation for new menu options.
 ---
 
 ## **Burnup Chart**
