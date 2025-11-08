@@ -145,3 +145,29 @@ This week, I focused on completing Issue #87 — “Cleanup Old Insights”, an 
 This feature enhances the system’s maintainability and data consistency by ensuring that obsolete projects and their artifacts can be removed cleanly.
 Throughout the week, I performed several rounds of testing with the team to validate database behavior and confirm compatibility with existing modules such as project summarization and analysis.
 
+---
+
+### **Week 10: November 2nd – November 8th**
+
+**Tasks worked on:**
+
+![week 10 log](week10.png)
+
+**Weekly Goals Recap**
+
+This week, I focused on implementing **Feature #10 — Extract Key Contribution Metrics**, which is an important step toward providing meaningful project analytics for our backend system.
+
+The main goal of this feature is to **analyze and summarize contribution activities** within a project by:
+- Extracting key metrics such as **project duration**, **activity frequency**, and **type distribution** (e.g., *code vs test vs design vs documentation*).  
+- Displaying the relative proportion of each contribution type to help visualize how team members engage across different aspects of development.  
+- Laying the groundwork for generating analytical insights in the frontend dashboard.
+
+To achieve this, I worked on:
+- Implementing functions to **parse contribution logs** and categorize actions by activity type.  
+- Calculating **time-based statistics** (e.g., number of commits per week, total duration of active contributions).  
+- Integrating the data with our database schema so future visualization modules can query the metrics easily.
+
+I also tested the implementation with several sample datasets to ensure that both **data accuracy** and **consistency** across users were preserved.  
+Through team meetings and reviews, we refined the metric definitions to ensure alignment with our analytics design from previous milestones.
+
+---
