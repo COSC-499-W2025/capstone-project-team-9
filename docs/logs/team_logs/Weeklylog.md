@@ -571,8 +571,8 @@ The team merged several PRs addressing both feature enhancements and code reliab
 
 ---
 
-### **Eric**
-This week I completed **PR #123 – CLI Integration with Minor Code Refactoring**, which focused on restructuring the project to separate the command-line interface (CLI) from the core backend logic.  
+### **Sami**
+This week I completed **PR #123 – CLI Integration with Minor Code Refactoring** and **PR #123 - Fixing test_upload_file.py**.
 This was primarily a refactoring task, involving a large number of line changes due to project reorganization.
 
 #### **Key Work Completed**
@@ -588,11 +588,11 @@ This was primarily a refactoring task, involving a large number of line changes 
   
 **Requirements addressed:**
 PR #123 – CLI Integration & Refactoring (Structural Improvement)
-
+PR #121 - Fixing test_upload_file.py
 
 ---
 
-### **Sami**
+### **Eric**
 
 **Requirements addressed:**
 
