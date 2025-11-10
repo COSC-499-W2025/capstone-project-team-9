@@ -690,6 +690,7 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 ---
 
 ## **Next Steps**
+### **Immediate**
 - **Integrate résumé and analysis workflows:**  
   Connect the résumé generation feature with project analysis results to automatically include project summaries, metrics, and collaboration data.
 - **Finalize ranking feature integration:**  
@@ -700,9 +701,6 @@ All tests passed successfully, confirming that the résumé modules integrate cl
   Add tests for the newly integrated résumé and ranking modules to ensure data consistency and end-to-end functionality.
 - **Documentation updates:**  
   Update README and module-level docstrings to reflect the new project structure under `src/cli/` and `src/app.py`.
-
-
-### **Immediate**
 
 
 ### **Future Work (Long Term)**
