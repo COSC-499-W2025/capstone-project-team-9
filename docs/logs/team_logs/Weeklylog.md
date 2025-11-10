@@ -693,7 +693,9 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 |-----------|-----------|-------------|
 |     Kevin      |     Sami      |     Reviewed PR #123 – verified CLI refactoring structure and test updates      |
 |    Kevin       |    Evan       |   Reviewed PR #116 – checked collaborator detection accuracy and performance impact          |
-|           |           |             |
+|     Sami      |      Evan      |    Reviewed PR #116 – checked collaborator detection accuracy and performance impact         |
+|       Sami    |     Kevin      |  Reviewed PR #120 - Resume Manager module and initialization file                            |
+|               |               |           |
 
 ---
 
