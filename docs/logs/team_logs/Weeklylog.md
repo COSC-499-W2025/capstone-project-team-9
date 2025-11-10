@@ -665,9 +665,13 @@ Identify users by their name in title
 - Develop the basic account information data table and this data table's CRUD functions.
 #### **Key Work Completed**
 -**PR 133: Basic user information table and CRUDs**:
+      
       - Write coodes for creat table **user_informations**, this table store all use account informations: user_name, password, creat_time, last_loggin, is_login.
+      
       - Write **CRUD** functions for *Query User*，*Update password and user name*, and *Delete user*
+      
       - This PR would be the base of all following account system development.
+      
 #### **PR reviewed**:
 
 - PR 122, PR 123, PR 129, PR 131.
