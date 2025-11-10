@@ -30,3 +30,8 @@ This means that future code modifications will require running the main program 
 4. [Refactoring PR #2 #101](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/101)
 5. [Issue #10, Analysis if User Declines Outside Sources #102](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/102)
 6. [Clean Up Old Insights by Project ID (Issue#87) #95](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/95)
+
+### Went well:
+Fix the old bug that I didn't found out in last week, and review many group member's code. These works could help to avoid more bugs.
+### Not well:
+Have no time to develop features, this may slow down project development.
