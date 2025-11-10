@@ -628,7 +628,7 @@ Focus will shift next sprint toward expanding integration tests and automated va
 ### **Immediate**
 
 
-### **Future Work**
+### **Future Work (Long Term)**
 
 
 ---
