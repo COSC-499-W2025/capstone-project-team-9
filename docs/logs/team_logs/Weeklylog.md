@@ -599,6 +599,8 @@ This week I worked on the implementation of the resume generation and management
 - Sub-Issues #120 and #122  
 
 **Requirements addressed:**
+PR #120 – Resume Manager Module and Initialization File and 
+PR #122 – Resume Generation and Formatting
 
 ---
 
@@ -618,7 +620,7 @@ This was primarily a refactoring task, involving a large number of line changes 
 - Updated tests to reflect new module structure and import paths.
   
 **Requirements addressed:**
-PR #123 – CLI Integration & Refactoring (Structural Improvement)
+PR #123 – CLI Integration & Refactoring (Structural Improvement) and 
 PR #121 - Fixing test_upload_file.py
 
 ---
