@@ -661,8 +661,22 @@ Identify users by their name in title
 ---
 
 ### **JinXi**
+- Set up issues for the account system development
+- Develop the basic account information data table and this data table's CRUD functions.
+#### **Key Work Completed**
+-**PR 133: Basic user information table and CRUDs**
+      - Write coodes for creat table **user_informations**, this table store all use account informations: user_name, password, creat_time, last_loggin, is_login.
+      - Write **CRUD** functions for *Query User*，*Update password and user name*, and *Delete user*
+      - This PR would be the base of all following account system development.
+#### **PR reviewed**:
+- PR 122, PR 123, PR 129, PR 131.
 
-**Requirements addressed:**
+#### next week plane:
+- implement the basic login and logout function.
+- Consider to correlate current data table with user_informations data table.
+
+#### reflection:
+Went well this week, and more caution is needed in the upcoming development.
 
 ---
 
@@ -722,6 +736,10 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 |       Evan    |     Kevin      |  Reviewed PR #120 - Resume Manager module and initialization file                            |
 |       Eric        |       Jinxi        |   Reviewed PR #133 - Basic user information table and CRUDs         |
 |       Eric        |       Sami        |   Reviewed PR #123 – verified CLI refactoring structure and test updates         |
+|    Jinxi     |   Eric   |   Reviewed PR #129 - Feature #10: Extract key contribution metrics in a project, displaying information about the duration of the project and activity type contribution frequency        |
+|Jinxi|Rany|Revied PR #131 - Summarize ranked projects|
+|Jinxi|Sami|Reviewed PR #123 – verified CLI refactoring structure and test updates|
+|Jinxi|Kevin|Reviewed PR #122 – Resume Generation and Formatting|
 
 ---
 
@@ -739,6 +757,8 @@ All tests passed successfully, confirming that the résumé modules integrate cl
   Update README and module-level docstrings to reflect the new project structure under `src/cli/` and `src/app.py`.
 - **List Key metrics:**
   Extracting key metrics such as project duration, activity frequency, and type distribution (e.g., code vs test vs design vs documentation).
+- **Account system**
+  Develop account system to implement login/logout and user data isolated.
 
 
 ### **Future Work (Long Term)**
