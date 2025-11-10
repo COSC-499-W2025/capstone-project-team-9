@@ -688,9 +688,13 @@ Went well this week, and more caution is needed in the upcoming development.
 ---
 
 ### **Ryan**
-
+I refacotred the ranking system to account for better summaries, and connected mine and samis summarizer to the ranking system. THere is now 2 things that the ranking system cna do. 1 is rank the projects (all of them by just showing proj name and score) and 2 is summarize the top 3 projects useing the summarizer fucntion
+The continuation of working on the ranking system is going very well. I still have some more things to add on to this, but i did not have time this week. This will be compelted during reading break
+Along with this I fixed the upload files testing. THis is because it was adding in "many files" in to our DB instead of just mocking the upload. This happened every single time the tests were run which began to clog our DB.
+I refactored, and bug fixed A LOT this week. this was done by myself and with the help of Sami and Evan
 **Requirements addressed:**
-
+closed issue #106: https://github.com/COSC-499-W2025/capstone-project-team-9/issues/130
+This is my pr link: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/131
 ---
 
 ## **Current Status**
@@ -746,7 +750,15 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 |    Jinxi     |   Eric   |   Reviewed PR #129 - Feature #10: Extract key contribution metrics in a project, displaying information about the duration of the project and activity type contribution frequency        |
 |Jinxi|Rany|Revied PR #131 - Summarize ranked projects|
 |Jinxi|Sami|Reviewed PR #123 – verified CLI refactoring structure and test updates|
-|Jinxi|Kevin|Reviewed PR #122 – Resume Generation and Formatting|
+|Ryan|Kevin|Reviewed PR #120 – Resume Manager module and initialization file|
+|Ryan|Eric|Reviewed PR #129 – Extract key contribution metrics in a project, displaying information about the duration of the project and activity type contribution frequency|
+|Ryan|Sami|Reviewed PR #123 – CLI Integration w/ minor code refactoring|
+|Ryan|Evan|Reviewed PR #116 – Enhance colaborative identification|
+|Ryan|Sami|Reviewed PR #115 – Listing projects update|
+|Ryan|Sami|Reviewed PR #121 – Fixing test_upload_file.py|
+|Ryan|Jinxi|Reviewed PR #122 – Basic user information table and CRUDs|
+
+
 
 ---
 
