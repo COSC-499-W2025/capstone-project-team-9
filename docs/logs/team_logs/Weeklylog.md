@@ -664,12 +664,9 @@ Identify users by their name in title
 - Set up issues for the account system development
 - Develop the basic account information data table and this data table's CRUD functions.
 #### **Key Work Completed**
--**PR 133: Basic user information table and CRUDs**
-      
+-**PR 133: Basic user information table and CRUDs**:
       - Write coodes for creat table **user_informations**, this table store all use account informations: user_name, password, creat_time, last_loggin, is_login.
-      
       - Write **CRUD** functions for *Query User*，*Update password and user name*, and *Delete user*
-      
       - This PR would be the base of all following account system development.
 #### **PR reviewed**:
 
@@ -763,7 +760,7 @@ All tests passed successfully, confirming that the résumé modules integrate cl
   Update README and module-level docstrings to reflect the new project structure under `src/cli/` and `src/app.py`.
 - **List Key metrics:**
   Extracting key metrics such as project duration, activity frequency, and type distribution (e.g., code vs test vs design vs documentation).
-- **Account system**
+- **Account system:**
   Develop account system to implement login/logout and user data isolated.
 
 
