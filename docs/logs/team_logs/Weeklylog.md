@@ -662,6 +662,16 @@ The system now includes a more modular CLI, a working résumé generation pipeli
 ---
 
 ## **Testing**
+
+This week, I added and updated tests related to the newly implemented résumé features to ensure correctness and integration with the main workflow.
+
+- **`tests/test_resume_formatter.py`** – Verified that résumé data is properly formatted and exported across all supported formats (JSON, Markdown, and plain text).  
+- **`tests/test_resume_manager.py`** – Tested the creation, retrieval, and storage of résumé data handled by the `ResumeManager` class.  
+- **`tests/test_main_integration.py`** – Confirmed that the résumé generation process integrates correctly with the CLI and overall application flow.  
+- **`tests/test_upload_file.py`** – Updated existing tests to maintain compatibility with the refactored upload logic and ensure smooth data handling.
+
+All tests passed successfully, confirming that the résumé modules integrate cleanly with existing components and maintain overall system stability.
+
 ---
 
 ### **Collaboration Highlights**
