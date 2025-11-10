@@ -568,26 +568,18 @@ This week the team focused on integrating new features, enhancing existing modul
 A total of eight pull requests were completed and merged into the main branch:
 
 - **#123 – CLI Integration w/ Minor Code Refactoring**  
-  Refactored `main.py` to separate CLI logic from backend operations.  
-  Introduced a new `src/cli/` module containing `display.py`, `menus.py`, and `main_menu.py`, along with `app.py` for core initialization.
 
 - **#122 – Resume Generation and Formatting**  
-  Implemented resume generation and formatting functionality, allowing structured output of project and skill data.
 
 - **#121 – Fixing test_upload_file.py**  
-  Repaired and updated test cases related to file uploads to ensure full compatibility with recent backend changes.
 
 - **#120 – Resume Manager Module and Initialization File**  
-  Added a Resume Manager to manage resume creation, initialization, and data configuration.
 
 - **#117 – Update test_file_contents.py**  
-  Updated file-content tests to align with the refactored data-handling workflow.
 
 - **#116 – Enhance Collaborative Identification**  
-  Improved the system’s ability to identify and differentiate contributors in collaborative projects.
 
 - **#115 – Listing Projects Update**  
-  Updated project-listing functionality for clearer output and better synchronization between database records and CLI display.
 
 ### **Kevin**
 
