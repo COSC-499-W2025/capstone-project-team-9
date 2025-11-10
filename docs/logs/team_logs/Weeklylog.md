@@ -675,10 +675,18 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 ---
 
 ### **Collaboration Highlights**
-
+- The team collaborated effectively to manage several interconnected PRs that introduced significant structural changes, including the new CLI module and résumé management system.  
+- Frequent GitHub reviews and Discord discussions ensured smooth coordination while reorganizing the project structure and updating test paths.  
+- Members worked closely to verify that résumé-related modules and the new CLI framework integrated properly with existing database and analysis components.  
+- Collaborative debugging sessions were held to address test failures resulting from refactoring and to ensure the application ran correctly after module separation.  
+- Team communication remained consistent and supportive throughout the sprint, helping maintain stability during large-scale project restructuring.
 
 ### **Things to Work On / Reflection**
-
+- **Cross-module testing:** Continue validating dependencies between CLI, résumé, and analysis modules to prevent regression errors after future changes.  
+- **Refactor awareness:** As the project now uses a more modular directory structure (`src/cli`, `src/app.py`, `src/analysis`, etc.), team members should double-check imports and paths before merging.  
+- **Documentation consistency:** Update module-level docstrings and README sections to reflect the new structure, ensuring clear developer onboarding.  
+- **Merge coordination:** Maintain clear PR sequencing (e.g., “merge after” notes) for dependent changes to avoid version conflicts.  
+- Overall, collaboration this sprint was **productive and well-coordinated**, especially given the complexity of structural updates and integration work.
 
 ### **Peer Evaluations**
 | Reviewer | Reviewee | Focus Area |
