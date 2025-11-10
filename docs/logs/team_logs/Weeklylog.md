@@ -572,8 +572,23 @@ The team merged several PRs addressing both feature enhancements and code reliab
 ---
 
 ### **Eric**
+This week I completed **PR #123 – CLI Integration with Minor Code Refactoring**, which focused on restructuring the project to separate the command-line interface (CLI) from the core backend logic.  
+This was primarily a refactoring task, involving a large number of line changes due to project reorganization.
 
+#### **Key Work Completed**
+- **Refactored `main.py`** to simplify its role as the project entry point, delegating core logic to modularized components.  
+- Created a new **`src/cli/`** directory containing:  
+  - `display.py` – Handles success and error messages.  
+  - `menus.py` – Manages menu navigation and user selections.  
+  - `main_menu.py` – Contains the main CLI loop.  
+- Added a new **`src/app.py`** file for centralized app initialization (database setup, managers, and permission handling).  
+- Removed redundant functions and cleaned up outdated imports in `main.py`.  
+- Fixed minor bugs, including handling `None` values in `get_user_git_username()` and an indentation issue in `ask_user_preferences`.  
+- Updated tests to reflect new module structure and import paths.
+  
 **Requirements addressed:**
+PR #123 – CLI Integration & Refactoring (Structural Improvement)
+
 
 ---
 
