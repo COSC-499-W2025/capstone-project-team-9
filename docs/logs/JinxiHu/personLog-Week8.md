@@ -32,3 +32,8 @@ I also rewrote some of the codes in main.py and upload_file.py to accommodate th
 1. [Be able to identify the activity type and the amount of contribution #75](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/75)
 2. [Be able to identify the activity type and the amount of contribution #83](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/83)
 3. [internal analysis #78](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/78)
+
+### Went well:
+Developed a well structure for showing the upload file informations, and make it possible to work.
+### Not well:
+Due to the big change on the old code, spand more time on solve the merge conflict.
