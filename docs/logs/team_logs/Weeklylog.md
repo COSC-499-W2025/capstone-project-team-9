@@ -558,7 +558,8 @@ Focus will shift next sprint toward expanding integration tests and automated va
 # Sprint Report – Week 10 (2025/11/03 to 2025/11/09)
 
 ## **Overview**
-
+This sprint focused on strengthening the system’s functionality by integrating new modules, improving test coverage, and refining collaborative and resume-related features.  
+The team merged several PRs addressing both feature enhancements and code reliability, ensuring the backend remains stable as new capabilities are introduced.
 
 ---
 
