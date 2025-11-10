@@ -555,3 +555,82 @@ Focus will shift next sprint toward expanding integration tests and automated va
 <img width="1069" height="608" alt="image" src="https://github.com/user-attachments/assets/fb2f97cb-3291-4c63-9321-818d42328a84" />
 <img width="1086" height="671" alt="image" src="https://github.com/user-attachments/assets/68843e6b-89bd-4afa-b06b-c6746cd53580" />
 
+# Sprint Report – Week 10 (2025/11/03 to 2025/11/09)
+
+## **Overview**
+
+
+---
+
+## **Completed Work**
+
+### **Kevin**
+
+**Requirements addressed:**
+
+---
+
+### **Eric**
+
+**Requirements addressed:**
+
+---
+
+### **Sami**
+
+**Requirements addressed:**
+
+---
+
+### **Evan**
+
+**Requirements addressed:**
+
+---
+
+### **JinXi**
+
+**Requirements addressed:**
+
+---
+
+### **Ryan**
+
+**Requirements addressed:**
+
+---
+
+## **Current Status**
+
+
+---
+
+## **Testing**
+---
+
+### **Collaboration Highlights**
+
+
+### **Things to Work On / Reflection**
+
+
+### **Peer Evaluations**
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+|           |           |             |
+|           |           |             |
+|           |           |             |
+
+---
+
+## **Next Steps**
+
+### **Immediate**
+
+
+### **Future Work**
+
+
+---
+
+## **Burnup Chart**
