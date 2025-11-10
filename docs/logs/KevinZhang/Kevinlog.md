@@ -90,3 +90,33 @@ Through collaboration and testing, I helped strengthen the project’s reliabili
 
 ### **Next Steps**###
 <img width="1044" height="613" alt="image" src="https://github.com/user-attachments/assets/891222a2-5135-4c26-985e-c41af51b6e9f" />
+
+# What I Did This Week – Week 10 (2025/11/03 to 2025/11/09)
+
+## Overview
+This week I focused on expanding the system’s user-facing functionality by implementing the résumé generation and management features.  
+These updates complete the foundation for the “Retrieve Resume” feature and integrate analyzed project data into a structured résumé format.  
+I also contributed to reviews and testing to ensure compatibility with the new CLI structure introduced by the team.
+
+## What I Did
+- **PR #122 – Resume Generation and Formatting:**  
+  Implemented formatting capabilities for generated résumé data, supporting multiple output types including JSON, Markdown, and plain text.  
+  Ensured the formatter aligns with project analysis outputs and user readability standards.  
+- **PR #120 – Resume Manager Module and Initialization File:**  
+  Developed the `ResumeManager` class to handle creation, retrieval, and storage of résumé data derived from analyzed project artifacts.  
+  Integrated the manager into the project’s initialization flow for smooth linkage with analysis results.  
+- Added and updated tests for résumé-related modules to confirm data accuracy and integration with existing workflows.  
+- Reviewed PRs for CLI refactoring and collaborative identification to verify proper structure, imports, and performance behavior.  
+- Participated in debugging and team coordination meetings to maintain stability after major structural changes.
+
+## Reflection
+This week marks a shift from backend setup toward delivering meaningful, user-facing functionality.  
+By introducing résumé management and formatting, the project can now generate tangible outputs from analysis data, supporting the broader goal of creating a portfolio-building tool.  
+Working alongside teammates on refactoring and integration reinforced the importance of clear architecture and testing after large-scale restructuring.
+
+### **Next Steps**
+- Extend résumé generation to include ranking and skill summarization.  
+- Integrate résumé data with project summaries for unified reporting.  
+- Continue debugging and improving modular documentation for new components.
+<img width="1264" height="649" alt="image" src="https://github.com/user-attachments/assets/99d1732f-24ec-4eab-98d6-abc185463379" />
+
