@@ -704,7 +704,14 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 
 
 ### **Future Work (Long Term)**
-
+- **Automated résumé export:**  
+  Allow users to download résumé outputs in PDF or HTML format for easy portfolio sharing.
+- **Enhanced collaboration analytics:**  
+  Integrate stored GitHub usernames to extract contribution history and quantify collaboration more accurately.
+- **Continuous integration setup:**  
+  Implement CI/CD pipelines to automate testing and deployment, ensuring consistency across environments.
+- **User experience and API expansion:**  
+  Prepare for future Milestone 2 by exposing CLI functionality through REST or web-based interfaces for easier interaction.
 
 ---
 
