@@ -582,6 +582,21 @@ A total of eight pull requests were completed and merged into the main branch:
 - **#115 – Listing Projects Update**  
 
 ### **Kevin**
+This week I worked on the implementation of the resume generation and management system, completing two pull requests that together deliver the foundation for the **Retrieve Resume (Feature #26)** functionality.
+
+#### **Key Work Completed**
+- **PR #122 – Resume Generation and Formatting**  
+  Implemented the second sub-issue of Feature #26 by adding resume formatting capabilities.  
+  The system now supports multiple output formats for generated resumes, including **JSON**, **Markdown**, and **plain text**.  
+  This ensures flexibility for both programmatic access and user-friendly viewing.
+
+- **PR #120 – Resume Manager Module and Initialization File**  
+  Developed the **Resume Manager** module, which handles the creation, storage, and retrieval of résumé data generated from analyzed project artifacts.  
+  Defined the `ResumeManager` class responsible for managing all resume-related processes and integrating them into the existing analysis pipeline.
+
+**Requirements addressed:**  
+- Feature #26 – Retrieve Resume  
+- Sub-Issues #120 and #122  
 
 **Requirements addressed:**
 
