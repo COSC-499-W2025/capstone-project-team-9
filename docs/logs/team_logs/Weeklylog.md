@@ -626,8 +626,22 @@ PR #121 - Fixing test_upload_file.py
 ---
 
 ### **Eric**
+This week, I focused on implementing Feature #10 — Extract Key Contribution Metrics, which is an important step toward providing meaningful project analytics for our backend system.
 
-**Requirements addressed:**
+The main goal of this feature is to analyze and summarize contribution activities within a project by:
+
+Extracting key metrics such as project duration, activity frequency, and type distribution (e.g., code vs test vs design vs documentation).
+Displaying the relative proportion of each contribution type to help visualize how team members engage across different aspects of development.
+Laying the groundwork for generating analytical insights in the frontend dashboard.
+To achieve this, I worked on:
+
+Implementing functions to parse contribution logs and categorize actions by activity type.
+Calculating time-based statistics (e.g., number of commits per week, total duration of active contributions).
+Integrating the data with our database schema so future visualization modules can query the metrics easily.
+I also tested the implementation with several sample datasets to ensure that both data accuracy and consistency across users were preserved.
+Through team meetings and reviews, we refined the metric definitions to ensure alignment with our analytics design from previous milestones.
+
+
 
 ---
 
@@ -706,7 +720,8 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 |       Sami    |     Kevin      |  Reviewed PR #120 - Resume Manager module and initialization file                            |
 |       Evan   |     sami        |  Reviewed PR #115 - updating listed projects                            |
 |       Evan    |     Kevin      |  Reviewed PR #120 - Resume Manager module and initialization file                            |
-|               |               |           |
+|       Eric        |       Jinxi        |   Reviewed PR #133 - Basic user information table and CRUDs         |
+|       Eric        |       Sami        |   Reviewed PR #123 – verified CLI refactoring structure and test updates         |
 
 ---
 
@@ -722,6 +737,8 @@ All tests passed successfully, confirming that the résumé modules integrate cl
   Add tests for the newly integrated résumé and ranking modules to ensure data consistency and end-to-end functionality.
 - **Documentation updates:**  
   Update README and module-level docstrings to reflect the new project structure under `src/cli/` and `src/app.py`.
+- **List Key metrics:**
+  Extracting key metrics such as project duration, activity frequency, and type distribution (e.g., code vs test vs design vs documentation).
 
 
 ### **Future Work (Long Term)**
