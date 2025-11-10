@@ -632,9 +632,18 @@ PR #121 - Fixing test_upload_file.py
 ---
 
 ### **Evan**
+- I wrote code for finding users name in file titles with in projects for a way of finding collaborators as well as finding the authors of git hub commits
+- I reviewed pull requests for sami, ryan, kevin and eric
+- I wrote a workflow for ensuring all the tests pass on pr to the main branch.
+
+### My Plan for next week
+- I plan to implement the collaborative extrapolation
+
+### Reflection
+It went pretty well this week for future could I would like to do a better job in avoiding the time complexity complications I ran into when finding the names.
 
 **Requirements addressed:**
-
+Identify users by their name in title
 ---
 
 ### **JinXi**
@@ -695,6 +704,8 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 |    Kevin       |    Evan       |   Reviewed PR #116 – checked collaborator detection accuracy and performance impact          |
 |     Sami      |      Evan      |    Reviewed PR #116 – checked collaborator detection accuracy and performance impact         |
 |       Sami    |     Kevin      |  Reviewed PR #120 - Resume Manager module and initialization file                            |
+|       Evan   |     sami        |  Reviewed PR #115 - updating listed projects                            |
+|       Evan    |     Kevin      |  Reviewed PR #120 - Resume Manager module and initialization file                            |
 |               |               |           |
 
 ---
