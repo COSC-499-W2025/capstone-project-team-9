@@ -68,12 +68,6 @@ class TestLocalAnalyzer:
         # Cleanup
         shutil.rmtree(temp_dir)
     
-    def test_analyzer_initialization(self, analyzer):
-        """Test that analyzer initializes correctly."""
-        assert analyzer is not None
-        assert hasattr(analyzer, 'analyze_project')
-        assert hasattr(analyzer, 'analysis_cache')
-    
     def test_analyze_structure(self, analyzer, temp_project):
         """Test structural analysis."""
         structure = analyzer.analyze_structure(temp_project)

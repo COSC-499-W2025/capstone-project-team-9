@@ -35,8 +35,7 @@ class LocalAnalyzer:
     
     def __init__(self):
         """Initialize the local analyzer."""
-        self.analysis_cache = {}
-        self.deep_analyzer = DeepCodeAnalyzer()
+        pass
     
     def analyze_project(self, project_path: str) -> Dict:
         """

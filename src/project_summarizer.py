@@ -91,28 +91,15 @@ class ProjectSummarizer:
         return summary
     
     def _detect_languages(self, file_contents):
-        """
-        Detect programming languages used in the project.
-        
-        Args:
-            file_contents (list): List of file content records
-            
-        Returns:
-            dict: Language analysis results
-        """
         language_counts = Counter()
         language_files = defaultdict(list)
-        
         for file_info in file_contents:
-            extension = file_info.get('file_extension', '').lower()
-            if extension in self.language_extensions:
-                language = self.language_extensions[extension]
-                language_counts[language] += 1
-                language_files[language].append(file_info['file_name'])
-        
-        # Sort languages by file count
+            ext = file_info.get('file_extension', '').lower()
+            if ext in self.language_extensions:
+                lang = self.language_extensions[ext]
+                language_counts[lang] += 1
+                language_files[lang].append(file_info['file_name'])
         sorted_languages = language_counts.most_common()
-        
         return {
             "primary_language": sorted_languages[0][0] if sorted_languages else "Unknown",
             "all_languages": [{"language": lang, "file_count": count} for lang, count in sorted_languages],
