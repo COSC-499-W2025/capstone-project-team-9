@@ -77,6 +77,17 @@ class ProjectSummarizer:
             "summary_generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
         
+        # Add deep code analysis
+        try:
+            from analysis.local_analyzer import LocalAnalyzer
+            local_analyzer = LocalAnalyzer()
+            deep_analysis = local_analyzer.analyze_files_from_db(file_contents)
+            if deep_analysis:
+                summary["deep_analysis"] = deep_analysis
+        except Exception as e:
+            print(f"Warning: Deep analysis failed: {e}")
+            summary["deep_analysis"] = {}
+        
         return summary
     
     def _detect_languages(self, file_contents):
@@ -344,6 +355,90 @@ class ProjectSummarizer:
         output.append(f"   Text Files: {summary['file_statistics']['text_files']}")
         output.append(f"   Binary Files: {summary['file_statistics']['binary_files']}")
         output.append(f"   Total Size: {summary['file_statistics']['total_size_bytes'] / (1024*1024):.1f} MB")
+        
+        # Deep Analysis Insights
+        if 'deep_analysis' in summary and summary['deep_analysis']:
+            output.append(f"\n{'='*80}")
+            output.append("DEEP CODE ANALYSIS INSIGHTS")
+            output.append("="*80)
+            
+            deep = summary['deep_analysis']
+            
+            # OOP Principles
+            oop = deep.get('oop_principles_summary', {})
+            if any(oop.get(k, {}).get('count', 0) > 0 for k in ['abstraction', 'encapsulation', 'polymorphism', 'inheritance']):
+                output.append(f"\nObject-Oriented Programming Principles:")
+                for principle in ['abstraction', 'encapsulation', 'polymorphism', 'inheritance']:
+                    principle_data = oop.get(principle, {})
+                    count = principle_data.get('count', 0)
+                    if count > 0:
+                        output.append(f"   {principle.title()}: {count} instance(s)")
+                        examples = principle_data.get('examples', [])[:1]
+                        if examples:
+                            example = examples[0]
+                            evidence = example.get('evidence', '')
+                            if evidence:
+                                output.append(f"      → {evidence}")
+            
+            # Data Structures
+            ds = deep.get('data_structure_summary', {})
+            if ds:
+                output.append(f"\nData Structure Usage & Performance:")
+                for struct_name, count in sorted(ds.items(), key=lambda x: -x[1])[:5]:
+                    struct_display = struct_name.replace('_', ' ').title()
+                    output.append(f"   {struct_display}: {count} usage(s)")
+                    # Add performance note
+                    perf_notes = {
+                        'hash_map': 'O(1) average lookup - efficient for key-value operations',
+                        'set': 'O(1) membership test - optimal for unique collections',
+                        'list': 'O(n) search, O(1) append - good for sequential access',
+                        'tree': 'O(log n) search - balanced for hierarchical data',
+                        'array': 'O(1) access, O(n) search - fast random access'
+                    }
+                    if struct_name in perf_notes:
+                        output.append(f"      → {perf_notes[struct_name]}")
+            
+            # Complexity Analysis
+            complexity = deep.get('complexity_summary', {})
+            if complexity:
+                output.append(f"\nAlgorithm Complexity Awareness:")
+                nested = complexity.get('nested_loops', 0)
+                recursive = complexity.get('recursive_functions', 0)
+                awareness = complexity.get('complexity_awareness', False)
+                
+                if nested > 0:
+                    output.append(f"   Nested Loops: {nested} instance(s) - potential O(n²) or higher")
+                if recursive > 0:
+                    output.append(f"   Recursive Functions: {recursive} - demonstrates recursive thinking")
+                if awareness:
+                    output.append(f"   Complexity Annotations: Present - shows awareness of Big-O notation")
+            
+            # Optimizations
+            optimizations = deep.get('optimization_summary', [])
+            if optimizations:
+                output.append(f"\nOptimization Evidence:")
+                unique_opt_types = {}
+                for opt in optimizations[:5]:
+                    opt_type = opt.get('type', 'Unknown')
+                    if opt_type not in unique_opt_types:
+                        unique_opt_types[opt_type] = opt.get('evidence', '')
+                        skill = opt.get('skill_indicator', '')
+                        output.append(f"   {opt_type}: {opt.get('evidence', '')}")
+                        if skill:
+                            output.append(f"      → {skill}")
+            
+            # Code Quality
+            quality = deep.get('code_quality_summary', {})
+            if quality:
+                score = quality.get('average_quality_score', 0)
+                strengths = quality.get('strengths', [])
+                
+                output.append(f"\nCode Quality Assessment:")
+                output.append(f"   Overall Quality Score: {score:.1f}/100")
+                if strengths:
+                    output.append(f"   Strengths:")
+                    for strength in strengths[:5]:
+                        output.append(f"      • {strength}")
         
         output.append(f"\nSummary Generated: {summary['summary_generated_at']}")
         output.append("=" * 80)

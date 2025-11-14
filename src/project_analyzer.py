@@ -131,6 +131,17 @@ class ProjectAnalyzer:
             'contribution_metrics': self._calculate_contribution_metrics(file_contents)
         }
         
+        # Perform deep code analysis
+        try:
+            from analysis.local_analyzer import LocalAnalyzer
+            local_analyzer = LocalAnalyzer()
+            deep_analysis = local_analyzer.analyze_files_from_db(file_contents)
+            if deep_analysis:
+                analysis['deep_analysis'] = deep_analysis
+        except Exception as e:
+            print(f"Warning: Deep analysis failed: {e}")
+            analysis['deep_analysis'] = {}
+        
         return analysis
     
     def _get_project_info(self, uploaded_file_id):
