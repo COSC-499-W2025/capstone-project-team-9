@@ -27,14 +27,13 @@ I develop the [issue#132: develop basic login and logout feature](https://github
 - The issue 132 current effect the menus and user data table only, the account system has not yet been linked with other systems.
 
 ### PR reviewed: 
-1. [Feature #10: Extract key contribution metrics in a project, displaying information about the duration of the project and activity type contribution frequency](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/129)
-2. [Summarize ranked projects](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/131)
-3. [CLI Integration w/ minor code refactoring](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/123)
-4. [Resume Generation and Formatting](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/122)
+1. [Deep Code Analysis (PUSH FIRST) #134](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/134)
+2. [Deep Analysis Implementation (PUSH SECOND) #135](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/135)
+3. [Be able to edit ranks and data of ranking](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/137)
 
 ### Went well:
-Found out our project need an account system and creat step by step issues to develop this system.
+Developed basic logics of account system well.
 ### Not well:
-The account system must relate to many of old codes may cause alot of bugs, I have to confirm this with others.
+Not provide sufficiently detailed code suggestions to the PRs I reviewed.
 ### Next cycle:
-Push the development of the account system and be sure it wont break the whole project.
+Push the development of the account system such as connect user table with other tables and be sure it wont break the whole project.
