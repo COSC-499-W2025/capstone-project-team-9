@@ -171,3 +171,59 @@ I also tested the implementation with several sample datasets to ensure that bot
 Through team meetings and reviews, we refined the metric definitions to ensure alignment with our analytics design from previous milestones.
 
 ---
+
+### **Week 11: November 9th – November 15th**
+READING WEEK!
+
+
+---
+
+### **Week 12: November 16th – November 22nd**
+
+**Tasks worked on:**
+
+![week 12 log](week12.png)
+
+**Weekly Goals Recap**
+
+Since Week 11 was Reading Week, development resumed this week with a focus on improving the accuracy and robustness of the project timeline and ZIP file handling logic.
+I completed two key fixes that significantly improve the reliability of our analytics and upload pipeline:
+
+---
+
+#### **Fix #1 — Use ZIP Internal Timestamps for Accurate Project Timeline**
+
+Previously, the project start and end dates incorrectly used the *upload time* of the ZIP file.  
+This caused misleading analytics, especially for older projects or repositories worked on over multiple months.
+
+This week, I implemented a full timestamp extraction pipeline:
+
+- Extracted **source timestamps** from `ZipInfo.date_time` for each file.  
+- Stored two new fields in `file_contents`:  
+  - `source_created_at`  
+  - `source_modified_at`
+- Updated the key_metrics timeline logic to compute:  
+  - **Project Start Date = MIN(source_created_at)**  
+  - **Project End Date = MAX(source_modified_at)**  
+- Added a safety fallback: if no internal timestamps exist (rare), it defaults to the timestamps in `uploaded_files`.
+
+This fix ensures that our time-based analytics now reflect **true project history**, not the moment the ZIP was uploaded.
+
+---
+
+#### **Fix #2 — Robust Validation for “Fake ZIP” Files**
+
+I also improved the upload logic to correctly detect renamed or corrupted ZIP archives.
+
+Key improvements include:
+
+- Added detection for **fake ZIPs** (e.g., `.rar` or `.7z` renamed to `.zip`)
+- Added a clear and user-friendly `INVALID_ZIP` error message
+- Added a **secondary defensive validation** using `zipfile.is_zipfile()` after the file is copied to the uploads directory
+- Updated existing tests and added **two new unit tests**:
+  - Validator-triggered invalid ZIP case  
+  - Post-copy invalid ZIP guard case  
+
+This prevents issues where renamed RAR files would incorrectly appear valid, and overall improves reliability and UX during file uploads.
+
+---
