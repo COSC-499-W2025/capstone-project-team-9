@@ -864,6 +864,12 @@ This prevents issues where renamed RAR files would incorrectly appear valid, and
 ---
 
 ### **Ryan**
+This week I continued to work on the ranking rojects logic, I had to adjust all the scoring and implemetn all the logic to account for the deep analysis logic that Sami implemented.
+Along ith this i changed how the score is created. I have normalized the number so that it is between 0-100 rather than just a number that the user will not be able to understand
+Link to PR
+This is the link to the PR that i have made: #141
+I reviewed a lot of pull requests as there was a little bit of a backlog which is something that our team needs to work on. 
+The team communication was low on everyones end as it was a busy week. The only real deep communication we had was on monday in class and out meetups. Other than that not much communication occured
 
 ---
 
