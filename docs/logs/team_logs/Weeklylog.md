@@ -881,7 +881,7 @@ Looking forward, the team should continue focusing on test coverage and performa
 ### **Peer Evaluations**
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-|           |           |             |
+|   Kevin        |      Jinxi     |     develop basic login and logout feature #138        |
 |           |           |             |
 |           |           |             |
 
@@ -890,16 +890,10 @@ Looking forward, the team should continue focusing on test coverage and performa
 ## **Next Steps**
 
 ### **Immediate**
-- Add missing tests for PortfolioManager (#145 follow-up).
+- Everyong will doing refactoring, polishing
 - Improve performance of collaborator detection.
 - Enhance CLI menu flow for authenticated users.
 - Increase coverage on ranking and deep analysis edge cases.
-
-### **Future Work**
-- Add LLM-powered ranking and portfolio enhancement.
-- Develop API endpoints for Milestone 2.
-- Implement persistent user preferences and personalized scoring.
-- Prepare for UI or web-based version of the system.
 
 ---
 
