@@ -6,16 +6,17 @@
 ---
 
 ## Weekly Goals Recap
-As week11 is the reading week, our team not has goal for this week.
+This week, our team is main focus on code feractoring/bug fixing, develop the resume system and account system.
+Focus on expanding user-facing features, strengthening backend robustness, and integrating deep analysis into higher-level workflows such as project ranking and portfolio construction.
 
 ---
 
 ## My Contributions
 This week I focus on Back-end accouont system development and code review.
 
-I develop the [issue#132: develop basic login and logout feature](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/132) 
-- This issue is right after the issue 126, which basic on user table and it's CRUDs to implement the basic account management functions. Such as login, logout and account registrition.
--  At the same time, also include the menu change to initial integration of the account system into the existing system.
+I fix the problems in PR [issue#132: develop basic login and logout feature](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/132) 
+- Add 
+-  
 
 ### issue developed:
 
