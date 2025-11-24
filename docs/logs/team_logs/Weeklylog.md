@@ -851,6 +851,18 @@ In addition to development work, I reviewed several PRs from Evan and created a 
 
 ### **JinXi**
 
+Problem fixing: [issue#132: develop basic login and logout feature](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/138)
+- A Linux-compatible version has been added to the feature that displays the user's password input as '*', making the feature cross-platform.
+- Remove all emojis / unusual characters from the code to make sure the account system still works on different platform.
+- Change the all imports of AuthManager and user_account_menu into absolute imports, this is for CI compatibility。
+  
+PR developed: [issue#142 make sure the system can be used only when the user already login](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/149)
+- Add a new login_menu functions to show the login menu.
+- Modify the main_menu.py and main.py to make sure use can only go to the main menu when they already login.
+- Add new test in test_user_menu.py to test the new codes.
+
+Reviewed PR#139, PR#140, PR#141, PR#143
+
 ---
 
 ### **Eric**
@@ -949,6 +961,10 @@ We also want to start working on reinforcing our tests to get our coverage to 10
 |      Sami     |       Evan    |       extrapolating for only collab projects     |
 |     Evan     |     Sami      |      Portfolio logic #145      |
 |     Evan      |      Jinxi     |      issue#142 make sure the system can be used only when the user already login #149      |
+|     Jinxi      |      Eric    |      Fix Timeline Metrics: Use Zip Internal Timestamps Instead of Upload Time #139      |
+|     Jinxi      |      Eric    |      Improve ZIP upload validation & add test coverage for invalid ZIP cases #140      |
+|     Jinxi      |      Ryan    |      Ranked projects deep analysis #141     |
+|     Jinxi      |      Kevin    |      Add CLI integration for resume generation, viewing. #143     |
 ---
 
 ## **Next Steps**
