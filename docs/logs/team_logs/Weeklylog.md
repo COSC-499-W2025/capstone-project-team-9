@@ -847,8 +847,6 @@ The focus this week was on expanding user-facing features, strengthening backend
 
 ---
 
-## **Team Collaboration & Peer Evaluation**
-
 ### **Collaboration Highlights**
 (Add short notes on how the team coordinated after returning from reading break, e.g., syncing progress, resolving pending merge conflicts, or dividing upcoming milestone work.)
 
@@ -867,14 +865,16 @@ The focus this week was on expanding user-facing features, strengthening backend
 ## **Next Steps**
 
 ### **Immediate**
-- Resume post-break development and finalize pending integration work.
-- Continue testing and debugging recent modules (résumé, ranking, CLI).
-- Ensure documentation and final presentation materials are up to date.
+- Add missing tests for PortfolioManager (#145 follow-up).
+- Improve performance of collaborator detection.
+- Enhance CLI menu flow for authenticated users.
+- Increase coverage on ranking and deep analysis edge cases.
 
 ### **Future Work**
-- Finalize ranking and visualization features for milestone delivery.
-- Begin system polishing, optimization, and deployment preparation.
-- Prepare demonstration scripts and presentation content for final submission.
+- Add LLM-powered ranking and portfolio enhancement.
+- Develop API endpoints for Milestone 2.
+- Implement persistent user preferences and personalized scoring.
+- Prepare for UI or web-based version of the system.
 
 ---
 
