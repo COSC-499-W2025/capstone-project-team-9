@@ -1,7 +1,7 @@
 # Week 12: 2025/11/17 – 2025/11/23
 
 ## Tasks Worked On
-
+![Week12 Project Log](img/week12.png)
 
 ---
 
