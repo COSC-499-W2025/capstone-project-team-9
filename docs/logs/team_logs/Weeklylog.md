@@ -808,13 +808,13 @@ The focus this week was on expanding user-facing features, strengthening backend
 ---
 
 ## **Completed Work**
-- **#138** Basic login, logout, and registration  
-- **#139** Fix timeline using internal ZIP timestamps  
-- **#140** Improve ZIP upload validation + add test coverage  
-- **#141** Integrate deep analysis into ranking  
-- **#144** Extrapolate collaborative project files  
-- **#145** Portfolio logic + skill mapper  
-- **#147** Improved collaborative extrapolation (common names, auto-select GitHub username)
+- **#138** Basic login, logout, and registration. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/138
+- **#139** Fix timeline using internal ZIP timestamps. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/139
+- **#140** Improve ZIP upload validation + add test coverage. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/140  
+- **#141** Integrate deep analysis into ranking. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/141 
+- **#144** Extrapolate collaborative project files. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/144
+- **#145** Portfolio logic + skill mapper. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/145
+- **#147** Improved collaborative extrapolation (common names, auto-select GitHub username). https://github.com/COSC-499-W2025/capstone-project-team-9/pull/147
 ---
 
 ### **Sami**
