@@ -823,7 +823,11 @@ The focus this week was on expanding user-facing features, strengthening backend
 
 ### **Sami**
 
----
+This week I focused on expanding the portfolio generation functionality by integrating the new PortfolioManager module into the system. Instead of introducing new analysis logic, I structured the module so it reuses all existing utilities—summarization, ranking, collaboration detection, file statistics, skill extraction, and timeline analysis—to generate complete portfolio reports from uploaded projects.
+
+I also worked with the new SkillMapper module, which transforms low-level technical signals detected during deep code analysis (such as OOP principles, data structures, algorithms, and optimization patterns) into professional, resume-ready skill categories. These are then included in the final portfolio output.
+
+In addition to development work, I reviewed several PRs from Evan and created a full suite of tests to validate the PortfolioManager and SkillMapper integrations.
 
 ### **Evan**
 
@@ -925,7 +929,8 @@ Looking forward, the team should continue focusing on test coverage and performa
 |    Eric     |     Kevin     |       Add CLI integration for resume generation, viewing.  |
 |     Ryan      |     Eric      |      Fix Timeline Metrics: Use Zip Internal Timestamps Instead of Upload Time #139       |
 |     Ryan      |      Jinxi     |      issue132: develop basic login and logout feature       |
-|           |           |             |
+|      Sami     |       Evan    |       Extrapolate Collab Continued      |
+|      Sami     |       Evan    |       extrapolating for only collab projects     |
 ---
 
 ## **Next Steps**
