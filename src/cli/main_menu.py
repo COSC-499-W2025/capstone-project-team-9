@@ -13,8 +13,7 @@ from .menus import (
     handle_view_edit_rankings,
     manage_external_services_menu,
     handle_cleanup_insights,
-    ask_user_preferences,
-    portfolio_menu
+    ask_user_preferences
 )
 
 
@@ -35,17 +34,16 @@ def run_main_menu(consent_manager, collab_manager):
         print("9. Manage external service settings")
         print("10. Cleanup insights for a project")
         print("11. Change User Preferences")
-        print("12. View Portfolio")
-        print("13. Exit")
+        print("12. Exit")
         print("="*70) 
         
         if os.getenv("GITHUB_ACTIONS") == "true" or not sys.stdin.isatty():
-            choice = "13"
+            choice = "12"
         else:
             try:
-                choice = input("Choose an option (1-13): ").strip()
+                choice = input("Choose an option (1-12): ").strip()
             except EOFError:
-                choice = "13"
+                choice = "12"
         
         if choice == '1':
             handle_upload_file()
@@ -79,13 +77,11 @@ def run_main_menu(consent_manager, collab_manager):
                 
         elif choice == '11':
             ask_user_preferences(consent_manager, collab_manager, False)
-        elif choice == '12':
-            portfolio_menu()
 
-        elif choice == '13':
+        elif choice == '12':
             print("Goodbye!")
             break
             
         else:
-            print("Invalid choice. Please enter 1-13.")
+            print("Invalid choice. Please enter 1-12.")
 
