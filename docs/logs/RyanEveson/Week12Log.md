@@ -1,5 +1,6 @@
 ## Week 12 Logs
 <img width="983" height="1045" alt="image" src="https://github.com/user-attachments/assets/d3d91b08-7e51-49f8-a6e6-cd60b2220192" />
+
 ### What I completed this week
 - This week I continued to work on the ranking rojects logic, I had to adjust all the scoring and implemetn all the logic to account for the deep analysis logic that Sami implemented.
 - Along ith this i changed how the score is created. I have normalized the number so that it is between 0-100 rather than just a number that the user will not be able to understand
