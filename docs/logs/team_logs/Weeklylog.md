@@ -695,6 +695,7 @@ I refactored, and bug fixed A LOT this week. this was done by myself and with th
 **Requirements addressed:**
 closed issue #106: https://github.com/COSC-499-W2025/capstone-project-team-9/issues/130
 This is my pr link: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/131
+
 ---
 
 ## **Current Status**
