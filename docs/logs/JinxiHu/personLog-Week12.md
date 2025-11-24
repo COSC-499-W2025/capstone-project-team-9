@@ -1,7 +1,7 @@
-# Week 11: 2025/11/9 – 2025/11/16
+# Week 12: 2025/11/17 – 2025/11/23
 
 ## Tasks Worked On
-- This is the reading week, no team formation
+
 
 ---
 
