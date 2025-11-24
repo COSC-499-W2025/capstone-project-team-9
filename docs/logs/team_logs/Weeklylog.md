@@ -834,7 +834,33 @@ The focus this week was on expanding user-facing features, strengthening backend
 ---
 
 ### **Eric**
+Fix #1 — Use ZIP Internal Timestamps for Accurate Project Timeline
+Previously, the project start and end dates incorrectly used the upload time of the ZIP file.
+This caused misleading analytics, especially for older projects or repositories worked on over multiple months.
 
+This week, I implemented a full timestamp extraction pipeline:
+
+Extracted source timestamps from ZipInfo.date_time for each file.
+Stored two new fields in file_contents:
+source_created_at
+source_modified_at
+Updated the key_metrics timeline logic to compute:
+Project Start Date = MIN(source_created_at)
+Project End Date = MAX(source_modified_at)
+Added a safety fallback: if no internal timestamps exist (rare), it defaults to the timestamps in uploaded_files.
+This fix ensures that our time-based analytics now reflect true project history, not the moment the ZIP was uploaded.
+
+Fix #2 — Robust Validation for “Fake ZIP” Files
+I also improved the upload logic to correctly detect renamed or corrupted ZIP archives.
+
+Key improvements include:
+Added detection for fake ZIPs (e.g., .rar or .7z renamed to .zip)
+Added a clear and user-friendly INVALID_ZIP error message
+Added a secondary defensive validation using zipfile.is_zipfile() after the file is copied to the uploads directory
+Updated existing tests and added two new unit tests:
+Validator-triggered invalid ZIP case
+Post-copy invalid ZIP guard case
+This prevents issues where renamed RAR files would incorrectly appear valid, and overall improves reliability and UX during file uploads.
 ---
 
 ### **Ryan**
@@ -882,9 +908,12 @@ Looking forward, the team should continue focusing on test coverage and performa
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
 |   Kevin        |      Jinxi     |     develop basic login and logout feature #138        |
+|    Eric     |      Jinxi    |      issue132: develop basic login and logout feature       |
+|    Eric     |     Ryan      |      Ranked projects deep analysis   |
+|    Eric     |     Evan      |      extrapolating for only colab projects |
+|    Eric     |     Kevin     |       Add CLI integration for resume generation, viewing.  |
 |           |           |             |
 |           |           |             |
-
 ---
 
 ## **Next Steps**
