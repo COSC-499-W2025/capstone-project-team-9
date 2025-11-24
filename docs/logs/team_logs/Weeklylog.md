@@ -861,6 +861,7 @@ Updated existing tests and added two new unit tests:
 Validator-triggered invalid ZIP case
 Post-copy invalid ZIP guard case
 This prevents issues where renamed RAR files would incorrectly appear valid, and overall improves reliability and UX during file uploads.
+
 ---
 
 ### **Ryan**
