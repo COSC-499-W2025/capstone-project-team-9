@@ -796,3 +796,8 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 <img width="1279" height="651" alt="image" src="https://github.com/user-attachments/assets/b0afcbdf-0ab6-44b3-aa67-a3c747c6addd" />
 <img width="1280" height="576" alt="image" src="https://github.com/user-attachments/assets/347c7a4b-6ab4-40b6-beee-972263d568e9" />
 
+# Sprint Report – Week 11 (2025/11/10 to 2025/11/16)
+## **Overview**
+This week is reading break, for any personal works, please refer to personal logs, thanks.
+
+# Sprint Report – Week 12 (2025/11/17 to 2025/11/23)
