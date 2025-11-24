@@ -129,7 +129,7 @@ This week is Reading break, I did not do anything.
 This week I focused on integrating résumé functionality directly into the CLI and ensuring that users can generate, view, and manage their résumés through a seamless command-line workflow. This work builds on the résumé generation logic implemented in previous weeks and extends it into user-accessible CLI features.
 
 ## **What I Did**
-- Implemented **CLI integration for résumé operations** (#143).
+- Implemented **CLI integration for résumé operations** (#143). https://github.com/COSC-499-W2025/capstone-project-team-9/pull/143
 - Added `handle_generate_resume()` to support generating and regenerating résumés from project analysis results.
 - Implemented `handle_view_resume()` allowing users to view résumés in multiple formats (JSON, Markdown, and plain text).
 - Added `handle_delete_resume()` with confirmation prompts to safely remove stored résumé data.
@@ -147,3 +147,4 @@ This week’s work expanded the résumé subsystem from a backend feature into a
 - Finalize portfolio integration so résumé and portfolio outputs share consistent formatting.
 - Expand test coverage for cross-module interactions (Resume Manager + Portfolio Manager).
 - Prepare for upcoming Milestone 2 features that will require CLI extensibility.
+<img width="1020" height="593" alt="image" src="https://github.com/user-attachments/assets/140d9878-c65e-4aba-917b-e1d9d83d136d" />
