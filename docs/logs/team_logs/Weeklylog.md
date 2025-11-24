@@ -851,15 +851,30 @@ The focus this week was on expanding user-facing features, strengthening backend
 ---
 
 ## **Testing**
+This week we expanded and updated tests to support new functionality and prevent regressions:
 
+- Added invalid ZIP tests for renamed RAR/7z files.  
+- Added guard tests for post-copy ZIP validation.  
+- Updated tests impacted by ZIP timestamp changes.  
+- Ensured ranking and portfolio-related modules load correctly after structural updates.  
+
+Testing focused primarily on ZIP validation, timeline consistency, and ensuring new modules import and initialize without breaking existing logic.
 
 ---
 
 ### **Collaboration Highlights**
+- Team members coordinated closely as several PRs overlapped with shared components such as file parsing, metrics, and ranking logic.  
+- Active GitHub review cycles helped ensure complex changes (e.g., timelines, ranking normalization, portfolio orchestration) merged without breaking dependencies.  
+- Members communicated regularly to avoid merge conflicts after structural changes in CLI, authentication, and portfolio modules.  
+- Testing updates were shared across the team to ensure consistency between ZIP upload logic, analysis workflow, and timeline metrics.
 
 ---
 
 ### **Things to Work On / Reflection**
+This week marked a strong return from Reading Break, with major progress across multiple parts of the system.  
+The team successfully delivered several foundational features—authentication, improved ranking, portfolio logic—while also improving data accuracy and upload reliability.  
+Coordination was smooth even with large PRs affecting shared components.  
+Looking forward, the team should continue focusing on test coverage and performance, especially for collaborator detection and deep analysis.
 
 ---
 
