@@ -817,10 +817,29 @@ The focus this week was on expanding user-facing features, strengthening backend
 - **#147** Improved collaborative extrapolation (common names, auto-select GitHub username)
 ---
 
-## **Current Status**
-Summarize overall progress since Week 10.  
-(Example: “All core features are implemented and under refinement. Testing coverage and documentation updates are ongoing as we move toward final integration.”)
+### **Sami**
 
+
+### **Evan**
+
+
+### **Kevin**
+
+
+### **JinXi**
+
+### **Eric**
+
+### **Ryan**
+
+
+## **Current Status**
+- Authentication system implemented but not yet integrated into analysis workflows.  
+- Timeline metrics now use accurate ZIP metadata.  
+- Upload validation is more robust and fully tested.  
+- Ranking now includes deep code analysis with normalized scoring.  
+- Portfolio generation system is functional and prepares for resume/portfolio features.  
+- Collaborative project handling is more accurate and automated.
 ---
 
 ## **Testing**
