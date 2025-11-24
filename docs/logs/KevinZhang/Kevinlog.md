@@ -120,6 +120,9 @@ Working alongside teammates on refactoring and integration reinforced the import
 - Continue debugging and improving modular documentation for new components.
 <img width="1264" height="649" alt="image" src="https://github.com/user-attachments/assets/99d1732f-24ec-4eab-98d6-abc185463379" />
 
+# **What I Did This Week - Week 11**
+This week is Reading break, I did not do anything.
+
 # **What I Did This Week – Week 12**
 
 ## **Overview**
