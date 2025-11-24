@@ -798,6 +798,59 @@ All tests passed successfully, confirming that the résumé modules integrate cl
 
 # Sprint Report – Week 11 (2025/11/10 to 2025/11/16)
 ## **Overview**
-This week is reading break, for any personal works, please refer to personal logs, thanks.
+This week is reading break, for any personal works, please refer to personal logs.
 
 # Sprint Report – Week 12 (2025/11/17 to 2025/11/23)
+## **Overview**
+This week (Week 12), the team resumed active development, focusing on continuing integration, polishing existing features, and preparing for final deliverables.
+
+---
+
+## **Completed Work**
+(Add a concise list of pull requests or tasks completed this week.)
+
+---
+
+## **Current Status**
+Summarize overall progress since Week 10.  
+(Example: “All core features are implemented and under refinement. Testing coverage and documentation updates are ongoing as we move toward final integration.”)
+
+---
+
+## **Testing**
+(Document new or updated tests, integration checks, or coverage improvements completed this week.)
+
+---
+
+## **Team Collaboration & Peer Evaluation**
+
+### **Collaboration Highlights**
+(Add short notes on how the team coordinated after returning from reading break, e.g., syncing progress, resolving pending merge conflicts, or dividing upcoming milestone work.)
+
+### **Things to Work On / Reflection**
+(Reflect on remaining gaps, testing needs, or areas to improve communication.)
+
+### **Peer Evaluations**
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+|           |           |             |
+|           |           |             |
+|           |           |             |
+
+---
+
+## **Next Steps**
+
+### **Immediate**
+- Resume post-break development and finalize pending integration work.
+- Continue testing and debugging recent modules (résumé, ranking, CLI).
+- Ensure documentation and final presentation materials are up to date.
+
+### **Future Work**
+- Finalize ranking and visualization features for milestone delivery.
+- Begin system polishing, optimization, and deployment preparation.
+- Prepare demonstration scripts and presentation content for final submission.
+
+---
+
+## **Burnup Chart**
