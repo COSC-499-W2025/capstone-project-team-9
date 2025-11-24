@@ -688,10 +688,13 @@ Went well this week, and more caution is needed in the upcoming development.
 ---
 
 ### **Ryan**
+
 I refacotred the ranking system to account for better summaries, and connected mine and samis summarizer to the ranking system. THere is now 2 things that the ranking system cna do. 1 is rank the projects (all of them by just showing proj name and score) and 2 is summarize the top 3 projects useing the summarizer fucntion
 The continuation of working on the ranking system is going very well. I still have some more things to add on to this, but i did not have time this week. This will be compelted during reading break
 Along with this I fixed the upload files testing. THis is because it was adding in "many files" in to our DB instead of just mocking the upload. This happened every single time the tests were run which began to clog our DB.
+
 I refactored, and bug fixed A LOT this week. this was done by myself and with the help of Sami and Evan
+
 **Requirements addressed:**
 closed issue #106: https://github.com/COSC-499-W2025/capstone-project-team-9/issues/130
 This is my pr link: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/131
