@@ -22,6 +22,7 @@ Problem fixing: [issue#132: develop basic login and logout feature](https://gith
 - A Linux-compatible version has been added to the feature that displays the user's password input as '*', making the feature cross-platform.
 - Remove all emojis / unusual characters from the code to make sure the account system still works on different platform.
 - Change the all imports of AuthManager and user_account_menu into absolute imports, this is for CI compatibility。
+  
 PR developed: [issue#142 make sure the system can be used only when the user already login](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/149)
 - Add a new login_menu functions to show the login menu.
 - Modify the main_menu.py and main.py to make sure use can only go to the main menu when they already login.
