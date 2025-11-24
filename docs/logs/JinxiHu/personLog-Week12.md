@@ -13,28 +13,29 @@ Focus on expanding user-facing features, strengthening backend robustness, and i
 
 ## My Contributions
 This week I focus on Back-end accouont system development and code review.
-
-I fix the problems in PR [issue#132: develop basic login and logout feature](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/132) 
-- Add 
--  
+- Fix the issues in PR [develop basic login and logout feature](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/138) that other reviewers pointed out.
+- Create a new issue called [Make sure the system can be used only when the user already login.](https://github.com/COSC-499-W2025/capstone-project-team-9/issues/142), and write codes to implement it. 
 
 ### issue developed:
 
-[issue#132: develop basic login and logout feature](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/138)
-- Developed user_manager.py file, which use a class to manage and do all account operations, currently has loging, logout and registration.
-- At the same time, user_manager.py file could also store the current login account information locally.
-- Developed user_menus.py file and modify the main_menus.py to  add an user menus to the system, which displays the current user and allows users to log in, log out, and register an account.
-- This user menus would be extened as future more account system's functions be developed.
-- The issue 132 current effect the menus and user data table only, the account system has not yet been linked with other systems.
+Problem fixing: [issue#132: develop basic login and logout feature](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/138)
+- A Linux-compatible version has been added to the feature that displays the user's password input as '*', making the feature cross-platform.
+- Remove all emojis / unusual characters from the code to make sure the account system still works on different platform.
+- Change the all imports of AuthManager and user_account_menu into absolute imports, this is for CI compatibility。
+PR developed: [issue#142 make sure the system can be used only when the user already login](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/149)
+- Add a new login_menu functions to show the login menu.
+- Modify the main_menu.py and main.py to make sure use can only go to the main menu when they already login.
+- Add new test in test_user_menu.py to test the new codes.
 
 ### PR reviewed: 
-1. [Deep Code Analysis (PUSH FIRST) #134](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/134)
-2. [Deep Analysis Implementation (PUSH SECOND) #135](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/135)
-3. [Be able to edit ranks and data of ranking](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/137)
+1. [Fix Timeline Metrics: Use Zip Internal Timestamps Instead of Upload Time](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/139)
+2. [Improve ZIP upload validation & add test coverage for invalid ZIP cases](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/140)
+3. [Ranked projects deep analysis](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/141)
+4. [Add CLI integration for resume generation, viewing](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/143)
 
 ### Went well:
-Developed basic logics of account system well.
+Fix the problems that teammates point out in my PR, and develop the account system to the point where it could have a formal impact on the system.
 ### Not well:
-Not provide sufficiently detailed code suggestions to the PRs I reviewed.
+The my new PR seems not run well in others computer and also be identified some problems, I must fix them next week.
 ### Next cycle:
-Push the development of the account system such as connect user table with other tables and be sure it wont break the whole project.
+Push the development of the account system, such as fix the current problems and connect user table with other data tables.
