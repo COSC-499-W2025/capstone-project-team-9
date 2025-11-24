@@ -819,19 +819,27 @@ The focus this week was on expanding user-facing features, strengthening backend
 
 ### **Sami**
 
+---
 
 ### **Evan**
 
+---
 
 ### **Kevin**
 
+---
 
 ### **JinXi**
 
+---
+
 ### **Eric**
+
+---
 
 ### **Ryan**
 
+---
 
 ## **Current Status**
 - Authentication system implemented but not yet integrated into analysis workflows.  
@@ -843,15 +851,17 @@ The focus this week was on expanding user-facing features, strengthening backend
 ---
 
 ## **Testing**
-(Document new or updated tests, integration checks, or coverage improvements completed this week.)
+
 
 ---
 
 ### **Collaboration Highlights**
-(Add short notes on how the team coordinated after returning from reading break, e.g., syncing progress, resolving pending merge conflicts, or dividing upcoming milestone work.)
+
+---
 
 ### **Things to Work On / Reflection**
-(Reflect on remaining gaps, testing needs, or areas to improve communication.)
+
+---
 
 ### **Peer Evaluations**
 | Reviewer | Reviewee | Focus Area |
