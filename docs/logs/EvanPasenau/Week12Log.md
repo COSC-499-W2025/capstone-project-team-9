@@ -9,3 +9,7 @@
 
 ### My Plan for next week
 - I plan to start working on refactoring and removing unused code, specifically in the areas surrounding the user permissions and collaborative analysis
+- I would also like to add tests so that coverage is higher.
+
+### Reflection
+- Overall this week went as well as it could have I got what I had targeted fully implemented with extrapolating the collaborative analysis. One thing I would like to improve on is just getting higher coverage on my tests.
