@@ -1,6 +1,6 @@
 # Week 12 Project Update
 
-![image](/docs/logs/EvanPasenau/images/week12.png)
+![image](/docs/logs/EvanPasenau/images/Week12.png)
 
 ### This Sprints Progress
 - I wrote the code for pull requests 151, 144 and 147 which closed issues 150, 124, and 146
