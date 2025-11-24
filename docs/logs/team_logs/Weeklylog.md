@@ -819,6 +819,7 @@ The focus this week was on expanding user-facing features, strengthening backend
 - **#144** Extrapolate collaborative project files. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/144
 - **#145** Portfolio logic + skill mapper. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/145
 - **#147** Improved collaborative extrapolation (common names, auto-select GitHub username). https://github.com/COSC-499-W2025/capstone-project-team-9/pull/147
+- **#151** Enforcing the collaborative permission https://github.com/COSC-499-W2025/capstone-project-team-9/pull/151
 ---
 
 ### **Sami**
@@ -830,6 +831,11 @@ I also worked with the new SkillMapper module, which transforms low-level techni
 In addition to development work, I reviewed several PRs from Evan and created a full suite of tests to validate the PortfolioManager and SkillMapper integrations.
 
 ### **Evan**
+- I wrote the code for pull requests 151, 144 and 147 which closed issues 150, 124, and 146
+- This includes enforcing the collaborative permission and extrapolating the collaborative portion of projects. This means using their name or GitHub username to find out what in the project they worked on, and then only using that in our analysis.
+
+- all 3 pull request included multiple tests or updates of tests to cover the new content
+- I reviewed others code for pull requests 149, and 145
 
 ---
 
@@ -897,7 +903,9 @@ This week we expanded and updated tests to support new functionality and prevent
 - Added invalid ZIP tests for renamed RAR/7z files.  
 - Added guard tests for post-copy ZIP validation.  
 - Updated tests impacted by ZIP timestamp changes.  
-- Ensured ranking and portfolio-related modules load correctly after structural updates.  
+- Ensured ranking and portfolio-related modules load correctly after structural updates.
+- Added tests for Enforcing collaborative permission
+- Added tests to make sure methods supporting the collaborative extrapolation  
 
 Testing focused primarily on ZIP validation, timeline consistency, and ensuring new modules import and initialize without breaking existing logic.
 
@@ -908,6 +916,7 @@ Testing focused primarily on ZIP validation, timeline consistency, and ensuring 
 - Active GitHub review cycles helped ensure complex changes (e.g., timelines, ranking normalization, portfolio orchestration) merged without breaking dependencies.  
 - Members communicated regularly to avoid merge conflicts after structural changes in CLI, authentication, and portfolio modules.  
 - Testing updates were shared across the team to ensure consistency between ZIP upload logic, analysis workflow, and timeline metrics.
+- We had an efficient meeting to help assign the work and highlight priorities for the week.
 
 ---
 
@@ -916,6 +925,7 @@ This week marked a strong return from Reading Break, with major progress across 
 The team successfully delivered several foundational features—authentication, improved ranking, portfolio logic—while also improving data accuracy and upload reliability.  
 Coordination was smooth even with large PRs affecting shared components.  
 Looking forward, the team should continue focusing on test coverage and performance, especially for collaborator detection and deep analysis.
+We also want to start working on reinforcing our tests to get our coverage to 100% as currently we are not that close to that we often only have tests for expected cases or common cases and not the edge cases.
 
 ---
 
@@ -931,6 +941,8 @@ Looking forward, the team should continue focusing on test coverage and performa
 |     Ryan      |      Jinxi     |      issue132: develop basic login and logout feature       |
 |      Sami     |       Evan    |       Extrapolate Collab Continued      |
 |      Sami     |       Evan    |       extrapolating for only collab projects     |
+|     Evan     |     Sami      |      Portfolio logic #145      |
+|     Evan      |      Jinxi     |      issue#142 make sure the system can be used only when the user already login #149      |
 ---
 
 ## **Next Steps**
@@ -939,7 +951,7 @@ Looking forward, the team should continue focusing on test coverage and performa
 - Everyong will doing refactoring, polishing
 - Improve performance of collaborator detection.
 - Enhance CLI menu flow for authenticated users.
-- Increase coverage on ranking and deep analysis edge cases.
+- Increase test coverage on ranking and deep analysis edge cases.
 
 ---
 
