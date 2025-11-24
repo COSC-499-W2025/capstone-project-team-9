@@ -1,5 +1,8 @@
 ## Week 12 Logs
 
+<img width="1103" height="661" alt="image" src="https://github.com/user-attachments/assets/78dff8b9-57fb-414c-a261-5cd2010e37aa" />
+
+
 ### What I completed this week
 This week I focused on expanding the portfolio generation functionality by integrating the new **PortfolioManager** module into the system. Instead of introducing new analysis logic, I structured the module so it reuses all existing utilities—summarization, ranking, collaboration detection, file statistics, skill extraction, and timeline analysis—to generate complete portfolio reports from uploaded projects.
 
