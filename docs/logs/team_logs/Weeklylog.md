@@ -918,7 +918,8 @@ Looking forward, the team should continue focusing on test coverage and performa
 |    Eric     |     Ryan      |      Ranked projects deep analysis   |
 |    Eric     |     Evan      |      extrapolating for only colab projects |
 |    Eric     |     Kevin     |       Add CLI integration for resume generation, viewing.  |
-|           |           |             |
+|     Ryan      |     Eric      |      Fix Timeline Metrics: Use Zip Internal Timestamps Instead of Upload Time #139       |
+|     Ryan      |      Jinxi     |      issue132: develop basic login and logout feature       |
 |           |           |             |
 ---
 
