@@ -830,6 +830,8 @@ I also worked with the new SkillMapper module, which transforms low-level techni
 
 In addition to development work, I reviewed several PRs from Evan and created a full suite of tests to validate the PortfolioManager and SkillMapper integrations.
 
+---
+
 ### **Evan**
 - I wrote the code for pull requests 151, 144 and 147 which closed issues 150, 124, and 146
 - This includes enforcing the collaborative permission and extrapolating the collaborative portion of projects. This means using their name or GitHub username to find out what in the project they worked on, and then only using that in our analysis.
@@ -840,7 +842,11 @@ In addition to development work, I reviewed several PRs from Evan and created a 
 ---
 
 ### **Kevin**
-
+- Implemented **CLI integration for résumé operations** (#143). https://github.com/COSC-499-W2025/capstone-project-team-9/pull/143
+- Added `handle_generate_resume()` to support generating and regenerating résumés from project analysis results.
+- Implemented `handle_view_resume()` allowing users to view résumés in multiple formats (JSON, Markdown, and plain text).
+- Added `handle_delete_resume()` with confirmation prompts to safely remove stored résumé data.
+- Updated the main menu to include new résumé options (Items 12–14).
 ---
 
 ### **JinXi**
