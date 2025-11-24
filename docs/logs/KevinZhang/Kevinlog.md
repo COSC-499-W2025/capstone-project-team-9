@@ -120,3 +120,27 @@ Working alongside teammates on refactoring and integration reinforced the import
 - Continue debugging and improving modular documentation for new components.
 <img width="1264" height="649" alt="image" src="https://github.com/user-attachments/assets/99d1732f-24ec-4eab-98d6-abc185463379" />
 
+# **What I Did This Week – Week 12**
+
+## **Overview**
+This week I focused on integrating résumé functionality directly into the CLI and ensuring that users can generate, view, and manage their résumés through a seamless command-line workflow. This work builds on the résumé generation logic implemented in previous weeks and extends it into user-accessible CLI features.
+
+## **What I Did**
+- Implemented **CLI integration for résumé operations** (#143).
+- Added `handle_generate_resume()` to support generating and regenerating résumés from project analysis results.
+- Implemented `handle_view_resume()` allowing users to view résumés in multiple formats (JSON, Markdown, and plain text).
+- Added `handle_delete_resume()` with confirmation prompts to safely remove stored résumé data.
+- Updated the main menu to include new résumé options (Items 12–14).
+- Wrote **11 comprehensive test cases** covering:
+  - Résumé generation logic
+  - Résumé viewing in different formats
+  - Résumé deletion workflow
+  - CLI argument handling and error cases
+
+## **Reflection**
+This week’s work expanded the résumé subsystem from a backend feature into a fully interactive user workflow. Integrating it into the CLI improved usability and makes it easier for users to manage their résumé outputs without relying on internal modules. The testing coverage ensures that the new functionality is stable and compatible with recent refactoring changes in the CLI architecture.
+
+## **Next Steps**
+- Finalize portfolio integration so résumé and portfolio outputs share consistent formatting.
+- Expand test coverage for cross-module interactions (Resume Manager + Portfolio Manager).
+- Prepare for upcoming Milestone 2 features that will require CLI extensibility.
