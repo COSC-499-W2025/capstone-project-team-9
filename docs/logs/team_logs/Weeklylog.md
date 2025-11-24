@@ -935,3 +935,6 @@ Looking forward, the team should continue focusing on test coverage and performa
 ---
 
 ## **Burnup Chart**
+<img width="1006" height="493" alt="image" src="https://github.com/user-attachments/assets/250eeb33-1ca4-47bf-aaf7-4e56a463cb30" />
+<img width="989" height="486" alt="image" src="https://github.com/user-attachments/assets/00b28d8b-3fc0-4793-ac13-0f5d064b2551" />
+
