@@ -802,13 +802,19 @@ This week is reading break, for any personal works, please refer to personal log
 
 # Sprint Report – Week 12 (2025/11/17 to 2025/11/23)
 ## **Overview**
-This week (Week 12), the team resumed active development, focusing on continuing integration, polishing existing features, and preparing for final deliverables.
+After the break, the team resumed development with strong progress across authentication, timeline accuracy, ZIP validation, deeper project ranking, collaborative analysis improvements, and portfolio generation.
+The focus this week was on expanding user-facing features, strengthening backend robustness, and integrating deep analysis into higher-level workflows such as project ranking and portfolio construction.
 
 ---
 
 ## **Completed Work**
-(Add a concise list of pull requests or tasks completed this week.)
-
+- **#138** Basic login, logout, and registration  
+- **#139** Fix timeline using internal ZIP timestamps  
+- **#140** Improve ZIP upload validation + add test coverage  
+- **#141** Integrate deep analysis into ranking  
+- **#144** Extrapolate collaborative project files  
+- **#145** Portfolio logic + skill mapper  
+- **#147** Improved collaborative extrapolation (common names, auto-select GitHub username)
 ---
 
 ## **Current Status**
