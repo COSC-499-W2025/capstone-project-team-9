@@ -179,7 +179,9 @@ def calculate_project_score(analysis_data: Dict[str, Any], project_id: Optional[
 def rank_all_projects() -> List[Dict[str, Any]]:
     """
     Rank all uploaded projects in the database by composite score using key_metrics.
-    Uses stored scores from database if available, otherwise calculates new scores.
+
+    NOTE: This function intentionally uses ONLY key_metrics-based analysis and does
+    NOT trigger deep LocalAnalyzer analysis or LLM summaries to keep the CLI fast.
     """
     try:
         with get_connection() as conn, conn.cursor() as cur:
@@ -200,10 +202,12 @@ def rank_all_projects() -> List[Dict[str, Any]]:
                 if project_id in stored_scores:
                     score = stored_scores[project_id]
                     # Still need analysis data for other purposes, but use stored score
-                    analysis = analyze_project_from_db(project_id, silent=True)
+                    # analysis = analyze_project_from_db(project_id, silent=True)
+                    analysis = None
                 else:
                     analysis = analyze_project_from_db(project_id, silent=True)
-                    score = calculate_project_score(analysis, project_id=project_id)
+                    # score = calculate_project_score(analysis, project_id=project_id)
+                    score = calculate_project_score(analysis)
                 
                 ranked_projects.append({
                     "project_id": project_id,
@@ -283,12 +287,15 @@ def rank_and_summarize_top_projects() -> None:
                 print("\nUsing stored summary from database...")
                 print(stored_ranking['summary'])
             else:
-                print("\nGenerating summary...")
-                try:
-                    summary = summarize_project(project_id)
-                    print(summary)
-                except Exception as e:
-                    print(f"Error generating summary for project {project_id}: {e}")
+                print("\nNo stored summary found in database.")
+                print("(On-the-fly summary generation is disabled in the CLI to keep it responsive.)")
+                # print("\nGenerating summary...")
+                # print("(Skipping on-the-fly generation to keep the CLI responsive.)")
+                # # try:
+                # #     summary = summarize_project(project_id)
+                # #     print(summary)
+                # # except Exception as e:
+                # #     print(f"Error generating summary for project {project_id}: {e}")
             
             if i < top_count - 1:
                 print("\n" + "-"*80)
@@ -306,7 +313,7 @@ def save_rankings_with_summaries(ranked_projects: List[Dict[str, Any]], generate
     summaries = {}
     
     if generate_summaries:
-        print("\nProcessing summaries for all projects...")
+        print("\nProcessing summaries for all projects (using stored summaries only)...")
         for i, project in enumerate(ranked_projects, 1):
             project_id = project['project_id']
             filename = project['filename']
@@ -317,13 +324,13 @@ def save_rankings_with_summaries(ranked_projects: List[Dict[str, Any]], generate
                 print(f"  [{i}/{len(ranked_projects)}] Using stored summary for: {filename}")
                 summaries[project_id] = stored_ranking['summary']
             else:
-                print(f"  [{i}/{len(ranked_projects)}] Generating summary for: {filename}")
-                try:
-                    summary = summarize_project(project_id)
-                    summaries[project_id] = summary
-                except Exception as e:
-                    print(f"    Error generating summary: {e}")
-                    summaries[project_id] = f"Error generating summary: {e}"
+                print(f"  [{i}/{len(ranked_projects)}] No stored summary for: {filename}")
+                # try:
+                #     summary = summarize_project(project_id)
+                #     summaries[project_id] = summary
+                # except Exception as e:
+                #     print(f"    Error generating summary: {e}")
+                #     summaries[project_id] = f"Error generating summary: {e}"
     
     print("\nSaving rankings and summaries to database...")
     success = save_rankings_to_db(ranked_projects, summaries if summaries else None)

@@ -149,11 +149,8 @@ class TestRankAndSummarizeTopProjects:
         # Verify get_stored_ranking_by_project_id was called for each project
         assert mock_get_stored.call_count == 3
         
-        # Verify summarize_project was called 3 times (for top 3, since no stored summaries)
-        assert mock_summarize.call_count == 3
-        assert mock_summarize.call_args_list[0] == call(1)
-        assert mock_summarize.call_args_list[1] == call(2)
-        assert mock_summarize.call_args_list[2] == call(3)
+        # On-the-fly summarization is disabled in CLI mode, so summarize_project should NOT be called
+        assert mock_summarize.call_count == 0
     
     @patch('analysis.project_ranking.rank_all_projects')
     def test_rank_and_summarize_no_projects(self, mock_rank_all):
@@ -184,10 +181,9 @@ class TestRankAndSummarizeTopProjects:
         
         rank_and_summarize_top_projects()
         
-        # Should only summarize 1 project (min of 3 and actual count)
-        assert mock_summarize.call_count == 1
-        assert mock_summarize.call_args_list[0] == call(1)
-        # Verify get_stored_ranking_by_project_id was called
+         # On-the-fly summarization is disabled; summarize_project should NOT be called
+        assert mock_summarize.call_count == 0
+        # We still query stored summary once (for the single project)
         assert mock_get_stored.call_count == 1
     
     @patch('analysis.project_ranking.get_stored_ranking_by_project_id')
@@ -208,15 +204,10 @@ class TestRankAndSummarizeTopProjects:
         
         rank_and_summarize_top_projects()
         
-        # Should only summarize top 3, not all 5
-        assert mock_summarize.call_count == 3
-        assert mock_summarize.call_args_list[0] == call(1)
-        assert mock_summarize.call_args_list[1] == call(2)
-        assert mock_summarize.call_args_list[2] == call(3)
-        # Verify project 4 and 5 were NOT summarized
-        assert call(4) not in mock_summarize.call_args_list
-        assert call(5) not in mock_summarize.call_args_list
-        # Verify get_stored_ranking_by_project_id was called 3 times (for top 3)
+        # On-the-fly summarization is disabled; summarize_project should never be called
+        assert mock_summarize.call_count == 0
+
+        # We still query stored summaries for the top 3 projects
         assert mock_get_stored.call_count == 3
     
     @patch('analysis.project_ranking.get_stored_ranking_by_project_id')
@@ -234,14 +225,14 @@ class TestRankAndSummarizeTopProjects:
         ]
         mock_rank_all.return_value = mock_ranked
         mock_summarize.side_effect = Exception("Summary error")
-        # Mock get_stored_ranking_by_project_id to return None (no stored summaries)
         mock_get_stored.return_value = None
 
         rank_and_summarize_top_projects()
 
         mock_rank_all.assert_called_once()
         mock_get_stored.assert_called_once_with(1)
-        mock_summarize.assert_called_once_with(1)
+        # On-the-fly summarization is disabled, so summarize_project should never be called
+        mock_summarize.assert_not_called()
     
     @patch('analysis.project_ranking.get_stored_ranking_by_project_id')
     @patch('analysis.project_ranking.summarize_project')
@@ -356,7 +347,7 @@ class TestRankingStorage:
         # Verify score is in valid range
         assert 0 <= ranked[0]["score"] <= 100
         # Verify analysis was still called (needed for other data)
-        mock_analyze.assert_called_once_with(1, silent=True)
+        mock_analyze.assert_not_called()
         # Verify get_stored_rankings was called to check for stored scores
         mock_get_stored.assert_called_once()
     
@@ -391,9 +382,12 @@ class TestRankingStorage:
         
         # Verify calculate_project_score was called with project_id
         mock_calculate.assert_called_once()
-        call_args = mock_calculate.call_args
-        # project_id should be passed as keyword argument
-        assert call_args.kwargs['project_id'] == 1
+        args, kwargs = mock_calculate.call_args
+        # Lightweight mode: we no longer pass project_id from rank_all_projects
+        assert len(args) == 1
+        assert isinstance(args[0], dict)
+        assert kwargs == {}
+
         # Verify score is normalized
         assert len(ranked) == 1
         assert 0 <= ranked[0]["score"] <= 100

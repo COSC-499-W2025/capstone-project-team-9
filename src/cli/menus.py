@@ -212,7 +212,8 @@ def handle_rank_projects():
         save_choice = input("Would you like to save these rankings to the database? (y/n): ").strip().lower()
         if save_choice in ['y', 'yes']:
             generate_summaries = input("Generate and save summaries for all projects? (y/n): ").strip().lower()
-            save_rankings_with_summaries(ranked, generate_summaries in ['y', 'yes'])
+            # save_rankings_with_summaries(ranked, generate_summaries in ['y', 'yes'])
+            save_rankings_with_summaries(ranked, generate_summaries=False)
     
     input("\nPress Enter to continue...")
 
@@ -229,7 +230,8 @@ def handle_rank_and_summarize_projects():
         if ranked:
             # Generate summaries for all projects (not just top 3)
             generate_all = input("Generate summaries for ALL projects (not just top 3)? (y/n): ").strip().lower()
-            save_rankings_with_summaries(ranked, generate_all in ['y', 'yes'])
+            # save_rankings_with_summaries(ranked, generate_all in ['y', 'yes'])
+            save_rankings_with_summaries(ranked, generate_all=False)
     
     input("\nPress Enter to continue...")
 
