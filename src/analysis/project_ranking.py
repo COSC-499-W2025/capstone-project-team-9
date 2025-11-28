@@ -289,13 +289,6 @@ def rank_and_summarize_top_projects() -> None:
             else:
                 print("\nNo stored summary found in database.")
                 print("(On-the-fly summary generation is disabled in the CLI to keep it responsive.)")
-                # print("\nGenerating summary...")
-                # print("(Skipping on-the-fly generation to keep the CLI responsive.)")
-                # # try:
-                # #     summary = summarize_project(project_id)
-                # #     print(summary)
-                # # except Exception as e:
-                # #     print(f"Error generating summary for project {project_id}: {e}")
             
             if i < top_count - 1:
                 print("\n" + "-"*80)
@@ -325,12 +318,6 @@ def save_rankings_with_summaries(ranked_projects: List[Dict[str, Any]], generate
                 summaries[project_id] = stored_ranking['summary']
             else:
                 print(f"  [{i}/{len(ranked_projects)}] No stored summary for: {filename}")
-                # try:
-                #     summary = summarize_project(project_id)
-                #     summaries[project_id] = summary
-                # except Exception as e:
-                #     print(f"    Error generating summary: {e}")
-                #     summaries[project_id] = f"Error generating summary: {e}"
     
     print("\nSaving rankings and summaries to database...")
     success = save_rankings_to_db(ranked_projects, summaries if summaries else None)
