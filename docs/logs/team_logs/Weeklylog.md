@@ -1053,11 +1053,7 @@ Test add: [Add more test for user_menus.py to extend the test coverage of this f
 - Add more test for EOF Handling
 - Add more test for edge cases
 - Add more test for cross plateform
-
-
-**Requirements addressed:**
-- ...
-
+  
 ---
 
 ### **Ryan**
@@ -1108,7 +1104,12 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 | **Sami** |  | ... |
 | **Eric** |  | ... |
 | **Evan** |  | ... |
-| **JinXi** |  | ... |
+| **JinXi** | **Sami** |test_key_metrics.py update [#156](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/156) |
+| **JinXi** | **Eric** |Refactor main menu to use list-based rendering and dispatch map [#159](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/159) |
+| **JinXi** | **Sami** |Database Connection Refactor [#160](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/160) |
+| **JinXi** | **Kevin** |Refactoring resume feature [#162](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/162) |
+| **JinXi** | **Kevin** |Write tests for resume creation [#164](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/164) |
+| **JinXi** | **Ryan** |Fixed Testing for ranking storage and improved coverage [#166](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/166) |
 | **Ryan** |  | ... |
 
 ---
