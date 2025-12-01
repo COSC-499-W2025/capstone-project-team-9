@@ -1042,9 +1042,18 @@ This week, I focused on polishing the résumé generation module to ensure the c
 ---
 
 ### **JinXi**
-*(Please fill out your Week 13 items. Focus on Auth flow refinement or UI polish.)*
-- ...
-- ...
+This week I focus on refactoring of account system, add test to increas the test coverage on account system and review codes.
+- Refactoring: [Refactoring of user menus](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/161)
+-- use constant to store login and account management menu's options. Not direct use print to show options.
+-- user selections are now catch by the handlers instead of if-else
+-- This change would making it easier to add new features in the future
+
+-Test add: [Add more test for user_menus.py to extend the test coverage of this file.](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/167)
+-- Improve test coverage of user_menus.py form 69% to 82%
+-- Add more test for EOF Handling
+-- Add more test for edge cases
+-- Add more test for cross plateform
+
 
 **Requirements addressed:**
 - ...
