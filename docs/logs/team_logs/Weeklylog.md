@@ -990,12 +990,14 @@ Following the implementation of major features (Authentication, Portfolio, Ranki
 ## **Completed Work**
 
 ### **Kevin**
-*(Please fill out your Week 13 items. Focus on Resume polish or general refactoring based on last week's plan.)*
-- ...
-- ...
+This week, I focused on polishing the résumé generation module to ensure the codebase is clean, maintainable, and ready for final submission.
+- **PR #162 – Refactoring Resume Feature:**
+  - Refactored the `ResumeManager` and related formatting utilities to reduce code duplication and improve readability.
+  - Optimized the logic for retrieving and structuring project data for resumes.
+  - Verified that all resume-related tests pass after the structural changes, ensuring no regressions in functionality.
 
 **Requirements addressed:**
-- ...
+- Issue #162 – Refactoring resume feature
 
 ---
 
@@ -1102,5 +1104,3 @@ Following the implementation of major features (Authentication, Portfolio, Ranki
 ---
 
 ## **Burnup Chart**
-<img width="1000" alt="burnup_chart_1" src="INSERT_IMAGE_LINK_HERE" />
-<img width="1000" alt="burnup_chart_2" src="INSERT_IMAGE_LINK_HERE" />
