@@ -984,10 +984,18 @@ We also want to start working on reinforcing our tests to get our coverage to 10
 # Sprint Report – Week 13 (2025/11/24 to 2025/11/30)
 
 ## **Overview**
-This sprint focused on **finalizing system stability**, **increasing test coverage**, and **polishing user workflows**.  
-Following the implementation of major features (Authentication, Portfolio, Ranking) in Week 12, the team shifted focus to **refactoring**, **performance optimization** (specifically regarding collaborator detection), and ensuring the **CLI experience** is seamless for the final milestone.
+This sprint focused on **codebase refinement**, **system integration**, and **test coverage expansion**. The team executed a significant refactor of the database connections and resume generation features to improve maintainability. We also merged the metrics and summary modules into a unified "Full Analysis Mode" and updated the CLI menu labels for better user experience.
+
+A major push was made on quality assurance: we achieved **100% test coverage** on several core analysis modules (`test_activity_classifier.py`, `test_analysis_init.py`) and implemented comprehensive test suites for the Portfolio and Resume managers. Additionally, the system documentation was updated, and the "Chronological Skills" feature was finalized.
 
 ## **Completed Work**
+- Tests for portfolio https://github.com/COSC-499-W2025/capstone-project-team-9/pull/152
+- Refactor: merge metrics and summary into full analysis mode; update menu labels https://github.com/COSC-499-W2025/capstone-project-team-9/pull/154
+- Syntax fixes, documentation updates, and chronological skills https://github.com/COSC-499-W2025/capstone-project-team-9/pull/158
+- Database Connection Refactor https://github.com/COSC-499-W2025/capstone-project-team-9/pull/160
+- Refactoring resume feature https://github.com/COSC-499-W2025/capstone-project-team-9/pull/162
+- Write tests for resume creation https://github.com/COSC-499-W2025/capstone-project-team-9/pull/164
+- Refactor main menu to use list-based rendering and dispatch map https://github.com/COSC-499-W2025/capstone-project-team-9/pull/159
 
 ### **Kevin**
 This week, I focused on polishing the résumé generation module to ensure the codebase is clean, maintainable, and ready for final submission.
@@ -1059,35 +1067,38 @@ This week, I focused on polishing the résumé generation module to ensure the c
 
 ---
 
-## **Testing**
-- **Coverage Goal:** The team worked to expand test coverage for edge cases as planned in Week 12.
-- **New Tests Added:**
-  - ...
-  - ...
-- **Integration Testing:** Verified the flow between Login -> Analysis -> Ranking/Portfolio generation.
+## Testing
+This sprint, the team made a significant push towards quality assurance, aiming for **100% test coverage** on critical analysis modules.
+- **Coverage Milestones:**
+  - `test_activity_classifier.py`: Achieved **100% coverage**, ensuring accurate categorization of project files.
+  - `test_analysis_init.py`: Achieved **100% coverage**, verifying the stability of the analysis engine's initialization.
+- **New & Updated Tests:**
+  - **Resume Creation:** Comprehensive tests were written for the `ResumeManager` to validate the new formatting and data retrieval logic.
+  - **Portfolio Generation:** Added a full test suite for the portfolio module to ensure skill mapping and project summaries are generated correctly.
+  - `test_key_metrics.py`: Updated to align with the merged "Full Analysis Mode" and new metric definitions.
+- **Integration Testing:** Verified the end-to-end flow of the new "Full Analysis Mode," ensuring that metrics and summaries are correctly combined without errors in the CLI.
 
 ---
 
-## **Team Collaboration & Peer Evaluation**
-
 ### Collaboration Highlights
-- High level of coordination to merge final feature tweaks without breaking the build.
-- Peer reviews focused on code quality and test completeness.
-- ...
+- **Cross-Module Refactoring:** The **Database Connection Refactor** required close coordination between **Sami** and **Jinxi** to ensure that user authentication states were correctly preserved when passing control to the analysis modules.
+- **Unified Analysis Workflow:** **Ryan** worked closely with the team to merge the separate "Metrics" and "Summary" features into a single **"Full Analysis Mode,"** requiring careful conflict resolution in `main.py`.
+- **Quality Assurance Reviews:** Peer reviews this week were strictly focused on test completeness. Members did not approve PRs until the targeted modules hit their 100% coverage goals.
 
 ### Things to Work On / Reflection
-- ...
-- ...
+This week marked a shift from "building new features" to "perfecting existing ones." The **Database Connection Refactor** was a challenging but necessary step to remove technical debt before the final submission. While hitting **100% test coverage** on key modules was time-consuming, it has significantly increased our confidence in the system's stability.
+
+Moving forward, we need to ensure that our **documentation** keeps pace with these rapid code changes so that the final user guide accurately reflects the polished CLI structure.
 
 ### Peer Evaluations
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Kevin** | **[Name]** | ... |
-| **Sami** | **[Name]** | ... |
-| **Eric** | **[Name]** | ... |
-| **Evan** | **[Name]** | ... |
-| **JinXi** | **[Name]** | ... |
-| **Ryan** | **[Name]** | ... |
+| **Kevin** |  | ... |
+| **Sami** |  | ... |
+| **Eric** |  | ... |
+| **Evan** |  | ... |
+| **JinXi** |  | ... |
+| **Ryan** |  | ... |
 
 ---
 
