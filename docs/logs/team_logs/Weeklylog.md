@@ -998,6 +998,8 @@ A major push was made on quality assurance: we achieved **100% test coverage** o
 - Refactor main menu to use list-based rendering and dispatch map https://github.com/COSC-499-W2025/capstone-project-team-9/pull/159
 - Adding Tests for main menu and the app.py https://github.com/COSC-499-W2025/capstone-project-team-9/pull/165
 - Fixed Testing for ranking storage and improved coverage https://github.com/COSC-499-W2025/capstone-project-team-9/pull/166
+- Testing Portfolio system and file contents https://github.com/COSC-499-W2025/capstone-project-team-9/pull/169
+- Testing project display and menus https://github.com/COSC-499-W2025/capstone-project-team-9/pull/168
 
 ### **Kevin**
 This week, I focused on polishing the résumé generation module to ensure the codebase is clean, maintainable, and ready for final submission.
@@ -1074,12 +1076,12 @@ This merge sets the foundation for the future analytics dashboard and simplifies
 ---
 
 ### **Evan**
-*(Please fill out your Week 13 items. Last week mentioned improving performance of collaborator detection.)*
-- ...
-- ...
+- I wrote the code for pull requests 169 and 168 which were both testing PR's
+- I reviewed Ryan's PR's which were 166 and 165
+- I also wrote the team contract and made the team presentation with Ryan
 
 **Requirements addressed:**
-- ...
+- Increased testing coverage
 
 ---
 
@@ -1159,6 +1161,8 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 | **JinXi** | **Kevin** |Write tests for resume creation [#164](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/164) |
 | **JinXi** | **Ryan** |Fixed Testing for ranking storage and improved coverage [#166](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/166) |
 | **Ryan** |  | ... |
+| **Evan** | **Ryan** |Fixed Testing for ranking storage and improved coverage [#166](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/166) |
+| **Evan** |  | **Ryan** |Adding Tests for main menu and app.py [#165](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/165) 
 
 ---
 
