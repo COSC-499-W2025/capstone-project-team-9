@@ -227,3 +227,57 @@ Key improvements include:
 This prevents issues where renamed RAR files would incorrectly appear valid, and overall improves reliability and UX during file uploads.
 
 ---
+
+### **Week 13: November 23rd – November 29th**
+
+**Tasks worked on:**
+
+![week 13 log](week13.png)
+
+**Weekly Goals Recap**
+
+This week focused on two major backend improvements:  
+(1) refactoring the CLI menu system for cleaner structure and better maintainability, and  
+(2) merging the **key_metrics** and **project_summary** features into a unified analytics workflow.
+
+These changes streamline our user experience and simplify the internal logic of our analysis pipeline.
+
+---
+
+#### **Refactor: CLI Menu Structure**
+
+The existing CLI menu had become increasingly large as more features were added (cleanup, ranking, collaborative features, user prefs, login, etc.).  
+This week I refactored the menu system to make it more modular and maintainable:
+
+- Split menu logic into **dedicated handlers** for user account, analysis, and preferences  
+- Removed duplicated `input()` logic and unified all input validation  
+- Cleaned up inconsistent numbering caused by the login/register option  
+- Ensured the menu properly updates based on logged-in state (e.g., showing the username)  
+- Improved readability of the main menu loop and reduced deeply nested logic
+
+This refactor helps future contributors add new menu options without creating conflicts or inconsistent UX.
+
+---
+
+#### **Feature Merge: key_metrics + project_summary**
+
+Previously, **key_metrics** and **project_summary** were implemented as separate flows.  
+This caused:
+
+- duplicated data extraction  
+- similar logic running multiple times  
+- multiple DB queries for the same information  
+- confusing CLI options
+
+This week, I merged both into a single unified analysis pipeline.
+
+Key improvements:
+
+- **One shared backend function** now generates both metrics and summary  
+- Removed duplicated code paths and consolidated all parsing logic  
+- Ensured contribution data, activity breakdown, project duration, and summary statistics all come from the **same computed dataset**  
+- Updated CLI routes to provide one clear “Analyze Project” flow instead of two  
+- Improved performance by reducing repeated scans over file_contents  
+- Cleaned up test cases to align with the merged design
+
+This merge sets the foundation for the future analytics dashboard and simplifies how future features (visualization, ranking, insights) will plug into the system.
