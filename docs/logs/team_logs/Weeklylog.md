@@ -981,3 +981,126 @@ We also want to start working on reinforcing our tests to get our coverage to 10
 <img width="1006" height="493" alt="image" src="https://github.com/user-attachments/assets/250eeb33-1ca4-47bf-aaf7-4e56a463cb30" />
 <img width="989" height="486" alt="image" src="https://github.com/user-attachments/assets/00b28d8b-3fc0-4793-ac13-0f5d064b2551" />
 
+# Sprint Report – Week 13 (2025/11/24 to 2025/11/30)
+
+## **Overview**
+This sprint focused on **finalizing system stability**, **increasing test coverage**, and **polishing user workflows**.  
+Following the implementation of major features (Authentication, Portfolio, Ranking) in Week 12, the team shifted focus to **refactoring**, **performance optimization** (specifically regarding collaborator detection), and ensuring the **CLI experience** is seamless for the final milestone.
+
+## **Completed Work**
+
+### **Kevin**
+*(Please fill out your Week 13 items. Focus on Resume polish or general refactoring based on last week's plan.)*
+- ...
+- ...
+
+**Requirements addressed:**
+- ...
+
+---
+
+### **Sami**
+*(Please fill out your Week 13 items. Focus on Portfolio/Skill Mapper refinement or overall system architecture.)*
+- ...
+- ...
+
+**Requirements addressed:**
+- ...
+
+---
+
+### **Eric**
+*(Please fill out your Week 13 items. Focus on analytics refinement or stability.)*
+- ...
+- ...
+
+**Requirements addressed:**
+- ...
+
+---
+
+### **Evan**
+*(Please fill out your Week 13 items. Last week mentioned improving performance of collaborator detection.)*
+- ...
+- ...
+
+**Requirements addressed:**
+- ...
+
+---
+
+### **JinXi**
+*(Please fill out your Week 13 items. Focus on Auth flow refinement or UI polish.)*
+- ...
+- ...
+
+**Requirements addressed:**
+- ...
+
+---
+
+### **Ryan**
+*(Please fill out your Week 13 items. Focus on Ranking logic finalization or UI display.)*
+- ...
+- ...
+
+**Requirements addressed:**
+- ...
+
+---
+
+## **Current Status**
+- **Feature Complete:** Core modules (Auth, Analysis, Ranking, Portfolio) are integrated.
+- **Refactoring:** Major code cleanup conducted to remove redundancy and improve readability.
+- **Test Coverage:** Significant push to increase coverage towards 100%, focusing on edge cases.
+- **Performance:** Collaborator detection and deep analysis speed improved.
+
+---
+
+## **Testing**
+- **Coverage Goal:** The team worked to expand test coverage for edge cases as planned in Week 12.
+- **New Tests Added:**
+  - ...
+  - ...
+- **Integration Testing:** Verified the flow between Login -> Analysis -> Ranking/Portfolio generation.
+
+---
+
+## **Team Collaboration & Peer Evaluation**
+
+### Collaboration Highlights
+- High level of coordination to merge final feature tweaks without breaking the build.
+- Peer reviews focused on code quality and test completeness.
+- ...
+
+### Things to Work On / Reflection
+- ...
+- ...
+
+### Peer Evaluations
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Kevin** | **[Name]** | ... |
+| **Sami** | **[Name]** | ... |
+| **Eric** | **[Name]** | ... |
+| **Evan** | **[Name]** | ... |
+| **JinXi** | **[Name]** | ... |
+| **Ryan** | **[Name]** | ... |
+
+---
+
+## **Next Steps**
+
+### **Immediate**
+- Final code freeze and preparation for submission/demo.
+- Ensure all documentation (README, User Guide) matches the final CLI structure.
+- Conduct final full-system regression test.
+
+### **Future Work**
+- Preparation for Milestone 3 (if applicable) or Project Wrap-up.
+
+---
+
+## **Burnup Chart**
+<img width="1000" alt="burnup_chart_1" src="INSERT_IMAGE_LINK_HERE" />
+<img width="1000" alt="burnup_chart_2" src="INSERT_IMAGE_LINK_HERE" />
