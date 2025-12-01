@@ -996,6 +996,8 @@ A major push was made on quality assurance: we achieved **100% test coverage** o
 - Refactoring resume feature https://github.com/COSC-499-W2025/capstone-project-team-9/pull/162
 - Write tests for resume creation https://github.com/COSC-499-W2025/capstone-project-team-9/pull/164
 - Refactor main menu to use list-based rendering and dispatch map https://github.com/COSC-499-W2025/capstone-project-team-9/pull/159
+- Adding Tests for main menu and the app.py https://github.com/COSC-499-W2025/capstone-project-team-9/pull/165
+- Fixed Testing for ranking storage and improved coverage https://github.com/COSC-499-W2025/capstone-project-team-9/pull/166
 
 ### **Kevin**
 This week, I focused on polishing the résumé generation module to ensure the codebase is clean, maintainable, and ready for final submission.
