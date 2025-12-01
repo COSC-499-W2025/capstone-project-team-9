@@ -1118,3 +1118,5 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 ---
 
 ## **Burnup Chart**
+<img width="988" height="470" alt="image" src="https://github.com/user-attachments/assets/880b4229-c837-4c22-a850-e0b602445c72" />
+<img width="975" height="473" alt="image" src="https://github.com/user-attachments/assets/2e9e84a2-b709-4713-bdb7-daaf15f13d89" />
