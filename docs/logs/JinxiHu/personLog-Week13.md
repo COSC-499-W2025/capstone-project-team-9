@@ -1,4 +1,4 @@
-# Week 12: 2025/11/24 – 2025/11/30
+# Week 13: 2025/11/24 – 2025/11/30
 
 ## Tasks Worked On
 ![Week13 Project Log](img/week13.png)
@@ -37,9 +37,9 @@ Test add: [Add more test for user_menus.py to extend the test coverage of this f
 6. [Fixed Testing for ranking storage and improved coverage](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/166)
 
 ### Went well:
-Fix the problems that teammates point out in my PR, and develop the account system to the point where it could have a formal impact on the system.
+Refactoring the code successfully and the new test could be run on linx system.
 ### Not well:
-The my new PR seems not run well in others computer and also be identified some problems, I must fix them next week.
+Not develop any new feature or fix bugs, but due to the system is already ready for milestone1 so it is not a big problem.
 ### Next cycle:
-Push the development of the account system, such as fix the current problems and connect user table with other data tables.
+Push the development of the account system, such as implement the user data isolation feature. And try to push milestone2 stuffs.
 
