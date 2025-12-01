@@ -5,6 +5,7 @@
 ### This Sprints Progress
 - I wrote the code for pull requests 169 and 168 which were both testing PR's
 - I reviewed Ryan's PR's which were 166 and 165
+- I also wrote the team contract and made the team presentation with Ryan
 
 ### My Plan for next week
 - I want to continue testing
