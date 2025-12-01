@@ -148,3 +148,33 @@ This week’s work expanded the résumé subsystem from a backend feature into a
 - Expand test coverage for cross-module interactions (Resume Manager + Portfolio Manager).
 - Prepare for upcoming Milestone 2 features that will require CLI extensibility.
 <img width="1020" height="593" alt="image" src="https://github.com/user-attachments/assets/140d9878-c65e-4aba-917b-e1d9d83d136d" />
+
+# **What I Did This Week (2025/11/24 to 2025/11/30 Week 13)**
+
+- Refactoring resume feature https://github.com/COSC-499-W2025/capstone-project-team-9/pull/162
+- Write tests for resume creation  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/164
+
+### **In Simple Terms**
+This week was all about **polish and stability**. Instead of building new features, I cleaned up the code for the résumé system to make it easier to read and maintain. I also wrote a lot of automated tests to prove that the résumé generator works perfectly every time.
+
+---
+
+### **What I Created**
+
+- **Refactored `ResumeManager`:** Cleaned up the code that handles résumé data, removing repetitive logic and making it more modular.
+- **Optimized Data Retrieval:** Improved how the system pulls project summaries and metrics to generate résumés faster.
+- **New Test Suite:** Wrote comprehensive tests for:
+  - `test_resume_creation.py` – Verifying that résumés are generated with the correct data.
+  - `test_resume_formatter.py` – Ensuring JSON, Markdown, and Text formats look correct.
+- **100% Coverage Goal:** Contributed to the team's goal of reaching 100% test coverage on critical modules.
+
+---
+
+## **Reflection**
+This week marked the transition from "development" to "delivery." Refactoring the résumé feature was necessary to remove technical debt before our final submission. It was satisfying to see the code become cleaner and to have the confidence (backed by tests) that the feature is robust. This "cleanup" phase is just as important as the building phase to ensure a high-quality final product.
+
+## **Next Steps**
+- **Final Demo Prep:** Rehearse the live demo workflow (Login -> Analyze -> Resume).
+- **Code Freeze:** Stop making changes to ensure stability for Monday's presentation.
+- **Documentation:** Ensure the User Guide accurately reflects the final CLI options for résumés.
+<img width="1029" height="609" alt="image" src="https://github.com/user-attachments/assets/0a95d169-6f69-44aa-8c39-59100c3500a3" />
