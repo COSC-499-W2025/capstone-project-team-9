@@ -1145,7 +1145,7 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 |-----------|-----------|-------------|
 | **Kevin** | **Sami** | Added tests for deep_code_analyzer [#155](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/155) |
 | **Sami** |  | ... |
-| **Eric** | *Jinxi** | issue#142 make sure the system can be used only when the user already login [#149](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/149) |
+| **Eric** | **Jinxi** | issue#142 make sure the system can be used only when the user already login [#149](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/149) |
 | **Eric** | **Sami** | Tests for portfolio [#152](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/152) |
 | **Eric** | **Sami** | test_activity_classifier.py and test_analysis_init.py 100% coverage hit [#153](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/153) |
 | **Eric** | **Sami** | Added tests for deep_code_analyzer [#155](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/155) |
