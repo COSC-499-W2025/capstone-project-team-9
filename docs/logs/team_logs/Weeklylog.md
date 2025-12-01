@@ -1014,12 +1014,16 @@ This week, I focused on polishing the résumé generation module to ensure the c
 ---
 
 ### **Sami**
-*(Please fill out your Week 13 items. Focus on Portfolio/Skill Mapper refinement or overall system architecture.)*
-- ...
-- ...
+This week I spent a lot of time working on refactoring code and adding tests to ensure our project had a sufficient amount of coverage.
+This was so that we know our project works inside and out and we are confident in our product going into the second milestone
+which involves using API calls etc. 
 
-**Requirements addressed:**
-- ...
+Additionally, I reviewed a bunch of PR's listed below and did a final test of our project before our demo coming up.
+Something that went we'll this week was our communication. In a way it stepped up more than it has in previous weeks and we were
+able to get a lot of issues revolving our project solved relatively quickly. 
+Yet, an issue we faced was PR's being left waiting for a review. I wasn't able to push as many tests as I hoped because we would have to wait for
+one PR to get pushed, so that I can push another test and create a seperate PR for it without creating 15 different branches. We ended up being fine, yet this is 
+still something we need to work on. 
 
 ---
 
@@ -1157,7 +1161,10 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
 | **Kevin** | **Sami** | Added tests for deep_code_analyzer [#155](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/155) |
-| **Sami** |  | ... |
+| **Sami** |  | **Kevin** | Refactoring Resume Feature [162] https://github.com/COSC-499-W2025/capstone-project-team-9/pull/162 |
+| **Sami** |  | **Eric** |Refactor main menu to use list-based rendering and dispatch map [159] https://github.com/COSC-499-W2025/capstone-project-team-9/pull/159 |
+| **Sami** |  | **Eric** | Fix CLI hang during project ranking by disabling deep analysis and live summaries; update all affected tests [157] https://github.com/COSC-499-W2025/capstone-project-team-9/pull/157 |
+| **Sami** |  | **Jinxi** | issue#142 make sure the system can be used only when the user already login [149] https://github.com/COSC-499-W2025/capstone-project-team-9/pull/149 |
 | **Eric** | **Jinxi** | issue#142 make sure the system can be used only when the user already login [#149](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/149) |
 | **Eric** | **Sami** | Tests for portfolio [#152](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/152) |
 | **Eric** | **Sami** | test_activity_classifier.py and test_analysis_init.py 100% coverage hit [#153](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/153) |
