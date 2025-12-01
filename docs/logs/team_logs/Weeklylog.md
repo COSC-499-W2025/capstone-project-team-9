@@ -1093,7 +1093,7 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 ### Peer Evaluations
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Kevin** |  | ... |
+| **Kevin** | **Sami** | Added tests for deep_code_analyzer [#155](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/155) |
 | **Sami** |  | ... |
 | **Eric** |  | ... |
 | **Evan** |  | ... |
@@ -1104,14 +1104,15 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 
 ## **Next Steps**
 
-### **Immediate**
-- Final code freeze and preparation for submission/demo.
-- Ensure all documentation (README, User Guide) matches the final CLI structure.
-- Conduct final full-system regression test.
+### **Immediate (Monday Presentation Prep)**
+- **Final Rehearsal:** Conduct a full team rehearsal of the presentation and live demo to ensure smooth hand-offs between members.
+- **Code Freeze:** Enforce a strict code freeze to ensure stability for the Monday demo.
+- **Demo Dry-Run:** Verify the "happy path" for the demo (Login -> Analyze -> Rank -> Resume) works flawlessly on the presentation machine.
+- **Final Submission:** Submit the final source code, documentation, and video deliverables before the deadline.
 
 ### **Future Work**
-- Preparation for Milestone 3 (if applicable) or Project Wrap-up.
-
+- **Post-Presentation Review:** Discuss feedback received from the instructors/TAs during the demo.
+- **Final Wrap-up:** cleanup repository and archive the project for the term.
 ---
 
 ## **Burnup Chart**
