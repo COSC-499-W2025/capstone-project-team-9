@@ -1230,10 +1230,68 @@ The primary focus was **System Testing and Quality Assurance**. We dedicated thi
 ---
 
 ### **Eric**
+**Weekly Goals Recap**
 
+As Milestone 1 concluded this week, my focus shifted toward improving the **reliability, stability, and overall test coverage** of our backend systems.  
+This included strengthening the permission workflow, validating collaborative access control, and ensuring previously untested modules now have full coverage.  
+By the end of the week, overall project test coverage increased to **~90%**, marking a major milestone in system robustness.
 
-**Requirements addressed:**
-- Quality Assurance & Final Testing
+---
+
+## **1. Added Full Test Suite for External Service Permission Workflow**
+
+Several components under `external_services/` previously lacked coverage, especially those interacting with the database and user permission logic.  
+This week I implemented a comprehensive test suite covering:
+
+- `ServiceConfig.initialize_table()` (success + exception paths)
+- `ServiceConfig.get_permission()` for:
+  - permission=True
+  - permission=False
+  - no record → None
+  - database failures
+- `ExternalServicePermission.initialize()` with correct error handling
+- `ExternalServicePermission.has_permission()` fallback logic
+- Full workflow tests for `request_external_service_permission()`:
+  - Skip prompting when existing permission is present
+  - Execute full info → prompt → store sequence when no permission exists
+  - `force=True` correctly re-prompts regardless of stored value
+  - Store permission only once and with correct arguments
+  - Validate printed user-facing messages
+
+These tests greatly improve reliability of our privacy and external analysis workflows.
+
+---
+
+## **2. Added Tests for Collaborative Permission Decorator**
+
+The `requires_collaborative` decorator enforces access control based on collaborative settings.  
+Before this week, the file had **0% test coverage**.
+
+I added tests to verify:
+
+- Wrapped functions execute correctly when collaborative=True
+- Execution is blocked when:
+  - preferences are missing (`None`)
+  - collaborative flag=False
+- Correct error message is printed
+- Decorator returns `None` when access is denied
+- Arguments are passed correctly to wrapped functions
+
+This brings the collaborative module to **100% coverage**, ensuring reliability for team-based features.
+
+---
+
+## **3. Overall Coverage & Stability Improvements**
+
+With the new test suites added:
+
+- Total project coverage increased from ~87% → **~90%**
+- External service modules now reach **96–100% coverage**
+- Collaborative decorators now reach **100% coverage**
+- Several untested branches across multiple modules are now fully validated
+
+This significantly improves long-term maintainability and helps future contributors trust the behavior of the permission systems.
+
 
 ---
 
@@ -1292,7 +1350,8 @@ This week was exclusively dedicated to testing.
 |-----------|-----------|-------------|
 | **Kevin** | **Jinxi** | Reviewed Auth system tests |
 | **Sami** | **Eric** | Reviewed Analysis pipeline tests |
-| **Eric** | **Ryan** | Reviewed Ranking logic tests |
+| **Eric** | **Sami** | Update test_collaborative.py #171 |
+| **Eric** | **Jinxi** | Add more test for user_menus.py to extend the test coverage of this file. #167 |
 | **Evan** | **Sami** | Reviewed Deep Analysis tests |
 | **JinXi** | **Kevin** | Reviewed Resume Manager tests |
 | **Ryan** | **Evan** | Reviewed Collaboration tests |
