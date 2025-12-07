@@ -1,4 +1,5 @@
 ## Week 13 Logs
+<img width="1609" height="945" alt="image" src="https://github.com/user-attachments/assets/5b460c38-09b2-4791-8e36-9fe998cb8a37" />
 
 ### What I completed this week
 - This week we had our Team presentation. Overall the presentation went well and the preperation went well. We have completed the all major features but there are still some things that we need to eb refined in the future.
