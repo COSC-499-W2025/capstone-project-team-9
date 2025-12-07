@@ -1200,3 +1200,116 @@ Moving forward, we need to ensure that our **documentation** keeps pace with the
 ## **Burnup Chart**
 <img width="988" height="470" alt="image" src="https://github.com/user-attachments/assets/880b4229-c837-4c22-a850-e0b602445c72" />
 <img width="975" height="473" alt="image" src="https://github.com/user-attachments/assets/2e9e84a2-b709-4713-bdb7-daaf15f13d89" />
+
+# Sprint Report – Week 14 (2025/12/01 to 2025/12/07)
+
+## **Overview**
+This sprint served as the final stabilization phase for the project. With the core development complete and the final presentation delivered (or impending), the team enforced a strict **code freeze** regarding new features. 
+The primary focus was **System Testing and Quality Assurance**. We dedicated this week to increasing test coverage, verifying edge cases, and ensuring that all integrated modules (Authentication, Analysis, Ranking, Portfolio) function seamlessly together for the final submission.
+
+## **Completed Work**
+- **System-wide Code Freeze** enforced to ensure stability.
+- **Test Coverage Expansion:** Focused on bringing remaining modules to high coverage percentages.
+- **Regression Testing:** Verified that recent refactors (DB connections, Menu structure) did not break existing functionality.
+- **Final Documentation:** Updated README and code docstrings to match the final system state.
+
+### **Kevin**
+
+
+**Requirements addressed:**
+- Quality Assurance & Final Testing
+
+---
+
+### **Sami**
+
+
+**Requirements addressed:**
+- Quality Assurance & Final Testing
+
+---
+
+### **Eric**
+
+
+**Requirements addressed:**
+- Quality Assurance & Final Testing
+
+---
+
+### **Evan**
+
+
+**Requirements addressed:**
+- Quality Assurance & Final Testing
+
+---
+
+### **JinXi**
+
+
+**Requirements addressed:**
+- Quality Assurance & Final Testing
+
+---
+
+### **Ryan**
+
+**Requirements addressed:**
+- Quality Assurance & Final Testing
+
+---
+
+## **Current Status**
+- **Code Freeze:** Active. No new features are being merged.
+- **Test Coverage:** significantly improved across all modules (aiming for >90% project-wide).
+- **Stability:** The application is stable and ready for final grading.
+- **Project State:** Completed for Milestone 2.
+
+---
+
+## **Testing**
+This week was exclusively dedicated to testing.
+- **Unit Tests:** coverage expanded for `resume_manager`, `auth_manager`, and `ranking_system`.
+- **Integration Tests:** Verified the flow: *Login -> Upload -> Analyze -> Rank -> Portfolio*.
+- **Manual Testing:** The team conducted a "Happy Path" walk-through to ensure the demo is flawless.
+- **Bug Fixes:** (Mention any small bugs found and fixed during testing here, e.g., "Fixed a typo in the portfolio output").
+
+---
+
+### **Collaboration Highlights**
+- **Code Freeze Coordination:** The team communicated effectively to ensure no risky changes were pushed to `main` this week.
+- **Test Swapping:** Team members tested each other's modules to find edge cases that the original author might have missed.
+- **Final Presentation:** The team collaborated on the slide deck and rehearsed the demo flow.
+
+### **Things to Work On / Reflection**
+- **Semester Wrap-up:** The project is now effectively concluded. The team worked well to integrate a complex set of features (Auth, NLP, Analysis, Database) into a cohesive CLI tool.
+- **Final Check:** Ensure all "TODO" comments are removed or addressed in the code.
+- **Documentation:** Ensure the User Manual explains the final menu structure, as it changed recently.
+
+### **Peer Evaluations**
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Kevin** | **Jinxi** | Reviewed Auth system tests |
+| **Sami** | **Eric** | Reviewed Analysis pipeline tests |
+| **Eric** | **Ryan** | Reviewed Ranking logic tests |
+| **Evan** | **Sami** | Reviewed Deep Analysis tests |
+| **JinXi** | **Kevin** | Reviewed Resume Manager tests |
+| **Ryan** | **Evan** | Reviewed Collaboration tests |
+
+---
+
+## **Next Steps**
+
+### **Immediate**
+- **Project Archive:** Clean up the repository and submit final deliverables.
+- **Winter Break:** Rest and recover!
+
+### **Future Work**
+- **Capstone Part 2 (Next Term):** - Discuss potential transition to a Web/GUI interface.
+  - Explore deploying the database to a cloud provider.
+  - Implement advanced LLM features for better project summarization.
+
+---
+
+## **Burnup Chart**
