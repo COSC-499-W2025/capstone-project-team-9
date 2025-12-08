@@ -1296,10 +1296,12 @@ This significantly improves long-term maintainability and helps future contribut
 ---
 
 ### **Evan**
-
+- I wrote the code for pull requests 180 and 177 which closed issues 179 and 175
+- all 3 pull request included multiple tests or updates of tests to cover the new content
 
 **Requirements addressed:**
-- Quality Assurance & Final Testing
+- Build external analysis method
+- Extract text from images for analysis
 
 ---
 
