@@ -200,3 +200,5 @@ This final week of testing was crucial. By writing tests for `ServiceConfig`, I 
 ## Next Steps
 - Submit final project deliverables and archive the repository.
 - Winter Break!
+
+<img width="1045" height="617" alt="image" src="https://github.com/user-attachments/assets/1a43c257-5f37-421a-8d66-5cce65e90e42" />
