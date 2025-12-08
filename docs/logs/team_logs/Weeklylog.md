@@ -1306,10 +1306,18 @@ This significantly improves long-term maintainability and helps future contribut
 ---
 
 ### **JinXi**
-
+Add test to increas the test coverage on account system and review codes.
 
 **Requirements addressed:**
-- Quality Assurance & Final Testing
+Test add: [Add test for consent and consent display.](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/173)
+- Increase test coverage form 32% to 99%
+- test for output structure
+- test for different user input
+- test for EOF and different valid/invalid user input
+- test for Exception handling
+- test for user interaction
+
+Pr reviewed: #170, #171, #172, #181
 
 ---
 
@@ -1366,6 +1374,9 @@ This week was exclusively dedicated to testing.
 | **Eric** | **Jinxi** | Add more test for user_menus.py to extend the test coverage of this file. #167 |
 | **Evan** | **Sami** | Reviewed Deep Analysis tests |
 | **JinXi** | **Kevin** | Reviewed Resume Manager tests |
+| **JinXi** | **Eric** | Add full test coverage for external service permissions and collaborative decorator #170 |
+| **JinXi** | **Sami** | Update test_collaborative.py #171 |
+| **JinXi** | **Ryan** | Added more testing for the resume formatter to ensure that there is 1… #172 |
 | **Ryan** | **Evan** | Reviewed Collaboration tests |
 | **Ryan** | **Jinxi** | Add test for consent and consent display |
 
