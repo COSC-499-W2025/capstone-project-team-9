@@ -1214,11 +1214,12 @@ The primary focus was **System Testing and Quality Assurance**. We dedicated thi
 - **Final Documentation:** Updated README and code docstrings to match the final system state.
 
 ### **Kevin**
-
+- Implemented test_service_config.py: Created a comprehensive test suite for the ServiceConfig class to ensure user consent settings are stored and retrieved safely.
+- Verified Initialization Logic: Added tests (test_initialize_table_success) to confirm that the external_service_permissions table and its indexes are created correctly on startup.
 
 **Requirements addressed:**
 - Quality Assurance & Final Testing
-
+- completed Add tests for service config https://github.com/COSC-499-W2025/capstone-project-team-9/pull/181
 ---
 
 ### **Sami**
