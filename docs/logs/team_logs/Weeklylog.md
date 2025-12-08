@@ -1223,10 +1223,13 @@ The primary focus was **System Testing and Quality Assurance**. We dedicated thi
 ---
 
 ### **Sami**
-
+- Focused on ensuring the collaborative features and user preference systems are fully robust before final submission.
+- Implemented test_collaborative.py: Created a full test suite for CollaborativeManager and CollaborativeDisplay.
+- Update test_collaborative.py  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/171
 
 **Requirements addressed:**
 - Quality Assurance & Final Testing
+- Robustness of Collaborative Consent System
 
 ---
 
