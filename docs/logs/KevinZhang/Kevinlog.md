@@ -178,3 +178,25 @@ This week marked the transition from "development" to "delivery." Refactoring th
 - **Code Freeze:** Stop making changes to ensure stability for Monday's presentation.
 - **Documentation:** Ensure the User Guide accurately reflects the final CLI options for résumés.
 <img width="1029" height="609" alt="image" src="https://github.com/user-attachments/assets/0a95d169-6f69-44aa-8c39-59100c3500a3" />
+
+# What I Did This Week (2025/12/01 to 2025/12/07 Week 14)
+
+## Overview
+This week was dedicated to **final system stabilization and Quality Assurance (QA)**. With the project in a strict code freeze, my primary focus was increasing test coverage for the configuration and permission modules to ensure the system handles user consent reliably in production environments. I also performed final regression testing on the résumé features.
+
+## What I Did
+- **Implemented `test_service_config.py`:** Created a comprehensive test suite for the `ServiceConfig` class to ensure user consent settings are stored and retrieved safely.
+  - **Initialization:** Verified that the `external_service_permissions` table and its indexes are created correctly on startup.
+  - **Error Handling:** Implemented tests to verify that the system handles database connection failures gracefully (e.g., simulating a "DB is down" scenario).
+  - **Permission Logic:** Verified all three permission states: **Granted**, **Denied**, and **None** (not set).
+- **Resume & Portfolio QA:** Conducted final manual and automated testing on the `ResumeManager`.
+  - Verified that deleting a résumé cleans up the database correctly.
+  - Checked that generated Markdown and JSON outputs are formatted correctly for the final demo.
+- **Regression Testing:** Verified that recent refactors in the database layer did not break the existing user consent flow.
+
+## Reflection
+This final week of testing was crucial. By writing tests for `ServiceConfig`, I ensured that one of the most sensitive parts of our application—user privacy and consent—is robust against failures. It feels good to end the semester with a stable, well-tested codebase rather than scrambling to fix bugs at the last minute. The transition from "building" to "stabilizing" has given me much more confidence in our final submission.
+
+## Next Steps
+- Submit final project deliverables and archive the repository.
+- Winter Break!
