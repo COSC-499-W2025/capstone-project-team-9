@@ -1400,3 +1400,5 @@ This week was exclusively dedicated to testing.
 ---
 
 ## **Burnup Chart**
+<img width="1066" height="618" alt="image" src="https://github.com/user-attachments/assets/ef76ae53-7793-4dee-bff5-6b7200ea9066" />
+<img width="1056" height="570" alt="image" src="https://github.com/user-attachments/assets/cd39b7d8-6a1c-4d61-8d52-96cd15b7b9e1" />
