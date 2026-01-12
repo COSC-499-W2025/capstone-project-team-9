@@ -17,4 +17,5 @@
 - I made some mistakes when creating my pull requests and made 2 seperate pull requests. One for the project updates, and one for the test updates
 - This resulted in some confusing and made it so that the github actiosn we had set up failed. It was all sorted out though
 - Along with this some members did not write code so i was only able to review one peice of code.
-
+### what i will work on next week
+We will address what needs to be done on our meeting tommorow. For some reason we have not all been able to meet up as a group so we have not been able to discuss this, I would like to add in more api calls as there are a lot of feature that could benifit from this. THere is alos still work that needs to be done on the resume 
