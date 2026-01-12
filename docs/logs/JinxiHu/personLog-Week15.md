@@ -1,37 +1,33 @@
 # Week 15: 2026/1/5 – 2026/1/11
 
 ## Tasks Worked On
-![Week14 Project Log](img/week14.png)
+![Week15 Project Log](img/T2week1.png)
 
 ---
 
 ## Weekly Goals Recap
-This week, our team is main focus on code feractoring existing codes, add more test to cover more tests.
+This week, our team is main focus on code feractoring existing codes, add more test.
 
 ---
 
 ## My Contributions
-This week I add test to increas the test coverage on account system and review codes.
-- Add a new file called test_consent_disply.py to increase test coverage for consent.py and consent_display.py
+This week I do the refactoring on upload file functions and the upload_file data table.
+- Change the codes in upload_file.py to fit the existed account system, and change test_upload_file.py to test the new codes.
 
 ### issue developed:
-Test add: [Add test for consent and consent display.](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/173)
-- Increase test coverage form 32% to 99%
-- test for output structure
-- test for different user input
-- test for EOF and different valid/invalid user input
-- test for Exception handling
-- test for user interaction
+Refactoring: [issue128 refactoring associate newly uploaded files with the user](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/184)
+- refactoring on the file uploaded codes and uploaded_file DB.
+- Add user_name form user_information table as the foreign key to uploaded_file table
+- Modify file upload codes to make the system can upload current user's user_name to the uploaded_file table
+- update the tests of uploaded file
 
 ### PR reviewed: 
-1. [Add full test coverage for external service permissions and collaborative decorator](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/170)
-2. [Update test_collaborative.py](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/171)
-3. [Added more testing for the resume formatter to ensure that there is 1…](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/172)
-4. [Add tests for service config](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/181)
+1. [Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/183)
+2. [Changing the Resume format](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/182)
 
 ### Went well:
-Review many PRs and new test do not cause paltform problem.
+Pushed refactoring on old codes, so that the account can play a practical role.
 ### Not well:
-Not develop any new feature or fix bugs, but due to the system is already ready for milestone1 so it is not a big problem.
+As not all people arrive school this week, we did not have a clear goal on what we should do this week.
 ### Next cycle:
-Push to finish the account system's development, and find out what should I do for milestone2.
+Finish the refactoring on old codes, and push the development on milestone 2.
