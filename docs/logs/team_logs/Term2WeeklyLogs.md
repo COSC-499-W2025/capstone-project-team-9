@@ -1,4 +1,4 @@
-# Sprint Report – Week 14 (2025/12/01 to 2025/12/07)
+# Sprint Report – Week 14 (2026/01/04 to 2026/01/11)
 
 ## **Overview**
 This sprint marked the start of a new milestone and served as a reset point for the team. Rather than pushing new functionality immediately, the focus this week was on transitioning cleanly from Milestone 1, performing minor refactoring, and aligning on a clear plan for the work ahead.
