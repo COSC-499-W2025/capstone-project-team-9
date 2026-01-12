@@ -41,10 +41,17 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 ---
 
 ### **JinXi**
+This week I do the refactoring on upload file functions and the upload_file data table.
+-  Change the codes in upload_file.py to fit the existed account system, and change test_upload_file.py to test the new codes.
 
+**Refactoring**: issue128 refactoring associate newly uploaded files with the user
+- refactoring on the file uploaded codes and uploaded_file DB.
+- Add user_name form user_information table as the foreign key to uploaded_file table
+- Modify file upload codes to make the system can upload current user's user_name to the uploaded_file table
+- update the tests of uploaded file
 
-**Requirements addressed:**
-- NA for this current week as there has been no technical work done.
+**PR reviewed**: #182;#183
+
 ---
 
 ### **Ryan**
