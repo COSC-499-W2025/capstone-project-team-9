@@ -55,8 +55,25 @@ This week I do the refactoring on upload file functions and the upload_file data
 ---
 
 ### **Ryan**
-
-
+### What I completed this week
+This week was a slow week. There was not much communication between team members and there were some members who did not do any contributions.
+I worked on fixing he resume output.
+I linked the resume to the login database and the collaborators database so that the user is able to select the name that they want shown on the resume rahter than just having no name.
+I had to re do a lot of tests to fix these cahnges and this resulted in me making 2 PRs
+### Link to PR
+This is the link to the PR that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/165
+This is the link to the PR that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/166
+### What went well
+Getting back in to the capstone loop overall went well for me.
+I am well aware of what is going on in our project and i know what needs to be done and improved on.
+The coding aspect of this week went well and i am happy with what i accomplished coding wise
+### what didnt go well
+I made some mistakes when creating my pull requests and made 2 seperate pull requests. One for the project updates, and one for the test updates
+This resulted in some confusing and made it so that the github actiosn we had set up failed. It was all sorted out though
+Along with this some members did not write code so i was only able to review one peice of code.
+### Next week 
+We will address what needs to be done on our meeting tommorow. For some reason we have not all been able to meet up as a group so we have not been able to discuss this,
+I would like to add in more api calls as there are a lot of feature that could benifit from this. THere is alos still work that needs to be done on the resume
 **Requirements addressed:**
 - NA for this current week as there has been no technical work done. 
 ---
