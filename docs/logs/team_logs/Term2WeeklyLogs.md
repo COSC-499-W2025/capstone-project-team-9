@@ -33,7 +33,8 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 ---
 
 ### **Evan**
-
+- I wrote the code for pull requests 185 which helped with integration of our LLM
+- I also started planning on what i need to do for milestone 2
 
 **Requirements addressed:**
 - NA for this current week as there has been no technical work done. 
