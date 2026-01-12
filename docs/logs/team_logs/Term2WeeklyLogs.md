@@ -26,7 +26,7 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 ---
 
 ### **Eric**
-
+- This week I spent time reading through the Milestone 2 requirements and discussing them with the team. The focus was on understanding the scope and planning rather than writing new code. I also began considering which areas I can contribute to in the next sprint.
 
 **Requirements addressed:**
 - NA for this current week as there has been no technical work done. 
@@ -90,6 +90,8 @@ This week I do the refactoring on upload file functions and the upload_file data
 | **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
 | **JinXi** | **Ryan** | Reviewed Resume Manager tests |
 | **JinXi** | **Ryan** | Reviewed Changing the Resume format|
+| **Eric** | **JinXi** | issue128 refactoring associate newly uploaded files with the user #184|
+| **Eric** | **Evan** | integrating llm into our menus #185|
 
 ---
 
