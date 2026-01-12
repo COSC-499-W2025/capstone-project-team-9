@@ -18,7 +18,8 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 ---
 
 ### **Sami**
-Spent time creating the weekly log this week, and helping devleop a plan for the next milestone. 
+- Spent time creating the weekly log this week, and helping devleop a plan for the next milestone.
+- Reviewed 2 PR's for refactoring based off of last milestone. 
 
 **Requirements addressed:**
 - NA for this current week as there has been no technical work done. 
@@ -36,7 +37,6 @@ Spent time creating the weekly log this week, and helping devleop a plan for the
 
 **Requirements addressed:**
 - NA for this current week as there has been no technical work done. 
-
 ---
 
 ### **JinXi**
@@ -44,7 +44,6 @@ Spent time creating the weekly log this week, and helping devleop a plan for the
 
 **Requirements addressed:**
 - NA for this current week as there has been no technical work done.
-  
 ---
 
 ### **Ryan**
