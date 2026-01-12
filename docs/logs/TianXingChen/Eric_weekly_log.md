@@ -354,4 +354,21 @@ With the new test suites added:
 
 This significantly improves long-term maintainability and helps future contributors trust the behavior of the permission systems.
 
+---
+
+## **Eric Weekly Log**
+
+### **Week 1(Term 2): Jan 5th – Jan 11th**
+
+**Tasks worked on:**
+
+![T2week 1 log](T2week1.png)
+
+**Weekly Goals Recap**
+
+This week I spent time reading through the Milestone 2 requirements and discussing them with the team. The focus was on understanding the scope and planning rather than writing new code. I also began considering which areas I can contribute to in the next sprint.
+And I reviewed several of my teammates' codes. Will start coding next week.
+
+---
+
 
