@@ -28,7 +28,10 @@ def initialize_app():
     Returns tuple of (consent_manager, collab_manager) or None if initialization fails.
     """
     # Ensure user_preferences table schema is up to date
-    ensure_user_preferences_schema()
+    try:
+        ensure_user_preferences_schema()
+    except Exception as e:
+        print(f"[WARN] Schema update failed: {e}")
     
     # Initialize managers (they will use current logged-in user)
     consent_manager = ConsentManager()
