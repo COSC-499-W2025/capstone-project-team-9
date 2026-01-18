@@ -1,5 +1,6 @@
-## Week 15 Logs
-<img width="1617" height="951" alt="image" src="https://github.com/user-attachments/assets/1d47c498-9291-4e14-b4d4-3234ff84f2ae" />
+## Term 2 week 2
+<img width="1633" height="952" alt="image" src="https://github.com/user-attachments/assets/7162e618-bca8-49f4-9a3b-1ec04df8c72a" />
+
 
 ### What I completed this week
 - This week I worked on the milestone goal of only allowing files that havent been uploaded to be uploaded
