@@ -1,4 +1,4 @@
-# Sprint Report – Week 14 (2026/01/04 to 2026/01/11)
+# Sprint Report – Term 2 Week 1 (2026/01/04 to 2026/01/11)
 
 ## **Overview**
 This sprint marked the start of a new milestone and served as a reset point for the team. Rather than pushing new functionality immediately, the focus this week was on transitioning cleanly from Milestone 1, performing minor refactoring, and aligning on a clear plan for the work ahead.
@@ -120,7 +120,7 @@ I would like to add in more api calls as there are a lot of feature that could b
 
 ---
 
-# Sprint Report – Week 15 (2026/01/12 to 2026/01/18)
+# Sprint Report – Term 2 Week 2 (2026/01/12 to 2026/01/18)
 
 ## **Overview**
 This sprint marked the start of a new milestone and served as a reset point for the team. Rather than pushing new functionality immediately, the focus this week was on transitioning cleanly from Milestone 1, performing minor refactoring, and aligning on a clear plan for the work ahead.
