@@ -8,12 +8,12 @@
 ### Link to PR
 - This is the link to the PR that i have made: [https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195)
 ### What went well
-- Getting back in to the capstone loop overall went well for me.
-- I am well aware of what is going on in our project and i know what needs to be done and improved on.
-- The coding aspect of this week went well and i am happy with what i accomplished coding wise
+- MY coding went very well this week. I was able to get all my coding done early on in to the week and was proud of the work that i outputed.
+- My code did have a merge conflict but i was able to resolve it quite easily
+- I did not have any problems while attending class or communicating with my group members which was very nice,
 ### what didnt go well
-- I made some mistakes when creating my pull requests and made 2 seperate pull requests. One for the project updates, and one for the test updates
-- This resulted in some confusing and made it so that the github actiosn we had set up failed. It was all sorted out though
-- Along with this some members did not write code so i was only able to review one peice of code.
+- I did have a merge conflit which isnt the best but it was not too complcated to resolve
+- Other than this i dont think that there is anything that personally didnt go very well for me
 ### what i will work on next week
-We will address what needs to be done on our meeting tommorow. For some reason we have not all been able to meet up as a group so we have not been able to discuss this, I would like to add in more api calls as there are a lot of feature that could benifit from this. THere is alos still work that needs to be done on the resume 
+- Next week i would like to continue to work on the duplicate file and zip code. there are a few things that i need to add in order to ensure the best product
+- I will also begin to work on this: Allow incremental information by adding another zipped folder of files for the same portfolio or résumé that incorporates additional information at a later point in time
