@@ -1,1 +1,19 @@
+## Week 15 Logs
+<img width="1617" height="951" alt="image" src="https://github.com/user-attachments/assets/1d47c498-9291-4e14-b4d4-3234ff84f2ae" />
 
+### What I completed this week
+- This week I worked on the milestone goal of only allowing files that havent been uploaded to be uploaded
+- This means that we are now only able to upload files or zip files that have already been uploaded. This is done by first cheking the zip folder name and bits, and then next checking all of the file content of each file to see if there are any non duplicate files. 
+- If there is a file that is a duplicate it needs to be skipped and that will happen
+### Link to PR
+- This is the link to the PR that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195
+### What went well
+- Getting back in to the capstone loop overall went well for me.
+- I am well aware of what is going on in our project and i know what needs to be done and improved on.
+- The coding aspect of this week went well and i am happy with what i accomplished coding wise
+### what didnt go well
+- I made some mistakes when creating my pull requests and made 2 seperate pull requests. One for the project updates, and one for the test updates
+- This resulted in some confusing and made it so that the github actiosn we had set up failed. It was all sorted out though
+- Along with this some members did not write code so i was only able to review one peice of code.
+### what i will work on next week
+We will address what needs to be done on our meeting tommorow. For some reason we have not all been able to meet up as a group so we have not been able to discuss this, I would like to add in more api calls as there are a lot of feature that could benifit from this. THere is alos still work that needs to be done on the resume 
