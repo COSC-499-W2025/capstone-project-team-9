@@ -120,3 +120,101 @@ I would like to add in more api calls as there are a lot of feature that could b
 
 ---
 
+# Sprint Report – Week 15 (2026/01/12 to 2026/01/18)
+
+## **Overview**
+This sprint marked the start of a new milestone and served as a reset point for the team. Rather than pushing new functionality immediately, the focus this week was on transitioning cleanly from Milestone 1, performing minor refactoring, and aligning on a clear plan for the work ahead.
+The team spent the majority of the sprint discussing scope, responsibilities, and technical direction to ensure a strong foundation for the upcoming development phases.
+
+## **Completed Work**
+- **Minor Refactoring:** Cleaned up small pieces of code carried over from Milestone 1 to improve readability and maintainability.
+- **Milestone Planning:** Team discussions around goals, priorities, and expected deliverables for this milestone.
+- **Technical Alignment:** Reviewed existing architecture and identified areas that may need improvement or extension moving forward.
+- **Task Breakdown:** Began outlining tickets and responsibilities for upcoming weeks.
+
+### **Kevin**
+- Write What you've done
+
+**Requirements addressed:**
+- NA for this current week as there has been no technical work done. 
+---
+
+### **Sami**
+- Write What you've done
+
+**Requirements addressed:**
+- NA for this current week as there has been no technical work done. 
+---
+
+### **Eric**
+-The first feature adds support for custom résumé wording on a per-project basis. Users can now provide their own description for an individual project, which is stored and later prioritized during résumé generation. This allows users to highlight specific contributions or achievements that may not be fully captured by automatically generated summaries, while still falling back to stored or generated summaries when no customization is provided.
+-The second feature extends this functionality by introducing basic management for custom résumé wording. Users can clear or reset previously saved custom descriptions and list which projects currently have customized wording. Together, these features define a clear lifecycle for résumé customization and make the system more robust, maintainable, and aligned with Milestone 2 requirements.
+
+**Requirements addressed:**
+- Allow users to choose which information is represented in the résumé. This week’s work enables users to control how individual projects are presented by providing custom résumé wording, resetting it when needed, and managing customized entries, ensuring user-authored content is prioritized over automatically generated summaries.
+---
+
+### **Evan**
+- Write What you've done
+
+**Requirements addressed:**
+- NA for this current week as there has been no technical work done. 
+---
+
+### **JinXi**
+- Write What you've done
+
+**Requirements addressed:**
+- NA for this current week as there has been no technical work done. 
+
+---
+
+### **Ryan**
+- Write What you've done
+
+**Requirements addressed:**
+- NA for this current week as there has been no technical work done. 
+---
+
+## **Current Status**
+- **Code Freeze:** Active. No new features are being merged.
+- **Test Coverage:** Test coverage is fantastic from previous milestone. Ready for next milestone implementation. 
+- **Stability:** The application is stable and ready for next milestone. 
+- **Project State:** Completed for Milestone 2.
+---
+
+## **Testing**
+- We added testing for the resume generation feature and the LLM feature. The resume was a refactor of the previous milestone and the LLM is new, however very basic as we've only just begun. 
+
+---
+
+### **Collaboration Highlights**
+- **Code Freeze Coordination:** The team communicated effectively to ensure no risky changes were pushed to `main` this week.
+- **Test Swapping:** Team members tested each other's modules to find edge cases that the original author might have missed.
+- **Production Planning:** The team collaborated on the plan for the next milestone. 
+
+### **Things to Work On / Reflection**
+- **Semester Wrap-up:** The project is now effectively concluded. The team worked well to integrate a complex set of features (Auth, NLP, Analysis, Database) into a cohesive CLI tool.
+- **Final Check:** Ensure all "TODO" comments are removed or addressed in the code.
+- **Documentation:** Ensure the User Manual explains the final menu structure, as it changed recently.
+
+### **Peer Evaluations**
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
+| **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
+| **JinXi** | **Ryan** | Reviewed Resume Manager tests |
+| **JinXi** | **Ryan** | Reviewed Changing the Resume format|
+| **Eric** | **JinXi** | issue127-1:implement user data isolation on project manager (also update all other files which use project_manager.py) issue#198 #200|
+| **Eric** | **Ryan** | Recognize duplicate files #195|
+| **Eric** | **Sami** | FastAPI Implementation #191|
+
+---
+
+## **Next Steps**
+### **Intermediate**
+- **Capstone Part 2 (New Term):** - Discuss potential transition to a Web/GUI interface.
+  - Explore deploying the database to a cloud provider.
+  - Implement advanced LLM features for better project summarization.
+
+---
