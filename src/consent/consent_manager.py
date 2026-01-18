@@ -29,14 +29,14 @@ class ConsentManager:
     Implements all three sub-issues for Requirement #1.
     """
     
-    def __init__(self, user_id=None):
+    def __init__(self, user_name=None):
         """
         Initialize the consent manager.
         
         Args:
-            user_id (str): User identifier. If None, uses current logged-in user.
+            user_name (str): User name. If None, uses current logged-in user.
         """
-        self.user_id = user_id if user_id else get_current_user_name()
+        self.user_name = user_name if user_name else get_current_user_name()
         self.storage = ConsentStorage()
     
     def initialize(self):
@@ -57,7 +57,7 @@ class ConsentManager:
         - Returns access decision
         """
         # Sub-issue #14: Check if consent already exists
-        if self.storage.has_valid_consent(self.user_id):
+        if self.storage.has_valid_consent(self.user_name):
             print("Valid consent exists. Access granted.\n")
             return True
         
@@ -66,7 +66,7 @@ class ConsentManager:
         consent_granted = ConsentDisplay.prompt_for_consent()
         
         # Store the consent decision
-        if self.storage.store_consent(consent_granted, self.user_id):
+        if self.storage.store_consent(consent_granted, self.user_name):
             return consent_granted
         else:
             print("Error storing consent.")
@@ -77,13 +77,13 @@ class ConsentManager:
         Sub-issue #14: Check if user has access.
         Returns True only if valid consent exists.
         """
-        return self.storage.has_valid_consent(self.user_id)
+        return self.storage.has_valid_consent(self.user_name)
     
     def withdraw(self):
         """
         Sub-issue #18: Allow user to withdraw consent.
         """
-        consent_data = self.storage.get_consent_status(self.user_id)
+        consent_data = self.storage.get_consent_status(self.user_name)
         
         if not consent_data or not consent_data['consent_given']:
             print("\nNo active consent to withdraw.\n")
@@ -97,7 +97,7 @@ class ConsentManager:
         response = input("\nConfirm withdrawal (yes/no): ").strip().lower()
         
         if response in ['yes', 'y']:
-            if self.storage.withdraw_consent(self.user_id):
+            if self.storage.withdraw_consent(self.user_name):
                 print("\nConsent withdrawn successfully.")
                 print("Application no longer has data access.\n")
                 return True

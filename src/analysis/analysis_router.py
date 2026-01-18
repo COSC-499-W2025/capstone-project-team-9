@@ -3,23 +3,23 @@ from external_services.permission_manager import ExternalServicePermission
 
 class AnalysisRouter:
 
-    def __init__(self, user_id=None):
+    def __init__(self, user_name=None):
         """
         Initialize the analysis router.
         
         Args:
-            user_id (str): User identifier. If None, uses current logged-in user.
+            user_name (str): User name. If None, uses current logged-in user.
         """
         # Get current user if not specified
-        if user_id is None:
+        if user_name is None:
             try:
                 from account.user_manager import AuthManager
-                user_id = AuthManager.get_current_username() or 'default_user'
+                user_name = AuthManager.get_current_username() or 'default_user'
             except Exception:
-                user_id = 'default_user'
+                user_name = 'default_user'
         
-        self.user_id = user_id
-        self.permission_manager = ExternalServicePermission(user_id)
+        self.user_name = user_name
+        self.permission_manager = ExternalServicePermission(user_name)
     
     def should_use_external_service(self, service_name='LLM'):
         """

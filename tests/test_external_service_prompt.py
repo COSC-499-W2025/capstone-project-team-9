@@ -61,7 +61,7 @@ def test_store_permission_success(monkeypatch, capfd):
     monkeypatch.setattr("config.db_config.with_db_cursor", fake_with_db_cursor)
 
     result = esp.ExternalServicePrompt.store_permission(
-        user_id="user1", service_name="LLM", permission_granted=True
+        user_name="user1", service_name="LLM", permission_granted=True
     )
 
     out, _ = capfd.readouterr()
@@ -80,7 +80,7 @@ def test_store_permission_db_error(monkeypatch, capfd):
     monkeypatch.setattr("config.db_config.with_db_cursor", broken_with_db_cursor)
 
     result = esp.ExternalServicePrompt.store_permission(
-        user_id="user2", service_name="LLM", permission_granted=False
+        user_name="user2", service_name="LLM", permission_granted=False
     )
 
     out, _ = capfd.readouterr()
@@ -93,8 +93,8 @@ def test_store_permission_db_error(monkeypatch, capfd):
 class FakePermissionBase:
     """Base fake for ExternalServicePermission; just records calls."""
 
-    def __init__(self, user_id):
-        self.user_id = user_id
+    def __init__(self, user_name):
+        self.user_name = user_name
         self.called_with_service = []
 
     def has_permission(self, service_name):
@@ -154,7 +154,7 @@ def test_request_permission_existing_true_not_forced(monkeypatch, capfd):
         flags["prompt"] = True
         return True
 
-    def fake_store(user_id, service_name, permission_granted):
+    def fake_store(user_name, service_name, permission_granted):
         flags["store"] = True
         return True
 
@@ -163,7 +163,7 @@ def test_request_permission_existing_true_not_forced(monkeypatch, capfd):
     monkeypatch.setattr(esp.ExternalServicePrompt, "store_permission", staticmethod(fake_store))
 
     result = esp.request_external_service_permission(
-        user_id="u_existing_true", service_name="LLM", force=False
+        user_name="u_existing_true", service_name="LLM", force=False
     )
 
     out, _ = capfd.readouterr()
@@ -196,7 +196,7 @@ def test_request_permission_existing_false_not_forced(monkeypatch, capfd):
         flags["prompt"] = True
         return False
 
-    def fake_store(user_id, service_name, permission_granted):
+    def fake_store(user_name, service_name, permission_granted):
         flags["store"] = True
         return True
 
@@ -205,7 +205,7 @@ def test_request_permission_existing_false_not_forced(monkeypatch, capfd):
     monkeypatch.setattr(esp.ExternalServicePrompt, "store_permission", staticmethod(fake_store))
 
     result = esp.request_external_service_permission(
-        user_id="u_existing_false", service_name="LLM", force=False
+        user_name="u_existing_false", service_name="LLM", force=False
     )
 
     out, _ = capfd.readouterr()
@@ -240,9 +240,9 @@ def test_request_permission_no_existing_runs_full_flow(monkeypatch):
         flags["prompt"] = True
         return True  # Simulate user granting permission
 
-    def fake_store(user_id, service_name, permission_granted):
+    def fake_store(user_name, service_name, permission_granted):
         flags["store"] = True
-        stored_calls.append((user_id, service_name, permission_granted))
+        stored_calls.append((user_name, service_name, permission_granted))
         return True
 
     monkeypatch.setattr(esp.ExternalServicePrompt, "show_external_service_info", staticmethod(fake_show_info))
@@ -250,7 +250,7 @@ def test_request_permission_no_existing_runs_full_flow(monkeypatch):
     monkeypatch.setattr(esp.ExternalServicePrompt, "store_permission", staticmethod(fake_store))
 
     result = esp.request_external_service_permission(
-        user_id="u_none", service_name="LLM", force=False
+        user_name="u_none", service_name="LLM", force=False
     )
 
     assert result is True
@@ -281,9 +281,9 @@ def test_request_permission_existing_true_force_reprompts(monkeypatch):
         flags["prompt"] = True
         return False  # User now declines
 
-    def fake_store(user_id, service_name, permission_granted):
+    def fake_store(user_name, service_name, permission_granted):
         flags["store"] = True
-        stored_calls.append((user_id, service_name, permission_granted))
+        stored_calls.append((user_name, service_name, permission_granted))
         return True
 
     monkeypatch.setattr(esp.ExternalServicePrompt, "show_external_service_info", staticmethod(fake_show_info))
@@ -291,7 +291,7 @@ def test_request_permission_existing_true_force_reprompts(monkeypatch):
     monkeypatch.setattr(esp.ExternalServicePrompt, "store_permission", staticmethod(fake_store))
 
     result = esp.request_external_service_permission(
-        user_id="u_force", service_name="LLM", force=True
+        user_name="u_force", service_name="LLM", force=True
     )
 
     # Even though existing permission was True, we forced a new choice (False)

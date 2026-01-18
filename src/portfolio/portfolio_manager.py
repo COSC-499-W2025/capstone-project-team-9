@@ -26,27 +26,27 @@ import json
 class PortfolioManager:
     """Manages portfolio report generation using existing analysis functions."""
     
-    def __init__(self, user_id: str = None):
+    def __init__(self, user_name: str = None):
         """
         Initialize portfolio manager.
         
         Args:
-            user_id: User identifier. If None, uses current logged-in user.
+            user_name: User name. If None, uses current logged-in user.
         """
         # Get current user if not specified
-        if user_id is None:
+        if user_name is None:
             try:
                 from account.user_manager import AuthManager
-                user_id = AuthManager.get_current_username() or 'default_user'
+                user_name = AuthManager.get_current_username() or 'default_user'
             except Exception:
-                user_id = 'default_user'
+                user_name = 'default_user'
         
-        self.user_id = user_id
+        self.user_name = user_name
         self.summarizer = ProjectSummarizer()
-        self.project_analyzer = ProjectAnalyzer(user_id)
+        self.project_analyzer = ProjectAnalyzer(user_name)
         self.consent_storage = ConsentStorage()
-        self.permission_manager = ExternalServicePermission(user_id)
-        self.analysis_router = AnalysisRouter(user_id)
+        self.permission_manager = ExternalServicePermission(user_name)
+        self.analysis_router = AnalysisRouter(user_name)
         self.resume_manager = ResumeManager()
     
     def generate_portfolio_report(self, top_n: Optional[int] = None) -> Dict[str, Any]:
@@ -64,7 +64,7 @@ class PortfolioManager:
             timestamp = datetime.now().isoformat()
             
             # Get consent and privacy information using existing functions
-            consent_status = self.consent_storage.get_consent_status(self.user_id)
+            consent_status = self.consent_storage.get_consent_status(self.user_name)
             user_consent = consent_status.get('consent_given', False) if consent_status else False
             
             llm_permission = self.permission_manager.has_permission('LLM')
@@ -279,7 +279,7 @@ class PortfolioManager:
             
             # Build portfolio report in humanized format
             portfolio_report = {
-                'user_id': self.user_id,
+                'user_name': self.user_name,
                 'generated_at': timestamp,
                 'summary': {
                     'total_projects': len(projects_data),
@@ -428,7 +428,7 @@ class PortfolioManager:
             
             # Track skills and their first appearance
             skill_first_used = {}
-            project_analyzer = ProjectAnalyzer(self.user_id)
+            project_analyzer = ProjectAnalyzer(self.user_name)
             
             for project in projects:
                 project_id = project['id']

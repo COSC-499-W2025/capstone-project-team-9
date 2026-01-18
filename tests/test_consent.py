@@ -28,10 +28,30 @@ from config.db_config import get_connection
 def consent_manager():
     """
     Fixture to provide a fresh ConsentManager instance for each test.
-    Uses a unique test user ID to avoid conflicts between tests.
+    Uses a unique test user name to avoid conflicts between tests.
     """
-    test_user_id = 'test_user_pytest'
-    manager = ConsentManager(user_id=test_user_id)
+    from config.db_config import get_connection
+    
+    test_user_name = 'test_user_pytest'
+    
+    # Create test user if not exists
+    conn = get_connection()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute("""
+                INSERT INTO user_informations (user_name, password_hash)
+                VALUES (%s, 'test_hash')
+                ON CONFLICT (user_name) DO NOTHING
+            """, (test_user_name,))
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+        finally:
+            cursor.close()
+            conn.close()
+    
+    manager = ConsentManager(user_name=test_user_name)
     
     # Initialize tables
     manager.initialize()
@@ -40,7 +60,7 @@ def consent_manager():
     
     # Cleanup: Remove test consent after each test
     try:
-        manager.storage.withdraw_consent(test_user_id)
+        manager.storage.withdraw_consent(test_user_name)
     except:
         pass
 
@@ -137,7 +157,7 @@ class TestSubIssue14_CheckConsent:
     def test_granted_consent_allows_access(self, consent_manager):
         """Test that access is granted when consent is given."""
         # Store consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         
         # Check access
         has_access = consent_manager.has_access()
@@ -146,7 +166,7 @@ class TestSubIssue14_CheckConsent:
     def test_denied_consent_blocks_access(self, consent_manager):
         """Test that explicitly denied consent blocks access."""
         # Store denied consent
-        consent_manager.storage.store_consent(False, consent_manager.user_id)
+        consent_manager.storage.store_consent(False, consent_manager.user_name)
         
         # Check access
         has_access = consent_manager.has_access()
@@ -155,10 +175,10 @@ class TestSubIssue14_CheckConsent:
     def test_consent_status_retrieval(self, consent_manager):
         """Test retrieving consent status from database."""
         # Store consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         
         # Retrieve status
-        status = consent_manager.storage.get_consent_status(consent_manager.user_id)
+        status = consent_manager.storage.get_consent_status(consent_manager.user_name)
         
         assert status is not None
         assert status['consent_given'] == True
@@ -168,7 +188,7 @@ class TestSubIssue14_CheckConsent:
     def test_requires_consent_decorator_allows_with_consent(self, consent_manager):
         """Test that consent checking allows execution with valid consent."""
         # Grant consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         
         # Use instance method decorator
         @consent_manager.require_consent
@@ -202,22 +222,22 @@ class TestSubIssue18_WithdrawConsent:
     def test_withdraw_consent_success(self, consent_manager):
         """Test that consent can be successfully withdrawn."""
         # First grant consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         assert consent_manager.has_access() == True
         
         # Withdraw consent
-        result = consent_manager.storage.withdraw_consent(consent_manager.user_id)
+        result = consent_manager.storage.withdraw_consent(consent_manager.user_name)
         
         assert result == True
     
     def test_access_blocked_after_withdrawal(self, consent_manager):
         """Test that access is blocked immediately after withdrawal."""
         # Grant consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         assert consent_manager.has_access() == True
         
         # Withdraw consent
-        consent_manager.storage.withdraw_consent(consent_manager.user_id)
+        consent_manager.storage.withdraw_consent(consent_manager.user_name)
         
         # Verify access is now blocked
         has_access = consent_manager.has_access()
@@ -226,11 +246,11 @@ class TestSubIssue18_WithdrawConsent:
     def test_withdrawn_date_recorded(self, consent_manager):
         """Test that withdrawal date is properly recorded."""
         # Grant then withdraw
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
-        consent_manager.storage.withdraw_consent(consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
+        consent_manager.storage.withdraw_consent(consent_manager.user_name)
         
         # Check status
-        status = consent_manager.storage.get_consent_status(consent_manager.user_id)
+        status = consent_manager.storage.get_consent_status(consent_manager.user_name)
         
         assert status is not None
         assert status['consent_given'] == False
@@ -239,7 +259,7 @@ class TestSubIssue18_WithdrawConsent:
     def test_decorator_blocks_after_withdrawal(self, consent_manager):
         """Test that consent checking blocks execution after withdrawal."""
         # Grant consent first
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         
         # Use instance method decorator
         @consent_manager.require_consent
@@ -250,7 +270,7 @@ class TestSubIssue18_WithdrawConsent:
         assert protected_function() == "success"
         
         # Withdraw consent
-        consent_manager.storage.withdraw_consent(consent_manager.user_id)
+        consent_manager.storage.withdraw_consent(consent_manager.user_name)
         
         # Should now raise PermissionError
         with pytest.raises(PermissionError):
@@ -259,15 +279,15 @@ class TestSubIssue18_WithdrawConsent:
     def test_re_consent_after_withdrawal(self, consent_manager):
         """Test that user can grant consent again after withdrawal."""
         # Grant, withdraw, then grant again
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
-        consent_manager.storage.withdraw_consent(consent_manager.user_id)
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
+        consent_manager.storage.withdraw_consent(consent_manager.user_name)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         
         # Should have access again
         assert consent_manager.has_access() == True
         
         # Withdrawn date should be cleared
-        status = consent_manager.storage.get_consent_status(consent_manager.user_id)
+        status = consent_manager.storage.get_consent_status(consent_manager.user_name)
         assert status['withdrawn_date'] is None
 
 
@@ -280,24 +300,24 @@ class TestConsentWorkflow:
         assert consent_manager.has_access() == False
         
         # 2. Grant consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         assert consent_manager.has_access() == True
         
         # 3. Withdraw consent
-        consent_manager.storage.withdraw_consent(consent_manager.user_id)
+        consent_manager.storage.withdraw_consent(consent_manager.user_name)
         assert consent_manager.has_access() == False
         
         # 4. Re-grant consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         assert consent_manager.has_access() == True
     
     def test_consent_persistence(self, consent_manager):
         """Test that consent persists in database."""
         # Store consent
-        consent_manager.storage.store_consent(True, consent_manager.user_id)
+        consent_manager.storage.store_consent(True, consent_manager.user_name)
         
         # Create new manager instance (simulates app restart)
-        new_manager = ConsentManager(user_id=consent_manager.user_id)
+        new_manager = ConsentManager(user_name=consent_manager.user_name)
         
         # Should still have access
         assert new_manager.has_access() == True

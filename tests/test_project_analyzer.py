@@ -56,7 +56,7 @@ class TestProjectAnalyzer:
     @pytest.fixture
     def analyzer(self):
         """Create analyzer instance."""
-        return ProjectAnalyzer(user_id='test_user')
+        return ProjectAnalyzer(user_name='test_user')
     
     @pytest.fixture
     def mock_file_contents(self):
@@ -97,7 +97,7 @@ class TestProjectAnalyzer:
     def test_analyzer_initialization(self, analyzer):
         """Test that analyzer initializes correctly."""
         assert analyzer is not None
-        assert analyzer.user_id == 'test_user'
+        assert analyzer.user_name == 'test_user'
         assert analyzer.router is not None
         assert analyzer.local_analyzer is not None
     
@@ -221,7 +221,7 @@ class TestProjectAnalyzerIntegration:
         # Mock permission request (don't actually prompt user)
         with patch('external_services.external_service_prompt.request_external_service_permission', return_value=False):
             # Create analyzer and analyze
-            analyzer = ProjectAnalyzer(user_id='test_user_integration')
+            analyzer = ProjectAnalyzer(user_name='test_user_integration')
             results = analyzer.analyze_uploaded_project(1)
         
         assert results['success'] == True
@@ -241,7 +241,7 @@ class TestProjectAnalyzerIntegration:
         """Test analysis when project is not found."""
         mock_info.return_value = None
         
-        analyzer = ProjectAnalyzer(user_id='test_user_integration')
+        analyzer = ProjectAnalyzer(user_name='test_user_integration')
         results = analyzer.analyze_uploaded_project(999)
         
         assert results['success'] == False
@@ -266,7 +266,7 @@ class TestProjectAnalyzerIntegration:
         
         mock_files.return_value = []
         
-        analyzer = ProjectAnalyzer(user_id='test_user_integration')
+        analyzer = ProjectAnalyzer(user_name='test_user_integration')
         results = analyzer.analyze_uploaded_project(1)
         
         # When no files, should return error
@@ -283,7 +283,7 @@ class TestConditionalRoutingWithAnalysis:
         """Test that router uses local strategy when no permission granted."""
         mock_permission.return_value = False
         
-        router = AnalysisRouter(user_id='test_routing_user')
+        router = AnalysisRouter(user_name='test_routing_user')
         strategy = router.get_analysis_strategy('project')
         
         assert strategy == 'local'
@@ -293,7 +293,7 @@ class TestConditionalRoutingWithAnalysis:
         """Test that router uses enhanced strategy when permission granted."""
         mock_permission.return_value = True
         
-        router = AnalysisRouter(user_id='test_routing_user')
+        router = AnalysisRouter(user_name='test_routing_user')
         strategy = router.get_analysis_strategy('project')
         
         assert strategy == 'enhanced'
@@ -382,7 +382,7 @@ class TestFileStatisticsCalculation:
     @pytest.fixture
     def analyzer(self):
         """Create analyzer instance."""
-        return ProjectAnalyzer(user_id='test_user')
+        return ProjectAnalyzer(user_name='test_user')
     
     def test_file_size_calculation(self, analyzer):
         """Test that file sizes are calculated correctly."""

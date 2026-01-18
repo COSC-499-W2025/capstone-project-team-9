@@ -12,15 +12,15 @@ class ProjectAnalyzer:
     Implements the complete workflow for Issue #10.
     """
     
-    def __init__(self, user_id='default_user'):
+    def __init__(self, user_name='default_user'):
         """
         Initialize the project analyzer.
         
         Args:
-            user_id (str): User identifier
+            user_name (str): User name
         """
-        self.user_id = user_id
-        self.router = AnalysisRouter(user_id)
+        self.user_name = user_name
+        self.router = AnalysisRouter(user_name)
         self.local_analyzer = LocalAnalyzer()
     
     def analyze_uploaded_project(self, uploaded_file_id):
@@ -56,10 +56,10 @@ class ProjectAnalyzer:
         # Request external service permission if needed (Issue #10)
         # This happens on first analysis, then is cached
         from external_services.external_service_prompt import request_external_service_permission
-        request_external_service_permission(self.user_id, 'LLM', force=False)
+        request_external_service_permission(self.user_name, 'LLM', force=False)
         
         # Update router with fresh permission data
-        self.router = AnalysisRouter(self.user_id)
+        self.router = AnalysisRouter(self.user_name)
         
         # Route the analysis based on user permissions
         strategy = self.router.get_analysis_strategy('project')

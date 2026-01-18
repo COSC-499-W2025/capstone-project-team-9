@@ -100,12 +100,12 @@ NOTE: You can change this preference at any time in the settings.
                 print("Invalid input. Please enter 'yes' or 'no'.")
     
     @staticmethod
-    def store_permission(user_id, service_name, permission_granted):
+    def store_permission(user_name, service_name, permission_granted):
         """
         Store the user's permission choice in the database.
         
         Args:
-            user_id (str): User identifier (actually user_name)
+            user_name (str): User name
             service_name (str): Name of the service
             permission_granted (bool): Whether permission was granted
             
@@ -125,7 +125,7 @@ NOTE: You can change this preference at any time in the settings.
                     DO UPDATE SET 
                         permission_granted = EXCLUDED.permission_granted,
                         updated_at = CURRENT_TIMESTAMP
-                """, (user_id, service_name, permission_granted))
+                """, (user_name, service_name, permission_granted))
                 
                 return True
         except Exception as e:
@@ -133,13 +133,13 @@ NOTE: You can change this preference at any time in the settings.
             return False
 
 
-def request_external_service_permission(user_id=None, service_name='LLM', force=False):
+def request_external_service_permission(user_name=None, service_name='LLM', force=False):
     """
     Complete workflow for requesting external service permission.
     This is the main entry point for Issue #10.
     
     Args:
-        user_id (str): User identifier. If None, uses current logged-in user.
+        user_name (str): User name. If None, uses current logged-in user.
         service_name (str): Name of the external service
         force (bool): If True, always ask. If False, skip if already set.
         
@@ -147,12 +147,12 @@ def request_external_service_permission(user_id=None, service_name='LLM', force=
         bool: True if permission granted, False if declined
     """
     # Get current user if not specified
-    if user_id is None:
+    if user_name is None:
         try:
             from account.user_manager import AuthManager
-            user_id = AuthManager.get_current_username() or 'default_user'
+            user_name = AuthManager.get_current_username() or 'default_user'
         except Exception:
-            user_id = 'default_user'
+            user_name = 'default_user'
     
     # Initialize the external service permissions table
     try:
@@ -162,7 +162,7 @@ def request_external_service_permission(user_id=None, service_name='LLM', force=
         print(f"Warning: Could not initialize external service table: {e}")
     
     # Check if permission already exists
-    permission_manager = ExternalServicePermission(user_id)
+    permission_manager = ExternalServicePermission(user_name)
     existing_permission = permission_manager.has_permission(service_name)
     
     # If permission already exists and not forced, return it
@@ -180,6 +180,6 @@ def request_external_service_permission(user_id=None, service_name='LLM', force=
     permission_granted = ExternalServicePrompt.prompt_for_permission(service_name)
     
     # Store the permission
-    ExternalServicePrompt.store_permission(user_id, service_name, permission_granted)
+    ExternalServicePrompt.store_permission(user_name, service_name, permission_granted)
     
     return permission_granted

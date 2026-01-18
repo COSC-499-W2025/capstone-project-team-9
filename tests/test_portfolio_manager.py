@@ -90,7 +90,7 @@ def test_generate_portfolio_report_success(
     mock_perm_cls.return_value.has_permission.return_value = True
     mock_router_cls.return_value.get_analysis_strategy.return_value = "external"
 
-    manager = pm.PortfolioManager(user_id="user1")
+    manager = pm.PortfolioManager(user_name="user1")
     report = manager.generate_portfolio_report(top_n=1)
 
     assert "error" not in report

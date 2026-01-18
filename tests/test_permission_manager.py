@@ -176,7 +176,7 @@ class FakeServiceConfigOK:
     def initialize_table(self):
         self.initialized = True
 
-    def get_permission(self, user_id, service_name):
+    def get_permission(self, user_name, service_name):
         return self.permission
 
 
@@ -186,7 +186,7 @@ class FakeServiceConfigFail:
     def initialize_table(self):
         raise RuntimeError("init failed")
 
-    def get_permission(self, user_id, service_name):
+    def get_permission(self, user_name, service_name):
         return None
 
 
@@ -200,7 +200,7 @@ def test_external_permission_initialize_success(monkeypatch):
         lambda: fake_config
     )
 
-    mgr = ExternalServicePermission(user_id="u_init_ok")
+    mgr = ExternalServicePermission(user_name="u_init_ok")
     result = mgr.initialize()
 
     assert result is True
@@ -216,7 +216,7 @@ def test_external_permission_initialize_failure(monkeypatch, capfd):
         lambda: fake_config
     )
 
-    mgr = ExternalServicePermission(user_id="u_init_fail")
+    mgr = ExternalServicePermission(user_name="u_init_fail")
     result = mgr.initialize()
 
     out, _ = capfd.readouterr()
@@ -242,7 +242,7 @@ def test_external_permission_has_permission(monkeypatch, permission_value, expec
         lambda: fake_config
     )
 
-    mgr = ExternalServicePermission(user_id="u_perm")
+    mgr = ExternalServicePermission(user_name="u_perm")
     result = mgr.has_permission(service_name="LLM")
 
     assert result is expected

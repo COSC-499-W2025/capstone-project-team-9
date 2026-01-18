@@ -8,9 +8,10 @@ import hashlib
 
 
 def ensure_default_user():
-    """Ensure default_user exists in user_informations table."""
+    """Ensure default_user and test users exist in user_informations table."""
     try:
         with with_db_cursor() as cursor:
+            # Create default_user
             cursor.execute('SELECT user_name FROM user_informations WHERE user_name = %s;', ('default_user',))
             if not cursor.fetchone():
                 print('Creating default_user in user_informations table...')
@@ -20,6 +21,17 @@ def ensure_default_user():
                     VALUES (%s, %s, NOW(), FALSE);
                 ''', ('default_user', password_hash))
                 print('✓ default_user created successfully')
+            
+            # Create test users for testing
+            test_users = [('test_user', 'test_hash'), ('test_user_pytest', 'test_hash')]
+            for test_user, test_hash in test_users:
+                cursor.execute('SELECT user_name FROM user_informations WHERE user_name = %s;', (test_user,))
+                if not cursor.fetchone():
+                    cursor.execute('''
+                        INSERT INTO user_informations (user_name, password, create_time, is_login)
+                        VALUES (%s, %s, NOW(), FALSE);
+                    ''', (test_user, test_hash))
+                    print(f'✓ {test_user} created for testing')
     except Exception as e:
         print(f'Note: {e}')
 
