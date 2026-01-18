@@ -20,11 +20,13 @@ def init_user_preferences_table():
         if not exists:
             cur.execute("""
                 CREATE TABLE user_preferences (
-                    user_id SERIAL PRIMARY KEY,
+                    id SERIAL PRIMARY KEY,
+                    user_name VARCHAR(255) NOT NULL UNIQUE,
                     consent BOOLEAN NOT NULL,
                     collaborative BOOLEAN NOT NULL,
                     git_username VARCHAR(255),
-                    last_updated TIMESTAMP DEFAULT NOW()
+                    last_updated TIMESTAMP DEFAULT NOW(),
+                    FOREIGN KEY (user_name) REFERENCES user_informations(user_name) ON DELETE CASCADE
                 );
             """)
             conn.commit()
@@ -37,10 +39,11 @@ def update_user_preferences(consent: bool):
     """
     try:
         with get_connection() as conn, conn.cursor() as cur:
+            # Get default user name or use 'default_user'
             cur.execute("""
-                INSERT INTO user_preferences (user_id, consent, last_updated)
-                VALUES (1, %s, NOW())
-                ON CONFLICT (user_id)
+                INSERT INTO user_preferences (user_name, consent, last_updated)
+                VALUES ('default_user', %s, NOW())
+                ON CONFLICT (user_name)
                 DO UPDATE SET consent = EXCLUDED.consent, last_updated = NOW();
             """, (consent,))
             conn.commit()
@@ -56,7 +59,7 @@ def get_user_preferences():
     """
     try:
         with get_connection() as conn, conn.cursor() as cur:
-            cur.execute("SELECT consent, last_updated FROM user_preferences WHERE user_id = 1;")
+            cur.execute("SELECT consent, last_updated FROM user_preferences WHERE user_name = 'default_user';")
             return cur.fetchone()
     except Exception:
         return None

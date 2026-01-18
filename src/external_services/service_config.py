@@ -11,18 +11,19 @@ class ServiceConfig:
                 cursor.execute("""
                     CREATE TABLE IF NOT EXISTS external_service_permissions (
                         id SERIAL PRIMARY KEY,
-                        user_id VARCHAR(255) NOT NULL,
+                        user_name VARCHAR(255) NOT NULL,
                         service_name VARCHAR(100) NOT NULL,
                         permission_granted BOOLEAN NOT NULL,
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        UNIQUE(user_id, service_name)
+                        UNIQUE(user_name, service_name),
+                        FOREIGN KEY (user_name) REFERENCES user_informations(user_name) ON DELETE CASCADE
                     );
                 """)
                 
                 cursor.execute("""
                     CREATE INDEX IF NOT EXISTS idx_service_permissions_user_service 
-                    ON external_service_permissions(user_id, service_name);
+                    ON external_service_permissions(user_name, service_name);
                 """)
             
             print("✓ External service permissions table initialized")
@@ -34,12 +35,12 @@ class ServiceConfig:
             raise
     
     @staticmethod
-    def get_permission(user_id, service_name):
+    def get_permission(user_name, service_name):
         """
         Get permission status for a service.
         
         Args:
-            user_id (str): User identifier
+            user_name (str): User name identifier
             service_name (str): Name of the service
         
         Returns:
@@ -50,10 +51,10 @@ class ServiceConfig:
                 cursor.execute("""
                     SELECT permission_granted
                     FROM external_service_permissions 
-                    WHERE user_id = %s AND service_name = %s
+                    WHERE user_name = %s AND service_name = %s
                     ORDER BY updated_at DESC 
                     LIMIT 1
-                """, (user_id, service_name))
+                """, (user_name, service_name))
                 
                 result = cursor.fetchone()
             

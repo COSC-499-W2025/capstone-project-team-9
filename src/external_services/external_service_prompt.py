@@ -105,7 +105,7 @@ NOTE: You can change this preference at any time in the settings.
         Store the user's permission choice in the database.
         
         Args:
-            user_id (str): User identifier
+            user_id (str): User identifier (actually user_name)
             service_name (str): Name of the service
             permission_granted (bool): Whether permission was granted
             
@@ -119,9 +119,9 @@ NOTE: You can change this preference at any time in the settings.
                 # Insert or update permission
                 cursor.execute("""
                     INSERT INTO external_service_permissions 
-                    (user_id, service_name, permission_granted, updated_at)
+                    (user_name, service_name, permission_granted, updated_at)
                     VALUES (%s, %s, %s, CURRENT_TIMESTAMP)
-                    ON CONFLICT (user_id, service_name) 
+                    ON CONFLICT (user_name, service_name) 
                     DO UPDATE SET 
                         permission_granted = EXCLUDED.permission_granted,
                         updated_at = CURRENT_TIMESTAMP
