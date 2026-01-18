@@ -372,3 +372,23 @@ And I reviewed several of my teammates' codes. Will start coding next week.
 ---
 
 
+### **Week 2 (Term 2): Jan 12th – Jan 18th**
+
+**Tasks worked on:**
+
+![T2week2 log](T2week2.png)
+
+**Weekly Goals Recap**
+
+The second week of the program required students to work on backend development tasks which supported Milestone 2 by creating a system for generating and personalizing resumes. I added features which enable users to manage their project display in their résumé through the milestone requirements and team task assignments. 
+
+The first feature adds support for **custom résumé wording on a per-project basis**. Users can now provide their own description for an individual project, which is stored and later prioritized during résumé generation. This allows users to highlight specific contributions or achievements that may not be fully captured by automatically generated summaries, while still falling back to stored or generated summaries when no customization is provided.
+
+The second feature extends this functionality by introducing **basic management for custom résumé wording**. Users can clear or reset previously saved custom descriptions and list which projects currently have customized wording. Together, these features define a clear lifecycle for résumé customization and make the system more robust, maintainable, and aligned with Milestone 2 requirements.
+
+The system received its main improvement through the implementation of custom per-project wording functionality. Users have the ability to create custom résumé descriptions for particular projects which enables them to emphasize their vital work accomplishments through their own written statements instead of depending on system-generated summaries. The system produces résumés through its database search for specific wording instead of using pre-existing summaries or LLM-generated content when users do not choose their preferred customization options. The feature needs additional functionality to become operational so I implemented two features which allow users to clear their custom text and view all projects that use customized résumé descriptions. The new features establish a specific process for resume customization which enhances both functionality and user experience of the system.
+
+I developed a specific test suite which checked the new functionality while the team worked on feature development. The testing process includes four separate tests which verify the system's ability to store custom text and remove it and display customized projects and check how the system handles user-defined text during résumé generation. I performed manual CLI testing to confirm that the entire workflow operated as users expected it to. I reviewed all pull requests from my teammates to offer feedback about their code logic and its ability to handle different situations and how well it would last in the future. The primary objective of this week required developers to build an entire feature which met all Milestone 2 requirements and improved code quality through review processes.
+
+
+---
