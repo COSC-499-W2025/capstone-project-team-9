@@ -23,27 +23,15 @@ def ensure_user_preferences_schema():
 
 def initialize_app():
     """
-    Initialize the application: database, managers, and permissions.
+    Initialize the application managers and request user consent.
+    Should be called AFTER user login.
     Returns tuple of (consent_manager, collab_manager) or None if initialization fails.
     """
-    print("STARTING BACKEND SETUP...")
-    
-    # Initialize database tables
-    # IMPORTANT: init_user_informations_table() must be called BEFORE init_uploaded_files_table()
-    # because uploaded_files has a foreign key reference to user_informations.user_name
-    try:
-        init_user_informations_table()
-        init_uploaded_files_table()
-        init_ranking_storage_table()
-        ResumeManager.init_resume_table()
-    except Exception as e:
-        print(f"Failed to initialize database tables: {e}")
-        return None
-    
+    # Ensure user_preferences table schema is up to date
     ensure_user_preferences_schema()
     
-    # Initialize managers
-    consent_manager = ConsentManager(user_id="default_user")
+    # Initialize managers (they will use current logged-in user)
+    consent_manager = ConsentManager()
     collab_manager = CollaborativeManager()
     
     consent_manager.initialize()
@@ -60,14 +48,5 @@ def initialize_app():
         print("Collaborative not granted. Doing individual.")
     else:
         print("Collaborative granted. Doing collaborative and individual.")
-
-    # Test database connection
-    try:
-        from config.db_config import with_db_cursor
-        with with_db_cursor() as _:
-            print("Database is connected!")
-    except Exception as e:
-        print(f"Database is not connected: {e}")
-        return None
     
     return consent_manager, collab_manager

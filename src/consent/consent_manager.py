@@ -7,20 +7,36 @@ from consent.consent_display import ConsentDisplay
 from consent.consent_storage import ConsentStorage
 
 
+def get_current_user_name() -> str:
+    """
+    Get the current logged-in user's username.
+    Falls back to 'default_user' if no user is logged in.
+    
+    Returns:
+        str: Current username or 'default_user'
+    """
+    try:
+        from account.user_manager import AuthManager
+        username = AuthManager.get_current_username()
+        return username if username else 'default_user'
+    except Exception:
+        return 'default_user'
+
+
 class ConsentManager:
     """
     Main class for managing user consent throughout the application.
     Implements all three sub-issues for Requirement #1.
     """
     
-    def __init__(self, user_id='default_user'):
+    def __init__(self, user_id=None):
         """
         Initialize the consent manager.
         
         Args:
-            user_id (str): User identifier (default for single-user mode)
+            user_id (str): User identifier. If None, uses current logged-in user.
         """
-        self.user_id = user_id
+        self.user_id = user_id if user_id else get_current_user_name()
         self.storage = ConsentStorage()
     
     def initialize(self):

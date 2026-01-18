@@ -7,6 +7,22 @@ from datetime import datetime
 from config.db_config import with_db_cursor
 
 
+def get_current_user_name() -> str:
+    """
+    Get the current logged-in user's username.
+    Falls back to 'default_user' if no user is logged in.
+    
+    Returns:
+        str: Current username or 'default_user'
+    """
+    try:
+        from account.user_manager import AuthManager
+        username = AuthManager.get_current_username()
+        return username if username else 'default_user'
+    except Exception:
+        return 'default_user'
+
+
 class ConsentStorage:
     """Handles database operations for consent management."""
     
@@ -35,6 +51,48 @@ class ConsentStorage:
                     ON user_consent(user_name);
                 """)
             
+            # Migration: Rename user_id column to user_name if it exists
+            try:
+                with with_db_cursor() as cursor:
+                    # Check if user_id column exists
+                    cursor.execute("""
+                        SELECT column_name 
+                        FROM information_schema.columns 
+                        WHERE table_name='user_consent' AND column_name='user_id';
+                    """)
+                    if cursor.fetchone():
+                        print("Migrating user_consent table: user_id -> user_name")
+                        # Drop old constraints and indexes
+                        cursor.execute("DROP INDEX IF EXISTS idx_user_consent_user_id;")
+                        # Rename column
+                        cursor.execute("ALTER TABLE user_consent RENAME COLUMN user_id TO user_name;")
+                        # Add new constraint and foreign key
+                        cursor.execute("""
+                            ALTER TABLE user_consent 
+                            DROP CONSTRAINT IF EXISTS user_consent_user_name_key;
+                        """)
+                        cursor.execute("""
+                            ALTER TABLE user_consent 
+                            ADD CONSTRAINT user_consent_user_name_key UNIQUE(user_name);
+                        """)
+                        cursor.execute("""
+                            ALTER TABLE user_consent 
+                            DROP CONSTRAINT IF EXISTS user_consent_user_name_fkey;
+                        """)
+                        cursor.execute("""
+                            ALTER TABLE user_consent 
+                            ADD CONSTRAINT user_consent_user_name_fkey 
+                            FOREIGN KEY (user_name) REFERENCES user_informations(user_name) ON DELETE CASCADE;
+                        """)
+                        # Create new index
+                        cursor.execute("""
+                            CREATE INDEX IF NOT EXISTS idx_user_consent_user_name 
+                            ON user_consent(user_name);
+                        """)
+                        print("Migration completed successfully")
+            except Exception as e:
+                print(f"Migration note: {e}")
+            
             print("Consent table initialized")
             
         except ConnectionError:
@@ -44,8 +102,10 @@ class ConsentStorage:
             raise
     
     @staticmethod
-    def store_consent(consent_given, user_name='default_user'):
+    def store_consent(consent_given, user_name=None):
         """Store user consent in database."""
+        if user_name is None:
+            user_name = get_current_user_name()
         try:
             with with_db_cursor() as cursor:
                 cursor.execute("""
@@ -81,11 +141,13 @@ class ConsentStorage:
             return False
     
     @staticmethod
-    def get_consent_status(user_name='default_user'):
+    def get_consent_status(user_name=None):
         """
         Get current consent status.
         Sub-issue #14: Check consent before access
         """
+        if user_name is None:
+            user_name = get_current_user_name()
         try:
             with with_db_cursor() as cursor:
                 cursor.execute("""
@@ -114,11 +176,13 @@ class ConsentStorage:
             return None
     
     @staticmethod
-    def withdraw_consent(user_name='default_user'):
+    def withdraw_consent(user_name=None):
         """
         Withdraw consent.
         Sub-issue #18: Allow withdrawal
         """
+        if user_name is None:
+            user_name = get_current_user_name()
         try:
             with with_db_cursor() as cursor:
                 cursor.execute("""
@@ -138,11 +202,13 @@ class ConsentStorage:
             return False
     
     @staticmethod
-    def has_valid_consent(user_name='default_user'):
+    def has_valid_consent(user_name=None):
         """
         Check if user has valid consent.
         Sub-issue #14: Main access control check
         """
+        if user_name is None:
+            user_name = get_current_user_name()
         consent_data = ConsentStorage.get_consent_status(user_name)
         
         if not consent_data:

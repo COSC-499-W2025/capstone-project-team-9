@@ -63,7 +63,7 @@ def manage_external_services_menu():
     
     if choice == '1':
         # View current status
-        permission_manager = ExternalServicePermission('default_user')
+        permission_manager = ExternalServicePermission()
         has_permission = permission_manager.has_permission('LLM')
         
         print("\n" + "="*50)

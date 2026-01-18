@@ -3,13 +3,21 @@ from external_services.permission_manager import ExternalServicePermission
 
 class AnalysisRouter:
 
-    def __init__(self, user_id='default_user'):
+    def __init__(self, user_id=None):
         """
         Initialize the analysis router.
         
         Args:
-            user_id (str): User identifier
+            user_id (str): User identifier. If None, uses current logged-in user.
         """
+        # Get current user if not specified
+        if user_id is None:
+            try:
+                from account.user_manager import AuthManager
+                user_id = AuthManager.get_current_username() or 'default_user'
+            except Exception:
+                user_id = 'default_user'
+        
         self.user_id = user_id
         self.permission_manager = ExternalServicePermission(user_id)
     

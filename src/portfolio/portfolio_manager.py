@@ -26,13 +26,21 @@ import json
 class PortfolioManager:
     """Manages portfolio report generation using existing analysis functions."""
     
-    def __init__(self, user_id: str = 'default_user'):
+    def __init__(self, user_id: str = None):
         """
         Initialize portfolio manager.
         
         Args:
-            user_id: User identifier
+            user_id: User identifier. If None, uses current logged-in user.
         """
+        # Get current user if not specified
+        if user_id is None:
+            try:
+                from account.user_manager import AuthManager
+                user_id = AuthManager.get_current_username() or 'default_user'
+            except Exception:
+                user_id = 'default_user'
+        
         self.user_id = user_id
         self.summarizer = ProjectSummarizer()
         self.project_analyzer = ProjectAnalyzer(user_id)

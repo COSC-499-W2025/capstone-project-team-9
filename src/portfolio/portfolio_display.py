@@ -8,12 +8,12 @@ from portfolio.portfolio_manager import PortfolioManager
 from portfolio.portfolio_formatter import PortfolioFormatter
 
 
-def display_portfolio(user_id: str = 'default_user', format_type: str = 'text', top_n: int = None):
+def display_portfolio(user_id: str = None, format_type: str = 'text', top_n: int = None):
     """
     Display analytical portfolio report.
     
     Args:
-        user_id: User identifier
+        user_id: User identifier. If None, uses current logged-in user.
         format_type: Output format ('text', 'markdown')
         top_n: If specified, only show top N projects
     """

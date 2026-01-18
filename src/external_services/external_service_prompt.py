@@ -133,19 +133,27 @@ NOTE: You can change this preference at any time in the settings.
             return False
 
 
-def request_external_service_permission(user_id='default_user', service_name='LLM', force=False):
+def request_external_service_permission(user_id=None, service_name='LLM', force=False):
     """
     Complete workflow for requesting external service permission.
     This is the main entry point for Issue #10.
     
     Args:
-        user_id (str): User identifier
+        user_id (str): User identifier. If None, uses current logged-in user.
         service_name (str): Name of the external service
         force (bool): If True, always ask. If False, skip if already set.
         
     Returns:
         bool: True if permission granted, False if declined
     """
+    # Get current user if not specified
+    if user_id is None:
+        try:
+            from account.user_manager import AuthManager
+            user_id = AuthManager.get_current_username() or 'default_user'
+        except Exception:
+            user_id = 'default_user'
+    
     # Initialize the external service permissions table
     try:
         config = ServiceConfig()

@@ -1,4 +1,4 @@
-from .service_config import ServiceConfig
+from .service_config import ServiceConfig, get_current_user_name
 
 
 class ExternalServicePermission:
@@ -7,14 +7,14 @@ class ExternalServicePermission:
     Implements Requirement #4: Request user permission before using external services.
     """
     
-    def __init__(self, user_id='default_user'):
+    def __init__(self, user_id=None):
         """
         Initialize the external service permission manager.
         
         Args:
-            user_id (str): User identifier
+            user_id (str): User identifier. If None, uses current logged-in user.
         """
-        self.user_id = user_id
+        self.user_id = user_id if user_id else get_current_user_name()
         self.config = ServiceConfig()
     
     def initialize(self):
