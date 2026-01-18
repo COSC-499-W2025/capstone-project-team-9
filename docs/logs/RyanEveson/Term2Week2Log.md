@@ -6,7 +6,7 @@
 - This means that we are now only able to upload files or zip files that have already been uploaded. This is done by first cheking the zip folder name and bits, and then next checking all of the file content of each file to see if there are any non duplicate files. 
 - If there is a file that is a duplicate it needs to be skipped and that will happen
 ### Link to PR
-- This is the link to the PR that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195
+- This is the link to the PR that i have made: [https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195)
 ### What went well
 - Getting back in to the capstone loop overall went well for me.
 - I am well aware of what is going on in our project and i know what needs to be done and improved on.
