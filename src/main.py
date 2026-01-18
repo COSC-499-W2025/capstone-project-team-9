@@ -35,6 +35,14 @@ def main():
         print(f"Database is not connected: {e}")
         return
     
+    # Run database migrations automatically
+    try:
+        from database.migrations import run_all_migrations
+        run_all_migrations()
+    except Exception as e:
+        print(f"Warning: Database migration failed: {e}")
+        # Continue anyway, migrations might not be needed
+    
     # Check if user is already logged in from a previous session
     if not AuthManager.is_user_logged_in():
         # Show login menu if no user is logged in

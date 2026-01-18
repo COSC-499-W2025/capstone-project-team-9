@@ -51,48 +51,6 @@ class ConsentStorage:
                     ON user_consent(user_name);
                 """)
             
-            # Migration: Rename user_id column to user_name if it exists
-            try:
-                with with_db_cursor() as cursor:
-                    # Check if user_id column exists
-                    cursor.execute("""
-                        SELECT column_name 
-                        FROM information_schema.columns 
-                        WHERE table_name='user_consent' AND column_name='user_id';
-                    """)
-                    if cursor.fetchone():
-                        print("Migrating user_consent table: user_id -> user_name")
-                        # Drop old constraints and indexes
-                        cursor.execute("DROP INDEX IF EXISTS idx_user_consent_user_id;")
-                        # Rename column
-                        cursor.execute("ALTER TABLE user_consent RENAME COLUMN user_id TO user_name;")
-                        # Add new constraint and foreign key
-                        cursor.execute("""
-                            ALTER TABLE user_consent 
-                            DROP CONSTRAINT IF EXISTS user_consent_user_name_key;
-                        """)
-                        cursor.execute("""
-                            ALTER TABLE user_consent 
-                            ADD CONSTRAINT user_consent_user_name_key UNIQUE(user_name);
-                        """)
-                        cursor.execute("""
-                            ALTER TABLE user_consent 
-                            DROP CONSTRAINT IF EXISTS user_consent_user_name_fkey;
-                        """)
-                        cursor.execute("""
-                            ALTER TABLE user_consent 
-                            ADD CONSTRAINT user_consent_user_name_fkey 
-                            FOREIGN KEY (user_name) REFERENCES user_informations(user_name) ON DELETE CASCADE;
-                        """)
-                        # Create new index
-                        cursor.execute("""
-                            CREATE INDEX IF NOT EXISTS idx_user_consent_user_name 
-                            ON user_consent(user_name);
-                        """)
-                        print("Migration completed successfully")
-            except Exception as e:
-                print(f"Migration note: {e}")
-            
             print("Consent table initialized")
             
         except ConnectionError:

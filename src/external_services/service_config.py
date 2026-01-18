@@ -42,52 +42,6 @@ class ServiceConfig:
                     ON external_service_permissions(user_name, service_name);
                 """)
             
-            # Migration: Rename user_id column to user_name if it exists
-            try:
-                with with_db_cursor() as cursor:
-                    # Check if user_id column exists
-                    cursor.execute("""
-                        SELECT column_name 
-                        FROM information_schema.columns 
-                        WHERE table_name='external_service_permissions' AND column_name='user_id';
-                    """)
-                    if cursor.fetchone():
-                        print("Migrating external_service_permissions table: user_id -> user_name")
-                        # Drop old constraints and indexes
-                        cursor.execute("DROP INDEX IF EXISTS idx_service_permissions_user_service;")
-                        cursor.execute("""
-                            ALTER TABLE external_service_permissions 
-                            DROP CONSTRAINT IF EXISTS external_service_permissions_user_id_service_name_key;
-                        """)
-                        # Rename column
-                        cursor.execute("""
-                            ALTER TABLE external_service_permissions 
-                            RENAME COLUMN user_id TO user_name;
-                        """)
-                        # Add new constraints and foreign key
-                        cursor.execute("""
-                            ALTER TABLE external_service_permissions 
-                            ADD CONSTRAINT external_service_permissions_user_name_service_name_key 
-                            UNIQUE(user_name, service_name);
-                        """)
-                        cursor.execute("""
-                            ALTER TABLE external_service_permissions 
-                            DROP CONSTRAINT IF EXISTS external_service_permissions_user_name_fkey;
-                        """)
-                        cursor.execute("""
-                            ALTER TABLE external_service_permissions 
-                            ADD CONSTRAINT external_service_permissions_user_name_fkey 
-                            FOREIGN KEY (user_name) REFERENCES user_informations(user_name) ON DELETE CASCADE;
-                        """)
-                        # Create new index
-                        cursor.execute("""
-                            CREATE INDEX IF NOT EXISTS idx_service_permissions_user_service 
-                            ON external_service_permissions(user_name, service_name);
-                        """)
-                        print("Migration completed successfully")
-            except Exception as e:
-                print(f"Migration note: {e}")
-            
             print("✓ External service permissions table initialized")
             
         except ConnectionError:
