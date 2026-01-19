@@ -243,6 +243,9 @@ update the tests files.
 | **Eric** | **Sami** | FastAPI Implementation #191|
 | **Ryan** | **JinXi** | issue127-1:implement user data isolation on project manager (also update all other files which use project_manager.py) issue#198 #200|
 | **Ryan** | **Evan** | add thumbnail for projects and tests accordingly|
+| **Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 feat: support custom resume wording per project
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/197 Feature: Resume content selection (projects & skills)
+|**Kevin**|**JinXi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/200 Implement user data isolation on project manager 
 ---
 
 ## **Next Steps**
