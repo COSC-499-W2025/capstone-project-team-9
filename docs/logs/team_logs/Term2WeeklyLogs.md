@@ -133,10 +133,13 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 - **Task Breakdown:** Began outlining tickets and responsibilities for upcoming weeks.
 
 ### **Kevin**
-- Write What you've done
+- Milestone Strategy & Task Breakdown: Analyzed Milestone 2 requirements and established a "Stacked PR" workflow and maintaining development velocity. Created a project and five granular sub-issues on the Kanban board to track deliverables.
+- Core Feature Implementation: Developed a new ItemFormatter utility in src/resume/item_formatter.py. This module handles the granular transformation of raw project analysis data into professional, resume-ready bullet points.
 
 **Requirements addressed:**
-- NA for this current week as there has been no technical work done. 
+- Display textual information about a project as a résumé item
+- Define Pydantic Output Schemas (Resume & Portfolio) https://github.com/COSC-499-W2025/capstone-project-team-9/issues/210
+- Implement ResumeFormatter Logic https://github.com/COSC-499-W2025/capstone-project-team-9/issues/211
 ---
 
 ### **Sami**
