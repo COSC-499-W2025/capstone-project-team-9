@@ -1,7 +1,7 @@
 # T2Week 2: 2026/1/12 – 2026/1/18
 
 ## Tasks Worked On
-![Week15 Project Log](img/T2week2.png)
+![Week15 Project Log](img/T2Week2.png)
 
 ---
 
