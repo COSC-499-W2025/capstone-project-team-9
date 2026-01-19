@@ -6,21 +6,24 @@
 ---
 
 ## Weekly Goals Recap
-This week, our team is main focus on code feractoring existing codes, add more test.
+This week, our team starting development of the milstone 2 thing. We develop the Fast API, custom words in resume generate function, and implement the data isolation. 
 
 ---
 
 ## My Contributions
-This week I do the refactoring on upload file functions and the upload_file data table.
-- Change the codes in upload_file.py to fit the existed account system, and change test_upload_file.py to test the new codes.
+This week I am developing the user data isolation feature.
+- [Finished] Change the codes which related with project manage function, this implement the project data isolation between different users.
+- [Ongoing-need fix] Change other data table which need to be associate with user_information and update other codes in need.
 
 ### issue developed:
-Refactoring: [issue128 refactoring associate newly uploaded files with the user](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/184)
-- refactoring on the file uploaded codes and uploaded_file DB.
-- Add user_name form user_information table as the foreign key to uploaded_file table
-- Modify file upload codes to make the system can upload current user's user_name to the uploaded_file table
-- update the tests of uploaded file
-
+[issue127-1:implement user data isolation on project manager (also update all other files which use project_manager.py)](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/200)
+- This PR update the project_manager.py to implement user data isolation, and also do other needed change to ensure the system still works.
+-- Update the project_manager.py, add user_name as parameters for all functions which use the updated_file data table.
+-- Update other files such as project_display.py, project_summarize.py, profolio_manager.py, project_ranking.py and so on. Which add user_name as parameters into them, and update functions in need. (This Update ensure the system can work.)
+-- Update codes of resume generate and portfolio functions, let them user logged in user's name as permeate instead of 'defult_user'.
+-- Change some variable name 'user_id' into 'user_name', this is for reduce naming conflicts.
+-- Update the test files of all changed files.
+  
 ### PR reviewed: 
 1. [Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/183)
 2. [Changing the Resume format](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/182)
