@@ -158,10 +158,25 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 ---
 
 ### **Evan**
-- Write What you've done
+- I wrote the code for pull requests 215 and 224 both of these included tests
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/215
+        - testing and codeing
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/224
+        - also includes aditional tests and a bug fix, therefore is codeing debugging and testing.
+
+- I reviewed the pull requests of two team members 202 and 204
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 for for Eric
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204 for JinXi
+
+### My Plan for next week
+- I will continue to work on milestone 2 requirements particulairly Incorporating evidence of success for projects
+
+### Reflection
+- Overall I got a good feature for milestone 2 done as well as some enhancments and bug fixes so I would call it a successful week
+- One negative was there was somehow a bug that did not show up in my initial testing but was causing a timeout error in some cases that got by our code review and ended up in main which was painful
 
 **Requirements addressed:**
-- NA for this current week as there has been no technical work done. 
+- I addressed the requirement of having a thumbnail for each project is PR 215 
 ---
 
 ### **JinXi**
@@ -246,6 +261,8 @@ update the tests files.
 | **Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 feat: support custom resume wording per project
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/197 Feature: Resume content selection (projects & skills)
 |**Kevin**|**JinXi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/200 Implement user data isolation on project manager 
+| **Evan** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 custom resume wording|
+| **Evan** | **JinXi** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204 update user tables with data|
 ---
 
 ## **Next Steps**
