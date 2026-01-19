@@ -172,7 +172,7 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 4. Change some variable name 'user_id' into 'user_name', this is for reduce naming conflicts.
 5. Update the test files of all changed files.
 
-(**Still in develop**)[issue127-2: update other data table which include user id to connect them with user information table)](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204)
+(**Need bug fix**)[issue127-2: update other data table which include user id to connect them with user information table)](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204)
 - Update the data table external_service_permissions, user_consent, user_preferences to implement user data isolation, and also update related codes.
 1. change files such as consent_manager.py, service_config.py, permission_manager.py, external_service_promopt.py and so on. Add user_name as parameter to replace the old hard coded user_id.
 2. write migrations.py to auto update data base.
