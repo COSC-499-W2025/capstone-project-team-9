@@ -255,3 +255,7 @@ update the tests files.
   - Implement advanced LLM features for better project summarization.
 
 ---
+## **Burnup Chart**
+<img width="1047" height="626" alt="image" src="https://github.com/user-attachments/assets/16ab36a8-f92d-4164-94d5-bd185beda6f1" />
+<img width="1022" height="579" alt="image" src="https://github.com/user-attachments/assets/d691bbe6-df59-4d3d-b9f1-da6cc79d2199" />
+
