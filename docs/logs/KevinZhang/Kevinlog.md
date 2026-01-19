@@ -202,3 +202,49 @@ This final week of testing was crucial. By writing tests for `ServiceConfig`, I 
 - Winter Break!
 
 <img width="1045" height="617" alt="image" src="https://github.com/user-attachments/assets/1a43c257-5f37-421a-8d66-5cce65e90e42" />
+
+# **Term 2 Week 2 (2026/01/12 to 2026/01/18)**
+
+This week marked the start of Milestone 2. My primary focus was architecting the backend display logic for the Resume feature.
+
+## **Issue: [Milestone 2] Implement Project Presentation & Resume Display Logic**
+
+### **In Simple Terms**
+I built the "translator" engine for our backend. It takes raw technical data from the project analyzer (like "15 files, 2000 lines of code, has_tests=True") and automatically converts it into professional, human-readable resume bullet points
+
+---
+
+### **What I Created**
+
+* **Data Contracts (`src/common/schemas.py`)**: Defined strictly typed Pydantic models (`ResumeItemResponse`) to ensure the frontend receives consistent JSON data.
+* **Resume Logic Engine (`src/resume/item_formatter.py`)**: A dedicated class that separates the "display logic" from the heavy "ranking logic." It includes:
+    * **Smart Title Cleaning**: Automatically cleans messy repo names (e.g., `ecommerce-backend-main.zip` → "Ecommerce Backend").
+    * **Dynamic Bullet Generator**: analyzing code metrics to write descriptions automatically.
+* **Test Suite**:
+    * `tests/test_schemas.py`: Verifies data validation rules.
+    * `tests/test_item_formatter.py`: specific tests for the new logic, ensuring it handles missing data gracefully.
+* **Infrastructure Fix**: Resolved a legacy import error with the `config` module by implementing a robust path-fix in the test runner.
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **New Tests** | 8 (100% Pass Rate) |
+| **New Classes** | 3 (`ItemFormatter`, `ResumeItemResponse`, `PortfolioCardResponse`) |
+| **PR Strategy** | "Stacked" (PR #2 built on PR #1) |
+
+---
+
+### **Reflection**
+Instead of writing one massive "Resume Generator," I adopted a "Stacked PR" strategy: first merging the data schemas (the contract), and then merging the logic (the implementation). This kept my code reviewable.
+
+I also encountered a tricky environment issue where legacy imports (like `from config...`) were breaking new tests. I solved this by patching the system path in the test suite, allowing new code to interface with old modules without a massive refactor.
+
+### **Next Steps**
+* **Portfolio Logic:** Implement the richer `PortfolioFormatter` to handle images and success metrics.
+* **API Wiring:** Connect these new formatters to Sami's FastAPI endpoints (`GET /resume/{id}`).
+* **Integration:** Work with Eric to allow users to customize these auto-generated bullet points.
+
+<img width="1050" height="601" alt="image" src="https://github.com/user-attachments/assets/ed110395-2e32-4b49-a3af-341c321b0934" />
