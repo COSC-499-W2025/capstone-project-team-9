@@ -12,6 +12,9 @@
 - I reviewed the pull requests of two team members 202 and 204
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/222 for Kevin
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/222 for Kevin
+
 
 
 
@@ -20,4 +23,5 @@
 
 ### Reflection
 - Overall I got a good feature for milestone 2 done as well as some enhancments and bug fixes so I would call it a successful week
+- I also reviewed a lot of code
 - One negative was there was somehow a bug that did not show up in my initial testing but was causing a timeout error in some cases that got by our code review and ended up in main which was painful
