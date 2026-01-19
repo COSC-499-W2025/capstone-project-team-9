@@ -23,14 +23,22 @@ This week I am developing the user data isolation feature.
 3. Update codes of resume generate and portfolio functions, let them user logged in user's name as permeate instead of 'defult_user'.
 4. Change some variable name 'user_id' into 'user_name', this is for reduce naming conflicts.
 5. Update the test files of all changed files.
+
+(**Still in develop**)[issue127-2: update other data table which include user id to connect them with user information table)](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204)
+- Update the data table external_service_permissions, user_consent, user_preferences to implement user data isolation, and also update related codes.
+1. change files such as consent_manager.py, service_config.py, permission_manager.py, external_service_promopt.py and so on. Add user_name as parameter to replace the old hard coded user_id.
+2. write migrations.py to auto update data base.
+3. change the system initial order, put the login page to most first thing.
+update the tests files.
+4. !! IMPORTANT: This pr change the data base lot, not encourage to merge it before the evaluation !!
   
 ### PR reviewed: 
-1. [Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/183)
-2. [Changing the Resume format](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/182)
+1. [Feature: Resume content selection (projects & skills)](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/197)
+2. [feat: support custom resume wording per project](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202)
 
 ### Went well:
-Pushed refactoring on old codes, so that the account can play a practical role.
+Success change the old database and implement the user data isolation based on the new data base.
 ### Not well:
-As not all people arrive school this week, we did not have a clear goal on what we should do this week.
+Start my work too late, so other people do their work based on the old data base, this cause problems.
 ### Next cycle:
-Finish the refactoring on old codes, and push the development on milestone 2.
+Fix the problems that caused by my development, and finish next step of data base develop beform all other people start work.
