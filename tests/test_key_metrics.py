@@ -67,6 +67,7 @@ def test_print_summary(capsys, monkeypatch):
 
 def test_choose_author_from_zip_no_authors(monkeypatch):
     """Test choose_author_from_zip with no authors."""
+    monkeypatch.setattr(key_metrics, "get_project_contributor_name", lambda _: None)
     monkeypatch.setattr(key_metrics, "get_file_contents_by_upload_id", lambda _: {})
     monkeypatch.setattr(key_metrics, "_identify_authors_from_zip", lambda _: set())
     monkeypatch.setattr(key_metrics, "_extract_common_names_from_filenames", lambda _: set())
@@ -76,6 +77,7 @@ def test_choose_author_from_zip_no_authors(monkeypatch):
 
 def test_choose_author_from_zip_git_username_match(monkeypatch):
     """Test choose_author_from_zip when git username matches."""
+    monkeypatch.setattr(key_metrics, "get_project_contributor_name", lambda _: None)
     monkeypatch.setattr(key_metrics, "get_file_contents_by_upload_id", lambda _: {})
     monkeypatch.setattr(key_metrics, "_identify_authors_from_zip", lambda _: {"user1", "user2"})
     monkeypatch.setattr(key_metrics, "_extract_common_names_from_filenames", lambda _: set())
@@ -86,10 +88,12 @@ def test_choose_author_from_zip_git_username_match(monkeypatch):
 
 def test_choose_author_from_zip_user_selection(monkeypatch, capsys):
     """Test choose_author_from_zip with user selection."""
+    monkeypatch.setattr(key_metrics, "get_project_contributor_name", lambda _: None)
     monkeypatch.setattr(key_metrics, "get_file_contents_by_upload_id", lambda _: {})
     monkeypatch.setattr(key_metrics, "_identify_authors_from_zip", lambda _: {"user1", "user2"})
     monkeypatch.setattr(key_metrics, "_extract_common_names_from_filenames", lambda _: set())
     monkeypatch.setattr(key_metrics, "get_user_git_username", lambda: "other_user")
+    monkeypatch.setattr(key_metrics, "set_project_contributor_name", lambda *_args, **_kwargs: True)
     monkeypatch.setattr("builtins.input", lambda _: "1")
     
     result = key_metrics.choose_author_from_zip(1)
@@ -97,6 +101,7 @@ def test_choose_author_from_zip_user_selection(monkeypatch, capsys):
 
 def test_choose_author_from_zip_all_authors(monkeypatch):
     """Test choose_author_from_zip selecting all authors."""
+    monkeypatch.setattr(key_metrics, "get_project_contributor_name", lambda _: None)
     monkeypatch.setattr(key_metrics, "get_file_contents_by_upload_id", lambda _: {})
     monkeypatch.setattr(key_metrics, "_identify_authors_from_zip", lambda _: {"user1", "user2"})
     monkeypatch.setattr(key_metrics, "_extract_common_names_from_filenames", lambda _: set())
@@ -108,10 +113,12 @@ def test_choose_author_from_zip_all_authors(monkeypatch):
 
 def test_choose_author_from_zip_invalid_input(monkeypatch):
     """Test choose_author_from_zip with invalid input."""
+    monkeypatch.setattr(key_metrics, "get_project_contributor_name", lambda _: None)
     monkeypatch.setattr(key_metrics, "get_file_contents_by_upload_id", lambda _: {})
     monkeypatch.setattr(key_metrics, "_identify_authors_from_zip", lambda _: {"user1", "user2"})
     monkeypatch.setattr(key_metrics, "_extract_common_names_from_filenames", lambda _: set())
     monkeypatch.setattr(key_metrics, "get_user_git_username", lambda: "other_user")
+    monkeypatch.setattr(key_metrics, "set_project_contributor_name", lambda *_args, **_kwargs: True)
     
     inputs = ["invalid", "0", "1"]
     input_iter = iter(inputs)
@@ -119,6 +126,71 @@ def test_choose_author_from_zip_invalid_input(monkeypatch):
     
     result = key_metrics.choose_author_from_zip(1)
     assert result == "user1" or result == "user2"
+
+def test_choose_author_from_zip_contributor_name(monkeypatch):
+    """Test choose_author_from_zip returns contributor_name when set."""
+    monkeypatch.setattr(key_metrics, "get_project_contributor_name", lambda _: "Sam")
+    monkeypatch.setattr(key_metrics, "get_file_contents_by_upload_id", lambda _: {})
+    monkeypatch.setattr(key_metrics, "_identify_authors_from_zip", lambda _: set())
+    monkeypatch.setattr(key_metrics, "_extract_common_names_from_filenames", lambda _: set())
+
+    result = key_metrics.choose_author_from_zip(1)
+    assert result == "Sam"
+
+def test_get_project_contributor_name(monkeypatch):
+    """Test get_project_contributor_name trims and returns stored name."""
+    class _Cursor:
+        def execute(self, *_args, **_kwargs):
+            pass
+        def fetchone(self):
+            return ("  Alex  ",)
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc, tb):
+            return False
+        def close(self):
+            pass
+    class _Conn:
+        def cursor(self):
+            return _Cursor()
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc, tb):
+            return False
+    monkeypatch.setattr(key_metrics, "get_connection", lambda: _Conn())
+
+    result = key_metrics.get_project_contributor_name(1)
+    assert result == "Alex"
+
+def test_set_project_contributor_name_success(monkeypatch):
+    """Test set_project_contributor_name returns True on update."""
+    class _Cursor:
+        def execute(self, *_args, **_kwargs):
+            pass
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc, tb):
+            return False
+        def close(self):
+            pass
+    class _Conn:
+        def cursor(self):
+            return _Cursor()
+        def commit(self):
+            pass
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc, tb):
+            return False
+    monkeypatch.setattr(key_metrics, "get_connection", lambda: _Conn())
+
+    result = key_metrics.set_project_contributor_name(1, "Dana")
+    assert result is True
+
+def test_set_project_contributor_name_invalid_name(monkeypatch):
+    """Test set_project_contributor_name rejects empty names."""
+    result = key_metrics.set_project_contributor_name(1, "  ")
+    assert result is False
 
 def test_get_author_file_contributions_from_zip_invalid_project_id(monkeypatch):
     """Test get_author_file_contributions_from_zip with invalid project_id."""

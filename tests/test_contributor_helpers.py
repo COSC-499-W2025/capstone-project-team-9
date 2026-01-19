@@ -15,8 +15,20 @@ def test_choose_author_from_zip_no_authors(monkeypatch):
 
     # _identify_authors_from_zip -> empty set
     monkeypatch.setattr(
+        "analysis.key_metrics.get_project_contributor_name",
+        lambda uploaded_file_id: None,
+    )
+    monkeypatch.setattr(
         "analysis.key_metrics._identify_authors_from_zip",
         lambda uploaded_file_id: set(),
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics.get_file_contents_by_upload_id",
+        lambda uploaded_file_id: {},
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics._extract_common_names_from_filenames",
+        lambda file_contents: set(),
     )
 
     # Don't need to patch input; function should never call it
@@ -29,8 +41,28 @@ def test_choose_author_from_zip_select_specific_author(monkeypatch):
 
     # Return 2 authors; after sorting: ["Alice", "Bob"]
     monkeypatch.setattr(
+        "analysis.key_metrics.get_project_contributor_name",
+        lambda uploaded_file_id: None,
+    )
+    monkeypatch.setattr(
         "analysis.key_metrics._identify_authors_from_zip",
         lambda uploaded_file_id: {"Bob", "Alice"},
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics.get_file_contents_by_upload_id",
+        lambda uploaded_file_id: {},
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics._extract_common_names_from_filenames",
+        lambda file_contents: set(),
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics.get_user_git_username",
+        lambda: None,
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics.set_project_contributor_name",
+        lambda *_args, **_kwargs: True,
     )
 
     # Simulate user typing "2" (select "Bob")
@@ -45,8 +77,24 @@ def test_choose_author_from_zip_not_collaborative(monkeypatch):
 
     # Return 2 authors; menu will show 3rd option as 'Not a collaborative project'
     monkeypatch.setattr(
+        "analysis.key_metrics.get_project_contributor_name",
+        lambda uploaded_file_id: None,
+    )
+    monkeypatch.setattr(
         "analysis.key_metrics._identify_authors_from_zip",
         lambda uploaded_file_id: {"Bob", "Alice"},
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics.get_file_contents_by_upload_id",
+        lambda uploaded_file_id: {},
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics._extract_common_names_from_filenames",
+        lambda file_contents: set(),
+    )
+    monkeypatch.setattr(
+        "analysis.key_metrics.get_user_git_username",
+        lambda: None,
     )
 
     # Simulate user typing "3" (len(authors) + 1)

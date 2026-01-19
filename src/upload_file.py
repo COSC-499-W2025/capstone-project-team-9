@@ -50,6 +50,7 @@ def init_uploaded_files_table():
                     status VARCHAR(50) DEFAULT 'uploaded',
                     metadata JSONB,
                     file_data BYTEA,
+                    contributor_name VARCHAR(255),
                     user_name VARCHAR(255),
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     CONSTRAINT fk_user_name
@@ -80,6 +81,12 @@ def init_uploaded_files_table():
                 cursor.execute("""
                     ALTER TABLE uploaded_files
                     ADD COLUMN IF NOT EXISTS user_name VARCHAR(255);
+                """)
+
+                # The old database may not have contributor_name.
+                cursor.execute("""
+                    ALTER TABLE uploaded_files
+                    ADD COLUMN IF NOT EXISTS contributor_name VARCHAR(255);
                 """)
 
                 # Add foreign key constraint if it doesn't exist

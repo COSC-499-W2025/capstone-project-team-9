@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict, Any, List, Tuple, Set
+from typing import Dict, Any, List, Tuple, Set, Optional
 from datetime import datetime, date
 from collections import defaultdict
 
@@ -10,12 +10,62 @@ from analysis.activity_classifier import aggregate as agg_by_activity
 from parsing.file_contents_manager import get_zip_file, get_file_contents_by_upload_id
 from database.user_preferences import get_user_git_username, get_user_collaboration
 
+
+def get_project_contributor_name(uploaded_file_id: int) -> Optional[str]:
+    """
+    Fetch contributor_name from uploaded_files if present.
+    Returns a trimmed name or None when not set.
+    """
+    try:
+        with get_connection() as conn, conn.cursor() as cur:
+            cur.execute(
+                "SELECT contributor_name FROM uploaded_files WHERE id = %s;",
+                (uploaded_file_id,),
+            )
+            row = cur.fetchone()
+            if row and row[0]:
+                name = str(row[0]).strip()
+                return name if name else None
+    except Exception:
+        return None
+    return None
+
+
+def set_project_contributor_name(uploaded_file_id: int, contributor_name: str) -> bool:
+    """
+    Store contributor_name on uploaded_files for a project.
+    Returns True on success, False on failure.
+    """
+    if uploaded_file_id <= 0:
+        return False
+    name = (contributor_name or "").strip()
+    if not name:
+        return False
+    try:
+        with get_connection() as conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                UPDATE uploaded_files
+                SET contributor_name = %s
+                WHERE id = %s;
+                """,
+                (name, uploaded_file_id),
+            )
+            conn.commit()
+        return True
+    except Exception:
+        return False
+
 def choose_author_from_zip(uploaded_file_id: int):
     """
     Calls _identify_authors_from_zip(uploaded_file_id),
     prints authors with numbered options,
     and adds an option to select ALL authors.
     """
+    contributor_name = get_project_contributor_name(uploaded_file_id)
+    if contributor_name:
+        return contributor_name
+
     file_contents = get_file_contents_by_upload_id(uploaded_file_id)
     authors = _identify_authors_from_zip(uploaded_file_id) | _extract_common_names_from_filenames(file_contents)
 
@@ -46,6 +96,7 @@ def choose_author_from_zip(uploaded_file_id: int):
             # user selected a specific author
             if 1 <= choice <= len(authors):
                 selected = authors[choice - 1]
+                set_project_contributor_name(uploaded_file_id, selected)
                 return selected
 
             print(f"Please enter a number between 1 and {len(authors) + 1}.")
