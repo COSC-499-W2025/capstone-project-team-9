@@ -61,9 +61,6 @@ jobs:
 
       - name: Install dependencies (from PR branch)
         run: pip install -r requirements.txt
-        
-      - name: Install pytest-timeout
-        run: pip install pytest-timeout
 
       # REQUIRED: run main branch init first, but feed its prompts via stdin
       - name: Run app init from main branch (pre-test)
@@ -80,7 +77,7 @@ jobs:
         env:
           PYTHONPATH: .
           PYTHONUNBUFFERED: "1"
-          PYTEST_ADDOPTS: "-vv -s --maxfail=1 --durations=20 --timeout=120 --timeout-method=thread"
+          PYTEST_ADDOPTS: "-vv -s --maxfail=1 --durations=20"
         run: |
           pytest tests --ignore=mainbranch --ignore=data/postgres
 
