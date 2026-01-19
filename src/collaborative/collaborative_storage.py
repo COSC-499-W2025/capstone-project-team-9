@@ -18,8 +18,13 @@ class CollaborativeStorage:
                         user_id SERIAL PRIMARY KEY,
                         consent BOOLEAN DEFAULT FALSE,
                         collaborative BOOLEAN DEFAULT FALSE,
+                        git_username VARCHAR(255),
                         last_updated TIMESTAMP DEFAULT NOW()
                     );
+                """)
+                cursor.execute("""
+                    ALTER TABLE user_preferences
+                    ADD COLUMN IF NOT EXISTS git_username VARCHAR(255);
                 """)
         except ConnectionError:
             raise Exception("Failed to connect to database")
