@@ -308,3 +308,116 @@ update the tests files.
 <img width="1047" height="626" alt="image" src="https://github.com/user-attachments/assets/16ab36a8-f92d-4164-94d5-bd185beda6f1" />
 <img width="1022" height="579" alt="image" src="https://github.com/user-attachments/assets/d691bbe6-df59-4d3d-b9f1-da6cc79d2199" />
 
+---
+
+# Sprint Report – Term 2 Week 3 (2026/01/19 to 2026/01/25)
+
+## **Overview**
+This sprint marked the start of a new milestone and served as a reset point for the team. Rather than pushing new functionality immediately, the focus this week was on transitioning cleanly from Milestone 1, performing minor refactoring, and aligning on a clear plan for the work ahead.
+The team spent the majority of the sprint discussing scope, responsibilities, and technical direction to ensure a strong foundation for the upcoming development phases.
+
+## **Completed Work**
+- **Minor Refactoring:** Cleaned up small pieces of code carried over from Milestone 1 to improve readability and maintainability.
+- **Milestone Planning:** Team discussions around goals, priorities, and expected deliverables for this milestone.
+- **Technical Alignment:** Reviewed existing architecture and identified areas that may need improvement or extension moving forward.
+- **Task Breakdown:** Began outlining tickets and responsibilities for upcoming weeks.
+
+### **Kevin**
+- Plz write what you done
+
+**Requirements addressed:**
+- Plz write what you done
+---
+
+### **Sami**
+- Plz write what you done
+
+**Requirements addressed:**
+- Plz write what you done
+---
+
+### **Eric**
+-Implemented support for custom résumé wording on a per-project basis, allowing users to provide and persist their own project descriptions. Custom wording is prioritized during résumé generation, with a safe fallback to stored or automatically generated summaries when no customization is provided.
+-Added basic management capabilities for custom résumé wording, including clearing or resetting saved descriptions and listing projects with customized entries. This establishes a clear and maintainable lifecycle for résumé customization aligned with Milestone 2 goals.
+
+**Requirements addressed:**
+- Allow users to choose which information is represented in the résumé.
+This work enables users to control how individual projects are presented by prioritizing user-authored résumé wording over system-generated summaries, while also providing mechanisms to manage and reset customized content.
+---
+
+### **Evan**
+- Plz write what you done
+
+**Requirements addressed:**
+- Plz write what you done
+---
+
+### **JinXi**
+- Plz write what you done
+
+**Requirements addressed:**
+- Plz write what you done
+
+---
+
+### **Ryan**
+- Plz write what you done
+
+**Requirements addressed:**
+- Plz write what you done
+---
+
+## **Current Status**
+- **Code Freeze:** Active. No new features are being merged.
+- **Test Coverage:** Test coverage is fantastic from previous milestone. Ready for next milestone implementation. 
+- **Stability:** The application is stable and ready for next milestone. 
+- **Project State:** Completed for Milestone 2.
+---
+
+## **Testing**
+- We added testing for the resume generation feature and the LLM feature. The resume was a refactor of the previous milestone and the LLM is new, however very basic as we've only just begun. 
+
+---
+
+### **Collaboration Highlights**
+- **Code Freeze Coordination:** The team communicated effectively to ensure no risky changes were pushed to `main` this week.
+- **Test Swapping:** Team members tested each other's modules to find edge cases that the original author might have missed.
+- **Production Planning:** The team collaborated on the plan for the next milestone. 
+
+### **Things to Work On / Reflection**
+- **Semester Wrap-up:** The project is now effectively concluded. The team worked well to integrate a complex set of features (Auth, NLP, Analysis, Database) into a cohesive CLI tool.
+- **Final Check:** Ensure all "TODO" comments are removed or addressed in the code.
+- **Documentation:** Ensure the User Manual explains the final menu structure, as it changed recently.
+
+### **Peer Evaluations**
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
+| **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
+| **JinXi** | **Ryan** | Reviewed Resume Manager tests |
+| **JinXi** | **Ryan** | Reviewed Changing the Resume format|
+| **Eric** | **JinXi** | Issue127-2: implement data isolation in portfolio feature #240|
+| **Eric** | **Ryan** | Enhance project analysis #243|
+| **Eric** | **Sami** | Frontend - Login Page #233|
+| **Ryan** | **JinXi** | issue127-1:implement user data isolation on project manager (also update all other files which use project_manager.py) issue#198 #200|
+| **Ryan** | **Evan** | add thumbnail for projects and tests accordingly|
+| **Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 feat: support custom resume wording per project
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/197 Feature: Resume content selection (projects & skills)
+|**Kevin**|**JinXi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/200 Implement user data isolation on project manager 
+| **Evan** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 custom resume wording|
+| **Evan** | **JinXi** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204 update user tables with data|
+| **Evan** | **Kevin** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/222 schemas for resume and portfolio|
+| **Evan** | **Kevin** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/223 resume item formatter|
+| **Sami** | **Ryan** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195 Recognize Duplicate Files|
+| **Sami** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/197 Feature: Resume content selection (projects & skills) |
+---
+
+## **Next Steps**
+### **Intermediate**
+- **Capstone Part 2 (New Term):** - Discuss potential transition to a Web/GUI interface.
+  - Explore deploying the database to a cloud provider.
+  - Implement advanced LLM features for better project summarization.
+
+---
+## **Burnup Chart**
+
