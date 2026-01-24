@@ -392,3 +392,26 @@ I developed a specific test suite which checked the new functionality while the 
 
 
 ---
+
+
+### **Week 3 (Term 2): Jan 19th – Jan 25th**
+
+**Tasks worked on:**
+
+![T3week2 log](T3week2.png)
+
+**Weekly Goals Recap**
+
+During this week, I focused on extending the résumé generation system by enhancing how project outcomes are represented. The main goal was to incorporate evidence of success into résumé items, allowing project analysis results to be translated into concise, résumé-friendly statements that highlight measurable impact.
+
+I implemented a dedicated evidence extraction component that derives success statements from existing project metrics, such as project scale, development duration, detected technologies, collaboration level, and quality indicators. This logic was designed as a pure, reusable module so that evidence generation remains deterministic and easy to test, without introducing additional dependencies or side effects.
+
+The extracted evidence is now integrated into the résumé generation pipeline and displayed consistently across text, Markdown, and PDF formats. This ensures that users can clearly see how their project work translates into concrete accomplishments rather than raw metrics alone. Manual testing through the CLI confirmed that the evidence section appears correctly under each project when viewing generated résumés.
+
+To ensure correctness and robustness, I developed a unit test suite covering the evidence extraction logic. The tests validate behavior across different scenarios, including projects with limited metadata, projects emphasizing quality signals such as tests or documentation, and cases requiring deduplication and output constraints. All tests passed locally.
+
+In addition to feature development, I continued reviewing teammates’ pull requests and provided feedback on code structure, clarity, and maintainability. Overall, this week focused on strengthening the résumé system’s ability to communicate project value clearly while maintaining a clean and testable backend design aligned with Milestone 2 requirements.
+
+
+---
+
