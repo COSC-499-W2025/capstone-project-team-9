@@ -398,7 +398,7 @@ I developed a specific test suite which checked the new functionality while the 
 
 **Tasks worked on:**
 
-![T3week2 log](T3week2.png)
+![T2week3 log](T2week3.png)
 
 **Weekly Goals Recap**
 
@@ -414,4 +414,5 @@ In addition to feature development, I continued reviewing teammates’ pull requ
 
 
 ---
+
 
