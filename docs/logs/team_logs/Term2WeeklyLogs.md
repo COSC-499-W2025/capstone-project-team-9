@@ -389,7 +389,7 @@ This work enables users to control how individual projects are presented by prio
 - **Final Check:** Ensure all "TODO" comments are removed or addressed in the code.
 - **Documentation:** Ensure the User Manual explains the final menu structure, as it changed recently.
 
-### **Peer Evaluations**
+### **Peer Evaluations** (Do not Skip this part, they were from last week, you need to change to this week)
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
 | **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
@@ -401,9 +401,9 @@ This work enables users to control how individual projects are presented by prio
 | **Eric** | **Sami** | Frontend - Login Page #233|
 | **Ryan** | **JinXi** | issue127-1:implement user data isolation on project manager (also update all other files which use project_manager.py) issue#198 #200|
 | **Ryan** | **Evan** | add thumbnail for projects and tests accordingly|
-| **Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 feat: support custom resume wording per project
-|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/197 Feature: Resume content selection (projects & skills)
-|**Kevin**|**JinXi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/200 Implement user data isolation on project manager 
+| **Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/243 Enhance project analysis
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/244 Added custom résumé wording management API
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 feat(resume): add evidence of success generation for projects
 | **Evan** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 custom resume wording|
 | **Evan** | **JinXi** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204 update user tables with data|
 | **Evan** | **Kevin** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/222 schemas for resume and portfolio|
