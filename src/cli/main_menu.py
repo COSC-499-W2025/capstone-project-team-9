@@ -17,7 +17,8 @@ from .menus import (
     handle_view_resume,
     handle_delete_resume,
     handle_add_project_thumbnail,
-    handle_llm_summary
+    handle_llm_summary,
+    handle_delete_project
 )
 from cli.user_menus import user_account_menu
 from account.user_manager import AuthManager
@@ -40,7 +41,8 @@ MENU_ITEMS = [
     "View Portfolio",                                     # 15
     "Add thumbnail to a project",                         # 16
     "Run LLM summary (test.zip)",                         # 17
-    "Exit"                                                # 18
+    "Delete a project",                                   # 18
+    "Exit"                                                # 19
 ]
 
 def run_main_menu(consent_manager, collab_manager):
@@ -80,7 +82,7 @@ def run_main_menu(consent_manager, collab_manager):
             choice = "17"
         else:
             try:
-                choice = input("Choose an option (1-17): ").strip()
+                choice = input("Choose an option (1-19): ").strip()
             except EOFError:
                 choice = "17"
         
@@ -107,13 +109,14 @@ def run_main_menu(consent_manager, collab_manager):
             "15": lambda: portfolio_menu(),
             "16": lambda: handle_add_project_thumbnail(),
             "17": lambda: handle_llm_summary(),
-            "18": "EXIT"
+            "18": lambda: handle_delete_project(),
+            "19": "EXIT"
         }
 
         handler = handlers.get(choice)
 
         if handler is None:
-            print("Invalid choice. Please enter 1-17.")
+            print("Invalid choice. Please enter 1-19.")
             continue
 
         if handler == "EXIT":

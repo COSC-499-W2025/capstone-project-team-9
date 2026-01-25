@@ -21,6 +21,7 @@ from database.user_preferences import get_user_git_username, update_user_git_use
 from account.user_manager import AuthManager
 from tools.cleanup_insights import delete_insights
 from cli.display import display_success, display_error
+from project_manager import delete_project
 
 def analyze_project_menu():
     """
@@ -215,6 +216,44 @@ def handle_add_project_thumbnail():
         display_success(result)
     else:
         display_error(result)
+
+
+def handle_delete_project():
+    """Handle deleting a stored project and all related data."""
+    selected_project = select_project_interactive("Delete a project")
+    if not selected_project:
+        return
+
+    project_id = int(selected_project["id"])
+    project_name = selected_project.get("filename", f"ID {project_id}")
+    confirm = input(
+        f"Delete '{project_name}' (ID {project_id}) and all related data? "
+        "This cannot be undone. (y/n): "
+    ).strip().lower()
+
+    if confirm not in ("y", "yes"):
+        print("Cancelled.")
+        return
+
+    result = delete_project(project_id)
+    if not result.get("success"):
+        print(f"Failed to delete project: {result.get('error', 'Unknown error')}")
+        return
+
+    deleted = result.get("deleted", {})
+    print(
+        "Deleted records: "
+        f"project_metrics={deleted.get('project_metrics', 0)}, "
+        f"analysis_results={deleted.get('analysis_results', 0)}, "
+        f"project_rankings={deleted.get('project_rankings', 0)}, "
+        f"file_contents={deleted.get('file_contents', 0)}, "
+        f"uploaded_files={deleted.get('uploaded_files', 0)}"
+    )
+
+    if result.get("file_deleted"):
+        print(f"Removed upload file: {result.get('filepath')}")
+    else:
+        print("Upload file was not found on disk or could not be removed.")
 
 
 

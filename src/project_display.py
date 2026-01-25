@@ -124,26 +124,63 @@ def list_projects_menu():
     print("-"*80)
     
     if projects:
-        print("\nWould you like to view files for a specific project?")
-        view_choice = input("Enter project number to view files, or 'q' to go back: ").strip()
-        if view_choice.lower() != 'q':
-            try:
-                project_num = int(view_choice)
+        print("\nWould you like to view files for a specific project or delete one?")
+        view_choice = input(
+            "Enter project number to view files, 'd' to delete a project, or 'q' to go back: "
+        ).strip()
+        if view_choice.lower() == 'q':
+            return
+        if view_choice.lower() == 'd':
+            from project_manager import delete_project
+            project_num_input = input(f"Enter project number to delete (1-{len(projects)}): ").strip()
+            if project_num_input.isdigit():
+                project_num = int(project_num_input)
                 if 1 <= project_num <= len(projects):
                     selected_project = projects[project_num - 1]
-                    print(f"\n" + "-"*80)
-                    print(f"Files in project: {selected_project['filename']}")
-                    print("-"*80)
-                    # Data Isolation: Pass user_name to verify project ownership
-                    files = list_project_files(selected_project['id'], current_username)
-                    if files:
-                        for i, file_path in enumerate(files, 1):
-                            print(f"{i}. {file_path}")
-                        print("-"*80)
-                        print(f"Total files: {len(files)}")
-                    input("\nPress Enter to continue...")
+                    project_id = selected_project['id']
+                    confirm = input(
+                        f"Delete '{selected_project['filename']}' (ID {project_id}) and all related data? "
+                        "This cannot be undone. (y/n): "
+                    ).strip().lower()
+                    if confirm in ('y', 'yes'):
+                        result = delete_project(project_id, current_username)
+                        if result.get("success"):
+                            deleted = result.get("deleted", {})
+                            print(
+                                "Deleted records: "
+                                f"project_metrics={deleted.get('project_metrics', 0)}, "
+                                f"analysis_results={deleted.get('analysis_results', 0)}, "
+                                f"project_rankings={deleted.get('project_rankings', 0)}, "
+                                f"file_contents={deleted.get('file_contents', 0)}, "
+                                f"uploaded_files={deleted.get('uploaded_files', 0)}"
+                            )
+                            if result.get("file_deleted"):
+                                print(f"Removed upload file: {result.get('filepath')}")
+                        else:
+                            print(f"Failed to delete project: {result.get('error', 'Unknown error')}")
+                    else:
+                        print("Cancelled.")
                 else:
                     print(f"Please enter a number between 1 and {len(projects)}")
-            except ValueError:
-                print("Please enter a valid number or 'q'")
-
+            else:
+                print("Please enter a valid number.")
+            return
+        try:
+            project_num = int(view_choice)
+            if 1 <= project_num <= len(projects):
+                selected_project = projects[project_num - 1]
+                print(f"\n" + "-"*80)
+                print(f"Files in project: {selected_project['filename']}")
+                print("-"*80)
+                # Data Isolation: Pass user_name to verify project ownership
+                files = list_project_files(selected_project['id'], current_username)
+                if files:
+                    for i, file_path in enumerate(files, 1):
+                        print(f"{i}. {file_path}")
+                    print("-"*80)
+                    print(f"Total files: {len(files)}")
+                input("\nPress Enter to continue...")
+            else:
+                print(f"Please enter a number between 1 and {len(projects)}")
+        except ValueError:
+            print("Please enter a valid number, 'd', or 'q'")

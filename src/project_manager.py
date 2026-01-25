@@ -5,8 +5,21 @@ Manages project listing and retrieval operations.
 Supports both alphabetical and chronological ordering of projects.
 """
 import json
+import os
 from config.db_config import with_db_cursor
+from config.db_config import with_db_connection
 from account.user_manager import AuthManager
+
+def _table_exists(cursor, table_name: str) -> bool:
+    cursor.execute(
+        """
+        SELECT 1
+        FROM information_schema.tables
+        WHERE table_schema = 'public' AND table_name = %s
+        """,
+        (table_name,),
+    )
+    return cursor.fetchone() is not None
 
 def list_projects(user_name=None):
     """
@@ -88,6 +101,93 @@ def list_projects(user_name=None):
     except ConnectionError:
         print("Could not connect to database.")
         return []
+
+
+def delete_project(project_id, user_name=None):
+    """
+    Delete a stored project and its related data for a specific user.
+    Data Isolation: Only deletes projects belonging to the specified user.
+
+    Args:
+        project_id (int): The ID of the project to delete
+        user_name (str, optional): Username to verify project ownership. If None, uses current user.
+
+    Returns:
+        dict: Result information including deleted counts and file removal status.
+    """
+    if user_name is None:
+        user_name = AuthManager.get_current_username()
+        if not user_name:
+            print("No user is currently logged in.")
+            return {"success": False, "error": "Not logged in"}
+
+    try:
+        with with_db_connection() as (conn, cursor):
+            cursor.execute("""
+                SELECT id, filename, filepath
+                FROM uploaded_files
+                WHERE id = %s AND user_name = %s
+            """, (project_id, user_name))
+            project = cursor.fetchone()
+
+            if not project:
+                print(f"Project with ID {project_id} not found.")
+                return {"success": False, "error": "Project not found"}
+
+            _, filename, filepath = project
+
+            deleted = {
+                "project_metrics": 0,
+                "analysis_results": 0,
+                "project_rankings": 0,
+                "file_contents": 0,
+                "uploaded_files": 0,
+            }
+
+            if _table_exists(cursor, "project_metrics"):
+                cursor.execute("DELETE FROM project_metrics WHERE project_id = %s;", (project_id,))
+                deleted["project_metrics"] = cursor.rowcount or 0
+
+            if _table_exists(cursor, "analysis_results"):
+                cursor.execute("DELETE FROM analysis_results WHERE uploaded_file_id = %s;", (project_id,))
+                deleted["analysis_results"] = cursor.rowcount or 0
+
+            if _table_exists(cursor, "project_rankings"):
+                cursor.execute("DELETE FROM project_rankings WHERE project_id = %s;", (project_id,))
+                deleted["project_rankings"] = cursor.rowcount or 0
+
+            if _table_exists(cursor, "file_contents"):
+                cursor.execute("DELETE FROM file_contents WHERE uploaded_file_id = %s;", (project_id,))
+                deleted["file_contents"] = cursor.rowcount or 0
+
+            cursor.execute("""
+                DELETE FROM uploaded_files
+                WHERE id = %s AND user_name = %s
+            """, (project_id, user_name))
+            deleted["uploaded_files"] = cursor.rowcount or 0
+
+        file_deleted = False
+        if filepath and os.path.exists(filepath):
+            try:
+                os.remove(filepath)
+                file_deleted = True
+            except Exception as e:
+                print(f"[WARN] Failed to remove uploaded file '{filepath}': {e}")
+
+        return {
+            "success": True,
+            "project_id": project_id,
+            "filename": filename,
+            "filepath": filepath,
+            "deleted": deleted,
+            "file_deleted": file_deleted,
+        }
+    except ConnectionError:
+        print("Could not connect to database.")
+        return {"success": False, "error": "Database connection failed"}
+    except Exception as e:
+        print(f"Error deleting project: {e}")
+        return {"success": False, "error": str(e)}
     except Exception as e:
         print(f"Error retrieving projects: {e}")
         return []
