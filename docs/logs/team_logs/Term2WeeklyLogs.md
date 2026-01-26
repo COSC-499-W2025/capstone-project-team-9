@@ -323,10 +323,13 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 - **Task Breakdown:** Began outlining tickets and responsibilities for upcoming weeks.
 
 ### **Kevin**
-- Plz write what you done
+I built the "visual" engine for our system and the "edit" functionality.
+While last week was about generating text for resumes, this week was about generating rich data for the portfolio website. I also added the ability for users to say "No, I want to write this myself," allowing them to override our auto-generated descriptions with their own words.
 
 **Requirements addressed:**
-- Plz write what you done
+-  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/253 Implemented the base Portfolio Logic. Added the User Customization layer on top of PR #251
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/251 
+
 ---
 
 ### **Sami**
