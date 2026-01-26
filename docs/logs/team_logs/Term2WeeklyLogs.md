@@ -330,10 +330,8 @@ The team spent the majority of the sprint discussing scope, responsibilities, an
 ---
 
 ### **Sami**
-- Plz write what you done
+- This week I refactored the CLI to consolidate all configuration options into a single Settings menu, added and standardized backend API endpoints for settings and project data management, and expanded automated tests to match the updated behavior. I also built out frontend functionality by setting up the initial frontend with Docker integration and implementing a login page connected to the existing backend authentication. In addition, I implemented multiple project-related API endpoints, closed several tracked issues, and fixed bugs introduced during development to keep feature branches stable. Overall, the CLI and API are now cleaner and easier to maintain, frontend and backend communication works end-to-end, and issues were caught early, though some refactors required follow-up fixes and frontend PRs were larger than expected. Next week, I plan to continue expanding frontend features, add additional API endpoints, and polish the overall UI/UX and application flow.
 
-**Requirements addressed:**
-- Plz write what you done
 ---
 
 ### **Eric**
@@ -364,9 +362,6 @@ This work enables users to control how individual projects are presented by prio
 - I got a big complex feature implemented this week which was sucsessful
 - I also reviewed a lot of code
 - I had two bits of code that were redundant due to miscomunication with team mates which was annoying.
-
-**Requirements addressed:**
-- Plz write what you done
 ---
 
 ### **JinXi**
@@ -447,8 +442,11 @@ PR#231, PR#233, PR#234, PR#239, PR#242
 ### **Peer Evaluations** (Do not Skip this part, they were from last week, you need to change to this week)
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
-| **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
+| **Sami** | **Evan** | [incorporate evidence of sucess and related tests](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/246) |
+| **Sami** | **Ryan** | [Enhance Project Analysis](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/243) |
+| **Sami** | **Evan** | [add the ability to delete a project](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/249) |
+| **Sami** | **Eric** | [Added custom résumé wording management API (save/list/clear).](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/244)) |
+| **Sami** | **Jinxi** | [Implement Portfolio Formatter Logic](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/251) |
 | **JinXi** | **Sami** | Issue #227-#230 (Project API Endpoints) |
 | **JinXi** | **Sami** | Frontend - Login Page|
 | **JinXi** | **Sami** | Simple Frontend|
