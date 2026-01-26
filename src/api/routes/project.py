@@ -6,9 +6,13 @@ import tempfile
 import os
 from upload_file import add_file_to_db, list_uploaded_files
 from project_manager import list_projects, get_project_by_id
-from project_analyzer import analyze_project_by_id
+from project_analyzer import analyze_project_by_id, ProjectAnalyzer
 from analysis.project_ranking import rank_all_projects, save_rankings_with_summaries, rank_and_summarize_top_projects
 from analysis.ranking_storage import get_stored_rankings
+from analysis.key_metrics import analyze_project_from_db
+from analysis.local_analyzer import LocalAnalyzer
+from parsing.file_contents_manager import get_file_contents_by_upload_id, get_file_statistics
+from project_summarizer import ProjectSummarizer
 from tools.cleanup_insights import delete_insights
 from database.user_preferences import update_user_git_username, get_user_git_username
 
@@ -212,18 +216,85 @@ async def get_project_by_id_endpoint(
 
 @router.post("/projects/{project_id}/analyze")
 async def analyze_project(project_id: int, user_name: Optional[str] = Query(None)):
-    """Analyze a project."""
+    """
+    Analyze a project (Privacy Mode).
+    Uses local analysis only - no external services.
+    Returns: languages, frameworks, skills, structure, file stats, contribution metrics, deep analysis.
+    """
     try:
-        from project_analyzer import ProjectAnalyzer
         analyzer = ProjectAnalyzer(user_name or 'default_user')
         results = analyzer.analyze_uploaded_project(project_id)
         if not results.get('success'):
             raise HTTPException(status_code=400, detail=results.get('error', 'Analysis failed'))
-        return {"success": True, "analysis": results}
+        return {"success": True, "analysis": results, "mode": "privacy"}
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error analyzing project: {str(e)}")
+
+
+@router.post("/projects/{project_id}/analyze-full")
+async def analyze_project_full(project_id: int, user_name: Optional[str] = Query(None)):
+    """
+    Analyze a project (Full Mode).
+    Combines key metrics + project summary like the CLI's Full Mode.
+    Returns: timeline, language breakdown, activity breakdown, collaboration analysis, time patterns, code analysis.
+    """
+    try:
+        # Verify project exists and user has access
+        project_info = get_project_by_id(project_id, user_name)
+        if not project_info:
+            raise HTTPException(status_code=404, detail="Project not found or access denied")
+        
+        # Get key metrics (language breakdown, activity breakdown, timeline, totals)
+        key_metrics = analyze_project_from_db(project_id, silent=True)
+        
+        # Get file contents using direct database access (avoid recursive API calls)
+        file_contents = get_file_contents_by_upload_id(project_id)
+        file_stats = get_file_statistics(project_id)
+        
+        if not file_contents:
+            raise HTTPException(status_code=400, detail="No file contents found for this project. Please re-upload.")
+        
+        # Build summary directly without making API calls
+        summarizer = ProjectSummarizer()
+        
+        # Generate summary components manually to avoid recursive API calls
+        summary = {
+            "project_info": {
+                "id": project_info['id'],
+                "filename": project_info['filename'],
+                "created_at": str(project_info.get('created_at', 'Unknown'))
+            },
+            "languages": summarizer._detect_languages(file_contents),
+            "collaboration_analysis": summarizer._analyze_collaboration(project_id),
+            "time_analysis": summarizer._analyze_time_patterns(project_id),
+            "file_statistics": file_stats
+        }
+        
+        # Add deep code analysis
+        try:
+            local_analyzer = LocalAnalyzer()
+            deep_analysis = local_analyzer.analyze_files_from_db(file_contents)
+            if deep_analysis:
+                summary["code_analysis"] = deep_analysis
+        except Exception as e:
+            print(f"Warning: Deep analysis failed: {e}")
+            summary["code_analysis"] = {}
+        
+        # Combine results into unified response
+        full_analysis = {
+            "success": True,
+            "mode": "full",
+            "key_metrics": key_metrics,
+            "summary": summary
+        }
+        
+        return {"success": True, "analysis": full_analysis, "mode": "full"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error analyzing project (full mode): {str(e)}")
 
 
 @router.post("/projects/rank")

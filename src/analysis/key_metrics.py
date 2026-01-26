@@ -178,7 +178,7 @@ def get_all_files_for_author_from_zip(project_id: int, author_name: str) -> Set[
     contribs = get_author_file_contributions_from_zip(project_id, author_name)
     return contribs["created"] | contribs["modified"] | contribs["deleted"]
 
-def fetch_records_from_db(project_id: int) -> List[Tuple[str, int, str, int]]:
+def fetch_records_from_db(project_id: int, skip_author_selection: bool = False) -> List[Tuple[str, int, str, int]]:
     """
     Fetch file records for the given project_id from the file_contents table.
     Returns a list of tuples:
@@ -186,7 +186,11 @@ def fetch_records_from_db(project_id: int) -> List[Tuple[str, int, str, int]]:
 
     Internally we may also fetch extra columns (e.g., timestamps),
     but they are not exposed in the returned tuple to keep the public
-    contract simple and compatible with tests.  
+    contract simple and compatible with tests.
+    
+    Args:
+        project_id: The project ID to fetch records for
+        skip_author_selection: If True, skip the interactive author selection (for API use)
     """
     
     with get_connection() as conn, conn.cursor() as cur:
@@ -236,7 +240,8 @@ def fetch_records_from_db(project_id: int) -> List[Tuple[str, int, str, int]]:
 
         results.append((str(file_path), int(size_bytes or 0), str(language or "Unknown"), int(num_lines)))
 
-    if get_user_collaboration() and get_user_collaboration()[0]:
+    # Only do collaboration filtering if not skipping author selection (CLI mode)
+    if not skip_author_selection and get_user_collaboration() and get_user_collaboration()[0]:
         author = choose_author_from_zip(project_id)
         user_files = get_all_files_for_author_from_zip(project_id, author)
 
@@ -418,9 +423,10 @@ def analyze_project_from_db(project_id: int, silent: bool = False) -> Dict[str, 
     
     Args:
         project_id: The project ID to analyze
-        silent: If True, suppress printing of key metrics summary
+        silent: If True, suppress printing and skip interactive prompts (for API use)
     """
-    rows = fetch_records_from_db(project_id)
+    # When silent=True (API mode), also skip author selection to avoid input() calls
+    rows = fetch_records_from_db(project_id, skip_author_selection=silent)
     by_lang = aggregate_by_language(rows)
     by_activity = aggregate_by_activity(rows)
 

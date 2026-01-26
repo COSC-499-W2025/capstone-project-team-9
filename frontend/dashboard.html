@@ -399,12 +399,24 @@
             }
             const resultId = mode === 'full' ? 'analyzeResult' : 'analyzePrivacyResult';
             const resultDiv = document.getElementById(resultId);
-            resultDiv.innerHTML = 'Analyzing...';
+            resultDiv.innerHTML = `Analyzing (${mode === 'full' ? 'Full Mode: metrics + summary' : 'Privacy Mode: local analysis'})...`;
+            
             try {
-                const data = await apiCall(`/api/projects/${selectedProjectId}/analyze?user_name=${currentUser.user_name}`, { method: 'POST' });
+                // Call different endpoints based on mode
+                const endpoint = mode === 'full' 
+                    ? `/api/projects/${selectedProjectId}/analyze-full?user_name=${currentUser.user_name}`
+                    : `/api/projects/${selectedProjectId}/analyze?user_name=${currentUser.user_name}`;
+                
+                const data = await apiCall(endpoint, { method: 'POST' });
+                
                 if (data.success) {
-                    resultDiv.innerHTML = formatAnalysisResults(data.analysis);
-                    showMessage('Analysis complete', 'success');
+                    // Use appropriate formatter based on mode
+                    if (mode === 'full') {
+                        resultDiv.innerHTML = formatFullModeResults(data.analysis);
+                    } else {
+                        resultDiv.innerHTML = formatAnalysisResults(data.analysis);
+                    }
+                    showMessage(`Analysis complete (${mode} mode)`, 'success');
                 } else {
                     resultDiv.innerHTML = `Error: ${data.error || 'Analysis failed'}`;
                     showMessage('Analysis failed', 'error');
@@ -413,6 +425,202 @@
                 resultDiv.innerHTML = `Error: ${e.message}`;
                 showMessage('Analysis failed', 'error');
             }
+        }
+
+        function formatFullModeResults(analysis) {
+            let html = '<div class="analysis-section">';
+            html += '<h4>Full Mode Analysis (Metrics + Summary)</h4>';
+            
+            // Key Metrics - Timeline
+            const metrics = analysis.key_metrics || {};
+            const timeline = metrics.timeline || {};
+            if (timeline.start || timeline.end) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Timeline</h4>';
+                html += `<div class="analysis-item"><span class="analysis-label">Start Date:</span><span class="analysis-value">${timeline.start || 'Unknown'}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">End Date:</span><span class="analysis-value">${timeline.end || 'Unknown'}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Duration:</span><span class="analysis-value">${timeline.duration_days || 0} day(s)</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Active Days:</span><span class="analysis-value">${timeline.active_days || 0}</span></div>`;
+                html += '</div>';
+            }
+            
+            // Key Metrics - By Language
+            const byLang = metrics.by_language || [];
+            if (byLang.length > 0) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Language Breakdown</h4>';
+                html += '<table style="width: 100%; color: #f4f4f5; font-size: 0.9em;">';
+                html += '<tr style="border-bottom: 1px solid #2e2e3a;"><th style="text-align: left; padding: 5px;">Language</th><th style="text-align: right; padding: 5px;">Files</th><th style="text-align: right; padding: 5px;">Lines</th></tr>';
+                byLang.forEach(lang => {
+                    html += `<tr><td style="padding: 5px;">${lang.language}</td><td style="text-align: right; padding: 5px;">${lang.files}</td><td style="text-align: right; padding: 5px;">${lang.total_lines || 0}</td></tr>`;
+                });
+                html += '</table></div>';
+            }
+            
+            // Key Metrics - By Activity Type
+            const byActivity = metrics.by_activity || {};
+            if (Object.keys(byActivity).length > 0) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Activity Type Breakdown</h4>';
+                html += '<table style="width: 100%; color: #f4f4f5; font-size: 0.9em;">';
+                html += '<tr style="border-bottom: 1px solid #2e2e3a;"><th style="text-align: left; padding: 5px;">Type</th><th style="text-align: right; padding: 5px;">Files</th><th style="text-align: right; padding: 5px;">Score</th><th style="text-align: right; padding: 5px;">%</th></tr>';
+                Object.entries(byActivity).sort((a, b) => (b[1].score || 0) - (a[1].score || 0)).forEach(([type, data]) => {
+                    html += `<tr><td style="padding: 5px;">${type}</td><td style="text-align: right; padding: 5px;">${data.count || 0}</td><td style="text-align: right; padding: 5px;">${(data.score || 0).toFixed(1)}</td><td style="text-align: right; padding: 5px;">${(data.pct_score || 0).toFixed(1)}%</td></tr>`;
+                });
+                html += '</table></div>';
+            }
+            
+            // Key Metrics - Totals
+            const totals = metrics.totals || {};
+            if (totals.files !== undefined) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Totals</h4>';
+                html += `<div class="analysis-item"><span class="analysis-label">Total Files:</span><span class="analysis-value">${totals.files || 0}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Total Lines:</span><span class="analysis-value">${totals.lines || 0}</span></div>`;
+                html += '</div>';
+            }
+            
+            // Summary - Project Info
+            const summary = analysis.summary || {};
+            const projInfo = summary.project_info || {};
+            if (projInfo.filename) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Project Information</h4>';
+                html += `<div class="analysis-item"><span class="analysis-label">Project:</span><span class="analysis-value">${projInfo.filename}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Created:</span><span class="analysis-value">${projInfo.created_at || 'Unknown'}</span></div>`;
+                html += '</div>';
+            }
+            
+            // Summary - Languages
+            const langs = summary.languages || {};
+            if (langs.primary_language) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Language Summary</h4>';
+                html += `<div class="analysis-item"><span class="analysis-label">Primary Language:</span><span class="analysis-value">${langs.primary_language}</span></div>`;
+                if (langs.languages && langs.languages.length > 0) {
+                    html += '<div class="analysis-item">';
+                    html += '<span class="analysis-label">Languages:</span>';
+                    html += '<div style="margin-top: 5px;">';
+                    langs.languages.forEach(lang => {
+                        html += `<span class="badge">${lang}</span>`;
+                    });
+                    html += '</div></div>';
+                }
+                html += `<div class="analysis-item"><span class="analysis-label">Programming Files:</span><span class="analysis-value">${langs.total_programming_files || 0}</span></div>`;
+                html += '</div>';
+            }
+            
+            // Summary - Collaboration Analysis
+            const collab = summary.collaboration_analysis || {};
+            if (collab.collaboration_level || collab.contributors) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Collaboration Analysis</h4>';
+                if (collab.collaboration_level) {
+                    html += `<div class="analysis-item"><span class="analysis-label">Collaboration Level:</span><span class="analysis-value">${collab.collaboration_level}</span></div>`;
+                }
+                if (collab.collaboration_score !== undefined) {
+                    html += `<div class="analysis-item"><span class="analysis-label">Collaboration Score:</span><span class="analysis-value">${collab.collaboration_score}</span></div>`;
+                }
+                if (collab.contributors && collab.contributors.length > 0) {
+                    html += '<div class="analysis-item">';
+                    html += '<span class="analysis-label">Contributors:</span>';
+                    html += '<div style="margin-top: 5px;">';
+                    collab.contributors.forEach(c => {
+                        html += `<span class="badge">${c}</span>`;
+                    });
+                    html += '</div></div>';
+                }
+                if (collab.analysis_text) {
+                    html += `<div class="analysis-item"><span class="analysis-label">Analysis:</span><span class="analysis-value">${collab.analysis_text}</span></div>`;
+                }
+                html += '</div>';
+            }
+            
+            // Summary - Time Analysis
+            const timeAnalysis = summary.time_analysis || {};
+            if (Object.keys(timeAnalysis).length > 0) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Time Analysis</h4>';
+                if (timeAnalysis.start_date) {
+                    html += `<div class="analysis-item"><span class="analysis-label">Start Date:</span><span class="analysis-value">${timeAnalysis.start_date}</span></div>`;
+                }
+                if (timeAnalysis.end_date) {
+                    html += `<div class="analysis-item"><span class="analysis-label">End Date:</span><span class="analysis-value">${timeAnalysis.end_date}</span></div>`;
+                }
+                if (timeAnalysis.duration_days !== undefined) {
+                    html += `<div class="analysis-item"><span class="analysis-label">Duration:</span><span class="analysis-value">${timeAnalysis.duration_days} day(s)</span></div>`;
+                }
+                if (timeAnalysis.active_days !== undefined) {
+                    html += `<div class="analysis-item"><span class="analysis-label">Active Days:</span><span class="analysis-value">${timeAnalysis.active_days}</span></div>`;
+                }
+                html += '</div>';
+            }
+            
+            // Summary - File Statistics
+            const fileStats = summary.file_statistics || {};
+            if (fileStats.total_files !== undefined) {
+                html += '<div class="analysis-section">';
+                html += '<h4>File Statistics</h4>';
+                html += `<div class="analysis-item"><span class="analysis-label">Total Files:</span><span class="analysis-value">${fileStats.total_files}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Total Size:</span><span class="analysis-value">${fileStats.total_size_bytes ? (fileStats.total_size_bytes / (1024*1024)).toFixed(2) + ' MB' : '0 MB'}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Text Files:</span><span class="analysis-value">${fileStats.text_files || 0}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Binary Files:</span><span class="analysis-value">${fileStats.binary_files || 0}</span></div>`;
+                html += '</div>';
+            }
+            
+            // Summary - Code Analysis (Deep Analysis)
+            const codeAnalysis = summary.code_analysis || {};
+            if (Object.keys(codeAnalysis).length > 0) {
+                html += '<div class="analysis-section">';
+                html += '<h4>Code Analysis</h4>';
+                
+                // Code Quality
+                const quality = codeAnalysis.code_quality_summary || {};
+                if (quality.average_quality_score) {
+                    html += `<div class="analysis-item"><span class="analysis-label">Code Quality Score:</span><span class="analysis-value">${quality.average_quality_score.toFixed(1)}/100</span></div>`;
+                }
+                if (quality.strengths && quality.strengths.length > 0) {
+                    html += '<div class="analysis-item">';
+                    html += '<span class="analysis-label">Strengths:</span>';
+                    html += '<ul style="margin: 5px 0; padding-left: 20px;">';
+                    quality.strengths.slice(0, 5).forEach(s => {
+                        html += `<li style="color: #22c55e;">${s}</li>`;
+                    });
+                    html += '</ul></div>';
+                }
+                
+                // OOP Principles
+                const oop = codeAnalysis.oop_principles_summary || {};
+                const oopCount = (oop.abstraction?.count || 0) + (oop.encapsulation?.count || 0) + 
+                                (oop.polymorphism?.count || 0) + (oop.inheritance?.count || 0);
+                if (oopCount > 0) {
+                    html += '<div class="analysis-item">';
+                    html += '<span class="analysis-label">OOP Principles:</span>';
+                    html += '<div style="margin-top: 5px;">';
+                    if (oop.abstraction?.count) html += `<span class="badge">Abstraction (${oop.abstraction.count})</span>`;
+                    if (oop.encapsulation?.count) html += `<span class="badge">Encapsulation (${oop.encapsulation.count})</span>`;
+                    if (oop.polymorphism?.count) html += `<span class="badge">Polymorphism (${oop.polymorphism.count})</span>`;
+                    if (oop.inheritance?.count) html += `<span class="badge">Inheritance (${oop.inheritance.count})</span>`;
+                    html += '</div></div>';
+                }
+                
+                // Complexity
+                const complexity = codeAnalysis.complexity_summary || {};
+                if (complexity.nested_loops || complexity.recursive_functions) {
+                    html += '<div class="analysis-item">';
+                    html += '<span class="analysis-label">Complexity Indicators:</span>';
+                    html += '<div style="margin-top: 5px;">';
+                    if (complexity.nested_loops) html += `<span class="badge">Nested Loops: ${complexity.nested_loops}</span>`;
+                    if (complexity.recursive_functions) html += `<span class="badge">Recursive Functions: ${complexity.recursive_functions}</span>`;
+                    if (complexity.complexity_awareness) html += `<span class="badge">Big-O Aware</span>`;
+                    html += '</div></div>';
+                }
+                
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            return html;
         }
 
         async function rankProjects() {
