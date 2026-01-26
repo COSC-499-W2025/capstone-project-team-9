@@ -263,9 +263,9 @@ While last week was about generating text for resumes, this week was about gener
 
 ### **What I Created**
 
-* **Portfolio Logic Engine (`src/portfolio/portfolio_formatter.py`)**
+* **Portfolio Logic Engine 
     * **Showcase Card Generator:** Created the logic to transform raw analysis data into a `PortfolioCardResponse` for the frontend.
-    * **Evidence Integration:** Instead of writing my own metric calculations, I refactored the formatter to import and use the shared `evidence_extractor` module (built by Evan). This ensures that "Success Metrics" (like *Verified Reliability* or *90% Test Coverage*) are consistent across the entire application.
+    * **Evidence Integration:** Instead of writing my own metric calculations, I refactored the formatter to import and use the shared `evidence_extractor` module (built by Evan). This ensures that "Success Metrics" are consistent across the entire application.
 
 * **User Customization Layer**
     * **Dependency Injection:** Modified both `ItemFormatter` (Resume) and `PortfolioFormatter` (Portfolio) to accept a `user_options` dictionary.
