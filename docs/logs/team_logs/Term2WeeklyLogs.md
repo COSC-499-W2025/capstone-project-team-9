@@ -346,7 +346,24 @@ This work enables users to control how individual projects are presented by prio
 ---
 
 ### **Evan**
-- Plz write what you done
+- I wrote the code for pull requests 246 this was big pr for a feature to really change our analysis it also included a bunch of tests.
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/246
+        - testing and codeing
+        - I probably should have split this into a least two PR's
+
+- I reviewed the pull requests of two team members 202 and 204
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/233 for sami
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/231 for sami
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/241 for jinxi
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 for eric
+
+### My Plan for next week
+- I want to work one fixing bugs and making our frontend work as well as some refactoring in the console.
+
+### Reflection
+- I got a big complex feature implemented this week which was sucsessful
+- I also reviewed a lot of code
+- I had two bits of code that were redundant due to miscomunication with team mates which was annoying.
 
 **Requirements addressed:**
 - Plz write what you done
@@ -418,12 +435,10 @@ This work enables users to control how individual projects are presented by prio
 | **Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/243 Enhance project analysis
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/244 Added custom résumé wording management API
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 feat(resume): add evidence of success generation for projects
-| **Evan** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/202 custom resume wording|
-| **Evan** | **JinXi** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/204 update user tables with data|
-| **Evan** | **Kevin** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/222 schemas for resume and portfolio|
-| **Evan** | **Kevin** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/223 resume item formatter|
-| **Sami** | **Ryan** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/195 Recognize Duplicate Files|
-| **Sami** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/197 Feature: Resume content selection (projects & skills) |
+| **Evan** | **Sami** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/233 front end login|
+| **Evan** | **Sami** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/231 api endpoints|
+| **Evan** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 evidence of success|
+| **Evan** | **Jinxi** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/241 user data isolation bug|
 ---
 
 ## **Next Steps**
