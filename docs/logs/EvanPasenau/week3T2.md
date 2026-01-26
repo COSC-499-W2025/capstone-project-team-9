@@ -10,7 +10,7 @@
 
 - I reviewed the pull requests of two team members 202 and 204
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/233 for sami
-    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/234 for sami
+    - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/231 for sami
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/241 for jinxi
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 for eric
 
