@@ -283,7 +283,7 @@ The main challenge this week was **integration**. I had to build the Portfolio l
 
 I also adopted a **"Stacked PR" workflow** to keep my contributions clean:
 1.  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/253 Implemented the base Portfolio Logic.
-2.  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/251 Added the User Customization layer on top of PR #3.
+2.  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/251 Added the User Customization layer on top of PR #251.
 This approach allowed my teammates to review the core logic first, while I continued working on the customization features in a separate branch.
 
 ### **Next Steps**
