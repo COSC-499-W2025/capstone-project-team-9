@@ -410,8 +410,11 @@ This work enables users to control how individual projects are presented by prio
 | **Eric** | **JinXi** | Issue127-2: implement data isolation in portfolio feature #240|
 | **Eric** | **Ryan** | Enhance project analysis #243|
 | **Eric** | **Sami** | Frontend - Login Page #233|
-| **Ryan** | **JinXi** | issue127-1:implement user data isolation on project manager (also update all other files which use project_manager.py) issue#198 #200|
-| **Ryan** | **Evan** | add thumbnail for projects and tests accordingly|
+| **Ryan** | **JinXi** | Issue127-2: implement data isolation in portfolio feature|
+| **Ryan** | **Jynxi** | Add a DB manage tool, and delete useless files #238|
+| **Ryan** | **Sami** | API Endpoints Resume, Skills, Portfolio #239|
+| **Ryan** | **Sami** | Simple Frontend #234|
+| **Ryan** | **Evan** |add the ability to delete a project #249 |
 | **Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/243 Enhance project analysis
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/244 Added custom résumé wording management API
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 feat(resume): add evidence of success generation for projects
