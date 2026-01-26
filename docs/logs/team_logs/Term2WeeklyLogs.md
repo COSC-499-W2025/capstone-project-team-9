@@ -427,11 +427,11 @@ This work enables users to control how individual projects are presented by prio
 | **Eric** | **JinXi** | Issue127-2: implement data isolation in portfolio feature #240|
 | **Eric** | **Ryan** | Enhance project analysis #243|
 | **Eric** | **Sami** | Frontend - Login Page #233|
-| **Ryan** | **JinXi** | Issue127-2: implement data isolation in portfolio feature|
-| **Ryan** | **Jynxi** | Add a DB manage tool, and delete useless files #238|
-| **Ryan** | **Sami** | API Endpoints Resume, Skills, Portfolio #239|
-| **Ryan** | **Sami** | Simple Frontend #234|
-| **Ryan** | **Evan** |add the ability to delete a project #249 |
+| **Ryan** | **JinXi** | Issue127-2: implement data isolation in portfolio feature https://github.com/COSC-499-W2025/capstone-project-team-9/pull/240|
+| **Ryan** | **Jynxi** | Add a DB manage tool, and delete useless files [#238](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/240)|
+| **Ryan** | **Sami** | API Endpoints Resume, Skills, Portfolio https://github.com/COSC-499-W2025/capstone-project-team-9/pull/239|
+| **Ryan** | **Sami** | Simple Frontend [ #234](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/234)|
+| **Ryan** | **Evan** |add the ability to delete a project [#249 ](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/249)|
 | **Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/243 Enhance project analysis
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/244 Added custom résumé wording management API
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 feat(resume): add evidence of success generation for projects
