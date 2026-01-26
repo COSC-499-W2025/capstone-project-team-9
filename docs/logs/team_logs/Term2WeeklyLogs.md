@@ -370,10 +370,37 @@ This work enables users to control how individual projects are presented by prio
 ---
 
 ### **JinXi**
-- Plz write what you done
+This week I am keep developing the user data isolation feature.
+- [Finished] Isolation in portfolio feature; isolation in resume feature; isolation in project rank feature.
+- [Additional] Add a development evnironment only tool to manage the data base.
 
-**Requirements addressed:**
-- Plz write what you done
+#### issue developed:
+[Add a DB manage tool, and delete useless files](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/238)
+The current main branch actually do not have any breaking errors, but the local data base may cause problems.
+- Add a development tool called drop_table.py. This file is used to drop data tables in data base, this would same time.
+- Add security check for the drop_table.py to ensure it wont work in business environment.
+
+[Issue127-2: implement data isolation in portfolio feature](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/240)
+A small PR, only change few lines of codes on portfolio_manager.py and portofolio_display.py.
+- Add auto get current user function in this two files
+- update the test file
+
+[issue127-3: implement user data isolation in resume function](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/241)
+This PR implement the data isolation in resume feature, and fix some old Bugs.
+- Change the generated_resumes data tables, which reference user_name from user_information table as the forigen key.
+- Change the CRUDs of generated_resumes table to fit the new data table and implement the resume isolation between different users.
+- Add codes to update the old data table
+- Fix the Bug which print 'Error: No user logged in' in project summary, portfolio and resume.
+- Update the tests.
+
+[issue127-5: implement the data isolation on project summary and rank feature](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/250)
+This PR implement the data isolation in project rank feature based on user_name.
+- Add user_name as a foreign key into the project_rankings data table.
+- Update the functions in ranking_storage.py, make the could use user_name as a parameter to do their job.
+- updata the test files in need
+
+#### PR reviewed: 
+PR#231, PR#233, PR#234, PR#239, PR#242
 
 ---
 
@@ -422,8 +449,11 @@ This work enables users to control how individual projects are presented by prio
 |-----------|-----------|-------------|
 | **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
 | **Sami** | **Ryan** | Reviewed Added tests and fixed all tests for prev PR PUSH BEFORE FIRST PR |
-| **JinXi** | **Ryan** | Reviewed Resume Manager tests |
-| **JinXi** | **Ryan** | Reviewed Changing the Resume format|
+| **JinXi** | **Sami** | Issue #227-#230 (Project API Endpoints) |
+| **JinXi** | **Sami** | Frontend - Login Page|
+| **JinXi** | **Sami** | Simple Frontend|
+| **JinXi** | **Sami** | API Endpoints Resume, Skills, Portfolio|
+| **JinXi** | **Ryan** | Simple Bug fix|
 | **Eric** | **JinXi** | Issue127-2: implement data isolation in portfolio feature #240|
 | **Eric** | **Ryan** | Enhance project analysis #243|
 | **Eric** | **Sami** | Frontend - Login Page #233|
