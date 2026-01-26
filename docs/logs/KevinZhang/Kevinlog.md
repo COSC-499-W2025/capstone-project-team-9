@@ -248,3 +248,46 @@ I also encountered a tricky environment issue where legacy imports (like `from c
 * **Integration:** Work with Eric to allow users to customize these auto-generated bullet points.
 
 <img width="1050" height="601" alt="image" src="https://github.com/user-attachments/assets/ed110395-2e32-4b49-a3af-341c321b0934" />
+
+# **Term 2 Week 3 (Jan 19 – Jan 25, 2026)**
+
+This week, I focused on the second half of the display architecture: the **Portfolio Showcase** and the **User Customization System**.
+
+## **Issue: [Milestone 2] Implement Portfolio Display & User Customization**
+
+### **In Simple Terms**
+I built the "visual" engine for our system and the "edit" functionality.
+While last week was about generating text for resumes, this week was about generating rich data for the portfolio website. I also added the ability for users to say "No, I want to write this myself," allowing them to override our auto-generated descriptions with their own words.
+
+---
+
+### **What I Created**
+
+* **Portfolio Logic Engine (`src/portfolio/portfolio_formatter.py`)**
+    * **Showcase Card Generator:** Created the logic to transform raw analysis data into a `PortfolioCardResponse` for the frontend.
+    * **Evidence Integration:** Instead of writing my own metric calculations, I refactored the formatter to import and use the shared `evidence_extractor` module (built by Evan). This ensures that "Success Metrics" (like *Verified Reliability* or *90% Test Coverage*) are consistent across the entire application.
+
+* **User Customization Layer**
+    * **Dependency Injection:** Modified both `ItemFormatter` (Resume) and `PortfolioFormatter` (Portfolio) to accept a `user_options` dictionary.
+    * **Override Logic:** The system now intelligently checks for user input. If a user provides a `custom_title` or `custom_description`, the system prioritizes it; otherwise, it falls back to the auto-generated content.
+
+* **Verified Reliability**
+    * **Tests:** Wrote specific tests (`tests/test_portfolio_formatter.py` and `tests/test_custom_preferences.py`) to prove that:
+        1.  The Portfolio card correctly pulls data from the shared evidence module.
+        2.  User overrides successfully replace the default content.
+
+---
+
+### **Reflection**
+The main challenge this week was **integration**. I had to build the Portfolio logic without breaking the existing "Download Report" feature from Term 1. I solved this by extending the existing class rather than replacing it.
+
+I also adopted a **"Stacked PR" workflow** to keep my contributions clean:
+1.  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/253 Implemented the base Portfolio Logic.
+2.  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/251 Added the User Customization layer on top of PR #3.
+This approach allowed my teammates to review the core logic first, while I continued working on the customization features in a separate branch.
+
+### **Next Steps**
+* **API Wiring:** Connect these new formatters to the FastAPI endpoints (`GET /portfolio/{id}`).
+* **Frontend Check:** Verify that the React components can correctly display the JSON data structure I designed.
+
+<img width="1027" height="609" alt="image" src="https://github.com/user-attachments/assets/bef6de8e-0c07-49d1-8039-2e264aeca770" />
