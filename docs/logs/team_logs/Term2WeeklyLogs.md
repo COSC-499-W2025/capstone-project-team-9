@@ -480,4 +480,6 @@ PR#231, PR#233, PR#234, PR#239, PR#242
 
 ---
 ## **Burnup Chart**
+<img width="1051" height="569" alt="image" src="https://github.com/user-attachments/assets/b38589a2-2d96-4b0f-86db-5594fd2340fc" />
+<img width="1043" height="611" alt="image" src="https://github.com/user-attachments/assets/b9721f35-e6ed-420a-8267-dbd20368bd1c" />
 
