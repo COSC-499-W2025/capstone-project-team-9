@@ -35,9 +35,6 @@
         .analysis-list li { padding: 5px 0; border-bottom: 1px solid #2e2e3a; }
         .analysis-list li:last-child { border-bottom: none; }
         .badge { display: inline-block; padding: 4px 8px; background: #6366f1; border-radius: 4px; font-size: 0.85em; margin: 2px; }
-        .submenu { background: #1a1a21; border: 1px solid #2e2e3a; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
-        .submenu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #2e2e3a; }
-        .submenu-header h3 { color: #818cf8; }
     </style>
 </head>
 <body>
@@ -48,71 +45,24 @@
     
     <div id="messageBox" class="message" style="display: none;"></div>
     
-    <!-- Main Menu -->
-    <div id="mainMenu" class="menu-grid">
-        <button class="menu-btn" onclick="showSubmenu('projects')">1. List/Manage Projects</button>
-        <button class="menu-btn" onclick="showView('analyze')">2. Analyze a Project</button>
-        <button class="menu-btn" onclick="showView('rank')">3. Rank All Projects</button>
-        <button class="menu-btn" onclick="showView('rank-top3')">4. Rank and Summarize Top 3</button>
-        <button class="menu-btn" onclick="showView('rankings')">5. View and Edit Rankings</button>
-        <button class="menu-btn" onclick="showSubmenu('settings')">6. Settings</button>
-        <button class="menu-btn" onclick="showSubmenu('resume')">7. Resume</button>
-        <button class="menu-btn" onclick="showSubmenu('portfolio')">8. Portfolio</button>
-        <button class="menu-btn" onclick="showView('llm-summary')">9. Run LLM Summary</button>
-    </div>
-    
-    <!-- Projects Submenu -->
-    <div id="submenu-projects" class="submenu" style="display: none;">
-        <div class="submenu-header">
-            <h3>PROJECTS OPTIONS</h3>
-            <button class="btn btn-secondary" onclick="backToMain()">← Back</button>
-        </div>
-        <div class="menu-grid">
-            <button class="menu-btn" onclick="showView('upload')">1. Upload a ZIP File</button>
-            <button class="menu-btn" onclick="showView('list')">2. List Stored Projects</button>
-            <button class="menu-btn" onclick="showView('thumbnail')">3. Add Thumbnail to Project</button>
-            <button class="menu-btn" onclick="showView('cleanup')">4. Delete a Project</button>
-        </div>
-    </div>
-    
-    <!-- Settings Submenu -->
-    <div id="submenu-settings" class="submenu" style="display: none;">
-        <div class="submenu-header">
-            <h3>SETTINGS</h3>
-            <button class="btn btn-secondary" onclick="backToMain()">← Back</button>
-        </div>
-        <div class="menu-grid">
-            <button class="menu-btn" onclick="showView('external')">1. External Service Settings</button>
-            <button class="menu-btn" onclick="showView('preferences')">2. User Preferences</button>
-            <button class="menu-btn" onclick="showView('account')">3. User Account</button>
-        </div>
-    </div>
-    
-    <!-- Resume Submenu -->
-    <div id="submenu-resume" class="submenu" style="display: none;">
-        <div class="submenu-header">
-            <h3>RESUME OPTIONS</h3>
-            <button class="btn btn-secondary" onclick="backToMain()">← Back</button>
-        </div>
-        <div class="menu-grid">
-            <button class="menu-btn" onclick="showView('resume-gen')">1. Generate Resume</button>
-            <button class="menu-btn" onclick="showView('resume-view')">2. Export Resume</button>
-            <button class="menu-btn" onclick="showView('resume-delete')">3. Delete Resume</button>
-        </div>
-    </div>
-    
-    <!-- Portfolio Submenu -->
-    <div id="submenu-portfolio" class="submenu" style="display: none;">
-        <div class="submenu-header">
-            <h3>PORTFOLIO MENU</h3>
-            <button class="btn btn-secondary" onclick="backToMain()">← Back</button>
-        </div>
-        <div class="menu-grid">
-            <button class="menu-btn" onclick="showView('portfolio-all')">1. View Full Portfolio (All Projects)</button>
-            <button class="menu-btn" onclick="showView('portfolio-top5')">2. View Portfolio (Top 5)</button>
-            <button class="menu-btn" onclick="showView('portfolio-top10')">3. View Portfolio (Top 10)</button>
-            <button class="menu-btn" onclick="showView('portfolio-export')">4. Export Portfolio as Markdown</button>
-        </div>
+    <div class="menu-grid">
+        <button class="menu-btn" onclick="showView('upload')">1. Upload ZIP</button>
+        <button class="menu-btn" onclick="showView('list')">2. List Projects</button>
+        <button class="menu-btn" onclick="showView('analyze-full')">3. Analyze (Full)</button>
+        <button class="menu-btn" onclick="showView('analyze-privacy')">4. Analyze (Privacy)</button>
+        <button class="menu-btn" onclick="showView('rank')">5. Rank Projects</button>
+        <button class="menu-btn" onclick="showView('rank-top3')">6. Rank Top 3</button>
+        <button class="menu-btn" onclick="showView('rankings')">7. View Rankings</button>
+        <button class="menu-btn" onclick="showView('external')">8. External Services</button>
+        <button class="menu-btn" onclick="showView('cleanup')">9. Cleanup Insights</button>
+        <button class="menu-btn" onclick="showView('preferences')">10. Preferences</button>
+        <button class="menu-btn" onclick="showView('account')">11. Account</button>
+        <button class="menu-btn" onclick="showView('resume-gen')">12. Generate Resume</button>
+        <button class="menu-btn" onclick="showView('resume-view')">13. View Resume</button>
+        <button class="menu-btn" onclick="showView('resume-delete')">14. Delete Resume</button>
+        <button class="menu-btn" onclick="showView('portfolio')">15. View Portfolio</button>
+        <button class="menu-btn" onclick="showView('thumbnail')">16. Add Thumbnail</button>
+        <button class="menu-btn" onclick="showView('llm-summary')">17. LLM Summary</button>
     </div>
     
     <div id="viewContainer"></div>
@@ -219,164 +169,42 @@
             if (window[callback]) window[callback](id);
         }
 
-        // Submenu navigation
-        let currentSubmenu = null;
-        
-        function showSubmenu(submenuName) {
-            // Hide main menu
-            document.getElementById('mainMenu').style.display = 'none';
-            // Hide all submenus
-            document.querySelectorAll('.submenu').forEach(s => s.style.display = 'none');
-            // Show selected submenu
-            const submenu = document.getElementById(`submenu-${submenuName}`);
-            if (submenu) {
-                submenu.style.display = 'block';
-                currentSubmenu = submenuName;
-            }
-            // Clear view container
-            document.getElementById('viewContainer').innerHTML = '';
-        }
-        
-        function backToMain() {
-            // Hide all submenus
-            document.querySelectorAll('.submenu').forEach(s => s.style.display = 'none');
-            // Show main menu
-            document.getElementById('mainMenu').style.display = 'grid';
-            currentSubmenu = null;
-            // Clear view container
-            document.getElementById('viewContainer').innerHTML = '';
-        }
-
         function showView(viewName) {
             const container = document.getElementById('viewContainer');
             selectedProjectId = null;
             
             const views = {
-                // Projects submenu views
                 'upload': `<div class="view-panel"><h3>Upload ZIP File</h3><input type="file" id="zipFile" accept=".zip" /><button class="btn" onclick="uploadFile()">Upload</button><div id="uploadResult"></div></div>`,
                 'list': `<div class="view-panel"><h3>Stored Projects</h3><button class="btn" onclick="refreshProjects()">Refresh</button><button class="btn btn-secondary" onclick="loadSkills()">View Skills</button><div id="projectsList" class="project-list"></div><div id="skillsResult" class="result"></div></div>`,
+                'analyze-full': `<div class="view-panel"><h3>Analyze Project (Full Mode)</h3><div id="analyzeProjectsList" class="project-list"></div><button class="btn" onclick="analyzeProject('full')">Analyze Selected</button><div id="analyzeResult" class="result"></div></div>`,
+                'analyze-privacy': `<div class="view-panel"><h3>Analyze Project (Privacy Mode)</h3><div id="analyzePrivacyProjectsList" class="project-list"></div><button class="btn" onclick="analyzeProject('privacy')">Analyze Selected</button><div id="analyzePrivacyResult" class="result"></div></div>`,
+                'rank': `<div class="view-panel"><h3>Rank All Projects</h3><button class="btn" onclick="rankProjects()">Rank Projects</button><div id="rankResult" class="result"></div></div>`,
+                'rank-top3': `<div class="view-panel"><h3>Rank and Summarize Top 3</h3><button class="btn" onclick="rankTop3()">Rank & Summarize</button><div id="rankTop3Result" class="result"></div></div>`,
+                'rankings': `<div class="view-panel"><h3>View and Edit Rankings</h3><button class="btn" onclick="loadRankings()">Load Rankings</button><div id="rankingsList" class="result"></div></div>`,
+                'external': `<div class="view-panel"><h3>External Service Settings</h3><p>Manage external service permissions</p><div id="externalServicesResult" class="result"></div></div>`,
+                'cleanup': `<div class="view-panel"><h3>Cleanup Insights</h3><div id="cleanupProjectsList" class="project-list"></div><button class="btn" onclick="cleanupInsights()">Cleanup Selected</button><div id="cleanupResult" class="result"></div></div>`,
+                'preferences': `<div class="view-panel"><h3>User Preferences</h3><label>Privacy Consent:</label><button class="btn" onclick="submitPrivacyConsent(true)">Grant</button><button class="btn btn-secondary" onclick="submitPrivacyConsent(false)">Deny</button><label>Git Username:</label><input type="text" id="gitUsername" /><button class="btn" onclick="savePreferences()">Save</button><div id="preferencesResult" class="result"></div></div>`,
+                'account': `<div class="view-panel"><h3>User Account</h3><p>Username: ${currentUser?.user_name || ''}</p><p>User ID: ${currentUser?.user_id || ''}</p><p>Last Login: ${new Date(currentUser?.last_login_time).toLocaleString()}</p></div>`,
+                'resume-gen': `<div class="view-panel"><h3>Generate Resume</h3><button class="btn" onclick="generateResume()">Generate</button><div id="resumeGenResult" class="result"></div></div>`,
+                'resume-view': `<div class="view-panel"><h3>View Resume</h3><button class="btn" onclick="viewResume()">Load Resume</button><div id="resumeViewResult" class="result"></div></div>`,
+                'resume-delete': `<div class="view-panel"><h3>Delete Resume</h3><button class="btn" onclick="deleteResume()">Delete</button><div id="resumeDeleteResult" class="result"></div></div>`,
+                'portfolio': `<div class="view-panel"><h3>View Portfolio</h3><button class="btn" onclick="viewPortfolio()">Load Portfolio</button><button class="btn btn-secondary" onclick="generatePortfolio()">Generate New</button><div id="portfolioResult" class="result"></div></div>`,
                 'thumbnail': `<div class="view-panel"><h3>Add Thumbnail to Project</h3><div id="thumbnailProjectsList" class="project-list"></div><input type="file" id="thumbnailFile" accept="image/*" /><button class="btn" onclick="addThumbnail()">Upload Thumbnail</button><div id="thumbnailResult" class="result"></div></div>`,
-                'cleanup': `<div class="view-panel"><h3>Delete Project</h3><p>Select a project to delete all its data (metrics, file contents, and project record).</p><div id="cleanupProjectsList" class="project-list"></div><button class="btn" style="background: #ef4444;" onclick="cleanupInsights()">Delete Selected Project</button><div id="cleanupResult" class="result"></div></div>`,
-                
-                // Main menu - Analyze (combined view with mode selection)
-                'analyze': `<div class="view-panel"><h3>Analyze a Project</h3><p>Select a project and choose analysis mode:</p><div id="analyzeProjectsList" class="project-list"></div><div style="margin: 15px 0;"><button class="btn" onclick="analyzeProject('full')">Full Mode (Metrics + Summary)</button><button class="btn btn-secondary" onclick="analyzeProject('privacy')">Privacy Mode (Local Only)</button></div><div id="analyzeResult" class="result"></div></div>`,
-                
-                // Main menu - Rankings
-                'rank': `<div class="view-panel"><h3>Rank All Projects</h3><p>Rank all your projects based on complexity, size, and quality metrics.</p><button class="btn" onclick="rankProjects()">Rank Projects</button><div id="rankResult" class="result"></div></div>`,
-                'rank-top3': `<div class="view-panel"><h3>Rank and Summarize Top 3</h3><p>Rank projects and generate detailed summaries for the top 3.</p><button class="btn" onclick="rankTop3()">Rank & Summarize</button><div id="rankTop3Result" class="result"></div></div>`,
-                'rankings': `<div class="view-panel"><h3>View and Edit Rankings</h3><p>View stored rankings and optionally edit scores or summaries.</p><button class="btn" onclick="loadRankings()">Load Rankings</button><div id="rankingsList" class="result"></div></div>`,
-                
-                // Settings submenu views
-                'external': `<div class="view-panel"><h3>External Service Settings</h3><p>Manage permission for external LLM analysis services.</p><div style="margin: 15px 0;"><p><strong>Current Status:</strong> <span id="externalStatus">Loading...</span></p></div><div style="margin: 15px 0;"><button class="btn" onclick="grantExternalPermission()">Grant Permission</button><button class="btn btn-secondary" onclick="revokeExternalPermission()">Revoke Permission</button></div><div id="externalServicesResult" class="result"></div></div>`,
-                'preferences': `<div class="view-panel"><h3>User Preferences</h3><div style="margin: 15px 0;"><label><strong>Privacy Consent:</strong></label><div style="margin: 10px 0;"><button class="btn" onclick="submitPrivacyConsent(true)">Grant Consent</button><button class="btn btn-secondary" onclick="submitPrivacyConsent(false)">Deny Consent</button></div></div><div style="margin: 15px 0;"><label><strong>Git Username:</strong></label><input type="text" id="gitUsername" placeholder="Enter your GitHub username" /><button class="btn" onclick="savePreferences()">Save</button></div><div id="preferencesResult" class="result"></div></div>`,
-                'account': `<div class="view-panel"><h3>User Account</h3><div style="margin: 10px 0;"><p><strong>Username:</strong> ${currentUser?.user_name || 'N/A'}</p><p><strong>User ID:</strong> ${currentUser?.user_id || 'N/A'}</p><p><strong>Last Login:</strong> ${currentUser?.last_login_time ? new Date(currentUser.last_login_time).toLocaleString() : 'N/A'}</p></div></div>`,
-                
-                // Resume submenu views
-                'resume-gen': `<div class="view-panel"><h3>Generate Resume</h3><p>Generate a resume based on your analyzed projects.</p><div style="margin: 15px 0;"><label>Number of top projects to include (1-10):</label><input type="number" id="topProjectsCount" value="5" min="1" max="10" style="width: 80px; margin-left: 10px;" /></div><button class="btn" onclick="generateResume()">Generate Resume</button><div id="resumeGenResult" class="result"></div></div>`,
-                'resume-view': `<div class="view-panel"><h3>Export Resume</h3><p>View and export your generated resume.</p><button class="btn" onclick="viewResume()">Load Resume</button><div id="resumeViewResult" class="result"></div></div>`,
-                'resume-delete': `<div class="view-panel"><h3>Delete Resume</h3><p>Permanently delete your resume.</p><button class="btn" style="background: #ef4444;" onclick="deleteResume()">Delete Resume</button><div id="resumeDeleteResult" class="result"></div></div>`,
-                
-                // Portfolio submenu views
-                'portfolio-all': `<div class="view-panel"><h3>Full Portfolio Report (All Projects)</h3><p>View a comprehensive portfolio with all your projects.</p><button class="btn" onclick="viewPortfolio(null)">View Full Portfolio</button><div id="portfolioResult" class="result"></div></div>`,
-                'portfolio-top5': `<div class="view-panel"><h3>Portfolio Report (Top 5 Projects)</h3><p>View portfolio with your top 5 ranked projects.</p><button class="btn" onclick="viewPortfolio(5)">View Top 5</button><div id="portfolioResult" class="result"></div></div>`,
-                'portfolio-top10': `<div class="view-panel"><h3>Portfolio Report (Top 10 Projects)</h3><p>View portfolio with your top 10 ranked projects.</p><button class="btn" onclick="viewPortfolio(10)">View Top 10</button><div id="portfolioResult" class="result"></div></div>`,
-                'portfolio-export': `<div class="view-panel"><h3>Export Portfolio as Markdown</h3><p>Generate and download your portfolio as a Markdown file.</p><button class="btn" onclick="exportPortfolioMarkdown()">Export Markdown</button><div id="portfolioExportResult" class="result"></div></div>`,
-                
-                // LLM Summary
-                'llm-summary': `<div class="view-panel"><h3>Run LLM Summary</h3><p>Generate AI-powered summaries for your projects.</p><div id="llmProjectsList" class="project-list"></div><button class="btn" onclick="runLLMSummary()">Run Summary</button><div id="llmSummaryResult" class="result"></div></div>`
+                'llm-summary': `<div class="view-panel"><h3>Run LLM Summary</h3><div id="llmProjectsList" class="project-list"></div><button class="btn" onclick="runLLMSummary()">Run Summary</button><div id="llmSummaryResult" class="result"></div></div>`
             };
             
             container.innerHTML = views[viewName] || '<div class="view-panel"><p>View not found</p></div>';
             
-            // Load project lists for views that need them
-            const projectListViews = {
-                'list': 'projectsList',
-                'analyze': 'analyzeProjectsList',
-                'cleanup': 'cleanupProjectsList',
-                'thumbnail': 'thumbnailProjectsList',
-                'llm-summary': 'llmProjectsList'
-            };
-            
-            if (projectListViews[viewName]) {
+            if (viewName === 'list' || viewName === 'analyze-full' || viewName === 'analyze-privacy' || 
+                viewName === 'cleanup' || viewName === 'thumbnail' || viewName === 'llm-summary') {
                 setTimeout(() => {
-                    renderProjectsList(projectListViews[viewName], 'onProjectSelect');
+                    const listId = viewName === 'list' ? 'projectsList' : 
+                                  viewName === 'analyze-full' ? 'analyzeProjectsList' :
+                                  viewName === 'analyze-privacy' ? 'analyzePrivacyProjectsList' :
+                                  viewName === 'cleanup' ? 'cleanupProjectsList' :
+                                  viewName === 'thumbnail' ? 'thumbnailProjectsList' : 'llmProjectsList';
+                    renderProjectsList(listId, 'onProjectSelect');
                 }, 100);
-            }
-            
-            // Load external service status
-            if (viewName === 'external') {
-                loadExternalServiceStatus();
-            }
-        }
-        
-        async function loadExternalServiceStatus() {
-            const statusEl = document.getElementById('externalStatus');
-            // For now, just show a placeholder - would need API endpoint
-            statusEl.textContent = 'Check your current permission status';
-        }
-        
-        async function grantExternalPermission() {
-            try {
-                const data = await apiCall('/api/privacy-consent', {
-                    method: 'POST',
-                    body: JSON.stringify({ consent_given: true, user_id: currentUser.user_name })
-                });
-                if (data.success) {
-                    showMessage('External service permission granted', 'success');
-                    document.getElementById('externalStatus').textContent = 'Permission GRANTED - Enhanced analysis enabled';
-                }
-            } catch (e) {
-                showMessage('Failed to grant permission', 'error');
-            }
-        }
-        
-        async function revokeExternalPermission() {
-            try {
-                const data = await apiCall('/api/privacy-consent', {
-                    method: 'POST',
-                    body: JSON.stringify({ consent_given: false, user_id: currentUser.user_name })
-                });
-                if (data.success) {
-                    showMessage('External service permission revoked', 'success');
-                    document.getElementById('externalStatus').textContent = 'Permission REVOKED - Local analysis only';
-                }
-            } catch (e) {
-                showMessage('Failed to revoke permission', 'error');
-            }
-        }
-        
-        async function exportPortfolioMarkdown() {
-            const resultDiv = document.getElementById('portfolioExportResult');
-            resultDiv.innerHTML = 'Generating Markdown...';
-            try {
-                const data = await apiCall(`/api/portfolio/${currentUser.user_name}`);
-                if (data.success) {
-                    // Format as markdown (simplified)
-                    const p = data.portfolio;
-                    let md = `# Portfolio - ${currentUser.user_name}\n\n`;
-                    md += `## Summary\n`;
-                    md += `- Total Projects: ${p.summary?.total_projects || 0}\n`;
-                    md += `- Total Lines of Code: ${p.summary?.total_lines_of_code || 0}\n`;
-                    md += `- Unique Languages: ${p.summary?.unique_languages || 0}\n\n`;
-                    
-                    resultDiv.innerHTML = `<pre>${md}</pre><button class="btn" onclick="downloadMarkdown()">Download</button>`;
-                    window.portfolioMarkdown = md;
-                    showMessage('Markdown generated', 'success');
-                }
-            } catch (e) {
-                resultDiv.innerHTML = `Error: ${e.message}`;
-            }
-        }
-        
-        function downloadMarkdown() {
-            if (window.portfolioMarkdown) {
-                const blob = new Blob([window.portfolioMarkdown], { type: 'text/markdown' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'portfolio_report.md';
-                a.click();
-                URL.revokeObjectURL(url);
             }
         }
 
@@ -569,25 +397,14 @@
                 showMessage('Please select a project', 'error');
                 return;
             }
-            const resultDiv = document.getElementById('analyzeResult');
-            resultDiv.innerHTML = `Analyzing (${mode === 'full' ? 'Full Mode: metrics + summary' : 'Privacy Mode: local analysis'})...`;
-            
+            const resultId = mode === 'full' ? 'analyzeResult' : 'analyzePrivacyResult';
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.innerHTML = 'Analyzing...';
             try {
-                // Call different endpoints based on mode
-                const endpoint = mode === 'full' 
-                    ? `/api/projects/${selectedProjectId}/analyze-full?user_name=${currentUser.user_name}`
-                    : `/api/projects/${selectedProjectId}/analyze?user_name=${currentUser.user_name}`;
-                
-                const data = await apiCall(endpoint, { method: 'POST' });
-                
+                const data = await apiCall(`/api/projects/${selectedProjectId}/analyze?user_name=${currentUser.user_name}`, { method: 'POST' });
                 if (data.success) {
-                    // Use appropriate formatter based on mode
-                    if (mode === 'full') {
-                        resultDiv.innerHTML = formatFullModeResults(data.analysis);
-                    } else {
-                        resultDiv.innerHTML = formatAnalysisResults(data.analysis);
-                    }
-                    showMessage(`Analysis complete (${mode} mode)`, 'success');
+                    resultDiv.innerHTML = formatAnalysisResults(data.analysis);
+                    showMessage('Analysis complete', 'success');
                 } else {
                     resultDiv.innerHTML = `Error: ${data.error || 'Analysis failed'}`;
                     showMessage('Analysis failed', 'error');
@@ -738,25 +555,14 @@
             }
         }
 
-        async function viewPortfolio(topN = null) {
+        async function viewPortfolio() {
             const resultDiv = document.getElementById('portfolioResult');
             resultDiv.innerHTML = 'Loading portfolio...';
             try {
-                let endpoint = `/api/portfolio/${currentUser.user_name}`;
-                if (topN) {
-                    endpoint += `?top_n=${topN}`;
-                }
-                const data = await apiCall(endpoint);
+                const data = await apiCall(`/api/portfolio/${currentUser.user_name}`);
                 if (data.success) {
                     const p = data.portfolio;
-                    let html = '<div class="analysis-section">';
-                    html += `<h4>Portfolio Summary${topN ? ` (Top ${topN})` : ' (All Projects)'}</h4>`;
-                    html += `<div class="analysis-item"><span class="analysis-label">Total Projects:</span><span class="analysis-value">${p.summary?.total_projects || 0}</span></div>`;
-                    html += `<div class="analysis-item"><span class="analysis-label">Total Lines of Code:</span><span class="analysis-value">${p.summary?.total_lines_of_code || 0}</span></div>`;
-                    html += `<div class="analysis-item"><span class="analysis-label">Unique Languages:</span><span class="analysis-value">${p.summary?.unique_languages || 0}</span></div>`;
-                    html += '</div>';
-                    resultDiv.innerHTML = html;
-                    showMessage('Portfolio loaded', 'success');
+                    resultDiv.innerHTML = `Portfolio Summary\nProjects: ${p.summary?.total_projects || 0}\nTotal LOC: ${p.summary?.total_lines_of_code || 0}\nLanguages: ${p.summary?.unique_languages || 0}`;
                 }
             } catch (e) {
                 resultDiv.innerHTML = `Error: ${e.message}`;
