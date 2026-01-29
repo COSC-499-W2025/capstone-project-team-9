@@ -416,3 +416,33 @@ In addition to feature development, I continued reviewing teammates’ pull requ
 ---
 
 
+### **Week 4 (Term 2): Jan 26th – Feb 1st**
+
+**Tasks worked on:**
+
+![T2week4 log](T2week4.png)
+
+**Weekly Goals Recap**
+This week, I focused on refactoring the CLI layer to improve maintainability, consistency, and testability without changing user-facing behavior. The work was intentionally split into two independent pull requests to keep changes scoped and easier to review.
+
+In the first pull request, I refactored the CLI menu execution logic by introducing a shared menu runner abstraction. Previously, individual menus duplicated input loops and control flow, which made behavior inconsistent and harder to test. By centralizing menu execution logic, menus now follow a consistent structure and are easier to extend and reason about.
+
+In the second pull request, I refactored the CLI display and output layer to standardize how success and error messages are rendered. A shared output utility was introduced to reduce duplicated formatting logic. Existing display helpers were hardened to safely handle both dictionary-based and object-based result structures, improving robustness across the CLI.
+
+Throughout the refactor, existing behavior was preserved to remain compatible with current tests. Additional unit tests were added to validate display behavior and protect against regressions. All tests passed locally.
+
+**GitHub Pull Requests (Evidence of Work)**
+
+-PR1 – Refactor CLI menu execution logic:
+[<<PR1 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/271)
+
+-PR2 – Refactor CLI display/output layer and add tests:
+[<<PR2 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/273)
+
+**Additional Contributions**
+-Reviewed teammates’ pull requests and provided feedback on code structure and test compatibility.
+-Verified refactored CLI behavior through manual testing and full pytest runs.
+
+---
+
+
