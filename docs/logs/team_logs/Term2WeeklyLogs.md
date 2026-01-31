@@ -483,3 +483,113 @@ PR#231, PR#233, PR#234, PR#239, PR#242
 <img width="1051" height="569" alt="image" src="https://github.com/user-attachments/assets/b38589a2-2d96-4b0f-86db-5594fd2340fc" />
 <img width="1043" height="611" alt="image" src="https://github.com/user-attachments/assets/b9721f35-e6ed-420a-8267-dbd20368bd1c" />
 
+---
+
+# Sprint Report – Term 2 Week 4 (2026/01/26 to 2026/02/01)
+
+## **Overview**
+This sprint marked the start of a new milestone and served as a reset point for the team. Rather than pushing new functionality immediately, the focus this week was on transitioning cleanly from Milestone 1, performing minor refactoring, and aligning on a clear plan for the work ahead.
+The team spent the majority of the sprint discussing scope, responsibilities, and technical direction to ensure a strong foundation for the upcoming development phases.
+
+## **Completed Work**
+- **Minor Refactoring:** Cleaned up small pieces of code carried over from Milestone 1 to improve readability and maintainability.
+- **Milestone Planning:** Team discussions around goals, priorities, and expected deliverables for this milestone.
+- **Technical Alignment:** Reviewed existing architecture and identified areas that may need improvement or extension moving forward.
+- **Task Breakdown:** Began outlining tickets and responsibilities for upcoming weeks.
+
+### **Kevin**
+I built the "visual" engine for our system and the "edit" functionality.
+While last week was about generating text for resumes, this week was about generating rich data for the portfolio website. I also added the ability for users to say "No, I want to write this myself," allowing them to override our auto-generated descriptions with their own words.
+
+**Requirements addressed:**
+-  https://github.com/COSC-499-W2025/capstone-project-team-9/pull/253 Implemented the base Portfolio Logic. Added the User Customization layer on top of PR #251
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/251 
+
+---
+
+### **Sami**
+- ...
+
+---
+
+### **Eric**
+This week, I focused on refactoring the CLI layer to improve maintainability, consistency, and testability without changing user-facing behavior. The work was intentionally split into two independent pull requests to keep changes scoped and easier to review.
+In the first pull request, I refactored the CLI menu execution logic by introducing a shared menu runner abstraction. Previously, individual menus duplicated input loops and control flow, which made behavior inconsistent and harder to test. By centralizing menu execution logic, menus now follow a consistent structure and are easier to extend and reason about.
+In the second pull request, I refactored the CLI display and output layer to standardize how success and error messages are rendered. A shared output utility was introduced to reduce duplicated formatting logic. Existing display helpers were hardened to safely handle both dictionary-based and object-based result structures, improving robustness across the CLI.
+Throughout the refactor, existing behavior was preserved to remain compatible with current tests. Additional unit tests were added to validate display behavior and protect against regressions. All tests passed locally.
+
+**GitHub Pull Requests (Evidence of Work)**
+-PR1 – Refactor CLI menu execution logic:
+[<<PR1 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/271)
+-PR2 – Refactor CLI display/output layer and add tests:
+[<<PR2 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/273)
+
+**Additional Contributions**
+-Reviewed teammates’ pull requests and provided feedback on code structure and test compatibility.
+-Verified refactored CLI behavior through manual testing and full pytest runs.
+
+---
+
+### **Evan**
+- ...
+---
+
+### **JinXi**
+- ...
+
+---
+
+### **Ryan**
+- ... 
+
+---
+
+### **Collaboration Highlights**
+- **Code Freeze Coordination:** The team communicated effectively to ensure no risky changes were pushed to `main` this week.
+- **Test Swapping:** Team members tested each other's modules to find edge cases that the original author might have missed.
+- **Production Planning:** The team collaborated on the plan for the next milestone. 
+
+### **Things to Work On / Reflection**
+- **Semester Wrap-up:** The project is now effectively concluded. The team worked well to integrate a complex set of features (Auth, NLP, Analysis, Database) into a cohesive CLI tool.
+- **Final Check:** Ensure all "TODO" comments are removed or addressed in the code.
+- **Documentation:** Ensure the User Manual explains the final menu structure, as it changed recently.
+
+### **Peer Evaluations** (Do not Skip this part, they were from last week, you need to change to this week)
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Evan** | [incorporate evidence of sucess and related tests](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/246) |
+| **Sami** | **Ryan** | [Enhance Project Analysis](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/243) |
+| **Sami** | **Evan** | [add the ability to delete a project](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/249) |
+| **Sami** | **Eric** | [Added custom résumé wording management API (save/list/clear).](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/244)) |
+| **Sami** | **Jinxi** | [Implement Portfolio Formatter Logic](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/251) |
+| **JinXi** | **Sami** | Issue #227-#230 (Project API Endpoints) |
+| **JinXi** | **Sami** | Frontend - Login Page|
+| **JinXi** | **Sami** | Simple Frontend|
+| **JinXi** | **Sami** | API Endpoints Resume, Skills, Portfolio|
+| **JinXi** | **Ryan** | Simple Bug fix|
+| **Eric** | **Evan** | Main menu refactor [#270](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/270)|
+| **Eric** | **Ryan** | Bug Fix for duplicate files [#266](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/266)|
+| **Eric** | **Evan** | ranking persistance bug fix [#265](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/265)|
+| **Ryan** | **JinXi** | Issue127-2: implement data isolation in portfolio feature https://github.com/COSC-499-W2025/capstone-project-team-9/pull/240|
+| **Ryan** | **Jynxi** | Add a DB manage tool, and delete useless files [#238](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/240)|
+| **Ryan** | **Sami** | API Endpoints Resume, Skills, Portfolio https://github.com/COSC-499-W2025/capstone-project-team-9/pull/239|
+| **Ryan** | **Sami** | Simple Frontend [ #234](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/234)|
+| **Ryan** | **Evan** |add the ability to delete a project [#249 ](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/249)|
+| **Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/243 Enhance project analysis
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/244 Added custom résumé wording management API
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 feat(resume): add evidence of success generation for projects
+| **Evan** | **Sami** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/233 front end login|
+| **Evan** | **Sami** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/231 api endpoints|
+| **Evan** | **Eric** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/245 evidence of success|
+| **Evan** | **Jinxi** |https://github.com/COSC-499-W2025/capstone-project-team-9/pull/241 user data isolation bug|
+---
+
+## **Next Steps**
+### **Intermediate**
+- **Capstone Part 2 (New Term):** - Discuss potential transition to a Web/GUI interface.
+  - Explore deploying the database to a cloud provider.
+  - Implement advanced LLM features for better project summarization.
+
+---
+## **Burnup Chart**
+
