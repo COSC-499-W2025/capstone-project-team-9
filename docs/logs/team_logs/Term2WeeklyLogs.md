@@ -485,7 +485,7 @@ PR#231, PR#233, PR#234, PR#239, PR#242
 
 ---
 
-# Sprint Report – Term 2 Week 4 (2026/01/26 to 2026/02/01)
+# Sprint Report – Term 2 Week 4 (2026/01/26 to 2026/02/01) (STOP COPY AND PASTE LAST WEEK)
 
 ## **Overview**
 This sprint marked the start of a new milestone and served as a reset point for the team. Rather than pushing new functionality immediately, the focus this week was on transitioning cleanly from Milestone 1, performing minor refactoring, and aligning on a clear plan for the work ahead.
