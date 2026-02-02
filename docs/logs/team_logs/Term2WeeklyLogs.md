@@ -500,7 +500,7 @@ PR#231, PR#233, PR#234, PR#239, PR#242
 ---
 
 ### **Sami**
-- ...
+This week I focused on implementing the new LLM for our project. I removed the previous Ollama setup and switched to Gemini, since it provides $300 in free credits for three months. I also built on Ryan’s PR that moved the full analysis into a private mode, reworking it to include an optional LLM-generated summary that is much more coherent and useful. Overall, the LLM is now fully implemented and everything is looking solid as the front end continues to come together. We also spent a good amount of time improving the back end, especially making the CLI menus more user friendly, which has been going well. One challenge was securely sharing the LLM API key, so for now Ryan and I are the only ones with access. Next week, I plan to continue refining the LLM implementation and start using it for resume generation as well.
 
 ---
 
@@ -590,11 +590,8 @@ Implement the data isolation in user_consent feature
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Sami** | **Evan** | 
-| **Sami** | **Ryan** | 
-| **Sami** | **Evan** | 
-| **Sami** | **Eric** | 
-| **Sami** | **Jinxi** | 
+| **Sami** | **Eric** | [Refactor CLI menus using shared run_menu utility ](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/271)
+| **Sami** | **Ryan** | [Frontend Changes + Analysis Fix](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/274)
 | **JinXi** | **Sami** | Refactor CLI for new "Settings" Menu |
 | **JinXi** | **Sami** | Gemini API (LLM) Implenentation |
 | **JinXi** | **Evan** | ranking persistance bug fix |
