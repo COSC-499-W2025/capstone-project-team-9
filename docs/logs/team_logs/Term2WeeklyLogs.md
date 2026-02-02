@@ -485,22 +485,27 @@ PR#231, PR#233, PR#234, PR#239, PR#242
 
 ---
 
-# Sprint Report – Term 2 Week 4 (2026/01/26 to 2026/02/01) (STOP COPY AND PASTE LAST WEEK)
+# Sprint Report – Term 2 Week 4 (2026/01/26 to 2026/02/01)
 
 ## **Overview**
-
+This week was a major pivot point for the project, focusing heavily on AI Integration and Architectural Stabilization. The team successfully integrated the Gemini LLM API, enabling advanced project analysis capabilities. Simultaneously, a significant refactoring effort was undertaken to standardize the CLI menus and display utilities, reducing technical debt and improving code maintainability. We also finalized the Resume & Portfolio backend routes, ensuring the frontend has access to rich, formatted data.
 
 ## **Completed Work**
+- AI Implementation: Fully integrated Google's Gemini API to power the "Deep Analysis" features, allowing the system to generate insights beyond simple static analysis.
+- Backend Finalization: Completed the API wiring for the Resume and Portfolio features, fixing critical testing mocks and routing issues.
+- CLI Refactoring: Overhauled the Command Line Interface to use shared utilities, resulting in cleaner code and a consistent user experience.
+- Feature Completion: Finalized "Project Deletion" logic to work correctly within isolated environments.
 
 ### **Kevin**
-
-
+Core Contribution: Finalized the backend integration for the Milestone 2 display logic.
+Resolved complex testing failures by standardizing database mock objects to align with new SQL query structures.
 **Requirements addressed:**
-
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/285, feat: register resume_portfolio router and fix project manager mock data
 ---
 
 ### **Sami**
 This week I focused on implementing the new LLM for our project. I removed the previous Ollama setup and switched to Gemini, since it provides $300 in free credits for three months. I also built on Ryan’s PR that moved the full analysis into a private mode, reworking it to include an optional LLM-generated summary that is much more coherent and useful. Overall, the LLM is now fully implemented and everything is looking solid as the front end continues to come together. We also spent a good amount of time improving the back end, especially making the CLI menus more user friendly, which has been going well. One challenge was securely sharing the LLM API key, so for now Ryan and I are the only ones with access. Next week, I plan to continue refining the LLM implementation and start using it for resume generation as well.
+
 
 ---
 
@@ -582,16 +587,19 @@ Implement the data isolation in user_consent feature
 
 
 ### **Collaboration Highlights** 
-
+- Backend & AI Unification: This week required tight coordination between the AI team (Sami) and the Backend team (Kevin). We successfully bridged the gap between the raw analysis logic and the user-facing API, ensuring that both static analysis and new Gemini-powered insights are accessible to the frontend.
+- Refactoring Synchronization: Eric and Evan coordinated a major overhaul of the CLI architecture. By creating shared utilities (run_menu, display), they reduced code duplication across the project, which required careful merging to avoid breaking existing feature branches.
+- Integration Testing: The team worked together to debug environment isolation issues (specifically Jinxi's fix for project deletion), ensuring that our test suites remain reliable even as we add complex external dependencies like the LLM API.
 
 ### **Things to Work On / Reflection**
-
+- Managing Technical Debt: The Refactoring was necessary but painful. It highlighted that we should have standardized our CLI and Output utilities earlier in the project. Moving forward, we should enforce these standards in code reviews to prevent divergence.
+- API Documentation: With the addition of the new Resume and Portfolio endpoints, we need to ensure our API documentation (Swagger/OpenAPI) is kept up to date so the frontend team knows exactly what data structures to expect.
 
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Sami** | **Eric** | [Refactor CLI menus using shared run_menu utility ](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/271)
-| **Sami** | **Ryan** | [Frontend Changes + Analysis Fix](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/274)
+| **Sami** | **Eric** | [Refactor CLI menus using shared run_menu utility ](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/271)|
+| **Sami** | **Ryan** | [Frontend Changes + Analysis Fix](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/274)|
 | **JinXi** | **Sami** | Refactor CLI for new "Settings" Menu |
 | **JinXi** | **Sami** | Gemini API (LLM) Implenentation |
 | **JinXi** | **Evan** | ranking persistance bug fix |
@@ -609,9 +617,9 @@ Implement the data isolation in user_consent feature
 | **Ryan** | **Evan** | Main menu refactor #270 [#270](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/270)|
 | **Ryan** | **Sami** | Identify Collaborators Fix #267 [#267](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/267) |
 | **Ryan** | **Evan** | ranking persistance bug fix #265 [#265](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/265) |
-| **Kevin**|**Ryan**|
-|**Kevin**|**Eric**|
-|**Kevin**|**Eric**| 
+| **Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/274 Frontend Changes + Analysis Fix|
+|**Kevin**|**Sami**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/284 Gemini Analysis|
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/273 Refactor: standardize CLI output and harden display utilities|
 | **Evan** | **Sami** |
 | **Evan** | **Sami** |
 | **Evan** | **Eric** |
@@ -620,6 +628,9 @@ Implement the data isolation in user_consent feature
 
 ## **Next Steps**
 ### **Intermediate**
+- Frontend Polish: Now that the API is returning formatted data, the next immediate step is to finalize the React components for the Portfolio Dashboard and Resume Builder to render this data beautifully.
+- Prompt Engineering: Refine the system prompts used by the Gemini Analyzer to ensure the "Deep Analysis" provides actionable, specific feedback rather than generic coding advice.
+- Milestone 2 Preparation: Finalize all feature branches and prepare the codebase for the Milestone 2 release and demonstration.
 
 ---
 ## **Burnup Chart**
