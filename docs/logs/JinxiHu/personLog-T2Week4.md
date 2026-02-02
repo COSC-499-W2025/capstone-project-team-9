@@ -1,7 +1,7 @@
 # T2Week 4: 2026/1/26 – 2026/2/1
 
 ## Tasks Worked On
-Do not found this week's team peer evaluation
+![T2Week4 Project Log](img/T2Week4.png)
 
 ---
 
