@@ -291,3 +291,26 @@ This approach allowed my teammates to review the core logic first, while I conti
 * **Frontend Check:** Verify that the React components can correctly display the JSON data structure I designed.
 
 <img width="1027" height="609" alt="image" src="https://github.com/user-attachments/assets/bef6de8e-0c07-49d1-8039-2e264aeca770" />
+
+---
+
+# **Term 2 Week 4 (2026/01/26 to 2026/02/01)**
+
+## **Issue: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/285 feat: register resume_portfolio router and fix project manager mock data
+
+I finished the "wiring" for our project's display logic. Previously, we had the engines to format resumes and portfolios, but they weren't connected to the web server. I built the API endpoints so the frontend can actually ask for and receive this data. I also fixed a bunch of broken tests that were causing headaches for the team.
+
+### **What I Created**
+- API Routes:
+-- GET /api/resume/preview/{project_id} – Returns bullet points for the resume builder.
+-- GET /api/portfolio/card/{project_id} – Returns rich data for the portfolio showcase.
+- Data Retrieval Logic: ProjectManager.get_project_by_id() – A new method to fetch raw analysis data specifically for formatting.
+- Test Stability: Refactored tests/test_project_manager.py to match our actual SQL queries, resolving the "column mismatch" crashes we were seeing in CI/CD.
+
+---
+### **Reflection** 
+This week taught me the importance of keeping test mocks updated with production code. We spent a lot of time debugging why get_project_by_id was returning None in tests but working fine in the app. It turned out our mock database was returning 5 columns while the new query expected 4. Going forward, I want to look into using a Factory Pattern for our test data so we don't have to manually update tuples in 10 different test files every time we change a SQL query.
+
+### Next Steps
+- Frontend Integration: Work with the frontend team to ensure the React components interpret my JSON response correctly.
+- Documentation: Update the Swagger/OpenAPI docs to reflect these new endpoints for the rest of the team.
