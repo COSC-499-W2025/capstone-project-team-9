@@ -301,9 +301,8 @@ This approach allowed my teammates to review the core logic first, while I conti
 I finished the "wiring" for our project's display logic. Previously, we had the engines to format resumes and portfolios, but they weren't connected to the web server. I built the API endpoints so the frontend can actually ask for and receive this data. I also fixed a bunch of broken tests that were causing headaches for the team.
 
 ### **What I Created**
-- API Routes:
--- GET /api/resume/preview/{project_id} – Returns bullet points for the resume builder.
--- GET /api/portfolio/card/{project_id} – Returns rich data for the portfolio showcase.
+
+- API Routes: GET /api/resume/preview/{project_id} – Returns bullet points for the resume builder. GET /api/portfolio/card/{project_id} – Returns rich data for the portfolio showcase.
 - Data Retrieval Logic: ProjectManager.get_project_by_id() – A new method to fetch raw analysis data specifically for formatting.
 - Test Stability: Refactored tests/test_project_manager.py to match our actual SQL queries, resolving the "column mismatch" crashes we were seeing in CI/CD.
 
