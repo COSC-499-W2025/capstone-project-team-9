@@ -634,4 +634,7 @@ Implement the data isolation in user_consent feature
 
 ---
 ## **Burnup Chart**
+<img width="985" height="501" alt="image" src="https://github.com/user-attachments/assets/dd584049-2348-4e66-891a-66803ea1a2c9" />
+<img width="981" height="469" alt="image" src="https://github.com/user-attachments/assets/5a47cae0-f44d-4a37-b553-00a2d5bc4e78" />
+
 
