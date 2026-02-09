@@ -688,6 +688,9 @@ https://github.com/COSC-499-W2025/capstone-project-team-9/pull/310 Refactor with
 
 ### **Sami**
 
+This week, I focused on further implementing our LLM for the rankings feature by developing and testing the core logic, though I was unable to refactor the code or fully integrate the feature into the frontend. This ended up working out well, as the frontend was undergoing a refactor anyway, and adding the rankings LLM at that time could have caused conflicts. The LLM implementation is progressing smoothly overall, the frontend is starting to come together, and pull request reviews were extremely quick this week (PRs:
+ and https://github.com/COSC-499-W2025/capstone-project-team-9/pull/312
+). There were no major coding-related issues this week, with my main challenge being the workload from other classes. Next week, I plan to focus on properly integrating the LLM rankings feature into the frontend and writing documentation for the new additions, as the project currently feels somewhat disorganized and better documentation could help bring everything together.
 ---
 
 ### **Eric**
@@ -792,8 +795,7 @@ This PR is for implement the user data isolation in user preference relate funct
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Sami** | **Eric** | 
-| **Sami** | **Ryan** | 
+| **Sami** | **Evan** | frontend menu refactor https://github.com/COSC-499-W2025/capstone-project-team-9/pull/311
 | **JinXi** | **Kevin** | Refactor with tests
 | **JinXi** | **Ryan** | Added function to create an account
 | **JinXi** | **Eric** | refactor(api): standardize error responses and align tests
