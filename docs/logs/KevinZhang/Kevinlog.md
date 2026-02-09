@@ -316,7 +316,7 @@ This week taught me the importance of keeping test mocks updated with production
 
 # **What I Did This Week (2026/02/02 to 2026/02/08 Week 5)**
 
-## **Centralize Test Fixtures & Fix Analyzer Tests (#255)**
+## **https://github.com/COSC-499-W2025/capstone-project-team-9/pull/310 Refactor with tests**
 
 ### **In Simple Terms**
 I performed a major "cleanup" of our automated testing system. Previously, every test file created its own fake project data, meaning if we changed one thing in our database, we had to fix it in 5 different places. I consolidated all this data into a single "Source of Truth" (`conftest.py`).
@@ -350,11 +350,6 @@ I also fixed a critical issue where our tests were crashing because the test dat
 
 ---
 
-### **Visuals**
-*(Placeholder: Insert a screenshot here of your terminal showing all tests passing in `tests/test_analysis_router.py` and `tests/test_project_analyzer.py`)*
-
----
-
 ### **Reflection**
 This week highlighted the cost of **technical debt** in test suites. Because we copy-pasted data setup code across multiple files early in the project, a simple database change (switching ID to Username) broke the entire analysis test suite.
 
@@ -363,3 +358,5 @@ Refactoring to use `pytest` fixtures (`conftest.py`) was necessary. It enforces 
 ### **Next Steps**
 * **Frontend Handoff:** Confirm with Sami that the Frontend can consume the JSON data exactly as the tests verify.
 * **Resume Builder:** Finalize the integration of the `ItemFormatter` into the actual PDF generation flow.
+
+<img width="1051" height="606" alt="image" src="https://github.com/user-attachments/assets/3c6773bd-3acc-4696-9d1b-6e0c76cc6f21" />
