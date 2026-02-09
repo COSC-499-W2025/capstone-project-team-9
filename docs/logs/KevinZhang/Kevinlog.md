@@ -313,3 +313,53 @@ This week taught me the importance of keeping test mocks updated with production
 ### Next Steps
 - Frontend Integration: Work with the frontend team to ensure the React components interpret my JSON response correctly.
 - Documentation: Update the Swagger/OpenAPI docs to reflect these new endpoints for the rest of the team.
+
+# **What I Did This Week (2026/02/02 to 2026/02/08 Week 5)**
+
+## **Centralize Test Fixtures & Fix Analyzer Tests (#255)**
+
+### **In Simple Terms**
+I performed a major "cleanup" of our automated testing system. Previously, every test file created its own fake project data, meaning if we changed one thing in our database, we had to fix it in 5 different places. I consolidated all this data into a single "Source of Truth" (`conftest.py`).
+
+I also fixed a critical issue where our tests were crashing because the test database was still looking for `user_id` instead of the new `user_name` field we implemented recently.
+
+---
+
+### **What I Created / Fixed**
+
+* **Test Infrastructure (`tests/conftest.py`):**
+    * Created a shared fixture file that automatically provides mock data to any test that needs it.
+    * Significantly reduced code duplication in `test_portfolio_formatter.py` and `test_project_analyzer.py`.
+* **Database Schema Fixes in Tests:**
+    * Fixed `psycopg.errors.UndefinedColumn` errors in `test_analysis_router.py`.
+    * Implemented a `DROP TABLE` command in the test setup to ensure the test environment always uses the latest database schema (fixing the conflict between `user_id` and `user_name`).
+* **Logic Repairs:**
+    * Fixed a bug in `ProjectAnalyzer` line counting tests where the mock data format (`10\nlines`) was causing integer conversion errors.
+    * Corrected the patching logic for `ExternalServicePermission` to resolve `AttributeError` crashes.
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | **#255** |
+| **Tests Rescued** | 11 (3 Failed, 8 Errors -> All Passing) |
+| **Lines of Code Removed** | ~100+ (Deleted redundant setup code) |
+| **New Test Files** | 1 (`conftest.py`) |
+
+---
+
+### **Visuals**
+*(Placeholder: Insert a screenshot here of your terminal showing all tests passing in `tests/test_analysis_router.py` and `tests/test_project_analyzer.py`)*
+
+---
+
+### **Reflection**
+This week highlighted the cost of **technical debt** in test suites. Because we copy-pasted data setup code across multiple files early in the project, a simple database change (switching ID to Username) broke the entire analysis test suite.
+
+Refactoring to use `pytest` fixtures (`conftest.py`) was necessary. It enforces the **DRY (Don't Repeat Yourself)** principle. Now, if we add a new field to a project, I only have to update it in one file, and all formatters and analyzers will automatically test against the new structure.
+
+### **Next Steps**
+* **Frontend Handoff:** Confirm with Sami that the Frontend can consume the JSON data exactly as the tests verify.
+* **Resume Builder:** Finalize the integration of the `ItemFormatter` into the actual PDF generation flow.
