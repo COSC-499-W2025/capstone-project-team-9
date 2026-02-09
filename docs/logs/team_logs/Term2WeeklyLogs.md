@@ -682,6 +682,8 @@ Test Infrastructure (tests/conftest.py):
 Created a shared fixture file that automatically provides mock data to any test that needs it.
 Significantly reduced code duplication in test_portfolio_formatter.py and test_project_analyzer.py.
 
+https://github.com/COSC-499-W2025/capstone-project-team-9/pull/310 Refactor with tests
+
 ---
 
 ### **Sami**
