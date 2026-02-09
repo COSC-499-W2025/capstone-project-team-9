@@ -674,6 +674,13 @@ Implement the data isolation in user_consent feature
 - for links or our completed work, refer to the peer evaluations tab we have created.
 
 ### **Kevin**
+Logic Repairs:
+Fixed a bug in ProjectAnalyzer line counting tests where the mock data format (10\nlines) was causing integer conversion errors.
+Corrected the patching logic for ExternalServicePermission to resolve AttributeError crashes.
+
+Test Infrastructure (tests/conftest.py):
+Created a shared fixture file that automatically provides mock data to any test that needs it.
+Significantly reduced code duplication in test_portfolio_formatter.py and test_project_analyzer.py.
 
 ---
 
