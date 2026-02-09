@@ -10,7 +10,7 @@
 - I developed the logic for the code along with testing, however was unable to get to refactoring and actually implementing the feature into our frontend
 - This actually works well because we had a refactoring of the frontend anyways so if I were to have added the rankings LLM it might have messed that up
 ### Link to PR
-- This is the link to the PRs that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/272 https://github.com/COSC-499-W2025/capstone-project-team-9/pull/312
+- This is the link to the PRs that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/312
 ### What went well
 - LLM is getting implemented nicely, and the frontend is starting to come together. PR reviews were also extremely quick this week. 
 ### what didnt go well
