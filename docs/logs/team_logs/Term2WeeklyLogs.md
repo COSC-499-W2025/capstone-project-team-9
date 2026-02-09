@@ -671,7 +671,7 @@ Implement the data isolation in user_consent feature
 - Week 5 of term 2 was overall a good week. It was a slow week as many of us were busy with midterms so none of us were able to put in as much time as we would want to in to capstone. We still completed some tasks that needed to be done such as adding in more data isolation for personal users, and adding in the feature of "create an account" to the front end. With the completion of the create an account, the log in page is fully funcitonal. and now all of our attention can go to implementing the mileston 1 requirements in to our front end. We also refactored a lot of our tests as they were becoming redundant and caused our time complexity to be quite high when we ran them. Along with the test refactoring some API functions were refactored. 
 
 ## **Completed Work**
-- for links or our completed work, refer to the peer evaluations tab we have created.
+- For links or our completed work, refer to the peer evaluations tab we have created.
 
 ### **Kevin**
 Logic Repairs:
@@ -814,5 +814,8 @@ This PR is for implement the user data isolation in user preference relate funct
 - The main next steps are to completely finish all of the milestone 2 requirements. We are very close to completeing this but we must ensure that they are all finished to our liking.
 - We will continue to develop the front end and connect it to our backend
 - We will need to refactor more of our tests, and code as there is beggining to be a lot more redundant code. This is Ok right now but we do not want this to become a problem in our near future
+
 ---
 ## **Burnup Chart**
+<img width="991" height="497" alt="image" src="https://github.com/user-attachments/assets/b14fab11-16b5-4f9c-bfe0-b3f6f0478539" />
+<img width="992" height="495" alt="image" src="https://github.com/user-attachments/assets/3cf7bd97-decc-457a-8019-d4a516caff06" />
