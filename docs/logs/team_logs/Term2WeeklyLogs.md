@@ -654,7 +654,27 @@ Implement the data isolation in user_consent feature
 ---
 
 ### **Eric**
+**Weekly Goals Recap**  
+This week, I focused on improving the robustness and consistency of the backend API layer by standardizing error handling and aligning all related components with a clear API contract. The work was intentionally split into two independent pull requests to keep changes scoped and easier to review.
 
+In the first pull request, I refactored API error handling across all FastAPI routes by introducing a unified error response schema. Previously, different endpoints returned errors in inconsistent formats, which made client-side handling and testing brittle. A centralized HTTP exception handler was added to ensure all API errors follow a consistent structure while preserving existing HTTP status codes.
+
+In the second pull request, I updated the API client and refactored API endpoint tests to align with the new error contract. Tests were changed to assert against the defined response schema rather than raw framework-specific fields, effectively turning them into contract tests. This improves long-term maintainability and reduces coupling between implementation details and tests.
+
+All changes were verified through full pytest runs, and existing behavior was preserved throughout the refactor.
+
+**GitHub Pull Requests (Evidence of Work)**
+
+- **PR1 – cli: stabilize input/output handling and add CLI tests#303**  
+  [<<PR1 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/303)
+
+- **PR2 – refactor(api): standardize error responses and align tests#304**  
+  [<<PR2 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/304)
+
+**Additional Contributions**
+- Refactored API endpoint tests to validate a stable API contract rather than raw response details.
+- Ensured consistent error behavior across all API routes without introducing breaking changes.
+- Reviewed related backend code paths to confirm consistency and robustness.
 ---
 
 ### **Evan**
@@ -683,9 +703,9 @@ Implement the data isolation in user_consent feature
 | **JinXi** | **Evan** | 
 | **JinXi** | **Ryan** | 
 | **JinXi** | **Eric** | 
-| **Eric** | **Evan** | 
-| **Eric** | **Ryan** | 
-| **Eric** | **Evan** | 
+| **Eric** | **Jinxi** | Issue127-8: implement data isolation in user preference[#305](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/305)|
+| **Eric** | **Kevin** | Refactor with tests[#310](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/310)|
+| **Eric** | **Ryan** | Added function to create an account[#309](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/309)|
 | **Ryan** | **Kevin** | 
 | **Ryan** | **Sami** |
 | **Ryan** | **Jynxi** | 
