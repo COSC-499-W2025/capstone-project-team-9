@@ -794,9 +794,8 @@ This PR is for implement the user data isolation in user preference relate funct
 | **Eric** | **Ryan** | Added function to create an account[#309](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/309)|
 | **Ryan** | **Kevin** | Refactor with tests https://github.com/COSC-499-W2025/capstone-project-team-9/pull/310 |
 | **Ryan** | **Jynxi** | Issue127-8: implement data isolation in user preference#305 https://github.com/COSC-499-W2025/capstone-project-team-9/pull/305 |
-| **Kevin**|**Ryan**| 
-|**Kevin**|**Sami**| 
-|**Kevin**|**Eric**|
+|**Kevin**|**Sami**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/312 Gemini Rankings Logic |
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/304 refactor(api): standardize error responses and align tests|
 | **Evan** | **Sami** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/312 |
 | **Evan** | **Eric** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/303 |
 ---
