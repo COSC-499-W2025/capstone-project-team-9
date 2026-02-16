@@ -363,7 +363,7 @@ Refactoring to use `pytest` fixtures (`conftest.py`) was necessary. It enforces 
 
 # **What I Did This Week (2026/02/09 to 2026/02/15 Week 6)**
 
-## **Replace Print Statements with Logging Module (#325)**
+## [Replace printing with logging#325](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/325)**
 
 ### **In Simple Terms**
 I upgraded how our server "talks" to us when it runs. Previously, the code used simple `print()` statements (like you use when learning Python) to show errors or status updates. This is bad for real web servers because those messages often get lost or don't have timestamps. I replaced them with a professional **Logging System** that automatically tags every message with the time, severity (Info vs. Error), and the file it came from.
@@ -386,15 +386,10 @@ I upgraded how our server "talks" to us when it runs. Previously, the code used 
 
 | Metric | Value |
 | :--- | :--- |
-| **Pull Request** | **#325** |
+| **Pull Request** | Replace printing with logging#325 #325 |
 | **Files Changed** | 4 |
-| **Lines of Code Modified** | ~60 (Refactoring) |
+| **Lines of Code Modified** | ~300 (Refactoring) |
 | **New Module** | `src/common/logger.py` |
-
----
-
-### **Visuals**
-*(Placeholder: Insert a screenshot of your terminal running the server, showing the new colored log output with timestamps instead of plain text)*
 
 ---
 
