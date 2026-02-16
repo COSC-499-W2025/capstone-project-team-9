@@ -823,11 +823,14 @@ This PR is for implement the user data isolation in user preference relate funct
 # Sprint Report – Term 2 Week 65 (2026/02/09 to 2026/02/15)
 
 ## **Overview**
+This week focused on "polishing" and "feature completion" for Milestone 2. We delivered several high-impact features, including the AI Ranking System, Incremental Project Updates, and Thumbnail Support, moving the application from a functional prototype to a feature-rich product. We also addressed technical debt by replacing raw print statements with a standardized logging system and ensuring the frontend correctly initializes the database structure upon startup.
 
 ## **Completed Work**
 - For links or our completed work, refer to the peer evaluations tab we have created.
 
 ### **Kevin**
+Core Contribution: Backend Observability & Logging Refactor.
+Replace printing with logging (#325): Refactored the backend to use a standardized logging module instead of raw print statements. Created src/common/logger.py and updated project_analyzer.py, portfolio_formatter.py, and API routes. This enables proper severity filtering (INFO vs ERROR) and improves server log manageability.
 
 ---
 
@@ -851,10 +854,12 @@ This PR is for implement the user data isolation in user preference relate funct
 
 ---
 ### **Collaboration Highlights** 
-
+- Backend & Frontend Sync: The implementation of Thumbnails (#314) and Table Initialization (#323) required close collaboration to ensure the API endpoints met the exact needs of the React frontend.
+- AI Integration: The AI Ranking implementation (#324) involved connecting the backend GeminiRanker logic with the frontend display, requiring coordination between Sami and Kevin to ensure data structures matched.
 
 ### **Things to Work On / Reflection**
-
+- Log Management: With the new logging system in place (#325), we need to ensure we are actually monitoring these logs during development to catch silent failures.
+- Testing AI Features: Now that AI Rankings are live, we need to manually verify the quality of the scores across different types of projects to ensure the prompts are effective.
 
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
@@ -877,7 +882,9 @@ This PR is for implement the user data isolation in user preference relate funct
 
 ## **Next Steps**
 ### **Intermediate**
-
+-Milestone 2 Final Polish: Ensure all UI elements (like the new Thumbnails and Rankings) are aligned and responsive.
+-Peer Testing: Run a full team test session to verify the "Incremental Additions" feature works seamlessly without corrupting existing data.
+-Documentation: Update the README and API docs to reflect the new endpoints and environmental variables (e.g., Logging config).
 
 ---
 ## **Burnup Chart**
