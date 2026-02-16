@@ -882,9 +882,9 @@ Replace printing with logging (#325): Refactored the backend to use a standardiz
 
 ## **Next Steps**
 ### **Intermediate**
--Milestone 2 Final Polish: Ensure all UI elements (like the new Thumbnails and Rankings) are aligned and responsive.
--Peer Testing: Run a full team test session to verify the "Incremental Additions" feature works seamlessly without corrupting existing data.
--Documentation: Update the README and API docs to reflect the new endpoints and environmental variables (e.g., Logging config).
+- Milestone 2 Final Polish: Ensure all UI elements (like the new Thumbnails and Rankings) are aligned and responsive.
+- Peer Testing: Run a full team test session to verify the "Incremental Additions" feature works seamlessly without corrupting existing data.
+- Documentation: Update the README and API docs to reflect the new endpoints and environmental variables (e.g., Logging config).
 
 ---
 ## **Burnup Chart**
