@@ -4,6 +4,9 @@
 - Tests: Added tests/test_gemini_ranker.py for ranking, parsing, retries, data gathering, and snippet logic. 
 - Frontend: Minimal dashboard changes: new menu item “7. AI Rank (Gemini)” under Ranking Tools, a small view panel with description and “Rank with Gemini” button, and a JS function that calls the API and displays the ranked list plus reasoning.
 
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/324
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/312
+
 ### What went well
 Implementing the ranker and wiring it to the frontend went well. The backend stays small and the UI is a small addition (one menu item, one panel, one handler) so it fits the existing dashboard without a rework.
 
