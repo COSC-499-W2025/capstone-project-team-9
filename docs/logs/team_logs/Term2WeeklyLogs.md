@@ -737,9 +737,6 @@ All changes were verified through full pytest runs, and existing behavior was pr
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/269 for ryan
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/266 for ryan
 
-
-
-
 ### My Plan for next week
 - I really need to work on testing our api endpoints
 - I also want to look more into image and pdf analysis for files in our projects that we analyze
@@ -822,3 +819,66 @@ This PR is for implement the user data isolation in user preference relate funct
 ## **Burnup Chart**
 <img width="991" height="497" alt="image" src="https://github.com/user-attachments/assets/b14fab11-16b5-4f9c-bfe0-b3f6f0478539" />
 <img width="992" height="495" alt="image" src="https://github.com/user-attachments/assets/3cf7bd97-decc-457a-8019-d4a516caff06" />
+
+# Sprint Report – Term 2 Week 5 (2026/02/02 to 2026/02/08)
+
+## **Overview**
+
+## **Completed Work**
+- For links or our completed work, refer to the peer evaluations tab we have created.
+
+### **Kevin**
+
+---
+
+### **Sami**
+
+---
+
+### **Eric**
+
+---
+
+### **Evan**
+
+---
+
+### **JinXi**
+
+---
+
+### **Ryan**
+
+---
+### **Collaboration Highlights** 
+
+
+### **Things to Work On / Reflection**
+
+
+### **Peer Evaluations** 
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Evan** |
+| **JinXi** | **Kevin** | 
+| **JinXi** | **Ryan** | 
+| **JinXi** | **Eric** | 
+| **JinXi** | **Eric** | 
+| **Eric** | **Jinxi** | |
+| **Eric** | **Kevin** | |
+| **Eric** | **Ryan** | |
+| **Ryan** | **Kevin** |  |
+| **Ryan** | **Jynxi** |  |
+|**Kevin**|**Sami**|  |
+|**Kevin**|**Eric**| |
+| **Evan** | **Sami** |  |
+| **Evan** | **Eric** |  |
+---
+
+## **Next Steps**
+### **Intermediate**
+
+
+---
+## **Burnup Chart**
+
