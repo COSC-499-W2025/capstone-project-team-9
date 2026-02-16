@@ -874,8 +874,8 @@ Replace printing with logging (#325): Refactored the backend to use a standardiz
 | **Eric** | **Ryan** | |
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Jynxi** |  |
-|**Kevin**|**Sami**|  |
-|**Kevin**|**Eric**| |
+|**Kevin**|**Sami**|https://github.com/COSC-499-W2025/capstone-project-team-9/pull/324  |
+|**Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/323 |
 | **Evan** | **Sami** |  |
 | **Evan** | **Eric** |  |
 ---
