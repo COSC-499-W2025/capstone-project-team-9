@@ -30,6 +30,7 @@ This PR is the test part of the PR#317, should be merged after that.
 1. [Incremental additions](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/322)
 2. [initialize tables in front end](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/323)
 3. [AI Rankings Implementation](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/324)
+4. [Replace printing with logging](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/325)
 
 ### Went well:
 The portfolio customization function was effectively implemented.
