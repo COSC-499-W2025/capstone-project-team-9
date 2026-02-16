@@ -360,3 +360,49 @@ Refactoring to use `pytest` fixtures (`conftest.py`) was necessary. It enforces 
 * **Resume Builder:** Finalize the integration of the `ItemFormatter` into the actual PDF generation flow.
 
 <img width="1051" height="606" alt="image" src="https://github.com/user-attachments/assets/3c6773bd-3acc-4696-9d1b-6e0c76cc6f21" />
+
+# **What I Did This Week (2026/02/09 to 2026/02/15 Week 6)**
+
+## **Replace Print Statements with Logging Module (#325)**
+
+### **In Simple Terms**
+I upgraded how our server "talks" to us when it runs. Previously, the code used simple `print()` statements (like you use when learning Python) to show errors or status updates. This is bad for real web servers because those messages often get lost or don't have timestamps. I replaced them with a professional **Logging System** that automatically tags every message with the time, severity (Info vs. Error), and the file it came from.
+
+---
+
+### **What I Created**
+
+* **Centralized Logger (`src/common/logger.py`):**
+    * Created a singleton configuration that ensures all logs follow a standard format: `[Time] - [Module] - [Level] - [Message]`.
+    * Configured it to output correctly to the system's standard output (stdout), which is required for Docker and cloud deployment.
+* **Backend Refactoring:**
+    * Updated **`src/project_analyzer.py`**: Replaced raw error prints with `logger.error()` to catch analysis failures without crashing the server.
+    * Updated **`src/portfolio/portfolio_formatter.py`**: Added logging to track when portfolio cards are successfully generated or if they return empty data.
+    * Updated **`src/api/routes/resume_portfolio.py`**: Ensured every API request is logged, making it easier to debug why a specific request might fail (e.g., 404 Not Found vs 500 Server Error).
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | **#325** |
+| **Files Changed** | 4 |
+| **Lines of Code Modified** | ~60 (Refactoring) |
+| **New Module** | `src/common/logger.py` |
+
+---
+
+### **Visuals**
+*(Placeholder: Insert a screenshot of your terminal running the server, showing the new colored log output with timestamps instead of plain text)*
+
+---
+
+### **Reflection**
+This task was about **Production Readiness**. While `print("Error")` is fine for a homework assignment, it is a nightmare for a deployed application because you can't tell *when* an error happened or filter the logs to show *only* errors.
+
+By implementing the `logging` library, we have improved our system's **observability**. Now, if the frontend team reports a bug, I can look at the server logs and instantly filter for `[ERROR]` to see exactly what went wrong, rather than scrolling through thousands of "Analyzing..." print statements.
+
+### **Next Steps**
+* **Log Monitoring:** Verify that these logs show up correctly in our Docker container output.
+* **Frontend Support:** Assist Sami and the frontend team as they integrate the new AI Ranking display, using the server logs to troubleshoot any data connection issues.
