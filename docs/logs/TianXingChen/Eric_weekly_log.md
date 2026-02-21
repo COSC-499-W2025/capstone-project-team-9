@@ -476,3 +476,30 @@ All changes were verified through full pytest runs, and existing behavior was pr
 
 ---
 
+### *Week 7 (Term 2): Feb 16th – Feb 22nd (Reading Week Bonus)**
+
+**Weekly Goals Recap**  
+Although this week was designated as Reading Week, I continued improving the frontend dashboard layer to enhance code quality, maintainability, and system stability without introducing new features.
+
+The work focused on strengthening the frontend structure while ensuring compatibility with existing automated tests. Changes were intentionally scoped and validated locally to avoid unintended regressions.
+
+In the first pull request, I refactored the dashboard frontend to standardize API calls through a unified apiRequest wrapper. Previously, some actions (upload, thumbnail addition, merge operations) performed duplicate or inconsistent network requests. This refactor eliminated redundant fetch calls and ensured consistent request handling across all user actions.
+
+In the second pull request, I improved dashboard state restoration logic to ensure the active view and selected project are reliably restored after page reload. During this refactor, I also evaluated event handling structure and ensured compatibility with the existing frontend smoke test by preserving the inline selectProject(event, ...) handler expected by the test suite.
+
+All changes were verified through local pytest runs, and no breaking changes were introduced.
+
+**GitHub Pull Requests (Evidence of Work)**
+
+- **PR1 – feat(api): add request context middleware with request-id and timing headers#330**  
+  [<<PR1 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/330)
+
+- **PR2 – Resotre inline onclick for selectProject to satisfy existing frontend smoke test#331**  
+  [<<PR2 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/331)
+
+**Additional Contributions**
+- Removed redundant network requests to improve correctness and reduce unnecessary backend load.
+- Standardized frontend API interaction patterns for better maintainability.
+- Strengthened dashboard state persistence (active view + selected project restoration).
+- Ensured all frontend smoke tests pass locally after refactoring.
+- Maintained backward compatibility with existing test expectations.
