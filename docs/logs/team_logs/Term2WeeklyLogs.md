@@ -941,12 +941,16 @@ This PR is the test part of the PR#317, should be merged after that.
 ---
 ## **Burnup Chart**
 
-# Sprint Report – Term 2 Week 7 (2026/02/09 to 2026/02/15) Reading Break
+# Sprint Report – Term 2 (2026/02/16 to 2026/02/22) Reading Break
 
 ## **Overview**
+This week focused heavily on system stabilization, API robustness, and finalizing frontend integrations as we approach the end of Milestone 2. Our primary achievements included implementing comprehensive API documentation and testing, adding backend request tracking middleware, and completing the user-facing customization features for the portfolio dashboard. We also resolved critical bugs in the analysis pipeline and frontend event handling to ensure a smooth user experience.
 
 ## **Completed Work**
-
+https://github.com/COSC-499-W2025/capstone-project-team-9/pull/322 Incremental additions
+https://github.com/COSC-499-W2025/capstone-project-team-9/pull/328 API Tests
+https://github.com/COSC-499-W2025/capstone-project-team-9/pull/329 Add API documentation
+And more and more
 ### **Kevin**
 
 ---
@@ -971,10 +975,12 @@ This PR is the test part of the PR#317, should be merged after that.
 
 ---
 ### **Collaboration Highlights** 
-
+**Full-Stack Synchronization:** The implementation of the Portfolio Customization (#326) required everyone to work closely together, using the newly generated API documentation (#329) as a bridge to ensure the React forms sent the exact payload the backend expected.
+**Testing & Stability:** Bug fix (#327) and API tests (#328) were crucial for unblocking the rest of the team. We collaborated to ensure the backend modifications (#330, #332) didn't break any of these newly established test parameters.
 
 ### **Things to Work On / Reflection**
-
+**Integration Bottlenecks:** This week showed that whenever we change backend data structures or add middleware, the frontend tests (like the smoke tests fixed in #331) can easily break. We need to improve our end-to-end testing pipeline so these mismatches are caught in CI/CD before merging.
+**Milestone Wrap-Up:** With Milestone 2 closing, we need to ensure all features are fully documented in the `README` and that our deployment environment is perfectly mirroring our newly tested API behavior.
 
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
