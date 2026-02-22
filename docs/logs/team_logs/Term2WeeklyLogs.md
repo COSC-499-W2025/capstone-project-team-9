@@ -820,7 +820,7 @@ This PR is for implement the user data isolation in user preference relate funct
 <img width="991" height="497" alt="image" src="https://github.com/user-attachments/assets/b14fab11-16b5-4f9c-bfe0-b3f6f0478539" />
 <img width="992" height="495" alt="image" src="https://github.com/user-attachments/assets/3cf7bd97-decc-457a-8019-d4a516caff06" />
 
-# Sprint Report – Term 2 Week 65 (2026/02/09 to 2026/02/15)
+# Sprint Report – Term 2 Week 6 (2026/02/09 to 2026/02/15)
 
 ## **Overview**
 This week focused on "polishing" and "feature completion" for Milestone 2. We delivered several high-impact features, including the AI Ranking System, Incremental Project Updates, and Thumbnail Support, moving the application from a functional prototype to a feature-rich product. We also addressed technical debt by replacing raw print statements with a standardized logging system and ensuring the frontend correctly initializes the database structure upon startup.
@@ -941,3 +941,62 @@ This PR is the test part of the PR#317, should be merged after that.
 ---
 ## **Burnup Chart**
 
+# Sprint Report – Term 2 Week 7 (2026/02/09 to 2026/02/15) Reading Break
+
+## **Overview**
+
+## **Completed Work**
+
+### **Kevin**
+
+---
+
+### **Sami**
+
+---
+
+### **Eric**
+
+---
+
+### **Evan**
+
+---
+
+### **JinXi**
+
+---
+
+### **Ryan**
+
+---
+### **Collaboration Highlights** 
+
+
+### **Things to Work On / Reflection**
+
+
+### **Peer Evaluations** 
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Evan** |
+| **JinXi** | **Evan** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/322 |
+| **JinXi** | **Ryan** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/323 |
+| **JinXi** | **Sami** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/324 |
+| **JinXi** | **Kevinc** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/325 |
+| **Eric** | **Jinxi** | |
+| **Eric** | **Kevin** | |
+| **Eric** | **Ryan** | |
+| **Ryan** | **Kevin** |  |
+| **Ryan** | **Jynxi** |  |
+|**Kevin**|**Sami**|  |
+|**Kevin**|**Ryan**|  |
+| **Evan** | **Sami** |  |
+| **Evan** | **Eric** |  |
+---
+
+## **Next Steps**
+### **Intermediate**
+
+---
+## **Burnup Chart**
