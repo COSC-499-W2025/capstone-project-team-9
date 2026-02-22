@@ -953,7 +953,13 @@ This week focused heavily on system stabilization, API robustness, and finalizin
 - And more and more
   
 ### **Kevin**
-
+- **Centralized Constants (DRY Principle):**
+    * Extracted lists of common project suffixes (like `.zip`, `-main`, `-master`) into a single source of truth.
+    * Replaced duplicated string-stripping and name-formatting logic across multiple files to pull from this central list instead.
+- **Database Operation Robustness (`resume_manager`):**
+    * Added defensive programming checks to the portfolio customization logic. 
+    * The backend now gracefully handles `None` or missing data payloads coming from the frontend, preventing unhandled exceptions and database crashes.
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/332 #322
 ---
 
 ### **Sami**
@@ -1004,6 +1010,7 @@ This week focused heavily on system stabilization, API robustness, and finalizin
 
 ## **Next Steps**
 ### **Intermediate**
-
+- **Milestone Demo:** Support the frontend team in ensuring all API calls for the final demo run quickly and without errors.
+- **Performance Monitoring:** Keep an eye on the new execution time headers during large zip uploads to see if our Gemini or Local analyzers are creating bottlenecks.
 ---
 ## **Burnup Chart**
