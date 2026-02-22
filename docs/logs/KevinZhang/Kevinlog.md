@@ -401,3 +401,43 @@ By implementing the `logging` library, we have improved our system's **observabi
 ### **Next Steps**
 * **Log Monitoring:** Verify that these logs show up correctly in our Docker container output.
 * **Frontend Support:** Assist Sami and the frontend team as they integrate the new AI Ranking display, using the server logs to troubleshoot any data connection issues.
+
+# **What I Did This Week (2026/02/16 to 2026/02/22 Week 7)**
+
+## **Refactor with Hardcode Constants & Database Robustness (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/332)**
+
+### **In Simple Terms**
+I cleaned up how our system reads and formats project names. Before, if a user uploaded a file like "my-project-main.zip", the rules to delete the "-main" and ".zip" parts were copied and pasted in several different files. I moved all these rules into one central location. I also fixed a bug in the database saving process so the server won't crash if the frontend accidentally sends empty or missing data when saving portfolio customizations.
+
+---
+
+### **What I Created & Refactored**
+
+* **Centralized Constants (DRY Principle):**
+    * Extracted lists of common project suffixes (like `.zip`, `-main`, `-master`) into a single source of truth.
+    * Replaced duplicated string-stripping and name-formatting logic across multiple files to pull from this central list instead.
+* **Database Operation Robustness (`resume_manager`):**
+    * Added defensive programming checks to the portfolio customization logic. 
+    * The backend now gracefully handles `None` or missing data payloads coming from the frontend, preventing unhandled exceptions and database crashes.
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | **#332** |
+| **Design Principle** | DRY (Don't Repeat Yourself) |
+| **Code Smells Removed** | Multiple "Magic Strings" & Duplicated Logic |
+| **Bugs Prevented** | `NoneType` crashes from frontend payloads |
+
+---
+
+### **Reflection**
+This week was heavily focused on paying down **technical debt**. Copy-pasting string cleaning logic seemed harmless early in the project, but it quickly became unmaintainable. By enforcing DRY principles, I ensured that if we ever need to support a new repository suffix (like `-dev` or `-v2`), we only have to update a single file, rather than hunting down every `.replace()` method in the codebase.
+
+Additionally, the fix in the resume manager reinforced a critical lesson in API development: **never fully trust the data coming from the frontend**. Building resilient backend operations that fail gracefully when receiving `None` ensures a much smoother experience for the end user and a more stable server.
+
+### **Next Steps**
+- **Milestone 2 Demo:** Ensure the deployment environment is perfectly stable and ready for the TA demonstration.
+- **Log Monitoring:** Use the logging infrastructure implemented in previous weeks to monitor the API endpoints and verify that the fallback logic for missing frontend data is working silently and correctly in production.
