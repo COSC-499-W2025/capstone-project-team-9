@@ -987,6 +987,7 @@ This week focused heavily on system stabilization, API robustness, and finalizin
 
 ### **Sami**
 
+A new ranking endpoint, thorough testing, and a straightforward dashboard integration with a "AI Rank (Gemini)" option that shows ranked results with reasoning were all added throughout the last few weeks as I integrated the Gemini-powered project rating feature across the frontend and backend. In addition, I filmed a video demo, finished and documented the API, added comprehensive endpoint testing, and finished the Milestone 2 presentation. Despite my time constraints due to the midterms, the ranker worked flawlessly, and I intend to completely enforce frontend user authorization for all LLM features the next week.
 ---
 
 ### **Eric**
@@ -1076,7 +1077,8 @@ This PR fix the BUG of analyze project feature not work on both front and back e
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Sami** | **Evan** |
+| **Sami** | **Jinxi** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/327 |
+| **Sami** | **Ryan** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/322 |
 | **JinXi** | **Eric** |feat(api): add request context middleware with request-id and timing headers(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/330) |
 | **JinXi** | **Kevin** |Refactor with hardcode constants(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/332) |
 | **Eric** | **Jinxi** | issue209-2：implement frontend of customize and save information about a portfolio showcase project#326 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/326)|
