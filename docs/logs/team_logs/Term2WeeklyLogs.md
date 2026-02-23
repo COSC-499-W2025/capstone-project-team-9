@@ -962,6 +962,7 @@ This PR is the test part of the PR#317, should be merged after that.
 
 ---
 ## **Burnup Chart**
+<img width="1047" height="660" alt="image" src="https://github.com/user-attachments/assets/4bb9ee0a-cbad-4861-8f21-c52977912ae8" />
 
 # Sprint Report – Term 2 (2026/02/16 to 2026/02/22) Reading Break
 
