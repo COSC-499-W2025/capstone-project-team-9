@@ -1040,6 +1040,7 @@ All changes were verified through local pytest runs, and no breaking changes wer
 
 ### Reflection
 I think the last two weeks went really well as much as you can hope for. We have our api functionality as good as one can wish and also our front end mostly done. I think as a group we have worked well as a team for the most part but maybe didnt work on the milestone 2 presentation as equally as I would have hoped which is somethign we can hopefully improve on for next milestone.
+
 ---
 
 ### **JinXi**
@@ -1094,3 +1095,6 @@ This PR fix the BUG of analyze project feature not work on both front and back e
 - **Performance Monitoring:** Keep an eye on the new execution time headers during large zip uploads to see if our Gemini or Local analyzers are creating bottlenecks.
 ---
 ## **Burnup Chart**
+<img width="1036" height="637" alt="image" src="https://github.com/user-attachments/assets/dce686ec-fc5b-4b30-bd94-5f79e9d153f5" />
+<img width="1054" height="619" alt="image" src="https://github.com/user-attachments/assets/44617a48-f416-4523-98ea-62cd4d3d68d4" />
+
