@@ -503,3 +503,34 @@ All changes were verified through local pytest runs, and no breaking changes wer
 - Strengthened dashboard state persistence (active view + selected project restoration).
 - Ensured all frontend smoke tests pass locally after refactoring.
 - Maintained backward compatibility with existing test expectations.
+
+---
+
+### **Week 8 (Term 2): Feb 23rd – Mar 1st**
+
+**Weekly Goals Recap**  
+This week, I focused on strengthening the frontend layer of the system by improving reliability, accessibility, and request handling consistency without introducing new features.
+
+The work was intentionally separated into two independent pull requests to maintain clear scope boundaries and reduce review complexity. All changes were scoped carefully and validated locally to avoid unintended regressions.
+
+In the first pull request, I refactored the dashboard frontend to standardize API interaction patterns and eliminate unsafe response handling. Previously, some functions relied on inconsistent response structures and direct response.ok checks outside centralized request logic. I introduced a unified request wrapper and refactored dependent logic to use structured return values. I also reduced duplicated UI rendering logic by extracting reusable helper functions.
+
+In the second pull request, I improved the authentication page (index.html) by enhancing accessibility and hardening request handling. I added ARIA live regions for login and registration feedback messages and refined username input behavior to prevent unintended browser auto-capitalization and spellcheck interference. Additionally, I introduced a centralized postJson() helper to standardize authentication requests (login, register, logout), reducing duplicated fetch logic and improving consistency.
+
+All changes were verified through local pytest runs and manual browser testing, and no breaking changes were introduced.
+
+**GitHub Pull Requests (Evidence of Work)**
+
+- **PR1 – Standardize dashboard API handling and improve frontend reliability #335**  
+  [<<PR1 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/335)
+
+- **PR2 – Improve auth page accessibility and request handling #336**  
+  [<<PR2 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/336)
+
+**Additional Contributions**
+- Standardized frontend API wrappers for consistent { ok, data, status } handling.
+- Eliminated unsafe response usage patterns to prevent potential runtime errors.
+- Reduced duplicated network request logic across dashboard and authentication pages.
+- Improved accessibility through ARIA live regions and refined input behavior.
+- Added frontend smoke tests to guard against regression.
+- Ensured compatibility with existing test expectations.
