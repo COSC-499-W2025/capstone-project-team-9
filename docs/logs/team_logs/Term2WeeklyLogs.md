@@ -1035,9 +1035,6 @@ Week 6 and 7 Term 2 Project Update
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/331 for eric
     - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/328 for sami
 
-
-
-
 ### My Plan for next week
 - We need to discuss as a group our plan going forwards for milestone 3 of what we already meet and what we do not as we already have a lot of the front end implemented, therefore we need to discuss before starting work on milestone 3.
 
@@ -1102,3 +1099,61 @@ This PR fix the BUG of analyze project feature not work on both front and back e
 <img width="1036" height="637" alt="image" src="https://github.com/user-attachments/assets/dce686ec-fc5b-4b30-bd94-5f79e9d153f5" />
 <img width="1054" height="619" alt="image" src="https://github.com/user-attachments/assets/44617a48-f416-4523-98ea-62cd4d3d68d4" />
 
+# Sprint Report – Term 2 (2026/02/23 to 2026/03/01) 
+
+## **Overview**
+
+## **Completed Work**
+
+  
+### **Kevin**
+
+---
+
+### **Sami**
+
+---
+
+### **Eric**
+
+---
+
+### **Evan**
+
+---
+
+### **JinXi**
+
+---
+
+### **Ryan**
+
+---
+### **Collaboration Highlights** 
+
+
+### **Things to Work On / Reflection**
+
+### **Peer Evaluations** 
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Jinxi** |  |
+| **Sami** | **Ryan** |  |
+| **JinXi** | **Eric** | |
+| **JinXi** | **Kevin** | |
+| **Eric** | **Jinxi** | |
+| **Eric** | **Kevin** | |
+| **Eric** | **Jinxi** | |
+| **Ryan** | **Kevin** |  |
+| **Ryan** | **Jynxi** |  |
+|**Kevin**|**Eric**| |
+|**Kevin**|**Jinxi**|  |
+| **Evan** | **Eric** |   |
+| **Evan** | **Sami** | |
+---
+
+## **Next Steps**
+### **Intermediate**
+
+---
+## **Burnup Chart**
