@@ -1148,6 +1148,21 @@ All changes were verified through local pytest runs and manual browser testing, 
 ---
 
 ### **JinXi**
+This week I fixed a bug and refactor the front end.
+
+#### issue developed:
+[Update dashboard.html](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/338)
+A pretty small fix on front end. Which fix the bug of non auto close of dropdown menus. Only change front end things.
+
+[Jinxi/t2 week8/refactor/front end css refactor](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/340)
+This PR do the refactor in front end part.
+- Remove <style> parts form two front end html files.
+- Put all css code into three .css files and let html files to use them
+- This improve the Maintainability and code readability
+
+#### PR reviewed: 
+1. [Standardize apiCall and fix unsafe response handling](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/335)
+2. [Improve auth page accessibility and request handling](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/336)
 
 ---
 
@@ -1164,8 +1179,8 @@ All changes were verified through local pytest runs and manual browser testing, 
 |-----------|-----------|-------------|
 | **Sami** | **Jinxi** |  |
 | **Sami** | **Ryan** |  |
-| **JinXi** | **Eric** | |
-| **JinXi** | **Kevin** | |
+| **JinXi** | **Eric** |Standardize apiCall and fix unsafe response handling(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/335) |
+| **JinXi** | **Eric** |Improve auth page accessibility and request handling(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/336) |
 | **Eric** | **Jinxi** | Update dashboard.html#338 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/338)|
 | **Eric** | **Jinxi** | Jinxi/t2 week8/refactor/front end css refactor#340 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/340)|
 | **Ryan** | **Kevin** |  |
