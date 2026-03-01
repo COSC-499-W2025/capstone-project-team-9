@@ -988,6 +988,7 @@ This week focused heavily on system stabilization, API robustness, and finalizin
 ### **Sami**
 
 A new ranking endpoint, thorough testing, and a straightforward dashboard integration with a "AI Rank (Gemini)" option that shows ranked results with reasoning were all added throughout the last few weeks as I integrated the Gemini-powered project rating feature across the frontend and backend. In addition, I filmed a video demo, finished and documented the API, added comprehensive endpoint testing, and finished the Milestone 2 presentation. Despite my time constraints due to the midterms, the ranker worked flawlessly, and I intend to completely enforce frontend user authorization for all LLM features the next week.
+
 ---
 
 ### **Eric**
@@ -1019,7 +1020,7 @@ All changes were verified through local pytest runs, and no breaking changes wer
 ---
 
 ### **Evan**
-# Week 6 and 7 Term 2 Project Update
+Week 6 and 7 Term 2 Project Update
 
 ### This Sprints Progress
 - I wrote the code for pull requests 314, 333 and 334
