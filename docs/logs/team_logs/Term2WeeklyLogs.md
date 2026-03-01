@@ -1152,9 +1152,11 @@ This week I fixed a bug and refactor the front end.
 
 #### issue developed:
 [Update dashboard.html](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/338)
+
 A pretty small fix on front end. Which fix the bug of non auto close of dropdown menus. Only change front end things.
 
 [Jinxi/t2 week8/refactor/front end css refactor](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/340)
+
 This PR do the refactor in front end part.
 - Remove <style> parts form two front end html files.
 - Put all css code into three .css files and let html files to use them
