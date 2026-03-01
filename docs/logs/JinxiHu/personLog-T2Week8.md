@@ -6,32 +6,30 @@
 ---
 
 ## Weekly Goals Recap
-This week, our team is finishing milestone2 things, such as finish last feature and refactor.
+This week, our team is focus on refactoring and bug fix
 
 ---
 
 ## My Contributions
-This week I am developing the milestone2 features.
-- [Finish] Customize and save information about a portfolio showcase project
+This week I fixed a bug and refactor the front end.
 
 ### issue developed:
-[issue209-2：implement frontend of customize and save information about a portfolio showcase project](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/326)
-This PR add a front end UI for customize portfolio feature based on issue209's API.
+[Update dashboard.html](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/338)
+A pretty small fix on front end. Which fix the bug of non auto close of dropdown menus. Only change front end things.
 
-[bug-fix: the current analysis project function not work](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/327)
-This PR fix the BUG of analyze project feature not work on both front and back end which caused by wrong file path.
-- modify the project_analyzer.py to fit the user data isolation
-- modify menus.py to transfer user_name when use analyze function
-- modify upload_file.py file to ensure right path when use analyze function in backend
-- Update tests in need
+[Jinxi/t2 week8/refactor/front end css refactor](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/340)
+This PR do the refactor in front end part.
+- Remove <style> parts form two front end html files.
+- Put all css code into three .css files and let html files to use them
+- This improve the Maintainability and code readability
 
 ### PR reviewed: 
-1. [feat(api): add request context middleware with request-id and timing headers](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/330)
-2. [Refactor with hardcode constants](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/332)
+1. [Standardize apiCall and fix unsafe response handling](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/335)
+2. [Improve auth page accessibility and request handling](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/336)
 
 ### Went well:
-Finished my milestone2 jobs.
+Make the frontend htmls looks shorter.
 ### Not well:
-The remaining jobs are simple.
+Do not know what is our project's clustering.
 ### Next cycle:
 Develop milestone3 jobs.
