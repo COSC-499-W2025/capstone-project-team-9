@@ -1,7 +1,7 @@
 # T2Week 8: 2026/2/23 – 2026/3/1
 
 ## Tasks Worked On
-
+![T2Week8 Project Log](img/T2Week8.png)
 
 ---
 
