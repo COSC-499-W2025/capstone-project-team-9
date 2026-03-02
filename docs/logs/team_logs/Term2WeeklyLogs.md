@@ -1195,8 +1195,8 @@ This PR do the refactor in front end part.
 | **Eric** | **Jinxi** | Jinxi/t2 week8/refactor/front end css refactor#340 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/340)|
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Jynxi** |  |
-|**Kevin**|**Eric**| |
-|**Kevin**|**Jinxi**|  |
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/335 |
+|**Kevin**|**Jinxi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/338 |
 | **Evan** | **Eric** |   |
 | **Evan** | **Sami** | |
 ---
