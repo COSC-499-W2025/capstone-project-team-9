@@ -1102,11 +1102,18 @@ This PR fix the BUG of analyze project feature not work on both front and back e
 # Sprint Report – Term 2 Week 8 (2026/02/23 to 2026/03/01) 
 
 ## **Overview**
+This sprint heavily focused on application resiliency, error management, and frontend stability. We implemented a major architectural upgrade on the backend to catch and standardize all server errors, preventing unexpected crashes from leaking raw stack traces to the frontend. On the client side, we standardized how the application communicates with the API, patched unsafe response handling, and improved the accessibility and request logic on the authentication pages.
 
 ## **Completed Work**
-
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/338
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/336
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/335
+- More and More
   
 ### **Kevin**
+- Core Contribution: Backend Error Resilience & Architecture.
+- **Details:**
+    - **Implement Global Exception Handling (#342):** Intercepted all unhandled server exceptions and FastAPI HTTP errors. Structured the response into a clean, predictable JSON format and automatically injected the `X-Request-ID` into the payload for instant trace-ability in our server logs. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342.
 
 ---
 
@@ -1172,9 +1179,10 @@ This PR do the refactor in front end part.
 
 ---
 ### **Collaboration Highlights** 
-
+**Frontend-Backend Contract:** The implementation of the Global Exception Handler (#342) was directly paired with the standardized `apiCall` fixes (#335). Because the backend now guarantees a standardized error JSON, the frontend can safely handle failures without the application breaking.
 
 ### **Things to Work On / Reflection**
+- With the new global error handlers and standardized API calls in place, we need to dedicate time next sprint to write integration tests that intentionally trigger these errors to verify the fail-safes hold up in production.
 
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
@@ -1195,6 +1203,7 @@ This PR do the refactor in front end part.
 
 ## **Next Steps**
 ### **Intermediate**
+- Prepare fot Milestone 3, Most of the refactor has completed.
 
 ---
 ## **Burnup Chart**
