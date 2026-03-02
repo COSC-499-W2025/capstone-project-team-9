@@ -441,3 +441,44 @@ Additionally, the fix in the resume manager reinforced a critical lesson in API 
 ### **Next Steps**
 - **Milestone 2 Demo:** Ensure the deployment environment is perfectly stable and ready for the TA demonstration.
 - **Log Monitoring:** Use the logging infrastructure implemented in previous weeks to monitor the API endpoints and verify that the fallback logic for missing frontend data is working silently and correctly in production.
+
+# **What I Did This Week (2026/02/23 to 2026/03/01 Week 8)**
+
+## **Implement Global Exception Handling (#342)** https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342
+
+### **In Simple Terms**
+I built a "safety net" for our backend server. Previously, if something unexpected happened—like the database going down or the AI timing out—the server would crash and send an ugly, unreadable error to the frontend, which would break the user interface. Now, I intercept every single crash before it leaves the server, log it silently for the developers, and send back a clean, polite error message to the user along with a specific "Request ID" so we can easily track down the bug.
+
+---
+
+### **What I Created / Modified**
+
+* **Created `src/api/exception_handlers.py`:**
+    * Wrote a `global_exception_handler` to catch unexpected 500 Internal Server Errors.
+    * Wrote an `http_exception_handler` to standardize standard HTTP errors (like 404 Not Found or 401 Unauthorized).
+* **Modified `src/api/main.py` & Middleware:**
+    * Registered the handlers with our core FastAPI instance.
+    * Hooked the error handlers into the `request_context` middleware I built last week, allowing the server to grab the exact `X-Request-ID` of the crash and inject it directly into the JSON error response sent to the frontend.
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | **#342** |
+| **Files Modified** | 3 |
+| **New Modules** | 1 (`exception_handlers.py`) |
+| **Impact** | 100% of API endpoints are now protected from raw trace leaks |
+
+---
+
+### **Reflection**
+This task brings our API to a true production-ready state. In the real world, servers fail all the time. The mark of a professional backend is how gracefully it handles those failures. 
+
+By standardizing our error formats, I significantly unblocked the frontend team. They no longer have to write messy `try/catch` blocks guessing if they are going to receive HTML, text, or a dictionary. They know they will *always* receive a standard JSON object. Furthermore, injecting the Request ID into the payload turns bug-hunting from a 30-minute chore into a 10-second log search.
+
+### **Next Steps**
+* **Background Tasks:** Now that our errors and logs are fully mapped, the next logical step is migrating our heavy analysis functions (like the Zip extraction and Gemini prompt generation) to run asynchronously in the background so we stop blocking the main server thread.
+
+<img width="1040" height="622" alt="image" src="https://github.com/user-attachments/assets/adfa8f25-6e17-45fa-a7ba-8ce2b7ad6772" />
