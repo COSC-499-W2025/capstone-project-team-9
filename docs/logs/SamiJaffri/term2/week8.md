@@ -1,4 +1,5 @@
 ## Term 2 week 8
+<img width="1101" height="609" alt="dsajkl" src="https://github.com/user-attachments/assets/fa200377-3e81-4887-864b-83c91a8271f3" />
 
 
 ### What I completed this week
