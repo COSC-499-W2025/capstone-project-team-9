@@ -507,6 +507,9 @@ All changes were verified through local pytest runs, and no breaking changes wer
 ---
 
 ### **Week 8 (Term 2): Feb 23rd – Mar 1st**
+**Tasks worked on:**
+
+![T2week8 log](T2week8.png)
 
 **Weekly Goals Recap**  
 This week, I focused on strengthening the frontend layer of the system by improving reliability, accessibility, and request handling consistency without introducing new features.
@@ -534,3 +537,4 @@ All changes were verified through local pytest runs and manual browser testing, 
 - Improved accessibility through ARIA live regions and refined input behavior.
 - Added frontend smoke tests to guard against regression.
 - Ensured compatibility with existing test expectations.
+
