@@ -8,35 +8,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Light Mode (Default) */
+        /* Artifact design system (aligned with dashboard / Figma) */
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --bg-card: #fafafa;
+            --bg-secondary: #f8f9fa;
+            --bg-card: #ffffff;
             --accent-primary: #000000;
             --accent-hover: #333333;
-            --accent-glow: rgba(0, 0, 0, 0.1);
-            --text-primary: #000000;
+            --accent-glow: rgba(0, 0, 0, 0.08);
+            --text-primary: #111111;
             --text-secondary: #555555;
-            --text-muted: #888888;
-            --border-color: #e0e0e0;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
             --error-color: #dc2626;
             --success-color: #16a34a;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
         }
 
-        /* Dark Mode */
         [data-theme="dark"] {
-            --bg-primary: #000000;
+            --bg-primary: #0a0a0a;
             --bg-secondary: #111111;
-            --bg-card: #0a0a0a;
-            --accent-primary: #ffffff;
-            --accent-hover: #cccccc;
-            --accent-glow: rgba(255, 255, 255, 0.1);
-            --text-primary: #ffffff;
-            --text-secondary: #aaaaaa;
-            --text-muted: #777777;
-            --border-color: #333333;
+            --bg-card: #171717;
+            --accent-primary: #fafafa;
+            --accent-hover: #e5e5e5;
+            --accent-glow: rgba(255, 255, 255, 0.06);
+            --text-primary: #fafafa;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --border-color: #262626;
             --error-color: #ef4444;
             --success-color: #22c55e;
             --shadow-color: rgba(255, 255, 255, 0.05);
@@ -68,9 +71,9 @@
         .login-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             padding: 40px;
-            box-shadow: 0 25px 50px -12px var(--shadow-color);
+            box-shadow: var(--shadow-sm), 0 25px 50px -12px var(--shadow-color);
             position: relative;
         }
         
@@ -81,7 +84,7 @@
             right: 15px;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             padding: 8px;
             cursor: pointer;
             display: flex;
@@ -132,7 +135,7 @@
             padding: 14px 16px;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             color: var(--text-primary);
             font-size: 15px;
             font-family: inherit;
@@ -179,7 +182,7 @@
             padding: 14px 24px;
             background: var(--accent-primary);
             border: none;
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             color: var(--bg-primary);
             font-size: 15px;
             font-weight: 600;
@@ -310,7 +313,7 @@
 
         .user-info {
             background: var(--bg-secondary);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             padding: 16px;
             margin-bottom: 24px;
             text-align: left;
@@ -343,7 +346,7 @@
             padding: 14px 24px;
             background: transparent;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             color: var(--text-secondary);
             font-size: 15px;
             font-weight: 500;
@@ -375,7 +378,7 @@
             padding: 14px 24px;
             background: transparent;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             color: var(--text-secondary);
             font-size: 15px;
             font-weight: 500;
