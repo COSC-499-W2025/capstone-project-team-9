@@ -1207,3 +1207,5 @@ This PR do the refactor in front end part.
 
 ---
 ## **Burnup Chart**
+<img width="995" height="487" alt="image" src="https://github.com/user-attachments/assets/0302fb16-d30f-453f-9483-3864382e958e" />
+<img width="996" height="498" alt="image" src="https://github.com/user-attachments/assets/dde2a8af-732f-4a67-b13c-ad8d322a6018" />
