@@ -1230,3 +1230,61 @@ This PR do the refactor in front end part.
 ## **Burnup Chart**
 <img width="995" height="487" alt="image" src="https://github.com/user-attachments/assets/0302fb16-d30f-453f-9483-3864382e958e" />
 <img width="996" height="498" alt="image" src="https://github.com/user-attachments/assets/dde2a8af-732f-4a67-b13c-ad8d322a6018" />
+
+# Sprint Report – Term 2 Week 9 (2026/03/02 to 2026/03/08) 
+
+## **Overview**
+
+
+## **Completed Work**
+
+- More and More
+  
+### **Kevin**
+
+---
+
+### **Sami**
+
+---
+
+### **Eric**
+
+---
+
+### **Evan**
+
+---
+
+### **JinXi**
+
+---
+
+### **Ryan**
+
+---
+### **Collaboration Highlights** 
+
+### **Things to Work On / Reflection**
+
+
+### **Peer Evaluations** 
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Ryan** |  |
+| **JinXi** | **Eric** | |
+| **JinXi** | **Eric** | |
+| **Eric** | **Jinxi** | |
+| **Eric** | **Jinxi** | |
+| **Ryan** | **Kevin** |  |
+| **Ryan** | **Jynxi** |  |
+|**Kevin**|**Eric**| |
+|**Kevin**|**Jinxi**|  |
+| **Evan** | **Eric** |   |
+| **Evan** | **Sami** | |
+---
+
+## **Next Steps**
+### **Intermediate**
+
+## **Burn up Chart**
