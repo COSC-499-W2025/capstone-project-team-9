@@ -1,37 +1,51 @@
-# T2Week 8: 2026/2/23 – 2026/3/1
+# T2Week 9: 2026/3/2 – 2026/3/8
 
 ## Tasks Worked On
-![T2Week8 Project Log](img/T2Week8.png)
+![T2Week9 Project Log](img/T2Week9.png)
 
 ---
 
 ## Weekly Goals Recap
-This week, our team is focus on refactoring and bug fix
+This week, our team is focus on the milestone3 jobs.
 
 ---
 
 ## My Contributions
-This week I fixed a bug and refactor the front end.
+This week I fix the bug and improve the test coverage rate.
 
 ### issue developed:
-[Update dashboard.html](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/338)
+[Bug fix: fix the front end resume generate bugs](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/347)
 
-A pretty small fix on front end. Which fix the bug of non auto close of dropdown menus. Only change front end things.
+This PR fix the frontend resume generate bugs and a login bug.
 
-[Jinxi/t2 week8/refactor/front end css refactor](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/340)
+- Fix the bug report part in dashboard.html
+- Enable user_name parameter transfer in backend, this let resume generate functions could get the projects
+- Modify the parameter transfer let it more format
+- Enable frontend resume generate works
+- modify the login check to avoid jump back to the login page when login success
+- Update tests in need
 
-This PR do the refactor in front end part.
-- Remove <style> parts form two front end html files.
-- Put all css code into three .css files and let html files to use them
-- This improve the Maintainability and code readability
+[Bug Fix: let the resume generate feature re well work](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/349)
+
+This PR fix the bug of generate resume, now the resume generate feature can runs well.
+
+- The resume generate not work bug is cause by duplicate function 'get_project_by_id' in project_manager.py
+- Remove the get_project_by_id function which located after line 327, and modify the left one.
+- Update the other functions that call get_project_by_id to fit the new return data structure
+- Update the tests in need
+
+[Update test_local_analyzer.py](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/351)
+
+This PR increase the test coverage of local_analyzer.py from 55% to 93%
 
 ### PR reviewed: 
-1. [Standardize apiCall and fix unsafe response handling](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/335)
-2. [Improve auth page accessibility and request handling](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/336)
+1. [Add additional tests for project API routes to improve coverage](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350)
+2. [Implement Global Exception Handling](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342)
+3. [Frontend Design + Logic Fixes](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/345)
 
 ### Went well:
-Make the frontend htmls looks shorter.
+Found out and fix a bussiness bug that never be mentioned.
 ### Not well:
-Do not know what is our project's clustering.
+There even exist core bussiness bug in the system.
 ### Next cycle:
 Develop milestone3 jobs.
