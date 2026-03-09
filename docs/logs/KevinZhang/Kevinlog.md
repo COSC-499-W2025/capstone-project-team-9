@@ -482,3 +482,51 @@ By standardizing our error formats, I significantly unblocked the frontend team.
 * **Background Tasks:** Now that our errors and logs are fully mapped, the next logical step is migrating our heavy analysis functions (like the Zip extraction and Gemini prompt generation) to run asynchronously in the background so we stop blocking the main server thread.
 
 <img width="1040" height="622" alt="image" src="https://github.com/user-attachments/assets/adfa8f25-6e17-45fa-a7ba-8ce2b7ad6772" />
+
+# **What I Did This Week (2026/03/02 to 2026/03/08 Week 9)**
+
+## Implement global error toast notification UI (#354) https://github.com/COSC-499-W2025/capstone-project-team-9/pull/354
+
+### **In Simple Terms**
+Last week, I built a safety net on the server to catch crashes and generate clean error messages. This week, I brought those messages directly to the user interface. I built a "Toast Notification"—a sleek red popup that automatically slides into the bottom corner of the screen whenever a network request fails or the server throws an error. Instead of the website just freezing silently when something goes wrong, the user now sees exactly what happened along with a specific "Request ID" they can send to developers.
+
+---
+
+### **What I Created / Modified**
+
+Modified frontend/dashboard.html (HTML & JS):
+
+Added the hidden HTML container and structure for the notification popup.
+
+Wrote new JavaScript functions (showErrorToast, closeErrorToast) to control the popup's behavior and auto-hide timer.
+
+Updated the global apiCall function block to automatically extract the message and request_id from the backend's JSON and trigger the UI popup on any failure.
+
+Modified frontend/css/dashboard.css:
+
+Added custom styling to make the notification look like a modern, professional alert (similar to GitHub or Google Drive).
+
+Implemented CSS transitions for smooth slide-in and fade-out animations.
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | **#354** |
+| **Files Modified** | 2 |
+| **New Modules** | 1 (Global Error Toast) |
+| **Impact** | 100% of frontend API failures now provide instant visual feedback to the user |
+
+---
+
+### **Reflection**
+This task was incredibly satisfying because it perfectly closed the loop on my backend error architecture from last week. A robust backend error-handling system is only useful if the frontend actually consumes its data properly.
+
+By bringing the X-Request-ID directly into the user's view, we have elevated the application to a highly polished, production-ready state. Bug hunting is now drastically easier for the whole team because users (or testers) can simply take a screenshot of the UI popup, and we can immediately search our backend server logs for that exact request ID.
+
+### **Next Steps**
+* **Documentation & API Architecture:** As we push deep into Milestone 3, I plan to shift my focus to taking ownership of our System Architecture documentation. I will be updating our README with the newly required Data Flow Diagrams (DFD levels 0 and 1) and evaluating our API routes to implement the required Public/Private view modes.
+<img width="1044" height="606" alt="image" src="https://github.com/user-attachments/assets/258d226c-3004-4ab9-ab3c-39e680f78ffb" />
+
