@@ -1234,14 +1234,18 @@ This PR do the refactor in front end part.
 # Sprint Report – Term 2 Week 9 (2026/03/02 to 2026/03/08) 
 
 ## **Overview**
-
+This sprint focused heavily on bug fixes, expanding test coverage, and bringing core Milestone 3 features to life. The team successfully implemented the public dashboard view, resolved critical issues with the resume generation pipeline on both the frontend and backend, and patched the ranking and summary logic. We also dedicated significant effort to improving our overall codebase stability by adding extensive API route and local analyzer tests.
 
 ## **Completed Work**
-
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/352
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/349
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/347
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/345
 - More and More
   
 ### **Kevin**
-
+- **Core Contribution:** Full-Stack Error UI & Notification System.
+- **Details:** - **Implement global error toast notification UI (#354):** Bridged the backend exception handlers to the frontend by building a Global Error Toast Notification system. Added the HTML container and CSS animations to `dashboard.html` and `dashboard.css`, and updated the main `apiCall` wrapper to automatically trigger a visual popup containing the error message and `request_id` whenever a network request fails or the backend returns an error status code. https://github.com/COSC-499-W2025/capstone-project-team-9/pull/354
 ---
 
 ### **Sami**
@@ -1276,6 +1280,7 @@ This PR do the refactor in front end part.
 
 ### Reflection
 I think this week went okay we have quite a few bugs left to fix with not long before the last peer testsing so wee need to solve that but for how much we got done and how our team worked together this week I am very happy.
+
 ---
 
 ### **JinXi**
@@ -1330,6 +1335,7 @@ This PR increase the test coverage of local_analyzer.py from 55% to 93%
 
 ---
 ### **Collaboration Highlights** 
+Full-Stack Debugging: Fixing the resume generation pipeline required tight coordination between the frontend (#347) and backend (#349) to ensure the data structures matched perfectly and handled edge cases correctly.
 
 ### **Things to Work On / Reflection**
 
