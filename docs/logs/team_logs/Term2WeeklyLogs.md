@@ -1261,6 +1261,8 @@ This work was carefully scoped as a test-focused change only, so that it remaine
 
 As a result of this testing work, coverage for `src/api/routes/project.py` improved from approximately **75% to 88%**, and the full local test suite continued to pass successfully. I verified the changes by running local pytest and coverage checks to ensure that the added tests improved branch coverage without introducing regressions.
 
+https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350
+
 ---
 
 ### **Evan**
