@@ -1372,8 +1372,8 @@ Full-Stack Debugging: Fixing the resume generation pipeline required tight coord
 | **Eric** | **Kevin** | Implement Global Exception Handling#342 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342)|
 | **Eric** | **Jinxi** | Bug Fix: let the resume generate feature re well work#349 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/349)|
 | **Eric** | **Sami** | Frontend Design + Logic Fixes#345 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/345)|
-| **Ryan** | **Kevin** |  |
-| **Ryan** | **Jynxi** |  |
+| **Ryan** | **Kevin** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/354 |
+| **Ryan** | **Sami** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/345 |
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350 |
 |**Kevin**|**Jinxi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/352 |
 | **Evan** | **Jinxi** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/351  |
