@@ -1253,6 +1253,13 @@ This sprint focused heavily on bug fixes, expanding test coverage, and bringing 
 ---
 
 ### **Eric**
+This week, I focused on improving backend test coverage and strengthening the reliability of the project API layer without introducing new functionality.
+
+The main work this week was centered on adding a dedicated test suite for `src/api/routes/project.py`. I created a new pull request that added comprehensive tests for core project-related API routes, including upload, merge, thumbnail handling, project listing and retrieval, Gemini-related failure branches, ranking failure scenarios, and project data deletion. The purpose of this work was to improve confidence in backend behavior, especially around edge cases and error handling paths that were not previously covered.
+
+This work was carefully scoped as a test-focused change only, so that it remained independent from feature development and minimized review complexity. I intentionally excluded preference-related test cases because the git username logic in that area was already being fixed in a separate change, and I did not want to add tests around behavior that was still unstable.
+
+As a result of this testing work, coverage for `src/api/routes/project.py` improved from approximately **75% to 88%**, and the full local test suite continued to pass successfully. I verified the changes by running local pytest and coverage checks to ensure that the added tests improved branch coverage without introducing regressions.
 
 ---
 
@@ -1348,8 +1355,8 @@ Full-Stack Debugging: Fixing the resume generation pipeline required tight coord
 | **JinXi** | **Eric** | Add additional tests for project API routes to improve coverage(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350)|
 | **JinXi** | **Kevin** | Implement Global Exception Handling(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342) |
 | **JinXi** | **Sami** | Frontend Design + Logic Fixes(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/345)|
-| **Eric** | **Jinxi** | |
-| **Eric** | **Jinxi** | |
+| **Eric** | **Jinxi** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342 |
+| **Eric** | **Jinxi** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/349 |
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Jynxi** |  |
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350 |
