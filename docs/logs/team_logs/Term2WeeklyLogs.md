@@ -1357,8 +1357,10 @@ Full-Stack Debugging: Fixing the resume generation pipeline required tight coord
 | **JinXi** | **Eric** | Add additional tests for project API routes to improve coverage(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350)|
 | **JinXi** | **Kevin** | Implement Global Exception Handling(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342) |
 | **JinXi** | **Sami** | Frontend Design + Logic Fixes(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/345)|
-| **Eric** | **Jinxi** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342 |
-| **Eric** | **Jinxi** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/349 |
+| **Eric** | **Jinxi** | Bug fix: fix the front end resume generate bugs#347 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/347)|
+| **Eric** | **Kevin** | Implement Global Exception Handling#342 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/342)|
+| **Eric** | **Jinxi** | Bug Fix: let the resume generate feature re well work#349 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/349)|
+| **Eric** | **Sami** | Frontend Design + Logic Fixes#345 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/345)|
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Jynxi** |  |
 |**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350 |
