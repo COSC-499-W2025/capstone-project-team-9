@@ -1338,7 +1338,8 @@ This PR increase the test coverage of local_analyzer.py from 55% to 93%
 Full-Stack Debugging: Fixing the resume generation pipeline required tight coordination between the frontend (#347) and backend (#349) to ensure the data structures matched perfectly and handled edge cases correctly.
 
 ### **Things to Work On / Reflection**
-
+* **Testing Consistency:** With the recent push for API route tests (#350) and local analyzer tests (#351), we are making great strides in stability. Next week, we need to ensure every new feature PR includes corresponding tests so we don't build up testing debt right before the final submission.
+* **Milestone 3 Polish:** The public dashboard is now live, but we need to focus the next sprint on refining the visual data components (like the heatmap and timeline) to ensure the final product looks highly professional.
 
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
@@ -1351,13 +1352,13 @@ Full-Stack Debugging: Fixing the resume generation pipeline required tight coord
 | **Eric** | **Jinxi** | |
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Jynxi** |  |
-|**Kevin**|**Eric**| |
-|**Kevin**|**Jinxi**|  |
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/350 |
+|**Kevin**|**Jinxi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/352 |
 | **Evan** | **Jinxi** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/351  |
 | **Evan** | **Ryan** | https://github.com/COSC-499-W2025/capstone-project-team-9/pull/352 |
 ---
 
 ## **Next Steps**
 ### **Intermediate**
-
+We are now moving towards milestone 3, focus on front end part.
 ## **Burn up Chart**
