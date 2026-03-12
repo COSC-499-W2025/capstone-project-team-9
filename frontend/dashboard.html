@@ -724,7 +724,23 @@
                         <div id="analyzeResultAi" class="analyze-tab-pane" role="tabpanel"></div>
                     </div>
                 </div>`,
-                'external': `<div class="view-panel"><h3>External Service Settings</h3><p>Manage external service permissions</p><div id="externalServicesResult" class="result"></div></div>`,
+                'external': `<div class="view-panel">
+                    <h3>External Service Settings</h3>
+                    <p>Manage which external services are allowed to process your project data.</p>
+                    <div class="ext-service-card" id="llmServiceCard">
+                        <div class="ext-service-info">
+                            <strong>AI / LLM Analysis</strong>
+                            <span class="text-muted">Allow project data to be sent to an external LLM provider (e.g. Gemini) for deep code reviews and AI-powered rankings. Unchecked means only local analysis is used.</span>
+                        </div>
+                        <div class="ext-service-control">
+                            <label class="toggle-label" for="llmToggle">
+                                <input type="checkbox" id="llmToggle" onchange="handleLlmToggle(this.checked)" />
+                                <span>Enable</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="externalServicesResult" class="result"></div>
+                </div>`,
                 'cleanup': `<div class="view-panel"><h3>Cleanup Insights</h3><div id="cleanupProjectsList" class="project-list"></div><button class="btn" onclick="cleanupInsights()">Cleanup Selected</button><div id="cleanupResult" class="result"></div></div>`,
                 'preferences': `<div class="view-panel"><h3>User Preferences</h3><label>Privacy Consent:</label><button class="btn" onclick="submitPrivacyConsent(true)">Grant</button><button class="btn btn-secondary" onclick="submitPrivacyConsent(false)">Deny</button><label>Git Username:</label><input type="text" id="gitUsername" /><button class="btn" onclick="savePreferences()">Save</button><div id="preferencesResult" class="result"></div></div>`,
                 'account': `<div class="view-panel"><h3>User Account</h3><p>Username: ${currentUser?.user_name || ''}</p><p>User ID: ${currentUser?.user_id || ''}</p><p>Last Login: ${new Date(currentUser?.last_login_time).toLocaleString()}</p></div>`,
@@ -839,6 +855,9 @@
             }
             if (viewName === 'analyze') {
                 setTimeout(() => updateAnalyzeLlmState(), 100);
+            }
+            if (viewName === 'external') {
+                setTimeout(() => syncExternalServicesView(), 50);
             }
         }
 
@@ -1340,7 +1359,7 @@
                 applyLlmConsentToUi();
                 if (llmEnabled === null || llmEnabled === undefined) {
                     const modal = document.getElementById('llmConsentModal');
-                    if (modal) modal.style.display = 'block';
+                    if (modal) modal.classList.add('show');
                 }
             } catch (e) {
                 console.warn('Error initializing LLM consent:', e);
@@ -1362,7 +1381,7 @@
                 llmEnabled = !!enabled;
                 applyLlmConsentToUi();
                 const modal = document.getElementById('llmConsentModal');
-                if (modal) modal.style.display = 'none';
+                if (modal) modal.classList.remove('show');
                 showMessage(
                     llmEnabled ? 'AI features enabled. Gemini-based analysis is now available.' :
                                  'AI features disabled. Using local analysis only.',
@@ -1375,6 +1394,18 @@
 
         function applyLlmConsentToUi() {
             updateAnalyzeLlmState();
+            syncExternalServicesView();
+        }
+
+        function syncExternalServicesView() {
+            const toggle = document.getElementById('llmToggle');
+            if (!toggle) return;
+            toggle.checked = !!llmEnabled;
+        }
+
+        async function handleLlmToggle(checked) {
+            await setLlmConsent(checked);
+            syncExternalServicesView();
         }
 
         function updateAnalyzeLlmState() {

@@ -800,13 +800,13 @@ body > #viewContainer {
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(6px);
     animation: fadeIn 0.2s ease;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
 }
 
 .modal.show {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
 }
 
 .modal-content {
@@ -815,6 +815,8 @@ body > #viewContainer {
     padding: 28px;
     box-shadow: var(--shadow-lg);
     animation: slideIn 0.25s ease;
+    max-width: 460px;
+    width: 100%;
 }
 
 .modal-header h3 {
@@ -869,6 +871,65 @@ body > #viewContainer {
 .modal-actions {
     margin-top: 24px;
     padding-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+}
+
+/* ============== External Services ============== */
+
+.ext-service-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    margin-top: 16px;
+}
+
+.ext-service-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+}
+
+.ext-service-info strong {
+    font-size: 1rem;
+}
+
+.ext-service-info .text-muted {
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+.ext-service-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
 }
 
 /* ============== Public Dashboard ============== */
