@@ -567,4 +567,37 @@ As a result of this testing work, coverage for `src/api/routes/project.py` impro
 - Improved route-level confidence without modifying production logic.
 - Verified all tests locally with pytest and coverage reporting.
 
+---
+### **Week 10 (Term 2): Mar 9th – Mar 15th**
 
+**Tasks worked on:**
+
+![T2week10 log](T2week10.png)
+
+**Weekly Goals Recap**  
+This week, I focused on improving the reliability of the portfolio customization workflow and addressing issues in the frontend–backend API interaction layer.
+
+One of the main issues discovered during testing was that saving portfolio customization data sometimes triggered a **422 validation error** due to inconsistent request formatting between the frontend and backend. After investigating the API request flow, I identified that the frontend API wrapper did not always set the correct `Content-Type: application/json` header when sending request bodies. I updated the `apiCall()` helper to automatically attach the correct header whenever a request body is present and improved error parsing logic so that FastAPI validation errors are handled properly on the frontend.
+
+In addition to fixing the API communication issue, I updated the frontend customization workflow to ensure that success messages are only shown when API responses are confirmed as successful. This prevents false success notifications when the backend returns an error. I also verified that customized projects are correctly marked in the dashboard and that the saved customization data can be retrieved and used by the portfolio view.
+
+Alongside these fixes, I updated the backend test suite to reflect the adjusted API behavior when customization data does not exist. The corresponding tests were modified to validate the updated response behavior while ensuring the full test suite continued to pass locally.
+
+Overall, this work improved the robustness of the portfolio customization feature and strengthened the reliability of API communication between the frontend and backend.
+
+**GitHub Pull Requests (Evidence of Work)**
+
+- **PR1 – Bug fixes: Save Customization doesn't return NOT FOUND anymore #357**  
+  [<<PR1 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/357)
+
+- **PR2 – tests/test_misc_coverage_boost.py #356**  
+  [<<PR2 LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/356)
+
+**Additional Contributions**
+
+- Fixed API request formatting issues in the frontend `apiCall()` wrapper.
+- Improved error handling for FastAPI validation responses.
+- Resolved a bug causing incorrect success messages during customization saving.
+- Verified that customized portfolio projects update correctly in the dashboard UI.
+- Updated backend tests to reflect adjusted API behavior.
+- Ran the full local test suite with pytest to ensure no regressions were introduced.
