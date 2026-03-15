@@ -2,8 +2,6 @@
 from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import Optional, Dict, Any, List
 from pydantic import BaseModel
-from datetime import datetime
-from common.logger import setup_logger
 from resume.resume_manager import ResumeManager
 from portfolio.portfolio_manager import PortfolioManager
 from portfolio.skill_mapper import SkillMapper
@@ -20,7 +18,6 @@ from portfolio.portfolio_formatter import PortfolioFormatter
 from common.schemas import ResumeItemResponse, PortfolioCardResponse
 
 router = APIRouter()
-logger = setup_logger(__name__)
 
 
 class ResumeGenerateRequest(BaseModel):
@@ -33,10 +30,6 @@ class ResumeGenerateRequest(BaseModel):
 class ResumeEditRequest(BaseModel):
     project_id: int
     wording: str
-
-
-class ResumeMarkdownSaveRequest(BaseModel):
-    markdown: str
 
 
 class PortfolioGenerateRequest(BaseModel):
@@ -131,18 +124,14 @@ async def generate_resume(request: ResumeGenerateRequest, user_name: Optional[st
     try:
         if not user_name:
             raise HTTPException(status_code=400, detail="user_name is required")
-        logger.info("Resume generate requested for user=%s", user_name)
         selection = {
             "top_projects_count": request.top_projects_count,
             "selected_project_ids": request.selected_project_ids,
             "include_skills": request.include_skills,
             "skills_mode": request.skills_mode
         } if request.selected_project_ids or request.top_projects_count != 5 else None
-        if selection:
-            logger.info("Resume generate selection for user=%s: %s", user_name, selection)
         resume_data = ResumeManager.generate_user_resume(user_name, request.top_projects_count, selection)
         if not resume_data:
-            logger.warning("Resume generate failed (no data) for user=%s", user_name)
             raise HTTPException(status_code=400, detail="Failed to generate resume. Ensure projects are uploaded.")
         if ResumeManager.store_user_resume(user_name, resume_data):
             return {"success": True, "resume": resume_data}
@@ -220,36 +209,6 @@ async def delete_resume(user_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error deleting resume: {str(e)}")
-
-
-@router.post("/resume/{user_id}/markdown")
-async def save_resume_markdown(user_id: str, request: ResumeMarkdownSaveRequest):
-    """Save custom resume markdown and replace stored version."""
-    try:
-        markdown = (request.markdown or "").strip()
-        if not markdown:
-            raise HTTPException(status_code=400, detail="markdown cannot be empty")
-
-        existing = ResumeManager.get_user_resume(user_id)
-        if existing and isinstance(existing.get("resume_data"), dict):
-            resume_data = existing["resume_data"]
-        else:
-            resume_data = {
-                "user_name": user_id,
-                "display_name": user_id,
-                "generated_at": datetime.now().isoformat()
-            }
-
-        resume_data["custom_markdown"] = markdown
-        resume_data["custom_markdown_updated_at"] = datetime.now().isoformat()
-
-        if ResumeManager.store_user_resume(user_id, resume_data):
-            return {"success": True, "message": "Resume saved"}
-        raise HTTPException(status_code=500, detail="Failed to save resume")
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error saving resume: {str(e)}")
 
 
 @router.get("/portfolio/public-users")

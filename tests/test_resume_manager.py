@@ -202,7 +202,6 @@ class TestResumeGeneration:
     @patch('resume.resume_manager._extract_common_names_from_filenames')
     @patch('resume.resume_manager._identify_authors_from_zip')
     @patch('builtins.input')
-    @patch('resume.resume_manager.sys.stdin.isatty')
     @patch('resume.resume_manager.get_file_contents_by_upload_id')
     @patch('resume.resume_manager.analyze_project_from_db')
     @patch('resume.resume_manager.SkillMapper')
@@ -210,14 +209,13 @@ class TestResumeGeneration:
     @patch('resume.resume_manager.rank_all_projects')
     def test_generate_user_resume_success(self, mock_rank, mock_summarizer_class, 
                                           mock_skill_mapper_class, mock_analyze, mock_get_files,
-                                          mock_isatty, mock_input, mock_identify_authors, mock_extract_names,
+                                          mock_input, mock_identify_authors, mock_extract_names,
                                           mock_git_username, mock_summarize, mock_stored_ranking):
         """Test successful generation of user resume with enriched data."""
         # Setup mocks for author selection
         mock_identify_authors.return_value = {'Alice', 'Bob'}
         mock_extract_names.return_value = set()
         mock_git_username.return_value = None
-        mock_isatty.return_value = True
         mock_input.side_effect = ['1']  # Select first author (Alice)
         mock_stored_ranking.return_value = {'summary': 'Project summary text'}
         mock_summarize.return_value = 'Project summary text'

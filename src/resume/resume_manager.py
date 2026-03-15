@@ -10,14 +10,11 @@ from account.user_manager import AuthManager
 from collaborative.identify_projects import _identify_authors_from_zip, _extract_common_names_from_filenames
 from database.user_preferences import get_user_git_username
 from resume.evidence_extractor import build_evidence
-from common.logger import setup_logger
 import json
-import sys
 
 
 class ResumeManager:
     """Manages user resume data model and storage operations."""
-    logger = setup_logger(__name__)
     
     @staticmethod
     def init_resume_table():
@@ -781,15 +778,10 @@ class ResumeManager:
                   Returns None if generation fails or no projects exist
         """
         try:
-            ResumeManager.logger.info(
-                "Generate resume start: user=%s top_projects_count=%s selection=%s",
-                user_name, top_projects_count, selection
-            )
             # Data Isolation: Rank only projects belonging to this user
             ranked_projects = rank_all_projects(user_name=user_name)
             
             if not ranked_projects:
-                ResumeManager.logger.warning("No ranked projects found for user=%s", user_name)
                 return None
             
             # ---- NEW: apply selection filters ----
@@ -804,10 +796,6 @@ class ResumeManager:
             # ---- END NEW ----
 
             top_projects = ranked_projects[:top_projects_count]
-            ResumeManager.logger.info(
-                "Top projects selected: user=%s count=%s total_ranked=%s",
-                user_name, len(top_projects), len(ranked_projects)
-            )
             
             # Collect all authors from top projects to let user select their name
             all_authors = set()
@@ -827,13 +815,6 @@ class ResumeManager:
                 if git_username and git_username in all_authors:
                     # Auto-select if git username matches
                     display_name = git_username
-                elif not sys.stdin.isatty():
-                    # Non-interactive context (API); avoid blocking on input
-                    ResumeManager.logger.warning(
-                        "Non-interactive resume generation; defaulting display_name to login username for user=%s",
-                        user_name
-                    )
-                    display_name = user_name
                 else:
                     # Let user select their name from detected authors
                     authors_list = sorted(list(all_authors))
@@ -878,19 +859,12 @@ class ResumeManager:
                             break
             else:
                 # No authors detected, use login username or ask for custom name
-                if not sys.stdin.isatty():
-                    ResumeManager.logger.warning(
-                        "No author names detected and non-interactive; using login username for user=%s",
-                        user_name
-                    )
-                    display_name = user_name
+                print(f"\nNo author names detected in projects.")
+                use_custom = input("Enter your name for the resume (or press Enter to use login username): ").strip()
+                if use_custom:
+                    display_name = use_custom
                 else:
-                    print(f"\nNo author names detected in projects.")
-                    use_custom = input("Enter your name for the resume (or press Enter to use login username): ").strip()
-                    if use_custom:
-                        display_name = use_custom
-                    else:
-                        display_name = user_name
+                    display_name = user_name
             
             summarizer = ProjectSummarizer()
             skill_mapper = SkillMapper()
@@ -1077,6 +1051,5 @@ class ResumeManager:
             return resume_data
             
         except Exception as e:
-            ResumeManager.logger.exception("Error generating user resume for user=%s: %s", user_name, e)
             print(f"[ERROR] Error generating user resume: {e}")
             return None

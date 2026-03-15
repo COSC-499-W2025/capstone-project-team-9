@@ -120,40 +120,6 @@
         </div>
     </div>
     
-<<<<<<< resume-api-integration
-    <div class="nav-wrapper" id="navWrapper">
-        <div class="nav-overlay" id="navOverlay" onclick="document.body.classList.remove('nav-open')" aria-hidden="true"></div>
-        <nav class="nav-bar" aria-label="Main navigation">
-            <div class="nav-tabs">
-                <button type="button" class="menu-btn nav-tab" data-view="overview" onclick="showView('overview')">Overview</button>
-                <div class="menu-group nav-group">
-                    <button type="button" class="menu-btn nav-tab caret" id="projectMenuToggle" onclick="toggleSubmenu('projectSubmenu', 'projectMenuToggle')">Project Actions</button>
-                    <div class="submenu-grid" id="projectSubmenu">
-                        <button type="button" class="menu-btn submenu-btn" data-view="upload" onclick="showView('upload')">Upload ZIP</button>
-                        <button type="button" class="menu-btn submenu-btn" data-view="list" onclick="showView('list')">List Projects</button>
-                        <button type="button" class="menu-btn submenu-btn" data-view="analyze" onclick="showView('analyze')">Analyze Project</button>
-                        <button type="button" class="menu-btn submenu-btn" data-view="thumbnail" onclick="showView('thumbnail')">Add Thumbnail</button>
-                        <button type="button" class="menu-btn submenu-btn" data-view="merge" onclick="showView('merge')">Merge ZIP</button>
-                    </div>
-                </div>
-                <div class="menu-group nav-group">
-                    <button type="button" class="menu-btn nav-tab caret" id="settingsMenuToggle" onclick="toggleSubmenu('settingsSubmenu', 'settingsMenuToggle')">Settings</button>
-                    <div class="submenu-grid" id="settingsSubmenu">
-                        <button type="button" class="menu-btn submenu-btn" data-view="external" onclick="showView('external')">External Services</button>
-                        <button type="button" class="menu-btn submenu-btn" data-view="cleanup" onclick="showView('cleanup')">Cleanup Insights</button>
-                        <button type="button" class="menu-btn submenu-btn" data-view="preferences" onclick="showView('preferences')">Preferences</button>
-                        <button type="button" class="menu-btn submenu-btn" data-view="account" onclick="showView('account')">Account</button>
-                    </div>
-                </div>
-                <button type="button" class="menu-btn nav-tab" data-view="resume-view" onclick="showView('resume-view')">Resume</button>
-                <button type="button" class="menu-btn nav-tab" data-view="portfolio-dashboard" onclick="showView('portfolio-dashboard')">Portfolio</button>
-                <button type="button" class="menu-btn nav-tab" onclick="window.location.href='public-dashboard.html'">Public Dashboard</button>
-            </div>
-        </nav>
-        <div class="nav-dropdown-slot" id="navDropdownSlot" aria-hidden="true"></div>
-    </div>
-=======
->>>>>>> main
     <div id="viewContainer"></div>
 
     <div id="error-toast" class="toast hidden">
@@ -995,18 +961,8 @@
                             <span>Browse and manage all your development projects</span>
                         </button>
                         <button type="button" class="dashboard-quick-action" onclick="showView('analyze')">
-<<<<<<< resume-api-integration
-                            <strong>Analyze</strong>
-                            <span>Deep dive into your project's structure, dependencies, complexity, and technical stack.</span>
-                        </button>
-                        
-                        <button type="button" class="dashboard-quick-action" onclick="showView('resume-view')">
-                            <strong>Resume</strong>
-                            <span>View and export your resume tailored to your project history and skills.</span>
-=======
                             <strong>Analyze Code</strong>
                             <span>Deep dive into project structure, quality, and technical stack</span>
->>>>>>> main
                         </button>
                         <button type="button" class="dashboard-quick-action" onclick="showView('portfolio-dashboard')">
                             <strong>Portfolio</strong>
@@ -1175,15 +1131,11 @@
                     <div id="preferencesResult" class="result" style="margin-top: 24px;"></div>
                 </div>`,
                 'resume-gen': `<div class="view-panel"><h3>Generate Resume</h3><button class="btn" onclick="generateResume()">Generate</button><div id="resumeGenResult" class="result"></div></div>`,
-<<<<<<< resume-api-integration
-                'resume-view': `<div class="view-panel resume-view-panel"><div class="resume-header"><h3>Resume</h3><div class="resume-actions"><button type="button" class="btn" id="resumeSaveBtn" onclick="saveResume()" disabled>Save</button><button type="button" class="btn btn-secondary" id="resumeRegenerateBtn" onclick="regenerateResume()" disabled>Regenerate from Projects</button><select id="resumeExportFormat" class="resume-export-select" aria-label="Export format"><option value="pdf">.pdf</option><option value="md" selected>.md</option><option value="txt">.txt</option><option value="json">.json</option></select><button type="button" class="btn" id="resumeExportBtn" onclick="exportResume()" disabled>Export</button></div></div><textarea id="resumeTextBox" class="resume-textbox" rows="18" disabled aria-live="polite">Loading resume...</textarea><div id="resumePdfRender" class="resume-pdf-render" aria-hidden="true"></div></div>`,
-=======
                 'resume-view': `<div class="view-panel">
                     <h3>View Resume</h3>
                     <button class="btn" onclick="viewResume()">Load Resume</button>
                     <div id="resumeViewResult" class="result"></div>
                 </div>`,
->>>>>>> main
                 'resume-delete': `<div class="view-panel"><h3>Delete Resume</h3><button class="btn" onclick="deleteResume()">Delete</button><div id="resumeDeleteResult" class="result"></div></div>`,
                 'portfolio-dashboard': `<div class="portfolio-dashboard-wrapper">
                     <div class="pd-header">
@@ -1430,9 +1382,6 @@
                 fileInfo.style.display = 'none';
                 mergeBtn.disabled = true;
                 clearBtn.style.display = 'none';
-            }
-            if (viewName === 'resume-view') {
-                setTimeout(() => viewResume(), 0);
             }
         }
 
@@ -2546,415 +2495,19 @@
             }
         }
 
-        function formatResumeMarkdown(resumeData) {
-            const safeName = resumeData?.display_name || resumeData?.user_name || 'Your Name';
-            const lines = [];
-            lines.push(`# ${safeName}`);
-
-            const generatedAt = resumeData?.generated_at ? String(resumeData.generated_at).slice(0, 10) : 'Unknown';
-            lines.push('');
-            lines.push(`*Generated: ${generatedAt}*`);
-            lines.push('');
-
-            const total = resumeData?.total_projects_analyzed ?? 0;
-            const shown = resumeData?.top_projects_displayed ?? 0;
-            lines.push(`**Projects Analyzed:** ${total}`);
-            lines.push(`**Projects Shown:** ${shown}`);
-            lines.push('');
-
-            const categorized = resumeData?.categorized_skills || {};
-            const categories = Object.keys(categorized);
-            if (categories.length) {
-                lines.push('## Skills');
-                categories.forEach(category => {
-                    const skills = categorized[category] || [];
-                    if (!skills.length) return;
-                    lines.push(`### ${category}`);
-                    lines.push(skills.map(s => `- ${s}`).join('\n'));
-                    lines.push('');
-                });
-            } else if ((resumeData?.all_skills || []).length) {
-                lines.push('## Skills');
-                lines.push((resumeData.all_skills || []).map(s => `- ${s}`).join('\n'));
-                lines.push('');
-            }
-
-            if ((resumeData?.languages || []).length) {
-                lines.push('## Languages');
-                lines.push(resumeData.languages.map(l => `- ${l}`).join('\n'));
-                lines.push('');
-            }
-
-            if ((resumeData?.frameworks || []).length) {
-                lines.push('## Frameworks');
-                lines.push(resumeData.frameworks.map(f => `- ${f}`).join('\n'));
-                lines.push('');
-            }
-
-            const projects = resumeData?.top_projects || [];
-            if (projects.length) {
-                lines.push('## Top Projects');
-                projects.forEach(project => {
-                    const title = project?.project_name || project?.name || 'Project';
-                    lines.push(`### ${title}`);
-                    if (project?.summary) {
-                        lines.push(project.summary);
-                        lines.push('');
-                    }
-                    const tech = project?.technologies || project?.skills || [];
-                    if (tech.length) {
-                        lines.push(`**Tech:** ${tech.join(', ')}`);
-                    }
-                    const evidence = project?.evidence || [];
-                    if (evidence.length) {
-                        lines.push('**Highlights:**');
-                        lines.push(evidence.map(item => `- ${item}`).join('\n'));
-                    }
-                    lines.push('');
-                });
-            }
-
-            return lines.join('\n').trim() || 'No resume data available.';
-        }
-
-        function renderResumeMarkdown(textbox, markdown) {
-            if (!textbox) return;
-            textbox.value = markdown;
-            textbox.disabled = false;
-            const saveBtn = document.getElementById('resumeSaveBtn');
-            if (saveBtn) saveBtn.disabled = false;
-            const regenBtn = document.getElementById('resumeRegenerateBtn');
-            if (regenBtn) regenBtn.disabled = false;
-            const exportBtn = document.getElementById('resumeExportBtn');
-            if (exportBtn) exportBtn.disabled = false;
-        }
-
         async function viewResume() {
-            const textbox = document.getElementById('resumeTextBox');
-            const saveBtn = document.getElementById('resumeSaveBtn');
-            const regenBtn = document.getElementById('resumeRegenerateBtn');
-            const exportBtn = document.getElementById('resumeExportBtn');
-            if (!textbox) return;
-            if (!currentUser?.user_name) {
-                textbox.value = 'User not loaded. Please sign in again.';
-                return;
-            }
-
-            textbox.value = 'Generating resume...';
-            textbox.disabled = true;
-            if (saveBtn) saveBtn.disabled = true;
-            if (regenBtn) regenBtn.disabled = true;
-            if (exportBtn) exportBtn.disabled = true;
+            const resultDiv = document.getElementById('resumeViewResult');
+            resultDiv.innerHTML = 'Loading resume...';
             try {
-<<<<<<< resume-api-integration
-                let resumeData = null;
-                let getRes = await apiCall(`/api/resume/${currentUser.user_name}`);
-                if (getRes.ok && getRes.data?.success) {
-                    resumeData = getRes.data.resume?.resume_data;
-                } else if (getRes.status !== 404) {
-                    textbox.value = getRes.error || 'Failed to load resume';
-                    textbox.disabled = true;
-                    return;
-                }
-
-                if (!resumeData) {
-                    const genRes = await apiCall(`/api/resume/generate?user_name=${currentUser.user_name}`, {
-                        method: 'POST',
-                        body: JSON.stringify({ top_projects_count: 5 })
-                    });
-                    if (genRes.ok && genRes.data?.success) {
-                        resumeData = genRes.data.resume;
-                    } else {
-                        textbox.value = genRes.error || 'Failed to generate resume';
-                        textbox.disabled = true;
-                        return;
-                    }
-=======
                 const res = await apiCall(`/api/resume/${currentUser.user_name}`);
                 if (!res.ok) { renderError(resultDiv, res.error || 'Failed to load resume'); return; }
                 const data = res.data;
                 if (data.success) {
                     const r = data.resume.resume_data;
                     resultDiv.innerHTML = formatResumeHTML(r);
->>>>>>> main
                 }
-
-                const markdown = resumeData?.custom_markdown || formatResumeMarkdown(resumeData);
-                renderResumeMarkdown(textbox, markdown);
             } catch (e) {
-                textbox.value = e.message || 'Failed to load resume';
-                textbox.disabled = true;
-            }
-        }
-
-        async function saveResume() {
-            const textbox = document.getElementById('resumeTextBox');
-            const saveBtn = document.getElementById('resumeSaveBtn');
-            const regenBtn = document.getElementById('resumeRegenerateBtn');
-            const exportBtn = document.getElementById('resumeExportBtn');
-            if (!textbox || !currentUser?.user_name) return;
-
-            const markdown = textbox.value || '';
-            if (!markdown.trim()) {
-                showMessage('Resume is empty. Nothing to save.', 'error');
-                return;
-            }
-
-            if (saveBtn) saveBtn.disabled = true;
-            if (regenBtn) regenBtn.disabled = true;
-            if (exportBtn) exportBtn.disabled = true;
-            textbox.disabled = true;
-            try {
-                const res = await apiCall(`/api/resume/${currentUser.user_name}/markdown`, {
-                    method: 'POST',
-                    body: JSON.stringify({ markdown })
-                });
-                if (!res.ok) {
-                    showMessage(res.error || 'Failed to save resume', 'error');
-                    return;
-                }
-                showMessage('Resume saved.', 'success');
-            } catch (e) {
-                showMessage(e.message || 'Failed to save resume', 'error');
-            } finally {
-                textbox.disabled = false;
-                if (saveBtn) saveBtn.disabled = false;
-                if (regenBtn) regenBtn.disabled = false;
-                if (exportBtn) exportBtn.disabled = false;
-            }
-        }
-
-        async function regenerateResume() {
-            const textbox = document.getElementById('resumeTextBox');
-            const saveBtn = document.getElementById('resumeSaveBtn');
-            const regenBtn = document.getElementById('resumeRegenerateBtn');
-            const exportBtn = document.getElementById('resumeExportBtn');
-            if (!textbox || !currentUser?.user_name) return;
-
-            textbox.value = 'Regenerating resume from projects...';
-            textbox.disabled = true;
-            if (saveBtn) saveBtn.disabled = true;
-            if (regenBtn) regenBtn.disabled = true;
-            if (exportBtn) exportBtn.disabled = true;
-
-            try {
-                const delRes = await apiCall(`/api/resume/${currentUser.user_name}`, { method: 'DELETE' });
-                if (!delRes.ok && delRes.status !== 404) {
-                    textbox.value = delRes.error || 'Failed to clear existing resume';
-                    textbox.disabled = true;
-                    return;
-                }
-
-                const genRes = await apiCall(`/api/resume/generate?user_name=${currentUser.user_name}`, {
-                    method: 'POST',
-                    body: JSON.stringify({ top_projects_count: 5 })
-                });
-
-                if (!genRes.ok || !genRes.data?.success) {
-                    textbox.value = genRes.error || 'Failed to regenerate resume';
-                    textbox.disabled = true;
-                    return;
-                }
-
-                const markdown = formatResumeMarkdown(genRes.data.resume);
-                renderResumeMarkdown(textbox, markdown);
-            } catch (e) {
-                textbox.value = e.message || 'Failed to regenerate resume';
-                textbox.disabled = true;
-            } finally {
-                if (saveBtn) saveBtn.disabled = false;
-                if (regenBtn) regenBtn.disabled = false;
-                if (exportBtn) exportBtn.disabled = false;
-            }
-        }
-
-        function downloadBlob(filename, blob) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            setTimeout(() => URL.revokeObjectURL(url), 1000);
-        }
-
-        function sanitizeFilename(name) {
-            return String(name || 'resume')
-                .replaceAll(/[^a-z0-9_\-]+/gi, '_')
-                .replaceAll(/^_+|_+$/g, '')
-                .slice(0, 60) || 'resume';
-        }
-
-        function wrapLines(text, maxLen = 90) {
-            const lines = [];
-            const input = String(text || '').split('\n');
-            input.forEach(line => {
-                if (line.length <= maxLen) {
-                    lines.push(line);
-                    return;
-                }
-                let start = 0;
-                while (start < line.length) {
-                    lines.push(line.slice(start, start + maxLen));
-                    start += maxLen;
-                }
-            });
-            return lines;
-        }
-
-        function escapePdfText(text) {
-            return String(text || '')
-                .replaceAll('\\', '\\\\')
-                .replaceAll('(', '\\(')
-                .replaceAll(')', '\\)');
-        }
-
-        function createSimplePdf(text) {
-            const pageWidth = 612;
-            const pageHeight = 792;
-            const marginX = 72;
-            const marginY = 72;
-            const fontSize = 12;
-            const lineHeight = 14;
-            const linesPerPage = Math.floor((pageHeight - marginY * 2) / lineHeight);
-            const lines = wrapLines(text, 90);
-            const pages = [];
-
-            for (let i = 0; i < lines.length; i += linesPerPage) {
-                pages.push(lines.slice(i, i + linesPerPage));
-            }
-
-            let objects = [];
-            const xref = [];
-            const addObject = (content) => {
-                xref.push(objects.join('').length);
-                objects.push(`${objects.length + 1} 0 obj\n${content}\nendobj\n`);
-                return objects.length;
-            };
-
-            const pageRefs = [];
-            const contentsRefs = [];
-
-            // Font object
-            const fontRef = addObject('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
-
-            pages.forEach(pageLines => {
-                const textLines = pageLines.map(l => `(${escapePdfText(l)}) Tj T*`).join('\n');
-                const stream = [
-                    'BT',
-                    `/F1 ${fontSize} Tf`,
-                    `${lineHeight} TL`,
-                    `${marginX} ${pageHeight - marginY} Td`,
-                    textLines,
-                    'ET'
-                ].join('\n');
-                const contentRef = addObject(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
-                contentsRefs.push(contentRef);
-            });
-
-            const pagesRef = addObject(`<< /Type /Pages /Kids [${pages.map((_, idx) => `${idx + 3} 0 R`).join(' ')}] /Count ${pages.length} >>`);
-            pages.forEach((_, idx) => {
-                const contentRef = contentsRefs[idx];
-                const pageObj = `<< /Type /Page /Parent ${pagesRef} 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 ${fontRef} 0 R >> >> /Contents ${contentRef} 0 R >>`;
-                addObject(pageObj);
-            });
-
-            const catalogRef = addObject(`<< /Type /Catalog /Pages ${pagesRef} 0 R >>`);
-
-            let pdf = '%PDF-1.4\n';
-            const offsets = [0];
-            objects.forEach(obj => {
-                offsets.push(pdf.length);
-                pdf += obj;
-            });
-            const xrefOffset = pdf.length;
-            pdf += 'xref\n';
-            pdf += `0 ${offsets.length}\n`;
-            pdf += '0000000000 65535 f \n';
-            for (let i = 1; i < offsets.length; i++) {
-                pdf += `${String(offsets[i]).padStart(10, '0')} 00000 n \n`;
-            }
-            pdf += 'trailer\n';
-            pdf += `<< /Size ${offsets.length} /Root ${catalogRef} 0 R >>\n`;
-            pdf += 'startxref\n';
-            pdf += `${xrefOffset}\n%%EOF`;
-
-            return new Blob([pdf], { type: 'application/pdf' });
-        }
-
-        async function exportResume() {
-            const textbox = document.getElementById('resumeTextBox');
-            const formatSelect = document.getElementById('resumeExportFormat');
-            if (!textbox || !formatSelect) return;
-
-            const markdown = textbox.value || '';
-            if (!markdown.trim()) {
-                showMessage('Resume is empty. Nothing to export.', 'error');
-                return;
-            }
-
-            const baseName = sanitizeFilename(currentUser?.user_name || 'resume');
-            const format = formatSelect.value;
-
-            if (format === 'pdf') {
-                const filename = `${baseName}.pdf`;
-                const ok = await exportMarkdownPdf(markdown, filename);
-                if (!ok) {
-                    const blob = createSimplePdf(markdown);
-                    downloadBlob(filename, blob);
-                }
-                return;
-            }
-
-            if (format === 'json') {
-                const payload = {
-                    user_name: currentUser?.user_name || null,
-                    exported_at: new Date().toISOString(),
-                    markdown
-                };
-                const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-                downloadBlob(`${baseName}.json`, blob);
-                return;
-            }
-
-            const ext = format === 'txt' ? 'txt' : 'md';
-            const mime = format === 'txt' ? 'text/plain' : 'text/markdown';
-            const blob = new Blob([markdown], { type: `${mime};charset=utf-8` });
-            downloadBlob(`${baseName}.${ext}`, blob);
-        }
-
-        async function exportMarkdownPdf(markdown, filename) {
-            if (typeof marked === 'undefined' || typeof html2pdf === 'undefined') {
-                showMessage('PDF export libraries not available, using text fallback.', 'error');
-                return false;
-            }
-
-            const renderTarget = document.getElementById('resumePdfRender');
-            if (!renderTarget) return false;
-
-            renderTarget.innerHTML = marked.parse(markdown);
-            await new Promise(resolve => setTimeout(resolve, 50));
-
-            if (!renderTarget.innerHTML.trim()) {
-                showMessage('PDF render failed, using text fallback.', 'error');
-                return false;
-            }
-
-            try {
-                await html2pdf()
-                    .from(renderTarget)
-                    .set({
-                        margin: [0.6, 0.6, 0.6, 0.6],
-                        filename,
-                        html2canvas: { scale: 2, useCORS: true },
-                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                    })
-                    .save();
-                return true;
-            } catch (e) {
-                showMessage('PDF export failed, using text fallback.', 'error');
-                return false;
+                resultDiv.innerHTML = `Error: ${e.message}`;
             }
         }
 
@@ -3956,7 +3509,5 @@
         })();
 
     </script>
-    <script src="vendor/marked.min.js"></script>
-    <script src="vendor/html2pdf.bundle.min.js"></script>
 </body>
 </html>
