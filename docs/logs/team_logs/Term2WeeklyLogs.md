@@ -1500,5 +1500,5 @@ Tight coordination between frontend testing and backend architecture to identify
 ### **Intermediate**
 Preparing for Monday's demo and peer evaluation. 
 ## **Burn up Chart**
-
+<img width="1009" height="577" alt="image" src="https://github.com/user-attachments/assets/2816512c-a2fd-4569-833a-2f61fb356ea4" />
 <img width="969" height="491" alt="image" src="https://github.com/user-attachments/assets/fc66b586-4fdd-423b-8568-161e9dcac683" />
