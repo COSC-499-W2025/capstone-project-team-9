@@ -1535,9 +1535,10 @@ Tight coordination between frontend testing and backend architecture to identify
 |-----------|-----------|-------------|
 | **Sami** | **Ryan** | |
 | **Sami** | **Kevin** | |
-| **JinXi** | **Eric** | |
-| **JinXi** | **Kevin** | |
-| **JinXi** | **Sami** | |
+| **JinXi** | **Ryan** | Customizable portfolio(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/360) |
+| **JinXi** | **Sami** | Frontend and Menu Rework(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/372) |
+| **JinXi** | **Evan** | Resume api integration(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/373) |
+| **JinXi** | **Kevin** | fix generate resume bug(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/374) |
 | **Eric** | **Ryan** | Workin on portfolio#355 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/355)|
 | **Eric** | **Jinxi** | Front end refactor: util.js and api.js#366 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/366)|
 | **Eric** | **Jinxi** | Frontend resume formator#361 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/361)|
