@@ -1,5 +1,8 @@
 ## Term 2 Week 10
 
+CHECK IMAGES FOLDER! NOT SURE WHY ITS NOT LETTING ME UPLOAD IT HERE!!!!
+
+
 
 ### What I completed this week
 - This week I spent a really big chunk of my time working on the frontend and fixing bugs revolving a bunch of our feature
