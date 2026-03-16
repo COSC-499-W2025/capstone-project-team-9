@@ -530,3 +530,43 @@ By bringing the X-Request-ID directly into the user's view, we have elevated the
 * **Documentation & API Architecture:** As we push deep into Milestone 3, I plan to shift my focus to taking ownership of our System Architecture documentation. I will be updating our README with the newly required Data Flow Diagrams (DFD levels 0 and 1) and evaluating our API routes to implement the required Public/Private view modes.
 <img width="1044" height="606" alt="image" src="https://github.com/user-attachments/assets/258d226c-3004-4ab9-ab3c-39e680f78ffb" />
 
+# **What I Did This Week (2026/03/09 to 2026/03/15 Week 10)**
+
+## fix generate resume bug 374 https://github.com/COSC-499-W2025/capstone-project-team-9/pull/374
+
+### **In Simple Terms**
+I fixed a critical bug where the server would completely freeze when a user tried to generate a resume from the web dashboard. The issue was that the backend code was originally written for a terminal (CLI), so it was pausing the entire server to ask "Which name do you want to use?" and waiting endlessly for someone to type an answer. I updated the code to detect when it is being run by the website (headless mode) so it automatically skips the manual prompt and instantly generates the resume using the user's login name
+
+---
+
+### **What I Created / Modified**
+Modified src/resume/resume_manager.py:
+
+Added a sys.stdin.isatty() environment check inside the generate_user_resume function to determine if the code is running in an interactive terminal or as a web API.
+
+Implemented a headless fallback path: if the code is triggered via the API, it automatically assigns display_name = user_name and completely bypasses the blocking input() menus.
+
+Preserved the original interactive menu logic so the function still works perfectly when developers run it locally from the command line.
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | 374 |
+| **Files Modified** | 1 |
+| **New Modules** | 0 (Architectural logic fix) |
+| **Impact** | 100% of frontend resume generation requests now succeed without locking the server thread. |
+
+---
+
+### **Reflection**
+This bug was a fantastic lesson in software architecture and the challenges of transitioning a project from a Command Line Interface (CLI) to a Web API. It highlighted the danger of mixing user-interface logic (like input() prompts) directly inside core business logic.
+
+Finding the root cause required full-stack debugging: the frontend console looked fine, the network requests were simply "pending," but the backend VSCode terminal was secretly waiting for a keystroke. By properly decoupling the interactive prompts from the generation code using standard input checks, I made our backend significantly more robust and production-ready.
+
+### **Next Steps**
+Audit Legacy CLI Logic: I need to do a thorough sweep of the remaining backend services to ensure no other features contain hidden print() menus or input() prompts that could cause similar server hangs on the live website.
+
+Implement Background Tasks: With the immediate freezing bug patched, the next major hurdle is preventing browser timeouts during long operations. I plan to implement FastAPI BackgroundTasks for our heavy operations (like extracting massive ZIP files or waiting 20+ seconds for the Gemini AI), allowing the server to return an instant "Processing" response to the frontend while the heavy lifting happens behind the scenes.
