@@ -1389,3 +1389,67 @@ We are now moving towards milestone 3, focus on front end part.
 <img width="1011" height="576" alt="image" src="https://github.com/user-attachments/assets/cccb7bc2-9a62-4f5f-89b0-36ad0c56b177" />
 <img width="1072" height="643" alt="image" src="https://github.com/user-attachments/assets/db4f5040-ab42-4cbc-ae08-d1b6cdcb501f" />
 
+# Sprint Report – Term 2 Week 10 (2026/03/09 to 2026/03/15) 
+
+## **Overview**
+
+
+## **Completed Work**
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/359
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/358
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/371
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/370
+- More and more.
+  
+### **Kevin**
+
+---
+
+### **Sami**
+
+---
+
+### **Eric**
+
+---
+
+### **Evan**
+
+---
+
+### **JinXi**
+
+---
+
+### **Ryan**
+
+---
+### **Collaboration Highlights** 
+
+### **Things to Work On / Reflection**
+
+
+### **Peer Evaluations** 
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Ryan** | |
+| **Sami** | **Kevin** | |
+| **JinXi** | **Eric** | |
+| **JinXi** | **Kevin** | |
+| **JinXi** | **Sami** | |
+| **Eric** | **Jinxi** | |
+| **Eric** | **Kevin** | |
+| **Eric** | **Jinxi** | |
+| **Eric** | **Sami** | |
+| **Ryan** | **Kevin** |  |
+| **Ryan** | **Sami** | |
+|**Kevin**|**Eric**|  |
+|**Kevin**|**Jinxi**|  |
+| **Evan** | **Jinxi** | |
+| **Evan** | **Ryan** |  |
+---
+
+## **Next Steps**
+### **Intermediate**
+We are now moving towards milestone 3, focus on front end part.
+## **Burn up Chart**
