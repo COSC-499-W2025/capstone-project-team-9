@@ -6,7 +6,9 @@
 - I focused on the portfolio page and the way that it works. I built it so that it contains the requiremnts from milestone 3 an some more features were added
 - Along with this there were a lot of bug fixes that took place this week. This is becuase a lot was happening so there were a lot of tiny bugs that had to be fixed
 ### Link to PR
-- This is the link to the PR that i have made: [https://github.com/COSC-499-W2025/capstone-project-team-9/pull/344](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/352)
+- This is the link to the PR that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/377
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/369
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/360
 ### What went well
 - The development of our project wemt really well. We fully built and worked on a lot of things that we had not fully implemented in to our frontend. I worked with Evan and sami this week on the portfolio and we worked really well together
 ### what didnt go well
