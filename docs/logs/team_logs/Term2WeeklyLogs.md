@@ -1402,7 +1402,10 @@ We are now moving towards milestone 3, focus on front end part.
 - More and more.
   
 ### **Kevin**
-
+- **Core Contribution:** Backend API Integration & Headless Execution.
+- **Details:** - **Resolved API Server Freeze Bug:** Diagnosed and fixed a critical issue where the FastAPI server would completely hang when a user attempted to generate a resume from the frontend dashboard. The legacy CLI code in `resume_manager.py` was executing an `input()` prompt, waiting for terminal input that the web browser could not provide. 
+    - **Implementation:** Implemented a `sys.stdin.isatty()` safety check to decouple the interactive terminal logic from the API execution. This successfully allows the resume generation pipeline to run in "headless" mode when called via HTTP requests, ensuring seamless frontend integration without crashing the server thread.
+      
 ---
 
 ### **Sami**
