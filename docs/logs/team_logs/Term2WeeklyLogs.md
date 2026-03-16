@@ -1517,8 +1517,8 @@ Tight coordination between frontend testing and backend architecture to identify
 | **Eric** | **Sami** | Frontend and Menu Rework#372 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/372)|
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Sami** | |
-|**Kevin**|**Eric**|  |
-|**Kevin**|**Jinxi**|  |
+|**Kevin**|**Sami**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/372 |
+|**Kevin**|**Jinxi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/366 |
 | **Evan** | **Jinxi** | |
 | **Evan** | **Ryan** |  |
 ---
