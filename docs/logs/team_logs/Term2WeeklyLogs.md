@@ -1428,9 +1428,12 @@ We are now moving towards milestone 3, focus on front end part.
 
 ---
 ### **Collaboration Highlights** 
+Tight coordination between frontend testing and backend architecture to identify that the resume generation UI bug was actually being caused by a hidden backend terminal lock
 
 ### **Things to Work On / Reflection**
-
+* **Decoupling Legacy CLI Logic:** This week's critical server-freeze bug highlighted the dangers of porting legacy terminal code directly into a web environment. Moving forward, the team needs to audit the rest of our backend services to ensure all functions are 100% "headless" and do not contain hidden `print()` menus or `input()` prompts that could hang the API.
+* **Asynchronous Processing (Background Tasks):** With the immediate integration bugs patched, our next major architectural hurdle is server blocking. Heavy functions (like extracting large ZIP files or waiting for Gemini AI analysis) currently force the user's browser to wait. Next week, we need to pivot towards implementing FastAPI `BackgroundTasks` so the server can return instant responses while processing data behind the scenes.
+* **Milestone 3 Polish:** As we approach the final deadlines, we need to ensure our UI components cleanly handle the new API data structures and that our error-handling (like the Global Error Toast) covers all new public endpoints.
 
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
@@ -1454,5 +1457,5 @@ We are now moving towards milestone 3, focus on front end part.
 
 ## **Next Steps**
 ### **Intermediate**
-We are now moving towards milestone 3, focus on front end part.
+Preparing for Monday's demo and peer evaluation. 
 ## **Burn up Chart**
