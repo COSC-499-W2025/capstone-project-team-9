@@ -570,3 +570,5 @@ Finding the root cause required full-stack debugging: the frontend console looke
 Audit Legacy CLI Logic: I need to do a thorough sweep of the remaining backend services to ensure no other features contain hidden print() menus or input() prompts that could cause similar server hangs on the live website.
 
 Implement Background Tasks: With the immediate freezing bug patched, the next major hurdle is preventing browser timeouts during long operations. I plan to implement FastAPI BackgroundTasks for our heavy operations (like extracting massive ZIP files or waiting 20+ seconds for the Gemini AI), allowing the server to return an instant "Processing" response to the frontend while the heavy lifting happens behind the scenes.
+
+<img width="1014" height="599" alt="image" src="https://github.com/user-attachments/assets/c9729519-14da-4b99-964a-49de808edf71" />
