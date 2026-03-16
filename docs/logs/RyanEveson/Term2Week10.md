@@ -1,6 +1,6 @@
 ## Term 2 week 8
 
-
+![image](/docs/logs/RyanEveson/Images/Week10Log.png)
 ### What I completed this week
 - This week a lot of coding happened to ensure that we had enough prepared for the peer evaluations. nearly everything is completed, and we are ready for our presentations.
 - I focused on the portfolio page and the way that it works. I built it so that it contains the requiremnts from milestone 3 an some more features were added
