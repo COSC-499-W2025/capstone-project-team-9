@@ -1392,7 +1392,7 @@ We are now moving towards milestone 3, focus on front end part.
 # Sprint Report – Term 2 Week 10 (2026/03/09 to 2026/03/15) 
 
 ## **Overview**
-
+This sprint focused on resolving critical integration bugs as we fully shift our features from the legacy CLI architecture to the new Web API frontend. We also pushed forward on extensive UI implementations and testing coverage.
 
 ## **Completed Work**
 - https://github.com/COSC-499-W2025/capstone-project-team-9/pull/359
