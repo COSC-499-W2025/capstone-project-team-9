@@ -1,5 +1,6 @@
 ## Term 2 Week 10
 
+
 ### What I completed this week
 - This week I spent a really big chunk of my time working on the frontend and fixing bugs revolving a bunch of our feature
 - Some of these bugs included the AI analysis timeout. Fixing connections between the backend and the frontend, etc.
