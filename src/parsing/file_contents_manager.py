@@ -27,7 +27,7 @@ def init_file_contents_table():
             """)
         print("File contents table initialized")
 
-        # schema migration: ensure source_created_at and source_modified_at columns exist
+        # schema migration: ensure source_* and line_count columns exist
         try:
             with with_db_cursor() as cursor:
                 cursor.execute("""
@@ -37,6 +37,10 @@ def init_file_contents_table():
                 cursor.execute("""
                     ALTER TABLE file_contents
                     ADD COLUMN IF NOT EXISTS source_modified_at TIMESTAMP NULL;
+                """)
+                cursor.execute("""
+                    ALTER TABLE file_contents
+                    ADD COLUMN IF NOT EXISTS line_count INTEGER NULL;
                 """)
             # print("file_contents table migrated: source_* columns ensured")
         except Exception as e:
@@ -63,10 +67,22 @@ def init_file_contents_table():
         raise
 
 
+# Exclude dependency/build dirs to keep uploads and analysis fast (same as zip_project_analyzer)
+EXCLUDED_ZIP_PARTS = {"__macosx", ".git", ".svn", ".hg", "__pycache__", "node_modules", ".venv", "venv", "dist", "build", "target", "out", ".next", ".nuxt"}
+MAX_FILE_SIZE_FOR_CONTENT = 1 * 1024 * 1024  # 1MB: skip storing content for huge files to avoid memory blowup
+
+
+def _should_skip_zip_path(file_path: str) -> bool:
+    """Skip paths under excluded dirs (e.g. node_modules, .git)."""
+    normalized = file_path.replace("\\", "/").lower()
+    parts = normalized.split("/")
+    return any(part in EXCLUDED_ZIP_PARTS for part in parts)
+
+
 def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1000, batch_size=50):
     """
-    Extract all files from a zip archive and store their content in the database.
-    Handles nested folders and large numbers of files efficiently.
+    Extract files from a zip and store in the database.
+    Skips node_modules, .git, etc. Does not load full content for duplicate check or for files > 1MB.
     """
     if not os.path.exists(zip_file_path):
         print(f"Zip file does not exist: {zip_file_path}")
@@ -84,28 +100,30 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
         with with_db_connection() as (conn, cursor):
             with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
                 file_list = zip_ref.namelist()
-                total_files = len([f for f in file_list if not f.endswith('/')])
+                # Filter excluded dirs first so we don't exceed max_files with deps
+                candidate = [f for f in file_list if not f.endswith('/') and not _should_skip_zip_path(f)]
+                total_candidates = len(candidate)
                 
-                print(f"Found {total_files} files in zip archive")
+                print(f"Found {total_candidates} files in zip (after excluding deps/build dirs)")
                 
-                if total_files > max_files:
-                    return {"success": False, "error": f"Too many files ({total_files}). Maximum allowed: {max_files}"}
+                if total_candidates > max_files:
+                    return {"success": False, "error": f"Too many files ({total_candidates}). Maximum allowed: {max_files}"}
                 
                 batch_data = []
-                
-                for file_path in file_list:
-                    try:
-                        if file_path.endswith('/'):
-                            continue
+                seen_paths = set()
 
+                for file_path in candidate:
+                    try:
                         file_name = os.path.basename(file_path)
                         file_extension = os.path.splitext(file_name)[1].lower()
                         file_info = zip_ref.getinfo(file_path)
                         file_size = file_info.file_size
 
-                        # Key: Retrieve the "source time" from ZipInfo.date_time
+                        if file_path in seen_paths:
+                            continue
+                        seen_paths.add(file_path)
+
                         try:
-                            # date_time is (year, month, day, hour, minute, second)
                             src_ts = datetime(*file_info.date_time)
                         except Exception:
                             src_ts = None
@@ -113,28 +131,16 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
                         is_binary = _is_binary_file(file_extension)
                         content_type = _get_content_type(file_extension)
 
-                        file_bytes = zip_ref.read(file_path)
-                        # Always store raw bytes in BYTEA
-                        file_content = Binary(file_bytes)
-
-                        # Skip storing this file if an identical file (same size + bytes)
-                        # is already present in file_contents from the SAME upload.
-                        # This prevents storing the same file multiple times within one upload,
-                        # but allows the same file content to exist in different uploads.
-                        cursor.execute(
-                            """
-                            SELECT 1
-                            FROM file_contents
-                            WHERE uploaded_file_id = %s 
-                              AND file_size = %s 
-                              AND file_content = %s
-                            LIMIT 1
-                            """,
-                            (uploaded_file_id, file_size, file_content),
-                        )
-                        if cursor.fetchone():
-                            # Duplicate found within this upload; do not store again
-                            continue
+                        # Skip storing content for very large files to avoid memory/DB blowup
+                        store_content = file_size <= MAX_FILE_SIZE_FOR_CONTENT
+                        line_count = None
+                        if store_content:
+                            file_bytes = zip_ref.read(file_path)
+                            file_content = Binary(file_bytes)
+                            if not is_binary and file_bytes:
+                                line_count = file_bytes.count(b"\n") + (1 if not file_bytes.endswith(b"\n") else 0)
+                        else:
+                            file_content = None
 
                         batch_data.append((
                             uploaded_file_id,
@@ -145,8 +151,9 @@ def extract_and_store_file_contents(uploaded_file_id, zip_file_path, max_files=1
                             file_content,
                             content_type,
                             is_binary,
-                            src_ts,  # source_created_at
-                            src_ts,  # source_modified_at
+                            src_ts,
+                            src_ts,
+                            line_count,
                         ))
 
                         extracted_files.append({
@@ -196,10 +203,10 @@ def _insert_batch(cursor, batch_data):
     try:
         cursor.executemany("""
             INSERT INTO file_contents 
-            (uploaded_file_id, file_path, file_name, file_extension, 
+            (uploaded_file_id, file_path, file_name, file_extension,
              file_size, file_content, content_type, is_binary,
-             source_created_at, source_modified_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+             source_created_at, source_modified_at, line_count)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, batch_data)
     except Exception as e:
         print(f"Error inserting batch: {e}")
@@ -373,49 +380,101 @@ def get_file_statistics(uploaded_file_id):
         return {}
 
 
-def get_file_contents_by_upload_id(uploaded_file_id):
+def get_file_contents_by_upload_id(uploaded_file_id, include_content=True):
     """
-    Retrieve all file line counts for a specific uploaded file.
-    
-    Args:
-        uploaded_file_id (int): The ID of the uploaded file record
-    
-    Returns:
-        list: List of file line count records
+    Retrieve file records for an upload. Set include_content=False to avoid loading
+    large BYTEA blobs (use for structure/languages/stats when line_count is present).
     """
     try:
         with with_db_cursor() as cursor:
-            cursor.execute("""
-                SELECT id, file_path, file_name, file_extension, file_size,
-                       file_content, content_type, is_binary, created_at
-                FROM file_contents
-                WHERE uploaded_file_id = %s
-                ORDER BY file_path
-            """, (uploaded_file_id,))
-            
+            if include_content:
+                cursor.execute("""
+                    SELECT id, file_path, file_name, file_extension, file_size,
+                           file_content, content_type, is_binary, created_at, line_count,
+                           source_created_at
+                    FROM file_contents
+                    WHERE uploaded_file_id = %s
+                    ORDER BY file_path
+                """, (uploaded_file_id,))
+            else:
+                cursor.execute("""
+                    SELECT id, file_path, file_name, file_extension, file_size,
+                           content_type, is_binary, created_at, line_count,
+                           source_created_at
+                    FROM file_contents
+                    WHERE uploaded_file_id = %s
+                    ORDER BY file_path
+                """, (uploaded_file_id,))
             results = cursor.fetchall()
-        
         files = []
         for row in results:
-            files.append({
-                "id": row[0],
-                "file_path": row[1],
-                "file_name": row[2],
-                "file_extension": row[3],
-                "file_size": row[4],
-                "file_content": row[5],
-                "content_type": row[6],
-                "is_binary": row[7],
-                "created_at": row[8]
-            })
-        
+            if include_content:
+                files.append({
+                    "id": row[0],
+                    "file_path": row[1],
+                    "file_name": row[2],
+                    "file_extension": row[3],
+                    "file_size": row[4],
+                    "file_content": row[5],
+                    "content_type": row[6],
+                    "is_binary": row[7],
+                    "created_at": row[8],
+                    "line_count": row[9] if len(row) > 9 else None,
+                    "source_created_at": row[10] if len(row) > 10 else None,
+                })
+            else:
+                files.append({
+                    "id": row[0],
+                    "file_path": row[1],
+                    "file_name": row[2],
+                    "file_extension": row[3],
+                    "file_size": row[4],
+                    "file_content": None,
+                    "content_type": row[5],
+                    "is_binary": row[6],
+                    "created_at": row[7],
+                    "line_count": row[8] if len(row) > 8 else None,
+                    "source_created_at": row[9] if len(row) > 9 else None,
+                })
         return files
-        
     except ConnectionError:
         print("Could not connect to database.")
         return []
     except Exception as e:
         print(f"Error retrieving file contents: {e}")
+        return []
+
+
+def get_file_contents_content_for_paths(uploaded_file_id, file_paths):
+    """
+    Fetch file_content only for the given paths. Use for deep analysis / doc extraction
+    so we don't load all file contents into memory.
+    """
+    if not file_paths:
+        return []
+    try:
+        with with_db_cursor() as cursor:
+            cursor.execute("""
+                SELECT file_path, file_name, file_extension, file_size,
+                       file_content, content_type, is_binary
+                FROM file_contents
+                WHERE uploaded_file_id = %s AND file_path = ANY(%s)
+            """, (uploaded_file_id, list(file_paths)))
+            results = cursor.fetchall()
+        return [
+            {
+                "file_path": row[0],
+                "file_name": row[1],
+                "file_extension": row[2],
+                "file_size": row[3],
+                "file_content": row[4],
+                "content_type": row[5],
+                "is_binary": row[6],
+            }
+            for row in results
+        ]
+    except Exception as e:
+        print(f"Error fetching content for paths: {e}")
         return []
 
 

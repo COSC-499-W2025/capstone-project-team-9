@@ -377,20 +377,26 @@ def _compute_portfolio_stats(user_id: str) -> dict:
         total_size = row[1]
 
         cursor.execute("""
-            SELECT DISTINCT fc.file_extension
+            SELECT fc.file_extension, COUNT(*)
             FROM file_contents fc
             JOIN uploaded_files uf ON uf.id = fc.uploaded_file_id
             WHERE uf.user_name = %s AND fc.file_extension IS NOT NULL
                 AND fc.file_extension != ''
+            GROUP BY fc.file_extension
         """, (user_id,))
-        extensions = [r[0].lower() for r in cursor.fetchall()]
+        ext_counts = [(r[0].lower(), r[1]) for r in cursor.fetchall()]
 
+    lang_counts = {}
     languages = set()
     skills = set()
-    for ext in extensions:
+    for ext, cnt in ext_counts:
         if ext in LANGUAGE_EXTENSIONS:
-            languages.add(LANGUAGE_EXTENSIONS[ext])
-            skills.add(LANGUAGE_EXTENSIONS[ext])
+            lang = LANGUAGE_EXTENSIONS[ext]
+            languages.add(lang)
+            skills.add(lang)
+            lang_counts[lang] = lang_counts.get(lang, 0) + cnt
+
+    most_used_language = max(lang_counts, key=lang_counts.get) if lang_counts else None
 
     return {
         "total_projects": total_projects,
@@ -398,7 +404,8 @@ def _compute_portfolio_stats(user_id: str) -> dict:
         "total_size_mb": round(total_size / (1024 * 1024), 2) if total_size else 0,
         "unique_languages": len(languages),
         "unique_skills": len(skills),
-        "languages": sorted(list(languages))
+        "languages": sorted(list(languages)),
+        "most_used_language": most_used_language,
     }
 
 @router.get("/portfolio/public/{user_id}/settings")

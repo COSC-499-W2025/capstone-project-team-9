@@ -118,6 +118,11 @@ def init_uploaded_files_table():
                     ALTER TABLE uploaded_files
                     ADD COLUMN IF NOT EXISTS user_name VARCHAR(255);
                 """)
+                # For duplicate check without loading full zip into DB query
+                cursor.execute("""
+                    ALTER TABLE uploaded_files
+                    ADD COLUMN IF NOT EXISTS file_data_size BIGINT NULL;
+                """)
 
                 # Add foreign key constraint if it doesn't exist
                 cursor.execute("""
@@ -288,35 +293,28 @@ def add_file_to_db(filepath, user_name: str = None, original_filename: str = Non
 
     # 6. Check for duplicate uploads and save to database
     try:
-        with open(dest_path, "rb") as f:
-            zip_bytes = f.read()
-
+        zip_size = os.path.getsize(dest_path)
         with with_db_cursor() as cursor:
-            # 6.1 Check if an identical ZIP (same bytes) has already been uploaded
-            # Only check for duplicates from the same user to respect user isolation
+            # 6.1 Duplicate check by size+filename+user (avoids loading full zip into query)
             if user_name:
                 cursor.execute(
                     """
-                    SELECT id, filename
-                    FROM uploaded_files
-                    WHERE file_data = %s AND user_name = %s
+                    SELECT id, filename FROM uploaded_files
+                    WHERE user_name = %s AND filename = %s AND COALESCE(file_data_size, 0) = %s
                     LIMIT 1
                     """,
-                    (zip_bytes, user_name),
+                    (user_name, filename, zip_size),
                 )
             else:
-                # If no user_name provided, check across all users (backward compatibility)
                 cursor.execute(
                     """
-                    SELECT id, filename
-                    FROM uploaded_files
-                    WHERE file_data = %s
+                    SELECT id, filename FROM uploaded_files
+                    WHERE filename = %s AND COALESCE(file_data_size, 0) = %s
                     LIMIT 1
                     """,
-                    (zip_bytes,),
+                    (filename, zip_size),
                 )
             existing = cursor.fetchone()
-
             if existing:
                 existing_id, existing_filename = existing
                 return UploadResult(
@@ -327,13 +325,12 @@ def add_file_to_db(filepath, user_name: str = None, original_filename: str = Non
                         "Duplicate uploads are not allowed."
                     ),
                     error_type="DUPLICATE_UPLOAD",
-                    data={
-                        "existing_file_id": existing_id,
-                        "existing_filename": existing_filename,
-                    },
+                    data={"existing_file_id": existing_id, "existing_filename": existing_filename},
                 )
 
-            # 6.2 No duplicate found: insert new uploaded_files record
+            # 6.2 Load zip and insert (single read)
+            with open(dest_path, "rb") as f:
+                zip_bytes = f.read()
             cursor.execute("""
                 INSERT INTO uploaded_files (
                     filename,
@@ -341,10 +338,11 @@ def add_file_to_db(filepath, user_name: str = None, original_filename: str = Non
                     status,
                     metadata,
                     file_data,
+                    file_data_size,
                     user_name,
                     last_modified_at
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
                 RETURNING id
             """, (
                 filename,
@@ -352,6 +350,7 @@ def add_file_to_db(filepath, user_name: str = None, original_filename: str = Non
                 "uploaded",
                 json.dumps({"files": file_contents}),
                 zip_bytes,
+                zip_size,
                 user_name,
             ))
             uploaded_file_id = cursor.fetchone()[0]

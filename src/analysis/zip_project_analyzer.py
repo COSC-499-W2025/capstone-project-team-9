@@ -4,6 +4,7 @@ import json
 import os
 import re
 import zipfile
+from datetime import datetime
 from pathlib import PurePosixPath
 from typing import Any, Dict, List, Tuple
 
@@ -119,6 +120,27 @@ INCOMPLETE_PATTERNS = [
 ]
 
 
+def _zip_timestamps(zip_path: str, indexed: Dict[str, zipfile.ZipInfo]) -> Dict[str, Any]:
+    """Get zip file mtime (on disk) and earliest entry date inside zip."""
+    out = {}
+    try:
+        out["zip_file_mtime"] = datetime.fromtimestamp(os.path.getmtime(zip_path)).isoformat() + "Z"
+    except (OSError, ValueError):
+        pass
+    dates = []
+    for info in indexed.values():
+        if info.date_time and len(info.date_time) >= 6:
+            y, mo, d, h, mi, s = info.date_time[:6]
+            if 1980 <= y <= 2100 and 1 <= mo <= 12 and 1 <= d <= 31:
+                try:
+                    dates.append(datetime(y, mo, d, h, mi, s).isoformat() + "Z")
+                except ValueError:
+                    pass
+    if dates:
+        out["zip_earliest_entry"] = min(dates)
+    return out
+
+
 def analyze_zip_project(zip_path: str, max_readme_bytes: int = 65536) -> Dict[str, Any]:
     """
     Analyze a zip archive and infer if it looks like a finished, working project.
@@ -149,11 +171,14 @@ def analyze_zip_project(zip_path: str, max_readme_bytes: int = 65536) -> Dict[st
 
         signals, evidence, metrics = _analyze_paths(indexed, zf, max_readme_bytes)
         success = _score_success(signals, metrics, evidence)
+        timestamps = _zip_timestamps(zip_path, indexed)
 
         return {
             "zip_path": zip_path,
             "project_name": _derive_project_name(zip_path, common_root),
             "root_prefix": common_root or "",
+            "zip_file_mtime": timestamps.get("zip_file_mtime"),
+            "zip_earliest_entry": timestamps.get("zip_earliest_entry"),
             "metrics": metrics,
             "signals": signals,
             "evidence": evidence,
