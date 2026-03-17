@@ -601,3 +601,41 @@ Overall, this work improved the robustness of the portfolio customization featur
 - Verified that customized portfolio projects update correctly in the dashboard UI.
 - Updated backend tests to reflect adjusted API behavior.
 - Ran the full local test suite with pytest to ensure no regressions were introduced.
+
+---
+### **Week 11 (Term 2): Mar 16th – Mar 22nd**
+
+**Tasks worked on:**
+
+_No screenshot available for this week._
+
+---
+
+**Weekly Goals Recap**  
+This week, the project entered its final stabilization phase as development approached completion. The primary focus was on identifying and resolving remaining issues through peer evaluation and improving the reliability of the analysis pipeline.
+
+During **Peer Testing 2**, several inconsistencies were identified in how analysis results were computed and displayed. One critical issue involved the **incorrect calculation of lines of code (LOC)** in the project analysis module. After tracing the full data flow from analysis to dashboard display, I identified that LOC was being incorrectly computed by attempting to cast file content directly to integers, which caused LOC values to be silently set to zero.
+
+To resolve this, I updated the analysis logic to compute LOC based on actual file content by counting lines, including handling byte decoding where necessary. I also updated the corresponding test cases to reflect this corrected behavior by using realistic multiline content instead of numeric placeholders. After applying these changes, I re-ran local analysis and verified that LOC values were correctly reflected in both backend responses and the dashboard UI.
+
+In addition, I ensured that all existing tests passed after the fix and validated that the changes did not introduce regressions. This work helped improve the accuracy and reliability of key project metrics presented to users.
+
+Overall, this week’s work focused on polishing core functionality, fixing edge-case bugs, and preparing the system for final delivery.
+
+---
+
+**GitHub Pull Requests (Evidence of Work)**
+
+- **PR – Fix LOC calculation and update tests for content-based line counting**  
+  [<<PR LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/380)
+
+---
+
+**Additional Contributions**
+
+- Identified and fixed a critical bug in LOC calculation within the analysis pipeline.
+- Updated test cases to align with content-based line counting logic.
+- Participated in **Peer Testing 2** and incorporated feedback into system improvements.
+- Verified correctness of analysis results across backend and dashboard layers.
+- Ensured full test suite passes locally with no regressions.
+- Contributed to final-stage system stabilization and polish.
