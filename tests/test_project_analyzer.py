@@ -98,20 +98,35 @@ class TestProjectAnalyzer:
     def test_calculate_file_statistics(self, analyzer):
         """Test file statistics calculation."""
         files = [
-            # FIX: Ensure file_content is a valid integer string for line counting
-            {'file_size': 1000, 'file_content': '10', 'is_binary': False, 'file_path': 'a.py', 'file_extension': '.py'},
-            {'file_size': 2000, 'file_content': '20', 'is_binary': False, 'file_path': 'b.py', 'file_extension': '.py'},
-            {'file_size': 500, 'file_content': None, 'is_binary': True, 'file_path': 'c.bin', 'file_extension': '.bin'}
+            {
+                'file_size': 1000,
+                'file_content': 'line1\nline2\nline3\nline4\nline5\nline6\nline7\nline8\nline9\nline10',
+                'is_binary': False,
+                'file_path': 'a.py',
+                'file_extension': '.py'
+            },
+            {
+                'file_size': 2000,
+                'file_content': '\n'.join([f'line{i}' for i in range(1, 21)]),
+                'is_binary': False,
+                'file_path': 'b.py',
+                'file_extension': '.py'
+            },
+            {
+                'file_size': 500,
+                'file_content': None,
+                'is_binary': True,
+                'file_path': 'c.bin',
+                'file_extension': '.bin'
+            }
         ]
-        
+
         stats = analyzer._calculate_file_statistics(files)
-        
+
         assert stats['total_files'] == 3
         assert stats['text_files'] == 2
         assert stats['binary_files'] == 1
-        
-        # Verify line counting (10 + 20 = 30)
-        # We check both possible keys depending on implementation
+
         lines = stats.get('total_lines_of_code') or stats.get('lines_of_code')
         assert lines == 30
     

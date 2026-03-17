@@ -182,6 +182,9 @@ def _get_public_settings_or_403(user_id: str) -> dict:
 def _compute_portfolio_stats(user_id: str) -> dict:
     from config.db_config import with_db_cursor
     from common.constants import LANGUAGE_EXTENSIONS
+    import json
+
+    total_lines_of_code = 0
 
     with with_db_cursor() as cursor:
         cursor.execute("""
@@ -199,6 +202,44 @@ def _compute_portfolio_stats(user_id: str) -> dict:
         row = cursor.fetchone()
         total_files = row[0]
         total_size = row[1]
+
+        cursor.execute("""
+            SELECT analysis_data
+            FROM analysis_results ar
+            JOIN uploaded_files uf ON uf.id = ar.uploaded_file_id
+            WHERE uf.user_name = %s
+        """, (user_id,))
+
+        for (analysis_data,) in cursor.fetchall():
+            try:
+                if isinstance(analysis_data, dict):
+                    data = analysis_data
+                else:
+                    data = json.loads(analysis_data) 
+
+                payload = data.get("analysis", data)
+                print("DEBUG payload keys:", list(payload.keys()) if isinstance(payload, dict) else type(payload))
+
+                file_stats = payload.get("file_statistics", {}) if isinstance(payload, dict) else {}
+                print("DEBUG file_statistics:", file_stats)
+
+                loc = file_stats.get("total_lines_of_code")
+
+                if loc is None:
+                    stats = payload.get("stats", {}) if isinstance(payload, dict) else {}
+                    print("DEBUG fallback stats:", stats)
+                    loc = (
+                        stats.get("total_lines_of_code")
+                        or stats.get("lines_of_code")
+                        or stats.get("total_loc")
+                        or 0
+                    )
+
+                print("DEBUG loc found:", loc)
+                total_lines_of_code += loc
+            except Exception as e:
+                print("DEBUG parse error:", e)
+                continue
 
         cursor.execute("""
             SELECT DISTINCT fc.file_extension
@@ -220,6 +261,7 @@ def _compute_portfolio_stats(user_id: str) -> dict:
         "total_projects": total_projects,
         "total_files": total_files,
         "total_size_mb": round(total_size / (1024 * 1024), 2) if total_size else 0,
+        "total_lines_of_code": total_lines_of_code,
         "unique_languages": len(languages),
         "unique_skills": len(skills),
         "languages": sorted(list(languages))

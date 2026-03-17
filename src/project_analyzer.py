@@ -270,13 +270,20 @@ class ProjectAnalyzer:
         text_files = sum(1 for f in file_contents if not f['is_binary'])
         binary_files = sum(1 for f in file_contents if f['is_binary'])
         
-        # Calculate LOC if available
         total_lines = 0
         for f in file_contents:
             if f['file_content'] and not f['is_binary']:
                 try:
-                    total_lines += int(f['file_content'])
-                except (ValueError, TypeError):
+                    content = f['file_content']
+
+                    if isinstance(content, bytes):
+                        content = content.decode('utf-8', errors='ignore')
+
+                    line_count = len(content.splitlines())
+
+                    total_lines += line_count
+
+                except Exception:
                     pass
         
         return {
