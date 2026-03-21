@@ -349,71 +349,7 @@
             }
         });
 
-        function showMessage(text, type) {
-            const msg = document.getElementById('messageBox');
-            msg.textContent = text;
-            msg.className = `message ${type}`;
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 5000);
-        }
-        // --- Global Error Toast Functions ---
-        function showErrorToast(message, requestId) {
-            const toast = document.getElementById('error-toast');
-            document.getElementById('toast-message').innerText = message;
-            
-            // Display the specific X-Request-ID or a fallback
-            document.getElementById('toast-request-id').innerText = requestId || "N/A";
-            
-            toast.classList.add('show');
-            toast.classList.remove('hidden');
-
-            setTimeout(() => {
-                closeErrorToast();
-            }, 8000);
-        }
-
-        function closeErrorToast() {
-            const toast = document.getElementById('error-toast');
-            toast.classList.remove('show');
-        }
-
-        async function apiCall(endpoint, options = {}) {
-            try {
-                const finalOptions = { ...options };
-
-                if (finalOptions.body) {
-                    finalOptions.headers = {
-                        'Content-Type': 'application/json',
-                        ...(finalOptions.headers || {})
-                    };
-                }
-
-                const response = await fetch(`${API_BASE_URL}${endpoint}`, finalOptions);
-                const data = await response.json().catch(() => ({}));
-
-                if (!response.ok) {
-                    let msg;
-
-                    if (Array.isArray(data?.detail)) {
-                        msg = data.detail.map(e => e.msg).join(', ');
-                    } else {
-                        msg =
-                            data?.detail?.message ||
-                            data?.detail ||
-                            data?.message ||
-                            `Request failed (${response.status})`;
-                    }
-
-                    return { ok: false, error: String(msg), status: response.status, data };
-                }
-
-                return { ok: true, data, status: response.status };
-            } catch (e) {
-                if (e.name === 'AbortError') throw e;
-                const errorMsg = e.message || "Network error";
-                return { ok: false, error: errorMsg, status: 0, data: null };
-            }
-        }
+        // showMessage, showErrorToast, closeErrorToast, apiCall now imported from modules
 
         function markDirty(viewName) {
             if (!viewName) return;
@@ -478,64 +414,7 @@
             showView(nav.viewName, { ...(nav.options || {}), bypassUnsavedCheck: true });
         }
 
-        function renderResult(container, html) {
-            container.innerHTML = html;
-        }
-
-        function renderError(container, message) {
-            const safe = escapeHtml(message);
-            if (container) {
-                container.innerHTML = `<div class="message error">${safe}</div>`;
-            }
-            showMessage(safe, "error");
-        }
-
-        function renderSuccess(container, message) {
-            const safe = escapeHtml(message);
-            if (container) {
-                container.innerHTML = `<div class="message success">${safe}</div>`;
-            }
-            showMessage(safe, "success");
-        }
-
-        function escapeHtml(str) {
-            return String(str)
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
-        }
-
-        // Multipurpose API request function that can handle JSON and FormData bodies, and provides consistent error handling
-        async function apiRequest(endpoint, { method = 'GET', body = null, headers = {} } = {}) {
-            const opts = { method, headers: { ...headers } };
-
-            const isFormData = body instanceof FormData;
-
-            if (body) {
-                opts.body = body;
-                if (!isFormData) {
-                    opts.headers['Content-Type'] = 'application/json';
-                }
-            }
-
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, opts);
-
-            // try to parse JSON, but fallback to text if not possible
-            const contentType = response.headers.get('content-type') || '';
-            const payload = contentType.includes('application/json') ? await response.json() : await response.text();
-
-            if (!response.ok) {
-                const msg =
-                    (payload && typeof payload === 'object' && (payload.detail || payload.message)) ||
-                    (typeof payload === 'string' ? payload : 'Request failed');
-                showMessage(msg, 'error');
-                throw new Error(msg);
-            }
-
-            return payload;
-        }
+        // renderResult, renderError, renderSuccess, escapeHtml, apiRequest now imported from modules
 
         async function loadProjectThumbnail(projectId, imgEl) {
             try {
@@ -3715,10 +3594,7 @@ ${skillsHtml ? '<div class="section"><div class="section-title">TECHNICAL SKILLS
             } catch (e) { console.error('Stats load error:', e); }
         }
 
-        function setTextSafe(id, val) {
-            const el = document.getElementById(id);
-            if (el) el.textContent = val;
-        }
+        // setTextSafe now imported from utils module
 
         let timelineEdits = {};
 
