@@ -70,18 +70,33 @@ class ProjectAnalyzer:
         return analysis_results
     
     def _perform_local_analysis(self, project_path, project_info):
-        # Get file contents from database
-        file_contents = self._get_file_contents(project_info['id'])
-        
-        if not file_contents:
+        from common.constants import LANGUAGE_EXTENSIONS
+        from parsing.file_contents_manager import get_file_contents_content_for_paths
+
+        # Metadata only first (no BYTEA load) - keeps large projects fast
+        file_metadata = self._get_file_contents(project_info['id'], include_content=False)
+        if not file_metadata:
             self.logger.warning("No file contents found in database")
-            return {
-                'error': 'No file contents available for analysis'
-            }
-        
-        self.logger.info(f"Analyzing {len(file_contents)} files from project...")
-        
-        # Prepare analysis results
+            return {'error': 'No file contents available for analysis'}
+
+        self.logger.info(f"Analyzing {len(file_metadata)} files from project...")
+
+        file_statistics = self._calculate_file_statistics(file_metadata)
+        # If LOC is 0 but we have code files, fetch content for those missing line_count
+        if file_statistics.get('total_lines_of_code', 0) == 0:
+            code_without_loc = [f['file_path'] for f in file_metadata
+                             if (f.get('file_extension') or '').lower() in LANGUAGE_EXTENSIONS
+                             and not f.get('is_binary') and f.get('line_count') is None][:80]
+            if code_without_loc:
+                try:
+                    with_content = get_file_contents_content_for_paths(project_info['id'], code_without_loc)
+                    for rec in with_content:
+                        line_count = self._count_lines(rec.get('file_content'))
+                        if line_count:
+                            file_statistics['total_lines_of_code'] = file_statistics.get('total_lines_of_code', 0) + line_count
+                except Exception as e:
+                    self.logger.debug(f"LOC fallback fetch failed: {e}")
+
         analysis = {
             'project_info': {
                 'id': project_info['id'],
@@ -89,12 +104,12 @@ class ProjectAnalyzer:
                 'filepath': project_info['filepath'],
                 'created_at': project_info['created_at'].isoformat() if project_info['created_at'] else None
             },
-            'languages': self._analyze_languages_from_files(file_contents),
-            'frameworks': self._detect_frameworks_from_files(file_contents),
-            'skills': self._extract_skills_from_files(file_contents),
-            'project_structure': self._analyze_structure(file_contents),
-            'file_statistics': self._calculate_file_statistics(file_contents),
-            'contribution_metrics': self._calculate_contribution_metrics(file_contents)
+            'languages': self._analyze_languages_from_files(file_metadata),
+            'frameworks': self._detect_frameworks_from_files(file_metadata),
+            'skills': self._extract_skills_from_files(file_metadata),
+            'project_structure': self._analyze_structure(file_metadata),
+            'file_statistics': file_statistics,
+            'contribution_metrics': self._calculate_contribution_metrics(file_metadata)
         }
         try:
             if project_path and zipfile.is_zipfile(project_path):
@@ -102,30 +117,61 @@ class ProjectAnalyzer:
                 zip_report = analyze_zip_project(project_path)
                 analysis['zip_success_report'] = {
                     'project_name': zip_report.get('project_name'),
+                    'zip_file_mtime': zip_report.get('zip_file_mtime'),
+                    'zip_earliest_entry': zip_report.get('zip_earliest_entry'),
                     'metrics': zip_report.get('metrics', {}),
                     'signals': zip_report.get('signals', {}),
                     'evidence': zip_report.get('evidence', {}),
                     'success': zip_report.get('success', {}),
                 }
         except Exception as e:
-            analysis['zip_success_report'] = {
-                'error': f'Zip success report unavailable: {e}'
-            }
-        try:
-            deep_analysis = self.local_analyzer.analyze_files_from_db(file_contents)
-            if deep_analysis:
-                analysis['deep_analysis'] = deep_analysis
-        except Exception as e:
-            self.logger.warning(f"Deep analysis failed: {e}")
+            analysis['zip_success_report'] = {'error': f'Zip success report unavailable: {e}'}
+
+        # First file created (in project): from ZIP earliest entry, else min source_created_at from DB
+        first_created = None
+        if analysis.get('zip_success_report', {}).get('zip_earliest_entry'):
+            first_created = analysis['zip_success_report']['zip_earliest_entry']
+        else:
+            dates = [f.get('source_created_at') for f in file_metadata if f.get('source_created_at')]
+            if dates:
+                first_created = min(dates)
+                if hasattr(first_created, 'isoformat'):
+                    first_created = first_created.isoformat()
+        analysis['first_file_created'] = first_created
+
+        # Deep analysis: fetch content only for first 40 code files
+        code_paths = [f['file_path'] for f in file_metadata
+                      if (f.get('file_extension') or '').lower() in LANGUAGE_EXTENSIONS
+                      and not f.get('is_binary')][:40]
+        if code_paths:
+            try:
+                code_with_content = get_file_contents_content_for_paths(project_info['id'], code_paths)
+                if code_with_content:
+                    deep_analysis = self.local_analyzer.analyze_files_from_db(code_with_content)
+                    if deep_analysis:
+                        analysis['deep_analysis'] = deep_analysis
+            except Exception as e:
+                self.logger.warning(f"Deep analysis failed: {e}")
+        if 'deep_analysis' not in analysis:
             analysis['deep_analysis'] = {}
+
+        # Document subjects: fetch content only for first few PDFs/images
+        pdf_ext = {'.pdf'}
+        img_ext = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.tif', '.webp'}
+        doc_paths = []
+        for f in file_metadata:
+            if len(doc_paths) >= 6:
+                break
+            ext = (f.get('file_extension') or '').lower()
+            if ext in pdf_ext or ext in img_ext:
+                doc_paths.append(f['file_path'])
         try:
-            analysis['document_subjects'] = self.local_analyzer.extract_document_subjects_from_files(file_contents)
+            doc_with_content = get_file_contents_content_for_paths(project_info['id'], doc_paths) if doc_paths else []
+            analysis['document_subjects'] = self.local_analyzer.extract_document_subjects_from_files(
+                doc_with_content, max_files=6, max_text_chars=8000)
         except Exception as e:
             self.logger.warning(f"Document subject extraction failed: {e}")
-            analysis['document_subjects'] = {
-                "enabled": False,
-                "error": str(e)
-            }
+            analysis['document_subjects'] = {"enabled": False, "error": str(e)}
         return analysis
     
     def _get_project_info(self, uploaded_file_id):
@@ -156,34 +202,27 @@ class ProjectAnalyzer:
             self.logger.error(f"Error retrieving project info: {e}")
             return None
     
-    def _get_file_contents(self, uploaded_file_id):
-        """Get file contents from database."""
+    def _get_file_contents(self, uploaded_file_id, include_content=True):
+        """Get file records from database. Set include_content=False for metadata-only (fast)."""
         try:
-            with with_db_cursor() as cursor:
-                cursor.execute("""
-                    SELECT file_path, file_name, file_extension, file_size,
-                           file_content, content_type, is_binary, created_at
-                    FROM file_contents
-                    WHERE uploaded_file_id = %s
-                    ORDER BY file_path
-                """, (uploaded_file_id,))
-                
-                results = cursor.fetchall()
-                
-                files = []
-                for row in results:
-                    files.append({
-                        'file_path': row[0],
-                        'file_name': row[1],
-                        'file_extension': row[2],
-                        'file_size': row[3] or 0,
-                        'file_content': row[4],
-                        'content_type': row[5],
-                        'is_binary': row[6],
-                        'created_at': row[7]
-                    })
-                
-                return files
+            from parsing.file_contents_manager import get_file_contents_by_upload_id
+            rows = get_file_contents_by_upload_id(uploaded_file_id, include_content=include_content)
+            # Normalize to expected keys (content_type -> content_type, add created_at if missing)
+            return [
+                {
+                    'file_path': r['file_path'],
+                    'file_name': r['file_name'],
+                    'file_extension': r.get('file_extension') or '',
+                    'file_size': r.get('file_size') or 0,
+                    'file_content': r.get('file_content'),
+                    'content_type': r.get('content_type'),
+                    'is_binary': r.get('is_binary', False),
+                    'created_at': r.get('created_at'),
+                    'line_count': r.get('line_count'),
+                    'source_created_at': r.get('source_created_at'),
+                }
+                for r in rows
+            ]
         except Exception as e:
             self.logger.error(f"Error retrieving file contents: {e}")
             return []
@@ -263,29 +302,32 @@ class ProjectAnalyzer:
             'has_config': any('config' in f['file_path'].lower() for f in file_contents)
         }
     
+    def _count_lines(self, content):
+        """Count lines in file content (bytes or str). Fast, no full decode for bytes."""
+        if content is None:
+            return 0
+        if isinstance(content, bytes):
+            return content.count(b'\n') + (1 if content and not content.endswith(b'\n') else 0)
+        return len(content.splitlines()) or (1 if content.strip() else 0)
+
     def _calculate_file_statistics(self, file_contents):
-        """Calculate file statistics."""
+        """Calculate file statistics. Prefer line_count from DB; else count from content."""
+        from common.constants import LANGUAGE_EXTENSIONS
         total_files = len(file_contents)
         total_size = sum(f['file_size'] for f in file_contents)
-        text_files = sum(1 for f in file_contents if not f['is_binary'])
-        binary_files = sum(1 for f in file_contents if f['is_binary'])
-        
+        text_files = sum(1 for f in file_contents if not f.get('is_binary'))
+        binary_files = sum(1 for f in file_contents if f.get('is_binary'))
         total_lines = 0
         for f in file_contents:
-            if f['file_content'] and not f['is_binary']:
-                try:
-                    content = f['file_content']
-
-                    if isinstance(content, bytes):
-                        content = content.decode('utf-8', errors='ignore')
-
-                    line_count = len(content.splitlines())
-
-                    total_lines += line_count
-
-                except Exception:
-                    pass
-        
+            if f.get('is_binary'):
+                continue
+            ext = (f.get('file_extension') or '').lower()
+            if ext not in LANGUAGE_EXTENSIONS:
+                continue
+            if f.get('line_count') is not None:
+                total_lines += f['line_count']
+            elif f.get('file_content'):
+                total_lines += self._count_lines(f['file_content'])
         return {
             'total_files': total_files,
             'total_size_mb': round(total_size / (1024 * 1024), 2),

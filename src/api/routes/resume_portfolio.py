@@ -204,58 +204,26 @@ def _compute_portfolio_stats(user_id: str) -> dict:
         total_size = row[1]
 
         cursor.execute("""
-            SELECT analysis_data
-            FROM analysis_results ar
-            JOIN uploaded_files uf ON uf.id = ar.uploaded_file_id
-            WHERE uf.user_name = %s
-        """, (user_id,))
-
-        for (analysis_data,) in cursor.fetchall():
-            try:
-                if isinstance(analysis_data, dict):
-                    data = analysis_data
-                else:
-                    data = json.loads(analysis_data) 
-
-                payload = data.get("analysis", data)
-                print("DEBUG payload keys:", list(payload.keys()) if isinstance(payload, dict) else type(payload))
-
-                file_stats = payload.get("file_statistics", {}) if isinstance(payload, dict) else {}
-                print("DEBUG file_statistics:", file_stats)
-
-                loc = file_stats.get("total_lines_of_code")
-
-                if loc is None:
-                    stats = payload.get("stats", {}) if isinstance(payload, dict) else {}
-                    print("DEBUG fallback stats:", stats)
-                    loc = (
-                        stats.get("total_lines_of_code")
-                        or stats.get("lines_of_code")
-                        or stats.get("total_loc")
-                        or 0
-                    )
-
-                print("DEBUG loc found:", loc)
-                total_lines_of_code += loc
-            except Exception as e:
-                print("DEBUG parse error:", e)
-                continue
-
-        cursor.execute("""
-            SELECT DISTINCT fc.file_extension
+            SELECT fc.file_extension, COUNT(*)
             FROM file_contents fc
             JOIN uploaded_files uf ON uf.id = fc.uploaded_file_id
             WHERE uf.user_name = %s AND fc.file_extension IS NOT NULL
                 AND fc.file_extension != ''
+            GROUP BY fc.file_extension
         """, (user_id,))
-        extensions = [r[0].lower() for r in cursor.fetchall()]
+        ext_counts = [(r[0].lower(), r[1]) for r in cursor.fetchall()]
 
+    lang_counts = {}
     languages = set()
     skills = set()
-    for ext in extensions:
+    for ext, cnt in ext_counts:
         if ext in LANGUAGE_EXTENSIONS:
-            languages.add(LANGUAGE_EXTENSIONS[ext])
-            skills.add(LANGUAGE_EXTENSIONS[ext])
+            lang = LANGUAGE_EXTENSIONS[ext]
+            languages.add(lang)
+            skills.add(lang)
+            lang_counts[lang] = lang_counts.get(lang, 0) + cnt
+
+    most_used_language = max(lang_counts, key=lang_counts.get) if lang_counts else None
 
     return {
         "total_projects": total_projects,
@@ -264,7 +232,8 @@ def _compute_portfolio_stats(user_id: str) -> dict:
         "total_lines_of_code": total_lines_of_code,
         "unique_languages": len(languages),
         "unique_skills": len(skills),
-        "languages": sorted(list(languages))
+        "languages": sorted(list(languages)),
+        "most_used_language": most_used_language,
     }
 
 @router.get("/portfolio/public/{user_id}/settings")
