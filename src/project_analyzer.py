@@ -70,9 +70,6 @@ class ProjectAnalyzer:
         return analysis_results
     
     def _perform_local_analysis(self, project_path, project_info):
-        from common.constants import LANGUAGE_EXTENSIONS
-        from parsing.file_contents_manager import get_file_contents_content_for_paths
-
         # Metadata only first (no BYTEA load) - keeps large projects fast
         file_metadata = self._get_file_contents(project_info['id'], include_content=False)
         if not file_metadata:
@@ -82,20 +79,10 @@ class ProjectAnalyzer:
         self.logger.info(f"Analyzing {len(file_metadata)} files from project...")
 
         file_statistics = self._calculate_file_statistics(file_metadata)
-        # If LOC is 0 but we have code files, fetch content for those missing line_count
-        if file_statistics.get('total_lines_of_code', 0) == 0:
-            code_without_loc = [f['file_path'] for f in file_metadata
-                             if (f.get('file_extension') or '').lower() in LANGUAGE_EXTENSIONS
-                             and not f.get('is_binary') and f.get('line_count') is None][:80]
-            if code_without_loc:
-                try:
-                    with_content = get_file_contents_content_for_paths(project_info['id'], code_without_loc)
-                    for rec in with_content:
-                        line_count = self._count_lines(rec.get('file_content'))
-                        if line_count:
-                            file_statistics['total_lines_of_code'] = file_statistics.get('total_lines_of_code', 0) + line_count
-                except Exception as e:
-                    self.logger.debug(f"LOC fallback fetch failed: {e}")
+        file_statistics['total_lines_of_code'] = (
+            file_statistics.get('total_lines_of_code', 0)
+            + self._lines_from_content_when_missing_loc(project_info['id'], file_metadata)
+        )
 
         analysis = {
             'project_info': {
@@ -335,7 +322,41 @@ class ProjectAnalyzer:
             'binary_files': binary_files,
             'total_lines_of_code': total_lines
         }
-    
+
+    def _lines_from_content_when_missing_loc(self, uploaded_file_id, file_metadata):
+        """Sum lines from stored BYTEA for code files with NULL line_count (batched)."""
+        from common.constants import LANGUAGE_EXTENSIONS
+        from parsing.file_contents_manager import get_file_contents_content_for_paths
+
+        code_without_loc = [
+            f['file_path'] for f in file_metadata
+            if (f.get('file_extension') or '').lower() in LANGUAGE_EXTENSIONS
+            and not f.get('is_binary')
+            and f.get('line_count') is None
+        ]
+        if not code_without_loc:
+            return 0
+        added = 0
+        chunk_size = 80
+        for i in range(0, len(code_without_loc), chunk_size):
+            batch = code_without_loc[i:i + chunk_size]
+            try:
+                with_content = get_file_contents_content_for_paths(uploaded_file_id, batch)
+                for rec in with_content:
+                    lc = self._count_lines(rec.get('file_content'))
+                    if lc:
+                        added += lc
+            except Exception as e:
+                self.logger.debug(f"LOC batch fetch failed: {e}")
+        return added
+
+    def get_total_lines_of_code(self, uploaded_file_id, file_metadata):
+        """LOC from line_count and/or BYTEA for rows missing line_count (metadata-only safe)."""
+        stats = self._calculate_file_statistics(file_metadata)
+        return stats.get('total_lines_of_code', 0) + self._lines_from_content_when_missing_loc(
+            uploaded_file_id, file_metadata
+        )
+
     def _calculate_contribution_metrics(self, file_contents):
         """Calculate contribution metrics."""
         code_files = 0

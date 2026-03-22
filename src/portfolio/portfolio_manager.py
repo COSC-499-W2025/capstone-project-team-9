@@ -803,8 +803,9 @@ class PortfolioManager:
                     total_files = file_stats.get('total_files', len(file_contents))
                     total_size = file_stats.get('total_size_bytes', 0)
                     size_mb = round(total_size / (1024 * 1024), 2)
-                    file_stats_for_loc = self.project_analyzer._calculate_file_statistics(file_contents)
-                    lines_of_code = file_stats_for_loc.get('total_lines_of_code', 0)
+                    lines_of_code = self.project_analyzer.get_total_lines_of_code(
+                        project_id, file_contents
+                    )
 
                     with with_db_cursor() as cursor:
                         cursor.execute("""
