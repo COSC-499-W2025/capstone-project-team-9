@@ -182,6 +182,9 @@ def _get_public_settings_or_403(user_id: str) -> dict:
 def _compute_portfolio_stats(user_id: str) -> dict:
     from config.db_config import with_db_cursor
     from common.constants import LANGUAGE_EXTENSIONS
+    import json
+
+    total_lines_of_code = 0
 
     with with_db_cursor() as cursor:
         cursor.execute("""
@@ -226,6 +229,7 @@ def _compute_portfolio_stats(user_id: str) -> dict:
         "total_projects": total_projects,
         "total_files": total_files,
         "total_size_mb": round(total_size / (1024 * 1024), 2) if total_size else 0,
+        "total_lines_of_code": total_lines_of_code,
         "unique_languages": len(languages),
         "unique_skills": len(skills),
         "languages": sorted(list(languages)),

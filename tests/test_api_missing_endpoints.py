@@ -13,22 +13,41 @@ client = TestClient(app)
 
 
 class TestAuthEndpoints:
-    @patch('api.routes.auth.login_user')
-    @patch('api.routes.auth.get_user_by_username')
-    def test_login_success(self, mock_get_user, mock_login):
-        mock_login.return_value = True
+    @patch("api.routes.auth.get_user_by_username")
+    @patch("api.routes.auth.AuthManager.login")
+    def test_login_success(self, mock_auth_login, mock_get_user):
+        mock_auth_login.return_value = {
+            "success": True,
+            "message": "Login successful",
+            "user_info": {
+                "user_id": 999,
+                "user_name": "test_user",
+                "create_time": None,
+                "last_login_time": None,
+                "is_login": True,
+            },
+        }
+
         mock_get_user.return_value = {
             "user_id": 1,
             "user_name": "test_user",
+            "create_time": None,
+            "last_login_time": None,
             "is_login": True,
         }
 
-        response = client.post("/api/auth/login", json={"username": "test_user", "password": "secret"})
+        response = client.post(
+            "/api/auth/login",
+            json={"username": "test_user", "password": "secret"}
+        )
 
         assert response.status_code == 200
         data = response.json()
         assert data["success"] is True
+        assert data["message"] == "Login successful"
+        assert data["user"]["user_id"] == 1
         assert data["user"]["user_name"] == "test_user"
+        assert data["user"]["is_login"] is True
 
     def test_login_missing_username(self):
         response = client.post("/api/auth/login", json={"username": "", "password": "secret"})

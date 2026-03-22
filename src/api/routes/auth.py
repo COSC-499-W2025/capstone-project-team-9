@@ -51,13 +51,13 @@ async def login(request: LoginRequest):
         )
 
     # Attempt login
-    ok = login_user(username, password)
-    if not ok:
+    result = AuthManager.login(username, password)
+    if not result['success']:
         raise HTTPException(
             status_code=401,
             detail={
                 "error_type": "INVALID_CREDENTIALS",
-                "message": "Invalid username or password",
+                "message": result["message"],
             },
         )
 
@@ -157,16 +157,18 @@ async def logout(request: LogoutRequest):
             },
         )
 
-    if not logout_user(username):
+    result = AuthManager.logout(username)
+
+    if not result["success"]:
         raise HTTPException(
-            status_code=500,
+            status_code=400,
             detail={
                 "error_type": "LOGOUT_FAILED",
-                "message": "Logout failed",
+                "message": result["message"],
             },
         )
 
-    return LogoutResponse(success=True, message="Logout successful")
+    return LogoutResponse(success=True, message=result["message"])
 
 
 @router.get("/me", response_model=LoginResponse)
