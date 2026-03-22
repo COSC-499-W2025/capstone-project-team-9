@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        @keyframes upload-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+    </style>
     <!-- Core JavaScript Modules -->
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
@@ -570,12 +576,12 @@
                     const stats = res.data.stats || {};
                     const projectCountEl = document.getElementById('overviewProjectCount');
                     const totalFilesEl = document.getElementById('overviewTotalFiles');
-                    const totalLOCEl = document.getElementById('overviewTotalLOC');
+                    const topLangEl = document.getElementById('overviewTopLanguage');
                     const languagesEl = document.getElementById('overviewLanguages');
                     
                     if (projectCountEl) projectCountEl.textContent = stats.total_projects || projects.length || 0;
                     if (totalFilesEl) totalFilesEl.textContent = (stats.total_files || 0).toLocaleString();
-                    if (totalLOCEl) totalLOCEl.textContent = (stats.total_lines_of_code || 0).toLocaleString();
+                    if (topLangEl) topLangEl.textContent = stats.most_used_language || '—';
                     if (languagesEl) languagesEl.textContent = stats.unique_languages || 0;
                 } else {
                     // Fallback to project count only
@@ -1022,8 +1028,8 @@
                                 <div class="dashboard-stat-label">Total Files</div>
                             </div>
                             <div class="dashboard-stat">
-                                <div class="dashboard-stat-value" id="overviewTotalLOC">-</div>
-                                <div class="dashboard-stat-label">Lines of Code</div>
+                                <div class="dashboard-stat-value" id="overviewTopLanguage">-</div>
+                                <div class="dashboard-stat-label">Most used language</div>
                             </div>
                             <div class="dashboard-stat">
                                 <div class="dashboard-stat-value" id="overviewLanguages">-</div>
@@ -1606,6 +1612,59 @@
             }
         }
 
+        function uploadWithProgress(url, formData, onProgress) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                const fullUrl = (typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : '') + url;
+                xhr.open('POST', fullUrl);
+                let extractShown = false;
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable && e.total > 0) {
+                        const pct = Math.round((e.loaded / e.total) * 100);
+                        onProgress(pct, 'upload');
+                        if (pct >= 100 && !extractShown) {
+                            extractShown = true;
+                            onProgress(100, 'extract');
+                        }
+                    }
+                });
+                xhr.addEventListener('load', () => {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        try {
+                            const data = JSON.parse(xhr.responseText || '{}');
+                            resolve(data);
+                        } catch {
+                            resolve({});
+                        }
+                    } else {
+                        try {
+                            const err = JSON.parse(xhr.responseText || '{}');
+                            reject(new Error(err.message || err.detail || `Upload failed (${xhr.status})`));
+                        } catch {
+                            reject(new Error(`Upload failed (${xhr.status})`));
+                        }
+                    }
+                });
+                xhr.addEventListener('error', () => reject(new Error('Network error')));
+                xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
+                xhr.send(formData);
+            });
+        }
+
+        function renderUploadProgress(pct, phase) {
+            const label = phase === 'extract' ? 'Extracting files…' : `Uploading… ${pct}%`;
+            const isIndeterminate = phase === 'extract';
+            const barStyle = isIndeterminate
+                ? 'width: 100%; animation: upload-pulse 1.2s ease-in-out infinite;'
+                : `width: ${pct}%; transition: width 0.15s ease;`;
+            return `<div class="upload-progress-wrap" style="padding: 20px; max-width: 400px; margin: 0 auto;">
+                <p class="upload-progress-label" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-secondary, #64748b);">${label}</p>
+                <div class="upload-progress-track" style="height: 8px; background: var(--bg-tertiary, #e2e8f0); border-radius: 4px; overflow: hidden;">
+                    <div class="upload-progress-bar" style="height: 100%; background: var(--accent, #3b82f6); border-radius: 4px; ${barStyle}"></div>
+                </div>
+            </div>`;
+        }
+
         async function uploadFile() {
             const fileInput = document.getElementById('zipFile');
             const resultDiv = document.getElementById('uploadResult');
@@ -1615,24 +1674,28 @@
             }
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
-            resultDiv.innerHTML = '<div style="text-align: center; padding: 20px;"><p>Uploading file...</p></div>';
+            resultDiv.innerHTML = renderUploadProgress(0, 'upload');
+            const updateProgress = (pct, phase) => {
+                resultDiv.innerHTML = renderUploadProgress(pct, phase);
+            };
             try {
-                const data = await apiRequest(`/api/projects/upload?user_name=${currentUser.user_name}`, {
-                    method: 'POST',
-                    body: formData
-                });
+                const data = await uploadWithProgress(
+                    `/api/projects/upload?user_name=${encodeURIComponent(currentUser.user_name || '')}`,
+                    formData,
+                    (pct, phase) => updateProgress(pct, phase || 'upload')
+                );
                 if (data.success) {
-                    const name = (data.filename || 'Project').replace(/^.*[/\\]/, '').replace(/\.zip$/i, '') || 'Project';
-                    const id = data.project_id != null ? String(data.project_id) : '—';
+                    const name = (data.data?.filename || data.filename || 'Project').replace(/^.*[/\\]/, '').replace(/\.zip$/i, '') || 'Project';
+                    const id = (data.data?.file_id ?? data.project_id ?? data.data?.project_id) != null ? String(data.data?.file_id ?? data.project_id ?? data.data?.project_id) : '—';
                     resultDiv.innerHTML = `<div class="message success">Project uploaded successfully.<br><br><strong>Project name:</strong> ${escapeHtml(name)}<br><strong>Project ID:</strong> ${escapeHtml(id)}</div>`;
                     showMessage('Project uploaded successfully', 'success');
                     loadProjects();
                     clearUploadFile();
                 } else {
-                    renderError(resultDiv, data.message || 'Upload failed');
+                    renderError(resultDiv, data.message || data.data?.message || 'Upload failed');
                 }
             } catch (e) {
-                renderError(resultDiv, e.message);
+                renderError(resultDiv, e.message || 'Upload failed');
             }
         }
 
@@ -1662,8 +1725,14 @@
             html += `<div class="analysis-summary-item"><span class="analysis-summary-label">Strategy</span><span class="analysis-summary-value">${analysis.analysis_strategy || 'local'}</span></div>`;
             html += `<div class="analysis-summary-item"><span class="analysis-summary-label">Primary language</span><span class="analysis-summary-value">${langs.primary_language || '—'}</span></div>`;
             html += `<div class="analysis-summary-item"><span class="analysis-summary-label">Files</span><span class="analysis-summary-value">${stats.total_files ?? '—'}</span></div>`;
-            html += `<div class="analysis-summary-item"><span class="analysis-summary-label">Lines of code</span><span class="analysis-summary-value">${stats.total_lines_of_code ?? '—'}</span></div>`;
+            const loc = stats.total_lines_of_code;
+            html += `<div class="analysis-summary-item"><span class="analysis-summary-label">Lines of code</span><span class="analysis-summary-value">${loc != null && loc !== '' ? Number(loc).toLocaleString() : '—'}</span></div>`;
             html += `<div class="analysis-summary-item"><span class="analysis-summary-label">ZIP status</span><span class="analysis-summary-value">${zipStatus}</span></div>`;
+            const firstCreated = analysis.first_file_created || (zipReport && zipReport.zip_earliest_entry);
+            const firstCreatedFmt = firstCreated ? (typeof firstCreated === 'string' ? firstCreated.replace('Z', '').slice(0, 19).replace('T', ' ') : String(firstCreated).slice(0, 10)) : null;
+            if (firstCreatedFmt) html += `<div class="analysis-summary-item"><span class="analysis-summary-label">First file created</span><span class="analysis-summary-value">${firstCreatedFmt}</span></div>`;
+            const uploadedAt = projInfo.created_at ? (projInfo.created_at.slice(0, 10) + ' ' + (projInfo.created_at.match(/T([\d:]+)/) || [])[1] || '').trim() : null;
+            if (uploadedAt) html += `<div class="analysis-summary-item"><span class="analysis-summary-label">Uploaded</span><span class="analysis-summary-value">${uploadedAt}</span></div>`;
             html += '</div></div>';
 
             // Languages (detailed)
@@ -1696,6 +1765,9 @@
                     html += `<div class="analysis-item"><span class="analysis-label">Status:</span><span class="analysis-value" style="color: ${statusColor}; font-weight: 600;">${status}</span></div>`;
                     html += `<div class="analysis-item"><span class="analysis-label">Score:</span><span class="analysis-value">${score}/100 (confidence ${confidence})</span></div>`;
                     html += `<div class="analysis-item"><span class="analysis-label">Result:</span><span class="analysis-value">${success.is_successful ? 'SUCCESS' : 'NOT SUCCESSFUL'}</span></div>`;
+                    const fmtTs = (s) => s ? s.replace('Z', '').slice(0, 19).replace('T', ' ') : null;
+                    if (zipReport.zip_file_mtime) html += `<div class="analysis-item"><span class="analysis-label">ZIP file modified:</span><span class="analysis-value">${fmtTs(zipReport.zip_file_mtime)}</span></div>`;
+                    if (zipReport.zip_earliest_entry) html += `<div class="analysis-item"><span class="analysis-label">Earliest file in ZIP:</span><span class="analysis-value">${fmtTs(zipReport.zip_earliest_entry)}</span></div>`;
 
                     const evidence = zipReport.evidence || {};
                     const addEvidenceRow = (label, values, limit = 10) => {
@@ -1731,7 +1803,7 @@
                 html += `<div class="analysis-item"><span class="analysis-label">Total Files:</span><span class="analysis-value">${stats.total_files}</span></div>`;
                 html += `<div class="analysis-item"><span class="analysis-label">Total Size:</span><span class="analysis-value">${stats.total_size_mb || 0} MB</span></div>`;
                 html += `<div class="analysis-item"><span class="analysis-label">Text / Binary:</span><span class="analysis-value">${stats.text_files || 0} text, ${stats.binary_files || 0} binary</span></div>`;
-                html += `<div class="analysis-item"><span class="analysis-label">Lines of Code:</span><span class="analysis-value">${stats.total_lines_of_code || 0}</span></div>`;
+                html += `<div class="analysis-item"><span class="analysis-label">Lines of Code:</span><span class="analysis-value">${(stats.total_lines_of_code != null && stats.total_lines_of_code !== '') ? Number(stats.total_lines_of_code).toLocaleString() : 0}</span></div>`;
                 html += '</div>';
             }
             

@@ -98,9 +98,9 @@ class TestProjectAnalyzer:
     def test_calculate_file_statistics(self, analyzer):
         """Test file statistics calculation."""
         files = [
-            # FIX: Ensure file_content is a valid integer string for line counting
-            {'file_size': 1000, 'file_content': '10', 'is_binary': False, 'file_path': 'a.py', 'file_extension': '.py'},
-            {'file_size': 2000, 'file_content': '20', 'is_binary': False, 'file_path': 'b.py', 'file_extension': '.py'},
+            # line_count from DB (preferred); statistics only count LANGUAGE_EXTENSIONS code lines
+            {'file_size': 1000, 'file_content': None, 'line_count': 10, 'is_binary': False, 'file_path': 'a.py', 'file_extension': '.py'},
+            {'file_size': 2000, 'file_content': None, 'line_count': 20, 'is_binary': False, 'file_path': 'b.py', 'file_extension': '.py'},
             {'file_size': 500, 'file_content': None, 'is_binary': True, 'file_path': 'c.bin', 'file_extension': '.bin'}
         ]
         

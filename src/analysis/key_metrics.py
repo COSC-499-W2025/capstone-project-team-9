@@ -193,7 +193,7 @@ def fetch_records_from_db(project_id: int) -> List[Tuple[str, int, str, int]]:
     """
     
     with get_connection() as conn, conn.cursor() as cur:
-        # Original query for file contents
+        # Prefer line_count column when set (avoids loading file_content for LOC)
         cur.execute(
             """
             SELECT
@@ -201,7 +201,8 @@ def fetch_records_from_db(project_id: int) -> List[Tuple[str, int, str, int]]:
               COALESCE(fc.file_size, 0) AS size_bytes,
               COALESCE(fc.content_type, fc.file_extension, 'Unknown') AS language,
               fc.is_binary,
-              fc.file_content
+              fc.file_content,
+              fc.line_count
             FROM file_contents fc
             WHERE fc.uploaded_file_id = %s
             ORDER BY fc.id;
@@ -213,27 +214,28 @@ def fetch_records_from_db(project_id: int) -> List[Tuple[str, int, str, int]]:
     # results = []
     results: List[Tuple[str, int, str, int]] = []
     for row in rows:
-        # Allow for possible extra columns in DB (e.g., timestamps) by using *rest
-        file_path, size_bytes, language, is_binary, file_content, *rest = row
-        
-        # Count lines in Python to avoid UTF-8 conversion issues
+        file_path = row[0]
+        size_bytes = row[1]
+        language = row[2]
+        is_binary = row[3]
+        file_content = row[4]
+        line_count_col = row[5] if len(row) > 5 else None
+
         num_lines = 0
-        if not is_binary and file_content is not None:
+        if line_count_col is not None and line_count_col > 0:
+            num_lines = int(line_count_col)
+        elif not is_binary and file_content is not None:
             try:
                 content_str = (
                     file_content.tobytes()
                     if hasattr(file_content, "tobytes")
                     else bytes(file_content)
                 )
-                # Decode as UTF-8; ignore invalid bytes
                 text = content_str.decode("utf-8", errors="ignore")
                 num_lines = text.count("\n") + (1 if text else 0)
             except Exception:
-                # Fallback: just count newline bytes
                 try:
-                    num_lines = content_str.count(b"\n") + (
-                        1 if content_str else 0
-                    )
+                    num_lines = content_str.count(b"\n") + (1 if content_str else 0)
                 except Exception:
                     num_lines = 0
 

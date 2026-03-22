@@ -79,16 +79,21 @@ class TestUploadFile:
     @patch('src.upload_file.shutil.copy')
     @patch('src.upload_file.with_db_cursor')
     @patch('src.parsing.file_validator.validate_uploaded_file')
+    @patch('src.upload_file.os.path.getsize', return_value=100)
     @patch('src.upload_file.os.path.exists')
-    def test_add_file_to_db_success(self, mock_exists, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
+    def test_add_file_to_db_success(self, mock_exists, mock_getsize, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
 
         """Test successful file upload to database"""
         # Create a valid ZIP file for testing
         zip_path = self.create_test_zip()
-        
-        # Mock file existence check - return True for source file, False for destination
+        dest_path = str(self.temp_upload_dir / "test.zip")
+
+        # shutil.copy is mocked — dest may not exist; duplicate check and reads need a stable size
         def exists_side_effect(path):
-            return path == zip_path
+            return os.path.normpath(path) in (
+                os.path.normpath(zip_path),
+                os.path.normpath(dest_path),
+            )
         mock_exists.side_effect = exists_side_effect
         
         # Mock validation to pass
@@ -148,14 +153,18 @@ class TestUploadFile:
     @patch('src.upload_file.shutil.copy')
     @patch('src.upload_file.with_db_cursor')
     @patch('src.parsing.file_validator.validate_uploaded_file')
+    @patch('src.upload_file.os.path.getsize', return_value=100)
     @patch('src.upload_file.os.path.exists')
-    def test_add_file_to_db_duplicate_zip_detected(self, mock_exists, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
+    def test_add_file_to_db_duplicate_zip_detected(self, mock_exists, mock_getsize, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
         """If an identical ZIP has already been uploaded, it should be rejected as a duplicate."""
         zip_path = self.create_test_zip("dup.zip")
+        dest_path = str(self.temp_upload_dir / "dup.zip")
 
-        # Mock file existence check
         def exists_side_effect(path):
-            return path == zip_path
+            return os.path.normpath(path) in (
+                os.path.normpath(zip_path),
+                os.path.normpath(dest_path),
+            )
         mock_exists.side_effect = exists_side_effect
         mock_validate.return_value = None
 
@@ -239,15 +248,19 @@ class TestUploadFile:
     @patch('src.upload_file.shutil.copy')
     @patch('src.upload_file.with_db_cursor')
     @patch('src.parsing.file_validator.validate_uploaded_file')
+    @patch('src.upload_file.os.path.getsize', return_value=100)
     @patch('src.upload_file.os.path.exists')
     # This is a mock database connection and it mocks it to return None to see if the function handles it correctly when the database fails to connect
-    def test_add_file_to_db_database_connection_failure(self, mock_exists, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
+    def test_add_file_to_db_database_connection_failure(self, mock_exists, mock_getsize, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
         """Test handling of database connection failure"""
         zip_path = self.create_test_zip()
-        
-        # Mock file existence check
+        dest_path = str(self.temp_upload_dir / "test.zip")
+
         def exists_side_effect(path):
-            return path == zip_path
+            return os.path.normpath(path) in (
+                os.path.normpath(zip_path),
+                os.path.normpath(dest_path),
+            )
         mock_exists.side_effect = exists_side_effect
         mock_validate.return_value = None
         
@@ -308,14 +321,18 @@ class TestUploadFile:
     @patch('src.upload_file.shutil.copy')
     @patch('src.upload_file.with_db_cursor')
     @patch('src.parsing.file_validator.validate_uploaded_file')
+    @patch('src.upload_file.os.path.getsize', return_value=100)
     @patch('src.upload_file.os.path.exists')
-    def test_upload_result_to_dict(self, mock_exists, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
+    def test_upload_result_to_dict(self, mock_exists, mock_getsize, mock_validate, mock_with_db_cursor, mock_copy, mock_open, mock_zipfile, mock_is_zipfile, mock_extract_and_store_file_contents):
         """Test UploadResult.to_dict() method from actual upload operation"""
         zip_path = self.create_test_zip()
-        
-        # Mock file existence check
+        dest_path = str(self.temp_upload_dir / "test.zip")
+
         def exists_side_effect(path):
-            return path == zip_path
+            return os.path.normpath(path) in (
+                os.path.normpath(zip_path),
+                os.path.normpath(dest_path),
+            )
         mock_exists.side_effect = exists_side_effect
         mock_validate.return_value = None
         

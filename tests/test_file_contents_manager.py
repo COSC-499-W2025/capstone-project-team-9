@@ -30,8 +30,8 @@ def test_init_file_contents_table_runs_migrations(mock_cursor_factory):
 
     # First cursor: table creation
     assert cursors[0].execute.call_count == 1
-    # Second cursor: migration columns
-    assert cursors[1].execute.call_count == 2
+    # Second cursor: migration columns (source_created_at, source_modified_at, line_count)
+    assert cursors[1].execute.call_count == 3
     # Third cursor: index creation
     assert cursors[2].execute.call_count == 2
 

@@ -5,7 +5,7 @@ Generates analytical portfolio report according to Milestone 1 specifications.
 Uses ONLY existing functions from the codebase - no new analysis logic.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Set, Any, Optional
 from collections import defaultdict
 from project_manager import get_project_by_id, get_project_with_analysis, list_projects_chronologically
@@ -248,6 +248,12 @@ class PortfolioManager:
                     elif project_score >= 60:
                         score_tier = "strong"
                     
+                    # Lines of code: prefer key_metrics.totals.lines; fallback to file_statistics when 0
+                    loc = key_metrics.get('totals', {}).get('lines', 0)
+                    if loc == 0 and file_contents:
+                        file_stats_loc = self.project_analyzer._calculate_file_statistics(file_contents)
+                        loc = file_stats_loc.get('total_lines_of_code', 0)
+
                     # Build project data structure
                     project_entry = {
                         # Stable identifiers
@@ -258,7 +264,7 @@ class PortfolioManager:
                         'primary_language': languages_data.get('primary_language', 'Unknown'),
                         'languages': languages_data.get('languages', []),
                         'file_count': key_metrics.get('totals', {}).get('files', 0),
-                        'lines_of_code': key_metrics.get('totals', {}).get('lines', 0),
+                        'lines_of_code': loc,
                         'size_mb': round(file_stats.get('total_size_bytes', 0) / (1024 * 1024), 2),
                         'skills': sorted(list(extracted_skills)),
                         'frameworks': frameworks,
@@ -754,7 +760,8 @@ class PortfolioManager:
                 project_score = rp.get('score', 0)
 
                 try:
-                    file_contents = get_file_contents_by_upload_id(project_id)
+                    # Metadata only (no BYTEA) for speed; line_count used for LOC
+                    file_contents = get_file_contents_by_upload_id(project_id, include_content=False)
                     file_stats = get_file_statistics(project_id)
 
                     if not file_contents:
@@ -796,13 +803,30 @@ class PortfolioManager:
                     total_files = file_stats.get('total_files', len(file_contents))
                     total_size = file_stats.get('total_size_bytes', 0)
                     size_mb = round(total_size / (1024 * 1024), 2)
+                    file_stats_for_loc = self.project_analyzer._calculate_file_statistics(file_contents)
+                    lines_of_code = file_stats_for_loc.get('total_lines_of_code', 0)
 
                     with with_db_cursor() as cursor:
                         cursor.execute("""
-                            SELECT created_at FROM uploaded_files WHERE id = %s
-                        """, (project_id,))
+                            SELECT uf.created_at,
+                                   (SELECT MIN(fc.source_created_at) FROM file_contents fc
+                                    WHERE fc.uploaded_file_id = %s AND fc.source_created_at IS NOT NULL)
+                            FROM uploaded_files uf WHERE uf.id = %s
+                        """, (project_id, project_id))
                         row = cursor.fetchone()
                     created_at = row[0].isoformat() if row and row[0] else 'Unknown'
+                    # Earliest date: from zip file entries (source_created_at) or fallback to upload time
+                    earliest_ts = row[1] if row and len(row) > 1 and row[1] else (row[0] if row and row[0] else None)
+                    if earliest_ts:
+                        now = datetime.now(timezone.utc)
+                        if getattr(earliest_ts, 'tzinfo', None) is None:
+                            if isinstance(earliest_ts, datetime):
+                                earliest_ts = earliest_ts.replace(tzinfo=timezone.utc)
+                            else:
+                                earliest_ts = datetime.combine(earliest_ts, datetime.min.time(), tzinfo=timezone.utc)
+                        duration_days = (now - earliest_ts).days
+                    else:
+                        duration_days = 0
 
                     description = f"A {primary_language} project with {total_files} files"
                     if frameworks:
@@ -826,13 +850,13 @@ class PortfolioManager:
                         'languages': lang_breakdown,
                         'frameworks': frameworks,
                         'file_count': total_files,
-                        'lines_of_code': 0,
+                        'lines_of_code': lines_of_code,
                         'size_mb': size_mb,
                         'quality_score': min(100, int(project_score)) if project_score else 0,
                         'oop_principles': 0,
                         'has_tests': has_tests,
                         'has_docs': has_docs,
-                        'duration_days': 0,
+                        'duration_days': duration_days,
                         'intensity': 'Unknown',
                         'file_type_breakdown': {},
                         'created_at': created_at
