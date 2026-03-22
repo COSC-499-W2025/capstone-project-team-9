@@ -2799,23 +2799,42 @@ body > #viewContainer {
 }
 
 /* ── Heatmap ── */
-.pd-heatmap-container { overflow-x: auto; }
+.pd-heatmap-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pd-heatmap-inner {
+    width: 100%;
+    min-width: 0;
+}
 
 .pd-heatmap-grid {
     display: flex;
+    flex-direction: row;
+    align-items: stretch;
     gap: 3px;
     padding: 4px 0;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .pd-hm-week {
     display: flex;
     flex-direction: column;
     gap: 3px;
+    flex: 1 1 0;
+    min-width: 0;
 }
 
 .pd-hm-cell {
-    width: 14px;
-    height: 14px;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1;
+    flex-shrink: 0;
     border-radius: 3px;
     transition: transform 0.1s ease;
 }
@@ -2835,15 +2854,24 @@ body > #viewContainer {
 [data-theme="dark"] .pd-hm-l4 { background: #39d353; }
 
 .pd-hm-months {
-    display: flex;
+    display: grid;
+    width: 100%;
+    box-sizing: border-box;
     gap: 3px;
     margin-top: 6px;
     font-size: 10px;
     color: var(--text-muted);
-    padding-left: 0;
+    line-height: 1.2;
+    align-items: start;
 }
 
-.pd-hm-months span { min-width: 14px; }
+/* One column per week — must match .pd-heatmap-grid week count (set inline) */
+.pd-hm-month-tick {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 .pd-hm-legend {
     display: flex;
@@ -2853,7 +2881,14 @@ body > #viewContainer {
     font-size: 11px;
 }
 
-.pd-hm-legend .pd-hm-cell { cursor: default; }
+.pd-hm-legend .pd-hm-cell {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    aspect-ratio: auto;
+    cursor: default;
+}
+
 .pd-hm-legend .pd-hm-cell:hover { transform: none; }
 
 /* ── Top 3 Showcase ── */

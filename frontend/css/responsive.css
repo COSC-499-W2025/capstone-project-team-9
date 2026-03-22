@@ -154,7 +154,6 @@
     .pd-timeline { padding-left: 20px; }
     .pd-tl-dot { left: -20px; width: 10px; height: 10px; }
     .pd-heatmap-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .pd-hm-cell { width: 12px; height: 12px; }
     .public-portfolio-search { flex-direction: column; }
     .public-portfolio-search input { min-width: 0; }
 }

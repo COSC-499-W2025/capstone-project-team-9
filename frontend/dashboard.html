@@ -4014,7 +4014,8 @@ ${skillsHtml ? '<div class="section"><div class="section-title">TECHNICAL SKILLS
             const start = new Date(startDate);
             start.setDate(start.getDate() - start.getDay());
 
-            let html = '<div class="pd-heatmap-grid">';
+            let html = '<div class="pd-heatmap-inner">';
+            html += '<div class="pd-heatmap-grid">';
             const months = [];
             let currentMonth = -1;
             let weekCount = 0;
@@ -4052,10 +4053,13 @@ ${skillsHtml ? '<div class="section"><div class="section-title">TECHNICAL SKILLS
             }
             html += '</div>';
 
-            html += '<div class="pd-hm-months">';
-            months.forEach(m => {
-                html += `<span style="grid-column:${m.week + 1}">${m.month}</span>`;
-            });
+            const labelByWeek = {};
+            months.forEach(m => { labelByWeek[m.week] = m.month; });
+            html += `<div class="pd-hm-months" style="grid-template-columns: repeat(${weekCount}, minmax(0, 1fr));">`;
+            for (let w = 0; w < weekCount; w++) {
+                const lab = labelByWeek[w] || '';
+                html += `<span class="pd-hm-month-tick">${lab ? escapeHtml(lab) : '&nbsp;'}</span>`;
+            }
             html += '</div>';
 
             html += `<div class="pd-hm-legend">
@@ -4068,6 +4072,7 @@ ${skillsHtml ? '<div class="section"><div class="section-title">TECHNICAL SKILLS
                 <span class="text-muted">More</span>
             </div>`;
 
+            html += '</div>';
             container.innerHTML = html;
         }
 
