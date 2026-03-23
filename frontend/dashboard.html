@@ -836,7 +836,8 @@
         async function loadProjectReplay(projectId, containerEl) {
             containerEl.innerHTML = '<div style="color: var(--text-muted); font-size: 12px;">Loading replay...</div>';
             try {
-                const res = await apiCall(`/api/projects/${projectId}/replay?user_name=${currentUser.user_name}`);
+                const useAi = llmEnabled === true;
+                const res = await apiCall(`/api/projects/${projectId}/replay?user_name=${currentUser.user_name}&use_ai=${useAi}`);
                 if (!res.ok || !res.data || !res.data.success) {
                     containerEl.innerHTML = `<div style="color: #ff7a7a; font-size: 12px;">${escapeHtml(res.error || 'Could not load replay')}</div>`;
                     return;
@@ -845,35 +846,42 @@
                 const replay = res.data;
                 const events = replay.events || [];
                 const talkingPoints = replay.interview_mode?.talking_points || [];
+                const narrative = replay.project_narrative || '';
+                const totalFiles = replay.total_files ?? events.reduce((s, e) => s + (e.delta?.new_files || 0), 0);
 
                 const eventsHtml = events.length
-                    ? events.slice(0, 6).map(e => `
+                    ? events.map(e => `
                         <div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px dashed var(--border-color);">
-                            <div style="font-size:12px; color: var(--text-muted);">${escapeHtml(e.t || '')} • ${escapeHtml(e.type || '')}</div>
+                            <div style="font-size:12px; color: var(--text-muted);">${escapeHtml(e.t_formatted || e.t || '')}${e.type ? ' • ' + escapeHtml(e.type) : ''}</div>
                             <div style="font-size:13px; color: var(--text-primary);">${escapeHtml(e.title || '')}</div>
-                            <div style="font-size:12px; color: var(--text-secondary);">+${e.delta?.new_files || 0} files, +${e.delta?.tests_added || 0} tests, +${e.delta?.docs_added || 0} docs</div>
+                            ${e.delta ? `<div style="font-size:11px; color: var(--text-secondary);">+${e.delta.new_files || 0} files${(e.delta.tests_added || 0) ? ', +' + e.delta.tests_added + ' tests' : ''}${(e.delta.docs_added || 0) ? ', +' + e.delta.docs_added + ' docs' : ''}</div>` : ''}
                         </div>
                     `).join('')
                     : '<div style="font-size:12px; color: var(--text-muted);">No replay events yet.</div>';
 
                 const pointsHtml = talkingPoints.length
-                    ? talkingPoints.map(tp => `
-                        <li style="margin-bottom:6px;">
-                            <strong>${escapeHtml(tp.title || '')}:</strong>
-                            <span style="color: var(--text-secondary);">${escapeHtml(tp.insight || '')}</span>
-                        </li>
-                    `).join('')
-                    : '<li style="color: var(--text-muted);">No interview points yet.</li>';
+                    ? talkingPoints.map(tp => {
+                        const q = tp.question || tp.title || '';
+                        const insight = tp.insight || '';
+                        const phrase = tp.suggested_phrase || '';
+                        return '<li style="margin-bottom:10px; list-style: none;">' +
+                            '<div style="font-size:12px; font-weight:600; color: var(--text-primary); margin-bottom:2px;">' + escapeHtml(q) + '</div>' +
+                            (insight ? '<div style="font-size:11px; color: var(--text-secondary); margin-bottom:4px;">' + escapeHtml(insight) + '</div>' : '') +
+                            (phrase ? '<div style="font-size:12px; font-style:italic; color: var(--text-muted);">' + escapeHtml(phrase) + '</div>' : '') +
+                            '</li>';
+                    }).join('')
+                    : '<li style="color: var(--text-muted); font-size:12px;">No interview points yet.</li>';
 
                 containerEl.innerHTML = `
-                    <div style="font-size:12px; color: var(--text-muted); margin-bottom:8px;">Duration: ${replay.duration_days || 0} day(s)</div>
-                    <div style="margin-bottom:10px;">
-                        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">Build Replay</div>
-                        ${eventsHtml}
+                    <div style="font-size:11px; color: var(--text-muted); margin-bottom:8px;">${replay.duration_days || 0} day(s) • ${totalFiles} files${replay.ai_enriched ? ' • AI-enhanced' : ''}</div>
+                    ${narrative ? `<div style="font-size:13px; color: var(--text-primary); margin-bottom:12px; line-height:1.4;">${escapeHtml(narrative)}</div>` : ''}
+                    <div style="margin-bottom:12px;">
+                        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">Build Replay <span style="font-weight:400; color: var(--text-muted);">(full timeline)</span></div>
+                        <div style="max-height:200px; overflow-y:auto;">${eventsHtml}</div>
                     </div>
                     <div>
-                        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">Interview Mode</div>
-                        <ul style="margin: 0; padding-left: 18px; font-size:12px;">${pointsHtml}</ul>
+                        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">Interview talking points</div>
+                        <ul style="margin: 0; padding-left: 0; font-size:12px;">${pointsHtml}</ul>
                     </div>
                 `;
                 containerEl.dataset.loaded = '1';

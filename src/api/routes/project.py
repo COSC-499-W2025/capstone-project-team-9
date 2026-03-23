@@ -14,7 +14,7 @@ from analysis.project_ranking import rank_all_projects, save_rankings_with_summa
 from analysis.ranking_storage import get_stored_rankings, save_rankings_to_db
 from project_summarizer import summarize_project
 from analysis.gemini_ranker import rank_projects_with_gemini
-from analysis.project_replay import build_project_replay
+from analysis.project_replay import build_project_replay, enrich_replay_with_ai
 from tools.cleanup_insights import delete_insights
 from database.user_preferences import update_user_git_username, get_user_git_username
 from config.db_config import with_db_cursor
@@ -571,10 +571,12 @@ async def get_project_by_id_endpoint(
 async def get_project_replay(
     project_id: int,
     user_name: Optional[str] = Query(None, description="Username to verify project ownership"),
+    use_ai: bool = Query(False, description="Use Gemini to enrich replay when AI features are enabled"),
 ):
     """
     Build a timeline replay for a project using file metadata timestamps.
-    Includes interview mode talking points derived from timeline events.
+    Full-duration narrative and interview-ready talking points.
+    When use_ai=true and LLM enabled, Gemini enriches the output.
     """
     try:
         authenticated_user = AuthManager.get_current_username()
@@ -591,6 +593,9 @@ async def get_project_replay(
         project = get_project_by_id(project_id, user_name=resolved_user)
         if not project:
             raise HTTPException(status_code=404, detail=f"Project with ID {project_id} not found")
+
+        if use_ai:
+            _ensure_llm_allowed(resolved_user)
 
         with with_db_cursor() as cursor:
             cursor.execute(
@@ -615,6 +620,10 @@ async def get_project_replay(
             for row in rows
         ]
         replay = build_project_replay(file_rows)
+
+        if use_ai:
+            project_name = (project.get("project_info") or {}).get("filename", "Project")
+            replay = enrich_replay_with_ai(replay, project_name=project_name)
 
         return {"success": True, "project_id": project_id, **replay}
     except HTTPException:
