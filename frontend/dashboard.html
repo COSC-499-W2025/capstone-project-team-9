@@ -16,6 +16,8 @@
     <!-- Core JavaScript Modules -->
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/portfolioSettings.js"></script>
+    <script src="js/portfolioCustomization.js"></script>
     <!-- PDF export libraries -->
     <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -3639,22 +3641,9 @@ ${skillsHtml ? '<div class="section"><div class="section-title">TECHNICAL SKILLS
 
         // ─── Portfolio Dashboard Functions ───
 
-        let portfolioSettings = {
-            is_public: false,
-            show_timeline: true,
-            show_heatmap: true,
-            show_top_projects: true,
-            show_skills: true,
-            show_stats: true
-        };
-
         async function loadPortfolioDashboard() {
             try {
-                const settingsRes = await apiCall(`/api/portfolio/${currentUser.user_name}/settings`);
-                if (settingsRes.ok && settingsRes.data.settings) {
-                    portfolioSettings = settingsRes.data.settings;
-                    syncSettingsUI();
-                }
+                await loadPortfolioSettings(currentUser.user_name);
             } catch (e) { /* use defaults */ }
 
             loadPdStats();
@@ -3662,75 +3651,6 @@ ${skillsHtml ? '<div class="section"><div class="section-title">TECHNICAL SKILLS
             loadPdHeatmap();
             loadPdTopProjects();
             loadPdSkills();
-        }
-
-        function syncSettingsUI() {
-            const s = portfolioSettings;
-            const priv = document.getElementById('pdPrivateBtn');
-            const pub = document.getElementById('pdPublicBtn');
-            if (priv && pub) {
-                priv.classList.toggle('active', !s.is_public);
-                pub.classList.toggle('active', s.is_public);
-            }
-            const toggleMap = {
-                'togTimeline': 'show_timeline',
-                'togHeatmap': 'show_heatmap',
-                'togTopProjects': 'show_top_projects',
-                'togSkills': 'show_skills',
-                'togStats': 'show_stats'
-            };
-            for (const [elId, key] of Object.entries(toggleMap)) {
-                const el = document.getElementById(elId);
-                if (el) el.checked = s[key] !== false;
-            }
-            applySectionVisibility();
-        }
-
-        function applySectionVisibility() {
-            const s = portfolioSettings;
-            const map = {
-                'pdStatsRow': s.show_stats,
-                'pdTimelineSection': s.show_timeline,
-                'pdHeatmapSection': s.show_heatmap,
-                'pdTopProjectsSection': s.show_top_projects,
-                'pdSkillsSection': s.show_skills
-            };
-            for (const [id, visible] of Object.entries(map)) {
-                const el = document.getElementById(id);
-                if (el) el.style.display = visible !== false ? '' : 'none';
-            }
-        }
-
-        async function setPortfolioMode(mode) {
-            portfolioSettings.is_public = (mode === 'public');
-            syncSettingsUI();
-            await savePortfolioSettings();
-        }
-
-        async function toggleComponent(key) {
-            const toggleMap = {
-                'show_timeline': 'togTimeline',
-                'show_heatmap': 'togHeatmap',
-                'show_top_projects': 'togTopProjects',
-                'show_skills': 'togSkills',
-                'show_stats': 'togStats'
-            };
-            const el = document.getElementById(toggleMap[key]);
-            if (el) portfolioSettings[key] = el.checked;
-            applySectionVisibility();
-            await savePortfolioSettings();
-        }
-
-        async function savePortfolioSettings() {
-            try {
-                await apiCall(`/api/portfolio/${currentUser.user_name}/settings`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(portfolioSettings)
-                });
-            } catch (e) {
-                console.error('Failed to save portfolio settings:', e);
-            }
         }
 
         async function loadPdStats() {
@@ -4267,161 +4187,7 @@ ${skillsHtml ? '<div class="section"><div class="section-title">TECHNICAL SKILLS
             container.innerHTML = html;
         }
 
-        // Portfolio Customization Functions
-        let customizedProjectIds = [];
-        let currentCustomizingProjectId = null;
-        
-        // Cache DOM elements for modal
-        let modalElements = null;
-        
-        function getModalElements() {
-            if (!modalElements) {
-                modalElements = {
-                    modal: document.getElementById('customizeModal'),
-                    projectName: document.getElementById('modalProjectName'),
-                    title: document.getElementById('customTitle'),
-                    description: document.getElementById('customDescription'),
-                    role: document.getElementById('customRole')
-                };
-            }
-            return modalElements;
-        }
-
-        async function loadCustomizedProjects() {
-            const container = document.getElementById('customizeProjectsList');
-            if (!container) return;
-
-            container.innerHTML = '<p style="text-align: center; padding: 20px;">Loading projects...</p>';
-
-            const result = await apiCall(`/api/portfolio/${currentUser.user_name}/custom-data`);
-
-            if (!result.ok) {
-                container.innerHTML = '<p class="message error">Error loading projects</p>';
-                showMessage(result.error || 'Failed to load projects', 'error');
-                return;
-            }
-
-            customizedProjectIds = result.data.project_ids || [];
-
-            if (!projects.length) {
-                container.innerHTML = '<p>No projects found. Upload projects first.</p>';
-                return;
-            }
-
-            container.innerHTML = projects.map(p => {
-                const isCustomized = customizedProjectIds.includes(p.id);
-                const badge = isCustomized ? '<span class="badge-customized">CUSTOMIZED</span>' : '';
-                return `<div class="project-item">
-                    <div class="project-row">
-                        <div class="project-info">
-                            <strong>${p.filename}</strong> (ID: ${p.id})${badge}
-                            <br>
-                            <small>Files: ${p.file_count || 0} | Created: ${new Date(p.created_at).toLocaleDateString()}</small>
-                        </div>
-                        <button class="btn-customize" onclick="openCustomizeModal(${p.id}, '${p.filename.replace(/'/g, "\\'")}')">
-                            ${isCustomized ? 'Edit' : 'Customize'}
-                        </button>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-
-        async function openCustomizeModal(projectId, projectName) {
-            currentCustomizingProjectId = projectId;
-            const elements = getModalElements();
-            
-            elements.projectName.textContent = projectName;
-            
-            // Clear form
-            elements.title.value = '';
-            elements.description.value = '';
-            elements.role.value = '';
-            
-            // Load existing customization if any
-            try {
-                const data = await apiCall(`/api/portfolio/${currentUser.user_name}/custom-data/${projectId}`);
-                if (data.success) {
-                    elements.title.value = data.custom_title || '';
-                    elements.description.value = data.custom_description || '';
-                    elements.role.value = data.custom_role || '';
-                }
-            } catch (e) {
-                // No existing customization, keep form empty
-            }
-            
-            elements.modal.classList.add('show');
-        }
-
-        function closeCustomizeModal() {
-            getModalElements().modal.classList.remove('show');
-            currentCustomizingProjectId = null;
-        }
-
-        async function saveCustomization(event) {
-            event.preventDefault();
-
-            if (!currentCustomizingProjectId) {
-                showMessage('No project selected', 'error');
-                return;
-            }
-
-            const elements = getModalElements();
-            const customTitle = elements.title.value.trim();
-            const customDescription = elements.description.value.trim();
-            const customRole = elements.role.value.trim();
-
-            const result = await apiCall(`/api/portfolio/${currentUser.user_name}/custom-data`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    project_id: currentCustomizingProjectId,
-                    custom_title: customTitle,
-                    custom_description: customDescription,
-                    custom_role: customRole
-                })
-            });
-
-            console.log('save customization response:', result);
-
-            if (!result.ok) {
-                showMessage(result.error || 'Error saving customization', 'error');
-                return;
-            }
-
-            showMessage('Portfolio customization saved successfully', 'success');
-            closeCustomizeModal();
-            await loadCustomizedProjects();
-        }
-
-        async function clearCustomization() {
-            if (!currentCustomizingProjectId) {
-                showMessage('No project selected', 'error');
-                return;
-            }
-
-            if (!confirm('Are you sure you want to clear all customizations for this project?')) {
-                return;
-            }
-
-            const result = await apiCall(`/api/portfolio/${currentUser.user_name}/custom-data/${currentCustomizingProjectId}`, {
-                method: 'DELETE'
-            });
-
-            if (!result.ok) {
-                showMessage(result.error || 'Error clearing customization', 'error');
-                return;
-            }
-
-            showMessage('Portfolio customization cleared', 'success');
-            closeCustomizeModal();
-            await loadCustomizedProjects();
-        }
-
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target === getModalElements().modal) {
-                closeCustomizeModal();
-            }
-        });
+        // Portfolio Customization Functions - now in portfolioCustomization.js
 
         // Theme Toggle
         function toggleTheme() {
