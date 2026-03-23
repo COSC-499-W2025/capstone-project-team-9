@@ -6,39 +6,38 @@
 ---
 
 ## Weekly Goals Recap
-This week, our team is focus on the improve the frontend and fix potential bugs.
+This week, our team is focus on the finish off the mileston3 jobs.
 
 ---
 
 ## My Contributions
-This week I improve frontend resume features and do refactoring
+This week I am focus on the front end refactor.
 
 ### issue developed:
-[Frontend resume formator](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/361)
+[remove duplicate codes](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/381)
 
-This PR enable the frontend to show the full user resume
+This PR re-do and apply the api.js and util.js.
 
-- Write resume-formatter.js for present the full generated resume in frontend when user click the load resume.
-- Remove the old resume present codes form dashboard.html
+- Which remove the duplicated codes from the dashboard.html
+- Remove the duplicate codes form index and public.
+- Now all front end api and util js functions should use api.js and util.js.
 
-[Front end refactor: util.js and api.js](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/366)
+[Refactor: protfolio dashboard.js and portfolio customization.js](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/383)
 
-This PR split the codes form the dashboard.html into different .js file
+This PR split the protfolioDashboard.js and portfolioCustomization.js from the dashboard.js
 
-- util.js contain the core utile functions in dashboard
-- api.js contain the api communicate codes in dashbaord
-- All edit is about front end, should not break any thing
-- Update the test in need
+- Move codes into modules and remove duplicated codes
+- Improve the code readability and maintainability
+- Only frontend change, should not cause problems
 
 ### PR reviewed: 
-1. [Customizable portfolio](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/360)
-2. [Frontend and Menu Rework](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/372)
-3. [Resume api integration](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/373)
-4. [fix generate resume bug](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/374)
+1. [portfolio ui changes](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/379)
+2. [fix: compute LOC from file content instead of casting to int; update tests accordingly](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/380)
+3. [done testing](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/384)
 
 ### Went well:
-Obviously improve the frontend features.
+Make the dashboard codes more readable.
 ### Not well:
-The bussiness bug that fixed last week appeared again.
+Found that the front end currently no able to generate pdf resume.
 ### Next cycle:
-Develop milestone3 jobs.
+Do more refactor and bug fix.
