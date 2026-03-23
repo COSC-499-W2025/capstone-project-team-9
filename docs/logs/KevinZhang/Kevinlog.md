@@ -572,3 +572,48 @@ Audit Legacy CLI Logic: I need to do a thorough sweep of the remaining backend s
 Implement Background Tasks: With the immediate freezing bug patched, the next major hurdle is preventing browser timeouts during long operations. I plan to implement FastAPI BackgroundTasks for our heavy operations (like extracting massive ZIP files or waiting 20+ seconds for the Gemini AI), allowing the server to return an instant "Processing" response to the frontend while the heavy lifting happens behind the scenes.
 
 <img width="1014" height="599" alt="image" src="https://github.com/user-attachments/assets/c9729519-14da-4b99-964a-49de808edf71" />
+
+# **What I Did This Week (2026/03/16 to 2026/03/22 Week 11)**
+
+## add more tests for gemini API key https://github.com/COSC-499-W2025/capstone-project-team-9/pull/386
+
+### **In Simple Terms**
+I created a high-quality testing system to make sure our "AI brain" (the Gemini API) doesn't break the whole website if something goes wrong. Instead of actually calling Google's servers every time we run a test (which costs money and is slow), I built "mock" versions of the API. This allowed me to test how the app reacts to bad situations, like the internet cutting out, the API key being missing, or Google's servers being too busy. Now, if the AI fails, the website will know exactly why and handle it safely instead of just crashing.
+
+---
+
+### **What I Created / Modified**
+Created tests/test_gemini_client.py:
+
+Developed a specialized test suite using unittest.mock to intercept and simulate calls to the Google GenAI SDK.
+
+Simulated Error States: Wrote logic to trigger and verify handling for "429 Quota Exceeded" (rate limiting) and "Deadline Exceeded" (timeouts).
+
+Validation Logic: Added tests to ensure the application correctly identifies when the GEMINI_API_KEY is missing from the .env file and raises a clear RuntimeError.
+
+Refactored src/external_services/gemini_client.py (Indirectly):
+
+Ensured the client structure was compatible with mocked objects to support faster CI/CD pipeline runs.
+
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | 386 |
+| **Files Modified** | 1 |
+| **New Modules** | 0 (Architectural logic fix) |
+| **Impact** | Secured the most expensive/volatile external dependency against unhandled crashes. |
+
+---
+
+### **Reflection**
+This week taught me the importance of "Mocking" in a professional production environment. Initially, running tests was slow because we were hitting actual API endpoints. By implementing mocks, our test suite now runs in milliseconds and doesn't drain our API quota. Testing for "failure" is just as important as testing for "success"—knowing that the system will throw a specific RuntimeError when a key is missing gives me much more confidence in our deployment stability.
+
+### **Next Steps**
+Expand Mocking to Database: Now that the API is mocked, I want to apply the same pattern to our database calls so we can run our entire test suite without needing a local PostgreSQL instance running.
+
+Milestone 3 Final Polish: I will assist the team in integrating the new "Interview Bullets" and "Resume Builder" UI changes into the final dashboard flow.
+
+This week has no screen capture since we are working on peer testing #2.
