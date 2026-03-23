@@ -30,6 +30,8 @@ async def db_health_check():
                     "message": "Database connection failed"
                 }
             )
+    except HTTPException:
+        raise
     except Exception:
         raise HTTPException(
             status_code=503,

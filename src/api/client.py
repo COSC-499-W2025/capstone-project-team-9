@@ -2,57 +2,56 @@
 import os
 import httpx
 from typing import Optional, Dict, List, Any
-from pathlib import Path
 
 
 class APIClient:
     """Client for interacting with the Artifact API."""
-    
+
+    @staticmethod
+    def _format_api_error(response: httpx.Response, fallback: str) -> str:
+        """
+        Format API error responses into a readable message.
+        Supports unified API errors:
+        {success:false, error_type, message, data?}
+        And legacy FastAPI style:
+        {detail: "..."} or {detail: {...}}
+        """
+        try:
+            body = response.json()
+        except Exception:
+            return fallback
+
+        # Unified format
+        if isinstance(body, dict) and "error_type" in body and "message" in body:
+            error_type = body.get("error_type", "API_ERROR")
+            message = body.get("message", "")
+            return f"{error_type}: {message}"
+
+        # Legacy detail handling
+        if isinstance(body, dict) and "detail" in body:
+            detail = body.get("detail")
+
+            if isinstance(detail, dict):
+                error_type = detail.get("error_type", "API_ERROR")
+                message = detail.get("message", "") or str(detail)
+                return f"{error_type}: {message}"
+
+            if isinstance(detail, str):
+                return f"API_ERROR: {detail}"
+
+            return f"API_ERROR: {str(detail)}"
+
+        return fallback
+
     def __init__(self, base_url: str = None):
         """
         Initialize the API client.
-        
+
         Args:
             base_url: Base URL for the API (defaults to http://localhost:8000)
         """
         self.base_url = base_url or os.getenv("API_BASE_URL", "http://localhost:8000")
         self.api_prefix = "/api"
-    
-        def _format_api_error(self, response: httpx.Response, fallback: str) -> str:
-            """
-            Format API error responses into a readable message.
-            Supports unified API errors:
-            {success:false, error_type, message, data?}
-            And legacy FastAPI style:
-            {detail: "..."} or {detail: {...}}
-            """
-            try:
-                body = response.json()
-            except Exception:
-                return fallback
-
-            # Unified format
-            if isinstance(body, dict) and "error_type" in body and "message" in body:
-                error_type = body.get("error_type", "API_ERROR")
-                message = body.get("message", "")
-                return f"{error_type}: {message}"
-
-            # Legacy detail handling
-            if isinstance(body, dict) and "detail" in body:
-                detail = body.get("detail")
-
-                if isinstance(detail, dict):
-                    # if someone directly returned dict detail
-                    error_type = detail.get("error_type", "API_ERROR")
-                    message = detail.get("message", "") or str(detail)
-                    return f"{error_type}: {message}"
-
-                if isinstance(detail, str):
-                    return f"API_ERROR: {detail}"
-
-                return f"API_ERROR: {str(detail)}"
-
-            return fallback
 
     def _make_request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
         """
