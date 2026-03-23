@@ -71,6 +71,8 @@ class ProjectAnalyzer:
     
     def _perform_local_analysis(self, project_path, project_info):
         # Metadata only first (no BYTEA load) - keeps large projects fast
+        from common.constants import LANGUAGE_EXTENSIONS
+        from parsing.file_contents_manager import get_file_contents_content_for_paths
         file_metadata = self._get_file_contents(project_info['id'], include_content=False)
         if not file_metadata:
             self.logger.warning("No file contents found in database")
