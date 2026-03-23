@@ -713,6 +713,13 @@
                         <strong>${escapeHtml(p.filename)}</strong>
                         <small>${p.file_count || 0} files • Created ${createdDate}</small>
                         ${p.id ? `<span style="display: inline-block; margin-top: 8px; padding: 4px 8px; background: var(--bg-secondary); border-radius: 4px; font-size: 11px; color: var(--text-muted);">ID: ${p.id}</span>` : ''}
+                        <div style="margin-top: 10px;">
+                            <button onclick="event.stopPropagation(); toggleProjectReplay(${p.id});"
+                                style="padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-size: 12px; cursor: pointer;">
+                                Replay
+                            </button>
+                        </div>
+                        <div id="projectReplay-${p.id}" style="display:none; margin-top:10px; padding:10px; border:1px solid var(--border-color); border-radius:8px; background: var(--bg-secondary);"></div>
                     </div>
                 </div>`;
             }).join('');
@@ -808,6 +815,70 @@
                 }
             } catch (e) {
                 showMessage('Error generating summary', 'error');
+            }
+        }
+
+        async function toggleProjectReplay(projectId) {
+            const el = document.getElementById(`projectReplay-${projectId}`);
+            if (!el) return;
+
+            if (el.style.display !== 'none') {
+                el.style.display = 'none';
+                return;
+            }
+
+            el.style.display = 'block';
+            if (!el.dataset.loaded) {
+                await loadProjectReplay(projectId, el);
+            }
+        }
+
+        async function loadProjectReplay(projectId, containerEl) {
+            containerEl.innerHTML = '<div style="color: var(--text-muted); font-size: 12px;">Loading replay...</div>';
+            try {
+                const res = await apiCall(`/api/projects/${projectId}/replay?user_name=${currentUser.user_name}`);
+                if (!res.ok || !res.data || !res.data.success) {
+                    containerEl.innerHTML = `<div style="color: #ff7a7a; font-size: 12px;">${escapeHtml(res.error || 'Could not load replay')}</div>`;
+                    return;
+                }
+
+                const replay = res.data;
+                const events = replay.events || [];
+                const talkingPoints = replay.interview_mode?.talking_points || [];
+
+                const eventsHtml = events.length
+                    ? events.slice(0, 6).map(e => `
+                        <div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px dashed var(--border-color);">
+                            <div style="font-size:12px; color: var(--text-muted);">${escapeHtml(e.t || '')} • ${escapeHtml(e.type || '')}</div>
+                            <div style="font-size:13px; color: var(--text-primary);">${escapeHtml(e.title || '')}</div>
+                            <div style="font-size:12px; color: var(--text-secondary);">+${e.delta?.new_files || 0} files, +${e.delta?.tests_added || 0} tests, +${e.delta?.docs_added || 0} docs</div>
+                        </div>
+                    `).join('')
+                    : '<div style="font-size:12px; color: var(--text-muted);">No replay events yet.</div>';
+
+                const pointsHtml = talkingPoints.length
+                    ? talkingPoints.map(tp => `
+                        <li style="margin-bottom:6px;">
+                            <strong>${escapeHtml(tp.title || '')}:</strong>
+                            <span style="color: var(--text-secondary);">${escapeHtml(tp.insight || '')}</span>
+                        </li>
+                    `).join('')
+                    : '<li style="color: var(--text-muted);">No interview points yet.</li>';
+
+                containerEl.innerHTML = `
+                    <div style="font-size:12px; color: var(--text-muted); margin-bottom:8px;">Duration: ${replay.duration_days || 0} day(s)</div>
+                    <div style="margin-bottom:10px;">
+                        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">Build Replay</div>
+                        ${eventsHtml}
+                    </div>
+                    <div>
+                        <div style="font-size:12px; font-weight:600; margin-bottom:6px;">Interview Mode</div>
+                        <ul style="margin: 0; padding-left: 18px; font-size:12px;">${pointsHtml}</ul>
+                    </div>
+                `;
+                containerEl.dataset.loaded = '1';
+            } catch (e) {
+                containerEl.innerHTML = '<div style="color: #ff7a7a; font-size: 12px;">Failed to load replay.</div>';
             }
         }
 

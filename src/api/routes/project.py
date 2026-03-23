@@ -14,6 +14,7 @@ from analysis.project_ranking import rank_all_projects, save_rankings_with_summa
 from analysis.ranking_storage import get_stored_rankings, save_rankings_to_db
 from project_summarizer import summarize_project
 from analysis.gemini_ranker import rank_projects_with_gemini
+from analysis.project_replay import build_project_replay
 from tools.cleanup_insights import delete_insights
 from database.user_preferences import update_user_git_username, get_user_git_username
 from config.db_config import with_db_cursor
@@ -564,6 +565,62 @@ async def get_project_by_id_endpoint(
             status_code=500,
             detail=f"Error retrieving project: {str(e)}"
         )
+
+
+@router.get("/projects/{project_id}/replay")
+async def get_project_replay(
+    project_id: int,
+    user_name: Optional[str] = Query(None, description="Username to verify project ownership"),
+):
+    """
+    Build a timeline replay for a project using file metadata timestamps.
+    Includes interview mode talking points derived from timeline events.
+    """
+    try:
+        authenticated_user = AuthManager.get_current_username()
+        if not authenticated_user:
+            raise HTTPException(status_code=401, detail="User authentication required")
+
+        if user_name and user_name != authenticated_user:
+            raise HTTPException(
+                status_code=403,
+                detail="user_name parameter must match authenticated user",
+            )
+
+        resolved_user = authenticated_user
+        project = get_project_by_id(project_id, user_name=resolved_user)
+        if not project:
+            raise HTTPException(status_code=404, detail=f"Project with ID {project_id} not found")
+
+        with with_db_cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT file_path, file_extension, file_size, created_at, source_created_at
+                FROM file_contents
+                WHERE uploaded_file_id = %s
+                ORDER BY COALESCE(source_created_at, created_at), file_path
+                """,
+                (project_id,),
+            )
+            rows = cursor.fetchall() or []
+
+        file_rows = [
+            {
+                "file_path": row[0],
+                "file_extension": row[1],
+                "file_size": row[2],
+                "created_at": row[3],
+                "source_created_at": row[4],
+            }
+            for row in rows
+        ]
+        replay = build_project_replay(file_rows)
+
+        return {"success": True, "project_id": project_id, **replay}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error building project replay: {str(e)}")
 
 
 @router.post("/projects/{project_id}/analyze")
