@@ -1635,8 +1635,8 @@ More and more.
 | **Eric** | **Sami** | |
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Sami** | |
-|**Kevin**|**Sami**| |
-|**Kevin**|**Jinxi**|  |
+|**Kevin**|**Ryan**|https://github.com/COSC-499-W2025/capstone-project-team-9/pull/384 |
+|**Kevin**|**Jinxi**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/383 |
 | **Evan** | **Jinxi** | |
 | **Evan** | **Ryan** |  |
 ---
