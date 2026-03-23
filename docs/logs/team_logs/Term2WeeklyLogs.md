@@ -1569,3 +1569,79 @@ Preparing for Monday's demo and peer evaluation.
 ## **Burn up Chart**
 <img width="1009" height="577" alt="image" src="https://github.com/user-attachments/assets/2816512c-a2fd-4569-833a-2f61fb356ea4" />
 <img width="969" height="491" alt="image" src="https://github.com/user-attachments/assets/fc66b586-4fdd-423b-8568-161e9dcac683" />
+
+# Sprint Report – Term 2 Week 11 (2026/03/16 to 2026/03/22) 
+
+## **Overview**
+This sprint was dedicated to enhancing the resilience of our external AI integrations and polishing the user-facing components of the Resume and Portfolio systems. A major focus was placed on automated testing to ensure that API failures—such as rate limits or timeouts—are handled gracefully without breaking the application.
+
+## **Completed Work**
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/379
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/380
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/385
+More and more. 
+
+### **Kevin**
+- **Core Contribution:** API Resilience Testing & Mocking Infrastructure.
+- **Details:** - **Established Gemini Test Suite:** Introduced a comprehensive unit test suite (`tests/test_gemini_client.py`) specifically designed to verify the stability of our Gemini API integration.
+    - **External Service Mocking:** Implemented `unittest.mock` to simulate the Google GenAI SDK. This allows the team to run full-coverage tests instantly without triggering actual network calls, preserving API quota and ensuring CI/CD reliability.
+    - **Fault Tolerance Validation:** Built explicit test cases for real-world failure scenarios, including:
+        - **Rate Limiting:** Verified system behavior during HTTP 429 (Quota Exceeded) errors.
+        - **Timeouts:** Simulated "Deadline Exceeded" scenarios to ensure the backend recovers gracefully.
+        - **Security & Environment Checks:** Confirmed that the system correctly identifies and reports missing `GEMINI_API_KEY` credentials with specific `RuntimeError` exceptions.
+    - **SDK Compatibility:** Validated that text generation remains functional across both legacy and updated GenAI SDK structures.
+    
+---
+
+### **Sami**
+
+---
+
+### **Eric**
+
+---
+
+### **Evan**
+
+---
+
+### **JinXi**
+
+---
+
+### **Ryan**
+
+---
+### **Collaboration Highlights** 
+- **Cross-Functional Logic Fixes:** Coordinated between the backend analysis logic and the testing suite to resolve a bug in how Lines of Code (LOC) were calculated, moving from risky integer casting to robust content-based computation.
+- **UI Integration:** Collaborated on aligning the new Resume Builder and Portfolio UI changes with the existing backend data structures to ensure real-time updates.
+
+### **Things to Work On / Reflection**
+- **Test Coverage Expansion:** While the Gemini integration is now highly resilient, we should apply similar mocking strategies to our other external services and database dependencies to move toward a 100% "offline-capable" test environment.
+- **Final Milestone Preparation:** As we enter the final weeks of Milestone 3, the priority shifts toward final bug-squashing and ensuring the Public Dashboard view is fully synchronized with the private user data.
+
+### **Peer Evaluations** 
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Ryan** |  |
+| **Sami** | **Ryan** |  |
+| **JinXi** | **Ryan** |  |
+| **JinXi** | **Sami** | |
+| **JinXi** | **Evan** |  |
+| **JinXi** | **Kevin** |  |
+| **Eric** | **Ryan** | |
+| **Eric** | **Jinxi** | |
+| **Eric** | **Jinxi** | |
+| **Eric** | **Sami** | |
+| **Ryan** | **Kevin** |  |
+| **Ryan** | **Sami** | |
+|**Kevin**|**Sami**| |
+|**Kevin**|**Jinxi**|  |
+| **Evan** | **Jinxi** | |
+| **Evan** | **Ryan** |  |
+---
+
+## **Next Steps**
+### **Intermediate**
+Final presentation preparation. 
+## **Burn up Chart**
