@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- Core JavaScript Modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
 </head>
 <body>
     <div class="login-container">
@@ -234,11 +237,7 @@
             }
         });
 
-        // Show message helper
-        function showMessage(message, type) {
-            messageBox.textContent = message;
-            messageBox.className = `message ${type}`;
-        }
+        // showMessage now imported from utils.js
 
         // Clear message
         function clearMessage() {

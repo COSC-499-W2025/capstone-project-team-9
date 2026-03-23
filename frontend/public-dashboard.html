@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- Core JavaScript Modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
 </head>
 <body>
     <header class="header">
@@ -114,22 +117,7 @@
             }
         });
 
-        function showMessage(text, type) {
-            const msg = document.getElementById('messageBox');
-            msg.textContent = text;
-            msg.className = `message ${type}`;
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 5000);
-        }
-
-        function escapeHtml(str) {
-            return String(str)
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
-        }
+        // showMessage, escapeHtml now imported from utils.js
 
         function showUserList() {
             document.getElementById('userListSection').style.display = '';
