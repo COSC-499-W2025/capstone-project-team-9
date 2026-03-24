@@ -665,7 +665,7 @@ Overall, this week focused on final validation, edge-case testing, and ensuring 
 **GitHub Pull Requests (Evidence of Work)**
 
 - **PR – test: add db failure and request context edge case tests #387**  
-  [<<PR LINK>>]((https://github.com/COSC-499-W2025/capstone-project-team-9/pull/387))
+  [<<PR LINK>>](https://github.com/COSC-499-W2025/capstone-project-team-9/pull/387)
 
 ---
 
