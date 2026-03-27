@@ -169,10 +169,10 @@
     </div>
 
     <script>
-        const API_BASE_URL = window.location.origin;
+        const AUTH_API_BASE_URL = window.__API_BASE_URL || window.location.origin;
         
         async function postJson(path, payload) {
-            const response = await fetch(`${API_BASE_URL}${path}`, {
+            const response = await fetch(`${AUTH_API_BASE_URL}${path}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),

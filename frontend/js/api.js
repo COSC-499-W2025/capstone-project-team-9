@@ -3,8 +3,16 @@
  */
 
 // API base URL configuration
-const API_BASE_URL = window.location.origin;
-const API_BASE = API_BASE_URL;
+const DEFAULT_API_BASE_URL = (() => {
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    const isFileProtocol = window.location.protocol === 'file:';
+    const isAltLocalPort = isLocalHost && window.location.port && window.location.port !== '8000';
+    if (isFileProtocol || isAltLocalPort) return 'http://localhost:8000';
+    return window.location.origin;
+})();
+window.__API_BASE_URL = DEFAULT_API_BASE_URL;
+const API_BASE_URL = DEFAULT_API_BASE_URL;
+const API_BASE = DEFAULT_API_BASE_URL;
 
 // Timeout configuration (milliseconds)
 const ANALYZE_LOCAL_TIMEOUT_MS = 90000;    // Local analysis timeout: 90 seconds
@@ -27,7 +35,7 @@ async function apiCall(endpoint, options = {}) {
             };
         }
 
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, finalOptions);
+        const response = await fetch(`${DEFAULT_API_BASE_URL}${endpoint}`, finalOptions);
         const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
@@ -98,7 +106,7 @@ async function apiRequest(endpoint, { method = 'GET', body = null, headers = {} 
         }
     }
 
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, opts);
+    const response = await fetch(`${DEFAULT_API_BASE_URL}${endpoint}`, opts);
 
     // try to parse JSON, but fallback to text if not possible
     const contentType = response.headers.get('content-type') || '';

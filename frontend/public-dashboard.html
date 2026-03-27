@@ -100,7 +100,7 @@
     </div>
 
     <script>
-        const API_BASE_URL = window.location.origin;
+        const PUBLIC_API_BASE_URL = window.__API_BASE_URL || window.location.origin;
         let pubSearchTimer = null;
         let userFilterTimer = null;
         let currentPublicUser = null;
@@ -137,7 +137,7 @@
             status.textContent = 'Loading...';
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/portfolio/public-users`);
+                const response = await fetch(`${PUBLIC_API_BASE_URL}/api/portfolio/public-users`);
                 const data = await response.json().catch(() => ({}));
 
                 if (!response.ok || !data.success) {
@@ -167,7 +167,7 @@
                 const userName = user.user_name || '';
                 if (!userName) return { user, stats: null };
                 try {
-                    const response = await fetch(`${API_BASE_URL}/api/portfolio/public/${encodeURIComponent(userName)}/stats`);
+                    const response = await fetch(`${PUBLIC_API_BASE_URL}/api/portfolio/public/${encodeURIComponent(userName)}/stats`);
                     const data = await response.json().catch(() => ({}));
                     if (!response.ok || !data.success) return { user, stats: null };
                     return { user, stats: data.stats || {} };
@@ -296,7 +296,7 @@
 
         async function fetchPublicSettings() {
             if (!currentPublicUser) return null;
-            const response = await fetch(`${API_BASE_URL}/api/portfolio/public/${currentPublicUser}/settings`);
+            const response = await fetch(`${PUBLIC_API_BASE_URL}/api/portfolio/public/${currentPublicUser}/settings`);
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.success) {
                 const msg = data.detail || data.message || 'Portfolio is private or not available';
@@ -341,7 +341,7 @@
 
         async function loadPdStats() {
             if (!currentPublicUser || portfolioSettings.show_stats === false) return;
-            const response = await fetch(`${API_BASE_URL}/api/portfolio/public/${currentPublicUser}/stats`);
+            const response = await fetch(`${PUBLIC_API_BASE_URL}/api/portfolio/public/${currentPublicUser}/stats`);
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.success) return;
             const stats = data.stats || {};
@@ -356,7 +356,7 @@
             if (!container || !currentPublicUser) return;
             if (portfolioSettings.show_timeline === false) return;
 
-            const response = await fetch(`${API_BASE_URL}/api/portfolio/public/${currentPublicUser}/timeline`);
+            const response = await fetch(`${PUBLIC_API_BASE_URL}/api/portfolio/public/${currentPublicUser}/timeline`);
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.success) return;
             const timeline = data.data;
@@ -372,7 +372,7 @@
             if (!container || !currentPublicUser) return;
             if (portfolioSettings.show_heatmap === false) return;
 
-            const response = await fetch(`${API_BASE_URL}/api/portfolio/public/${currentPublicUser}/heatmap`);
+            const response = await fetch(`${PUBLIC_API_BASE_URL}/api/portfolio/public/${currentPublicUser}/heatmap`);
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.success) return;
             const heatmap = data.data;
@@ -391,7 +391,7 @@
             const search = document.getElementById('pubSearchInput').value.trim();
             let url = `/api/portfolio/public/${currentPublicUser}/top-projects`;
             if (search) url += `?search=${encodeURIComponent(search)}`;
-            const response = await fetch(`${API_BASE_URL}${url}`);
+            const response = await fetch(`${PUBLIC_API_BASE_URL}${url}`);
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.success) return;
             const projects = data.projects || [];
@@ -407,7 +407,7 @@
             if (!container || !currentPublicUser) return;
             if (portfolioSettings.show_skills === false && portfolioSettings.show_stats === false) return;
 
-            const response = await fetch(`${API_BASE_URL}/api/portfolio/public/${currentPublicUser}/timeline`);
+            const response = await fetch(`${PUBLIC_API_BASE_URL}/api/portfolio/public/${currentPublicUser}/timeline`);
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.success) return;
             let skillSummary = data.data && data.data.skill_summary ? data.data.skill_summary : [];
