@@ -14,19 +14,9 @@ client = TestClient(app)
 
 class TestAuthEndpoints:
     @patch("api.routes.auth.get_user_by_username")
-    @patch("api.routes.auth.AuthManager.login")
-    def test_login_success(self, mock_auth_login, mock_get_user):
-        mock_auth_login.return_value = {
-            "success": True,
-            "message": "Login successful",
-            "user_info": {
-                "user_id": 999,
-                "user_name": "test_user",
-                "create_time": None,
-                "last_login_time": None,
-                "is_login": True,
-            },
-        }
+    @patch("api.routes.auth.login_user")
+    def test_login_success(self, mock_login_user, mock_get_user):
+        mock_login_user.return_value = True
 
         mock_get_user.return_value = {
             "user_id": 1,

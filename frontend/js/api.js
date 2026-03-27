@@ -35,7 +35,7 @@ async function apiCall(endpoint, options = {}) {
             };
         }
 
-        const response = await fetch(`${DEFAULT_API_BASE_URL}${endpoint}`, finalOptions);
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, finalOptions);
         const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
@@ -106,7 +106,7 @@ async function apiRequest(endpoint, { method = 'GET', body = null, headers = {} 
         }
     }
 
-    const response = await fetch(`${DEFAULT_API_BASE_URL}${endpoint}`, opts);
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, opts);
 
     // try to parse JSON, but fallback to text if not possible
     const contentType = response.headers.get('content-type') || '';

@@ -50,14 +50,13 @@ async def login(request: LoginRequest):
             },
         )
 
-    # Attempt login
-    result = AuthManager.login(username, password)
-    if not result['success']:
+    # Attempt login (route-level behavior uses DB auth helpers directly)
+    if not login_user(username, password):
         raise HTTPException(
             status_code=401,
             detail={
                 "error_type": "INVALID_CREDENTIALS",
-                "message": result["message"],
+                "message": "Invalid username or password",
             },
         )
 
@@ -157,18 +156,17 @@ async def logout(request: LogoutRequest):
             },
         )
 
-    result = AuthManager.logout(username)
-
-    if not result["success"]:
+    if not logout_user(username):
         raise HTTPException(
-            status_code=400,
+            status_code=500,
             detail={
                 "error_type": "LOGOUT_FAILED",
-                "message": result["message"],
+                "message": "Logout failed, user may not exist or is not logged in",
             },
         )
-
-    return LogoutResponse(success=True, message=result["message"])
+    # Keep AuthManager in sync for CLI/local session tracking.
+    AuthManager.clear_session()
+    return LogoutResponse(success=True, message="Logout successful")
 
 
 @router.get("/me", response_model=LoginResponse)
