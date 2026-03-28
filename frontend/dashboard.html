@@ -1031,6 +1031,11 @@
                         <h3 style="margin: 0 0 8px 0; font-size: 1.75rem; font-weight: 700;">Upload ZIP File</h3>
                         <p class="text-muted" style="margin: 0; font-size: 14px;">Upload a ZIP archive containing your project files for analysis</p>
                     </div>
+                    <div style="margin-bottom: 16px;">
+                        <label for="customFileName" style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-primary);">Custom File Name (Optional)</label>
+                        <input type="text" id="customFileName" placeholder="Leave empty to use original filename" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; background: var(--bg-secondary); color: var(--text-primary);" />
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Enter a custom name for the project (without .zip extension)</p>
+                    </div>
                     <div class="file-upload-container">
                         <input type="file" id="zipFile" accept=".zip" class="file-input-hidden" />
                         <label for="zipFile" class="file-upload-label">
@@ -1518,6 +1523,7 @@
             const fileName = document.getElementById('uploadFileName');
             const uploadBtn = document.getElementById('uploadBtn');
             const clearBtn = document.getElementById('clearUploadBtn');
+            const customFileNameInput = document.getElementById('customFileName');
             
             if (fileInput?.files[0]) {
                 const file = fileInput.files[0];
@@ -1525,6 +1531,12 @@
                 fileInfo.style.display = 'block';
                 uploadBtn.disabled = false;
                 clearBtn.style.display = 'inline-block';
+                
+                // Auto-populate custom filename field with original filename (without .zip)
+                if (customFileNameInput && !customFileNameInput.value) {
+                    const baseName = file.name.replace(/\.zip$/i, '');
+                    customFileNameInput.placeholder = `Default: ${baseName}`;
+                }
             }
         }
 
@@ -1533,12 +1545,19 @@
             const fileInfo = document.getElementById('uploadFileInfo');
             const uploadBtn = document.getElementById('uploadBtn');
             const clearBtn = document.getElementById('clearUploadBtn');
+            const customFileNameInput = document.getElementById('customFileName');
             
             if (fileInput) {
                 fileInput.value = '';
                 fileInfo.style.display = 'none';
                 uploadBtn.disabled = true;
                 clearBtn.style.display = 'none';
+            }
+            
+            // Clear custom filename input
+            if (customFileNameInput) {
+                customFileNameInput.value = '';
+                customFileNameInput.placeholder = 'Leave empty to use original filename';
             }
         }
 
@@ -1627,6 +1646,7 @@
 
         async function uploadFile() {
             const fileInput = document.getElementById('zipFile');
+            const customFileNameInput = document.getElementById('customFileName');
             const resultDiv = document.getElementById('uploadResult');
             if (!fileInput?.files[0]) {
                 showMessage('Please select a file', 'error');
@@ -1634,6 +1654,15 @@
             }
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
+            
+            // Get custom filename if provided
+            const customFileName = customFileNameInput?.value?.trim();
+            if (customFileName) {
+                // Ensure .zip extension
+                const fileName = customFileName.endsWith('.zip') ? customFileName : customFileName + '.zip';
+                formData.append('custom_filename', fileName);
+            }
+            
             resultDiv.innerHTML = renderUploadProgress(0, 'upload');
             const updateProgress = (pct, phase) => {
                 resultDiv.innerHTML = renderUploadProgress(pct, phase);

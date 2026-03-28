@@ -1,5 +1,5 @@
 """Project-related endpoints."""
-from fastapi import APIRouter, HTTPException, UploadFile, File, Query, Body
+from fastapi import APIRouter, HTTPException, UploadFile, File, Query, Body, Form
 from typing import Optional
 import base64
 import json
@@ -76,7 +76,8 @@ def _ensure_llm_allowed(user_name: Optional[str]) -> str:
 @router.post("/projects/upload")
 async def upload_project(
     file: UploadFile = File(...),
-    user_name: Optional[str] = Query(None, description="Username for the upload")
+    user_name: Optional[str] = Query(None, description="Username for the upload"),
+    custom_filename: Optional[str] = Form(None, description="Optional custom filename for the project")
 ):
     """
     Upload a project file (ZIP archive).
@@ -84,6 +85,7 @@ async def upload_project(
     Args:
         file: The ZIP file to upload
         user_name: Optional username (defaults to None if not provided)
+        custom_filename: Optional custom filename (defaults to original filename if not provided)
         
     Returns:
         dict: Upload result with file information
@@ -95,6 +97,14 @@ async def upload_project(
             detail="Only ZIP files are supported"
         )
     
+    # Determine which filename to use
+    # If custom_filename is provided, use it; otherwise use original filename
+    filename_to_use = custom_filename if custom_filename else file.filename
+    
+    # Ensure the filename has .zip extension
+    if not filename_to_use.endswith('.zip'):
+        filename_to_use += '.zip'
+    
     # Create temporary file to save upload
     temp_file = None
     try:
@@ -104,8 +114,8 @@ async def upload_project(
             temp_file.write(content)
             temp_path = temp_file.name
         
-        # Use existing upload function, passing the original filename
-        result = add_file_to_db(temp_path, user_name=user_name, original_filename=file.filename)
+        # Use existing upload function, passing the filename to use
+        result = add_file_to_db(temp_path, user_name=user_name, original_filename=filename_to_use)
         
         # Clean up temp file
         try:
