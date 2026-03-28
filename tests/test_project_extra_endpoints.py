@@ -207,29 +207,30 @@ class TestProjectReplayEndpoint:
         tp = data["interview_mode"]["talking_points"][0]
         assert "question" in tp or "insight" in tp
 
-    @patch("api.routes.project.AuthManager")
-    def test_project_replay_requires_auth(self, mock_auth):
-        mock_auth.get_current_username.return_value = None
+    @patch("api.routes.project.get_project_by_id")
+    def test_project_replay_without_project(self, mock_get):
+        """Test replay returns 404 when project doesn't exist."""
+        mock_get.return_value = None
 
         response = client.get("/api/projects/123/replay?user_name=test_user")
-        assert response.status_code == 401
+        assert response.status_code == 404
 
-    @patch("api.routes.project.AuthManager")
-    def test_project_replay_user_mismatch(self, mock_auth):
-        mock_auth.get_current_username.return_value = "alice"
+    @patch("api.routes.project.get_project_by_id")
+    def test_project_replay_project_not_found_for_user(self, mock_get):
+        """Test replay returns 404 when project doesn't belong to user."""
+        # get_project_by_id will return None if project doesn't belong to user
+        mock_get.return_value = None
 
         response = client.get("/api/projects/123/replay?user_name=bob")
-        assert response.status_code == 403
+        assert response.status_code == 404
 
     @patch("api.routes.project.enrich_replay_with_ai")
     @patch("api.routes.project._ensure_llm_allowed")
-    @patch("api.routes.project.AuthManager")
     @patch("api.routes.project.get_project_by_id")
     @patch("api.routes.project.with_db_cursor")
     def test_project_replay_use_ai(
-        self, mock_with_cursor, mock_get_project, mock_auth, mock_llm, mock_enrich
+        self, mock_with_cursor, mock_get_project, mock_llm, mock_enrich
     ):
-        mock_auth.get_current_username.return_value = "test_user"
         mock_get_project.return_value = {"project_info": {"id": 123, "filename": "myapp.zip"}}
         mock_llm.return_value = "test_user"
 

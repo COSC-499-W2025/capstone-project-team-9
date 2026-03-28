@@ -325,12 +325,10 @@ class TestGetProjectByIdEndpoint:
         assert data["project"]["filename"] == "test_project.zip"
         mock_get.assert_called_once_with(123, user_name="test_user")
 
-    @patch('api.routes.project.AuthManager')
     @patch('api.routes.project.get_project_by_id')
-    def test_get_project_by_id_without_user(self, mock_get, mock_auth_manager):
+    def test_get_project_by_id_without_user(self, mock_get):
         """Test retrieving a project without user verification."""
         from datetime import datetime
-        mock_auth_manager.get_current_username.return_value = "test_user"
         # Mock should return nested structure with project_info
         mock_get.return_value = {
             'project_info': {
@@ -348,7 +346,8 @@ class TestGetProjectByIdEndpoint:
         assert response.status_code == 200
         data = response.json()
         assert data["project"]["id"] == 456
-        mock_get.assert_called_once_with(456, user_name="test_user")
+        # Without AuthManager, API uses the user_name parameter (None if not provided)
+        mock_get.assert_called_once_with(456, user_name=None)
 
 
 class TestMergeProjectEndpoint:
