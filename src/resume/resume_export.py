@@ -149,10 +149,7 @@ def export_pdf(data: Dict[str, Any]) -> bytes:
         import weasyprint
         html_string = render_html(data)
         return weasyprint.HTML(string=html_string).write_pdf()
-    except (ImportError, OSError, Exception) as e:
-        # Fall back to reportlab if WeasyPrint is not available or fails to load system libraries
-        import logging
-        logging.warning(f"WeasyPrint failed ({type(e).__name__}: {e}), using reportlab fallback")
+    except ImportError:
         return _reportlab_fallback(data)
 
 
