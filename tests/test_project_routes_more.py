@@ -205,10 +205,8 @@ class TestSingleProjectRoutes:
         assert data["project"]["created_at"] == "2024-01-01T10:00:00"
 
 class TestDeleteProjectDataRoutes:
-    @patch("api.routes.project.AuthManager")
     @patch("api.routes.project.delete_insights")
-    def test_delete_project_data_success(self, mock_delete, mock_auth_manager):
-        mock_auth_manager.get_current_username.return_value = "test_user"
+    def test_delete_project_data_success(self, mock_delete):
         mock_delete.return_value = (5, 10, 1)
 
         response = client.delete("/api/projects/1/data?user_name=test_user")

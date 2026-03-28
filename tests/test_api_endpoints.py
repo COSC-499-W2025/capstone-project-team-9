@@ -219,11 +219,9 @@ class TestSettingsEndpoints:
 class TestDeleteProjectDataEndpoint:
     """Test DELETE /api/projects/{id}/data endpoint (renamed from /insights)."""
 
-    @patch('api.routes.project.AuthManager')
     @patch('api.routes.project.delete_insights')
-    def test_delete_project_data_success(self, mock_delete, mock_auth_manager):
+    def test_delete_project_data_success(self, mock_delete):
         """Test successfully deleting project data."""
-        mock_auth_manager.get_current_username.return_value = "testuser"
         mock_delete.return_value = (3, 5, 1)  # metrics, files, projects
 
         client = TestClient(app)
