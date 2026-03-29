@@ -383,10 +383,22 @@ async def get_projects(
 async def get_rankings(user_name: Optional[str] = Query(None, description="Username for data isolation")):
     """Get stored rankings."""
     try:
+        from database.user_informations import get_user_by_username
+        
         # Get authenticated user
         authenticated_user = AuthManager.get_current_username()
+        
+        # If no AuthManager session, fall back to user_name parameter with DB validation
         if not authenticated_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
+            if not user_name:
+                raise HTTPException(status_code=401, detail="User authentication required")
+            
+            # Validate user exists and is logged in
+            user_data = get_user_by_username(user_name)
+            if not user_data or not user_data.get('is_login', False):
+                raise HTTPException(status_code=401, detail="User not authenticated")
+            
+            authenticated_user = user_name
         
         # Validate user_name matches authenticated user if provided
         if user_name and user_name != authenticated_user:
@@ -412,6 +424,8 @@ async def save_rankings(
 ):
     """Save ranked projects to the database (same as backend save). Requires ranked_projects in body."""
     try:
+        from database.user_informations import get_user_by_username
+        
         if not isinstance(body.get("ranked_projects"), list):
             raise HTTPException(
                 status_code=400,
@@ -420,8 +434,18 @@ async def save_rankings(
         
         # Get authenticated user
         authenticated_user = AuthManager.get_current_username()
+        
+        # If no AuthManager session, fall back to user_name parameter with DB validation
         if not authenticated_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
+            if not user_name:
+                raise HTTPException(status_code=401, detail="User authentication required")
+            
+            # Validate user exists and is logged in
+            user_data = get_user_by_username(user_name)
+            if not user_data or not user_data.get('is_login', False):
+                raise HTTPException(status_code=401, detail="User not authenticated")
+            
+            authenticated_user = user_name
         
         # Validate user_name matches authenticated user if provided
         if user_name and user_name != authenticated_user:
@@ -452,11 +476,22 @@ async def update_project_summary(
     """Update the summary for a specific project."""
     try:
         from analysis.ranking_storage import update_ranking_summary, get_stored_ranking_by_project_id
+        from database.user_informations import get_user_by_username
         
         # Get authenticated user
         authenticated_user = AuthManager.get_current_username()
+        
+        # If no AuthManager session, fall back to user_name parameter with DB validation
         if not authenticated_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
+            if not user_name:
+                raise HTTPException(status_code=401, detail="User authentication required")
+            
+            # Validate user exists and is logged in
+            user_data = get_user_by_username(user_name)
+            if not user_data or not user_data.get('is_login', False):
+                raise HTTPException(status_code=401, detail="User not authenticated")
+            
+            authenticated_user = user_name
         
         # Validate user_name matches authenticated user if provided
         if user_name and user_name != authenticated_user:

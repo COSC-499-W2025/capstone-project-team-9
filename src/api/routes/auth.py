@@ -71,6 +71,9 @@ async def login(request: LoginRequest):
             },
         )
 
+    # Set the current user in AuthManager for session tracking
+    AuthManager._current_user = user_data
+
     user_info = UserInfo(
         user_id=user_data["user_id"],
         user_name=user_data["user_name"],
