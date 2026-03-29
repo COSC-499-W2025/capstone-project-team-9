@@ -1736,6 +1736,34 @@ Final presentation preparation.
 ---
 
 ### **Eric**
+**Weekly Goals Recap**  
+This week marked the final stage of the project, with a focus on completing the last round of testing and ensuring overall system stability before submission. Rather than introducing new features, the work concentrated on strengthening reliability and validating edge-case behavior.
+
+The primary contribution this week was adding a small set of targeted test cases to improve coverage and ensure robustness in critical components. Specifically, I implemented tests for the database health check to simulate connection failure scenarios, verifying that the system returns appropriate error responses under failure conditions.
+
+In addition, I added tests for the request context middleware to ensure that request IDs are consistently handled. These tests verify that an existing `X-Request-ID` is preserved across the request lifecycle, that a new request ID is generated when missing, and that request IDs are still included in error responses. This helps guarantee traceability and consistency for both normal and failure cases.
+
+All tests were run locally, and the full test suite passed successfully. These final additions were intentionally lightweight and isolated, minimizing risk while improving confidence in system behavior.
+
+Overall, this week focused on final validation, edge-case testing, and ensuring the project is stable, reliable, and ready for submission.
+
+---
+
+**GitHub Pull Requests (Evidence of Work)**
+
+- **PR – test: add db failure and request context edge case tests #387**  
+  [<<PR LINK>>]((https://github.com/COSC-499-W2025/capstone-project-team-9/pull/387))
+
+---
+
+**Additional Contributions**
+
+- Added test coverage for database connection failure scenarios.
+- Verified correct error handling behavior for `/api/health/db`.
+- Added middleware tests to ensure request ID preservation and generation.
+- Ensured request IDs are included in both successful and error responses.
+- Ran full test suite locally and confirmed all tests pass.
+- Contributed to final system stabilization and submission readiness.
 
 ---
 
@@ -1761,9 +1789,8 @@ Final presentation preparation.
 | **JinXi** | **Ryan** |  |
 | **JinXi** | **Sami** | |
 | **JinXi** | **Eric** |  |
-| **Eric** | **Evan** | |
-| **Eric** | **Sami** | |
-| **Eric** | **Jinxi** | |
+| **Eric** | **Ryan** | This is fixing the API bug#388 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/388)|
+| **Eric** | **Kevin** | all more tests for utils#395 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/395)|
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Sami** | |
 |**Kevin**|**Ryan**| |
