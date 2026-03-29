@@ -1719,3 +1719,59 @@ This PR split the protfolioDashboard.js and portfolioCustomization.js from the d
 ### **Intermediate**
 Final presentation preparation. 
 ## **Burn up Chart**
+
+# Sprint Report – Term 2 Week 12 (2026/03/23 to 2026/03/29)
+
+## **Overview**
+
+
+## **Completed Work**
+
+### **Kevin**
+
+---
+
+### **Sami**
+
+---
+
+### **Eric**
+
+---
+
+### **Evan**
+
+---
+
+### **JinXi**
+
+---
+
+### **Ryan**
+
+---
+### **Collaboration Highlights** 
+
+
+### **Peer Evaluations** 
+| Reviewer | Reviewee | Focus Area |
+|-----------|-----------|-------------|
+| **Sami** | **Ryan** |  |
+| **Sami** | **Ryan** |  |
+| **JinXi** | **Ryan** |  |
+| **JinXi** | **Sami** | |
+| **JinXi** | **Eric** |  |
+| **Eric** | **Evan** | |
+| **Eric** | **Sami** | |
+| **Eric** | **Jinxi** | |
+| **Ryan** | **Kevin** |  |
+| **Ryan** | **Sami** | |
+|**Kevin**|**Ryan**| |
+|**Kevin**|**Jinxi**|  |
+| **Evan** | **Jinxi** | |
+| **Evan** | **Ryan** |  |
+---
+
+## **Next Steps**
+Based on the course syllabus and project design, everything should be end this week.
+## **Burn up Chart**
