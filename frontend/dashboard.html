@@ -299,6 +299,9 @@
                 showMessage('Could not load projects. You can try again.', 'error');
             }
 
+            // Initialize LLM consent first to set llmEnabled
+            await initializeLlmConsent();
+
             try {
                 const state = loadDashboardState();
                 const view = state?.activeView || 'overview';
@@ -321,8 +324,6 @@
                     }
                 }, 0);
             }
-
-            initializeLlmConsent();
         });
         
         const navMobileToggle = document.getElementById('navMobileToggle');
@@ -580,7 +581,7 @@
             // Render initial cards
             container.innerHTML = projects.map(p => {
                 const createdDate = new Date(p.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-                const shouldShowSummary = showThumbnails && !p.has_thumbnail && llmEnabled === true;
+                const shouldShowSummary = showThumbnails && !p.has_thumbnail && llmEnabled !== false;
                 return `<div class="project-item"
                     onclick="selectProject(event, ${p.id}, '${containerId}', '${onSelect}')"
                     data-project-id="${p.id}"
@@ -615,7 +616,7 @@
             }
 
             // Load summaries for projects without thumbnails
-            if (showThumbnails && llmEnabled === true) {
+            if (showThumbnails && llmEnabled !== false) {
                 const summaryPlaceholders = container.querySelectorAll('.project-summary-placeholder');
                 summaryPlaceholders.forEach(placeholder => {
                     const projectId = parseInt(placeholder.getAttribute('data-project-id'));
