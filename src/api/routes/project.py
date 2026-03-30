@@ -543,9 +543,12 @@ async def get_project_replay(
     When use_ai=true and LLM enabled, Gemini enriches the output.
     """
     try:
-        resolved_user = user_name or AuthManager.get_current_username()
-        if not resolved_user:
+        current_user = AuthManager.get_current_username()
+        if not current_user:
             raise HTTPException(status_code=401, detail="User authentication required")
+        if user_name and user_name != current_user:
+            raise HTTPException(status_code=403, detail="Not authorized to view this project")
+        resolved_user = user_name or current_user
         project = get_project_by_id(project_id, user_name=resolved_user)
         if not project:
             raise HTTPException(status_code=404, detail=f"Project with ID {project_id} not found")
