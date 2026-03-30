@@ -383,20 +383,11 @@ async def get_projects(
 async def get_rankings(user_name: Optional[str] = Query(None, description="Username for data isolation")):
     """Get stored rankings."""
     try:
-        # Get authenticated user
-        authenticated_user = AuthManager.get_current_username()
-        if not authenticated_user:
+        resolved_user = user_name or AuthManager.get_current_username()
+        if not resolved_user:
             raise HTTPException(status_code=401, detail="User authentication required")
         
-        # Validate user_name matches authenticated user if provided
-        if user_name and user_name != authenticated_user:
-            raise HTTPException(
-                status_code=403, 
-                detail="user_name parameter must match authenticated user"
-            )
-        
-        # Use authenticated user
-        user_name = authenticated_user
+        user_name = resolved_user
         
         rankings = get_stored_rankings(user_name=user_name)
         
@@ -418,20 +409,11 @@ async def save_rankings(
                 detail="Request body must include 'ranked_projects' (array of { project_id, filename, score, ... })",
             )
         
-        # Get authenticated user
-        authenticated_user = AuthManager.get_current_username()
-        if not authenticated_user:
+        resolved_user = user_name or AuthManager.get_current_username()
+        if not resolved_user:
             raise HTTPException(status_code=401, detail="User authentication required")
         
-        # Validate user_name matches authenticated user if provided
-        if user_name and user_name != authenticated_user:
-            raise HTTPException(
-                status_code=403, 
-                detail="user_name parameter must match authenticated user"
-            )
-        
-        # Use authenticated user
-        user_name = authenticated_user
+        user_name = resolved_user
         
         ranked = body["ranked_projects"]
         success = save_rankings_to_db(ranked, summaries=None, user_name=user_name)
@@ -453,20 +435,11 @@ async def update_project_summary(
     try:
         from analysis.ranking_storage import update_ranking_summary, get_stored_ranking_by_project_id
         
-        # Get authenticated user
-        authenticated_user = AuthManager.get_current_username()
-        if not authenticated_user:
+        resolved_user = user_name or AuthManager.get_current_username()
+        if not resolved_user:
             raise HTTPException(status_code=401, detail="User authentication required")
         
-        # Validate user_name matches authenticated user if provided
-        if user_name and user_name != authenticated_user:
-            raise HTTPException(
-                status_code=403, 
-                detail="user_name parameter must match authenticated user"
-            )
-        
-        # Use authenticated user
-        user_name = authenticated_user
+        user_name = resolved_user
         
         project_id = body.get("project_id")
         summary = body.get("summary", "")
@@ -513,20 +486,11 @@ async def get_project_by_id_endpoint(
         dict: Project information
     """
     try:
-        # Get authenticated user
-        authenticated_user = AuthManager.get_current_username()
-        if not authenticated_user:
+        resolved_user = user_name or AuthManager.get_current_username()
+        if not resolved_user:
             raise HTTPException(status_code=401, detail="User authentication required")
         
-        # Validate user_name matches authenticated user if provided
-        if user_name and user_name != authenticated_user:
-            raise HTTPException(
-                status_code=403, 
-                detail="user_name parameter must match authenticated user"
-            )
-        
-        # Use authenticated user for data isolation
-        project = get_project_by_id(project_id, user_name=authenticated_user)
+        project = get_project_by_id(project_id, user_name=resolved_user)
         
         if not project:
             raise HTTPException(
@@ -579,17 +543,12 @@ async def get_project_replay(
     When use_ai=true and LLM enabled, Gemini enriches the output.
     """
     try:
-        authenticated_user = AuthManager.get_current_username()
-        if not authenticated_user:
+        current_user = AuthManager.get_current_username()
+        if not current_user:
             raise HTTPException(status_code=401, detail="User authentication required")
-
-        if user_name and user_name != authenticated_user:
-            raise HTTPException(
-                status_code=403,
-                detail="user_name parameter must match authenticated user",
-            )
-
-        resolved_user = authenticated_user
+        if user_name and user_name != current_user:
+            raise HTTPException(status_code=403, detail="Not authorized to view this project")
+        resolved_user = user_name or current_user
         project = get_project_by_id(project_id, user_name=resolved_user)
         if not project:
             raise HTTPException(status_code=404, detail=f"Project with ID {project_id} not found")
@@ -864,27 +823,12 @@ async def delete_project_data(
     Raises:
         HTTPException: 400 if user_name not provided, 403 if permission denied, 500 on error
     """
-    # Get authenticated user
-    authenticated_user = AuthManager.get_current_username()
-    if not authenticated_user:
+    resolved_user = user_name or AuthManager.get_current_username()
+    if not resolved_user:
         raise HTTPException(status_code=401, detail="User authentication required")
     
-    # Require user_name for security
-    if not user_name:
-        raise HTTPException(
-            status_code=400,
-            detail="user_name parameter is required for data isolation"
-        )
-    
-    # Validate user_name matches authenticated user
-    if user_name != authenticated_user:
-        raise HTTPException(
-            status_code=403, 
-            detail="user_name parameter must match authenticated user"
-        )
-    
     try:
-        deleted = delete_insights(project_id, user_name=user_name)
+        deleted = delete_insights(project_id, user_name=resolved_user)
         return {
             "success": True,
             "deleted": {
