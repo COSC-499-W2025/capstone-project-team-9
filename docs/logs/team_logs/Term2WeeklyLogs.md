@@ -1867,3 +1867,6 @@ This week required careful coordination as we finalized the project and merged o
 ## **Next Steps**
 Based on the course syllabus and project timeline, everything should be end this week. So, I would like to say that our project is officially over. 
 ## **Burn up Chart**
+<img width="1002" height="542" alt="image" src="https://github.com/user-attachments/assets/f3b1c4ed-b5e3-4385-adf2-a691f2f839b8" />
+<img width="1066" height="599" alt="image" src="https://github.com/user-attachments/assets/a8004675-41fc-49ab-8b58-48432ece3ed8" />
+
