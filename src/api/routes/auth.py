@@ -64,7 +64,7 @@ async def login(request: LoginRequest):
     user_data = get_user_by_username(username)
     if not user_data:
         raise HTTPException(
-            status_code=500,
+            status_code=401,
             detail={
                 "error_type": "USER_INFO_MISSING",
                 "message": "Login succeeded but user information could not be retrieved",
@@ -158,7 +158,7 @@ async def logout(request: LogoutRequest):
 
     if not logout_user(username):
         raise HTTPException(
-            status_code=500,
+            status_code=400,
             detail={
                 "error_type": "LOGOUT_FAILED",
                 "message": "Logout failed, user may not exist or is not logged in",
