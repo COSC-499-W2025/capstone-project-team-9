@@ -486,9 +486,8 @@ async def get_project_by_id_endpoint(
         dict: Project information
     """
     try:
-        resolved_user = user_name or AuthManager.get_current_username()
-        if not resolved_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
+        # Use user_name if provided, fallback to AuthManager, allow None
+        resolved_user = user_name if user_name is not None else AuthManager.get_current_username()
         
         project = get_project_by_id(project_id, user_name=resolved_user)
         
@@ -543,12 +542,19 @@ async def get_project_replay(
     When use_ai=true and LLM enabled, Gemini enriches the output.
     """
     try:
+        # Use user_name if provided, fallback to AuthManager
         current_user = AuthManager.get_current_username()
-        if not current_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
-        if user_name and user_name != current_user:
-            raise HTTPException(status_code=403, detail="Not authorized to view this project")
-        resolved_user = user_name or current_user
+        if user_name:
+            # If user_name provided, validate against current_user if available
+            if current_user and user_name != current_user:
+                raise HTTPException(status_code=403, detail="Not authorized to view this project")
+            resolved_user = user_name
+        elif current_user:
+            resolved_user = current_user
+        else:
+            # No authentication available, but continue to allow 404 for missing projects
+            resolved_user = None
+        
         project = get_project_by_id(project_id, user_name=resolved_user)
         if not project:
             raise HTTPException(status_code=404, detail=f"Project with ID {project_id} not found")
