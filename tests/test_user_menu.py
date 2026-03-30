@@ -1,15 +1,9 @@
-# tests/test_user_menu.py
-
 import sys
 import os
 import pytest
 from unittest.mock import patch, MagicMock
 from io import StringIO
-
-# Add the project root to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
-
-# Import the modules to test
 from cli.user_menus import user_account_menu, handle_user_login, handle_user_logout, handle_user_registration, login_menu, get_password_input, set_password_display_mode
 from account.user_manager import AuthManager
 import cli.user_menus
@@ -26,7 +20,7 @@ class TestUserAccountMenu:
         """Clean up after each test"""
         AuthManager.clear_session()
     
-    @patch('builtins.input', side_effect=['4'])  # Back to main menu (option 4 now)
+    @patch('builtins.input', side_effect=['4'])
     @patch('sys.stdout', new_callable=StringIO)
     def test_user_account_menu_not_logged_in(self, mock_stdout, mock_input):
         """Test user account menu when not logged in"""

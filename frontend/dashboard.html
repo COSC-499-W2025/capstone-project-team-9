@@ -292,6 +292,11 @@
             const usernameEl = document.getElementById('username');
             if (usernameEl) usernameEl.textContent = '– ' + currentUser.user_name;
 
+            // Re-hydrate server-side session so AuthManager stays in sync
+            try {
+                await apiCall(`/api/auth/me?username=${encodeURIComponent(currentUser.user_name)}`);
+            } catch (_) { /* best-effort */ }
+
             try {
                 await loadProjects();
             } catch (e) {
