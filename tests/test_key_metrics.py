@@ -354,7 +354,7 @@ def test_fetch_records_from_db_git_folder(monkeypatch):
     ]
     _mock_db(monkeypatch, rows)
     
-    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda: (True,))
+    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda _: (True,))
     monkeypatch.setattr(key_metrics, "choose_author_from_zip", lambda _: "author")
     monkeypatch.setattr(key_metrics, "get_all_files_for_author_from_zip", lambda _, __: {"file.py"})
     
@@ -458,7 +458,7 @@ def test_fetch_records_from_db_with_collaboration(monkeypatch):
     ]
     _mock_db(monkeypatch, rows)
     
-    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda: (True,))
+    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda _: (True,))
     monkeypatch.setattr(key_metrics, "choose_author_from_zip", lambda _: "author")
     monkeypatch.setattr(key_metrics, "get_all_files_for_author_from_zip", lambda _, __: {"file.py", ".git/config"})
     
@@ -473,7 +473,7 @@ def test_fetch_records_from_db_with_collaboration_author_none(monkeypatch):
     ]
     _mock_db(monkeypatch, rows)
     
-    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda: (True,))
+    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda _: (True,))
     monkeypatch.setattr(key_metrics, "choose_author_from_zip", lambda _: None)
     monkeypatch.setattr(key_metrics, "get_all_files_for_author_from_zip", lambda _, __: set())
     
@@ -490,7 +490,7 @@ def test_fetch_records_from_db_collaboration_with_matching_files(monkeypatch):
     ]
     _mock_db(monkeypatch, rows)
     
-    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda: (True,))
+    monkeypatch.setattr(key_metrics, "get_user_collaboration", lambda _: (True,))
     monkeypatch.setattr(key_metrics, "choose_author_from_zip", lambda _: "author")
     monkeypatch.setattr(key_metrics, "get_all_files_for_author_from_zip", lambda _, __: {"file.py"})
     
