@@ -1723,11 +1723,20 @@ Final presentation preparation.
 # Sprint Report – Term 2 Week 12 (2026/03/23 to 2026/03/29)
 
 ## **Overview**
-
+This week served as our final sprint, focusing heavily on system stabilization, bug fixing, and finalizing our test coverage before submission. Rather than introducing new major features, the team concentrated on ensuring the reliability of existing components and resolving any lingering runtime issues.
 
 ## **Completed Work**
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/387
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/388
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/395
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/397
+- More and more
 
 ### **Kevin**
+What I completed this week
+Focused heavily on strengthening the project's foundation by writing comprehensive test suites. Specifically, I implemented robust tests for our utility functions (utils.py), ensuring that edge cases like mixed-casing, complex project suffixes, and multiple archive extensions (like .tar.gz) are handled safely.
+
+Assisted in cross-reviewing several testing and stability PRs from the rest of the team to ensure our final build is error-free.
 
 ---
 
@@ -1842,12 +1851,12 @@ This PR is for fixing some bugs and improve in list project page.
 | **Eric** | **Kevin** | all more tests for utils#395 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/395)|
 | **Ryan** | **Kevin** |  |
 | **Ryan** | **Sami** | |
-|**Kevin**|**Ryan**| |
-|**Kevin**|**Jinxi**|  |
+|**Kevin**|**Ryan**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/398 |
+|**Kevin**|**Eric**| https://github.com/COSC-499-W2025/capstone-project-team-9/pull/387 |
 | **Evan** | **Jinxi** | |
 | **Evan** | **Ryan** |  |
 ---
 
 ## **Next Steps**
-Based on the course syllabus and project design, everything should be end this week.
+Based on the course syllabus and project timeline, everything should be end this week. So, I would like to say that our project is officially over. 
 ## **Burn up Chart**
