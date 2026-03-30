@@ -1737,6 +1737,11 @@ What I completed this week
 Focused heavily on strengthening the project's foundation by writing comprehensive test suites. Specifically, I implemented robust tests for our utility functions (utils.py), ensuring that edge cases like mixed-casing, complex project suffixes, and multiple archive extensions (like .tar.gz) are handled safely.
 
 Assisted in cross-reviewing several testing and stability PRs from the rest of the team to ensure our final build is error-free.
+**What went well
+Writing the utility tests revealed some underlying case-sensitivity bugs in our string parsing logic. I was able to successfully refactor the code to handle these edge cases, making the app's file processing much more robust.
+
+**What didn't go well
+With everyone pushing their final tests and bug fixes at the same time, coordinating the final merges to avoid conflicts was a bit challenging. Communication also slowed down slightly towards the end of the week due to busy schedules.
 
 ---
 
@@ -1837,9 +1842,11 @@ This PR is for fixing some bugs and improve in list project page.
 - We did not have a lot of communication at all which is never a good thing
 ### what i will work on next week
 - I will look in to the group evaluations and the voting system
----
-### **Collaboration Highlights** 
 
+---
+
+### **Collaboration Highlights** 
+This week required careful coordination as we finalized the project and merged our last sets of tests and bug fixes. A major highlight was our rigorous peer-review process for test coverage; members actively reviewed and validated each other's test suites to ensure system stability before submission. For example, Kevin and Eric cross-reviewed DB failure tests and utility tests, while JinXi thoroughly tested both backend edge cases and frontend API connections. Although communication dipped slightly due to busy individual schedules, the team successfully managed to integrate UI polish, Docker fixes, and backend test suites without any breaking merge conflicts, bringing the project to a successful close.
 
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
