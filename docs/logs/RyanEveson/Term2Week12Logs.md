@@ -7,6 +7,7 @@
 ### Link to PR
 - This is the link to the PR that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/396
 - Second PR https://github.com/COSC-499-W2025/capstone-project-team-9/pull/388
+- third PR: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/398
 ### What went well
 - As our project is coming to a close we do not have much left to do. Becuase of this the coding this week focused on revising tests, altering th front end, and changing tests to be more accurate
 ### what didnt go well
