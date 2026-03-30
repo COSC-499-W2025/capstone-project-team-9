@@ -1732,7 +1732,17 @@ Final presentation preparation.
 ---
 
 ### **Sami**
-
+### What I completed this week
+- This week I finalized everything, did some frontend rework, helped fix up some of the features/our runtime and was able to 
+### Link to PR
+- This is the link to the PR that i have made: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/397
+### What went well
+- our project is complete, there isn't anything else that needs to be added. Maybe a couple styling things for the frontend but thats reliant on the screen you have (mobility) so we're not too concerned.
+- We fixed our runtime issues, our time complexity, along with some minor frontend reworks and our unique feature.   
+### what didnt go well
+- We ran into a bunch of issues this week when it came to working collaboratively to finalize our project and fix our runtime. 
+### what i will work on next week
+- Hopefully nothing! Maybe fixing up some frontend and adding supabase support to host this project. 
 ---
 
 ### **Eric**
@@ -1825,8 +1835,7 @@ This PR is for fixing some bugs and improve in list project page.
 ### **Peer Evaluations** 
 | Reviewer | Reviewee | Focus Area |
 |-----------|-----------|-------------|
-| **Sami** | **Ryan** |  |
-| **Sami** | **Ryan** |  |
+| **Sami** | **Ryan** | added more tests: https://github.com/COSC-499-W2025/capstone-project-team-9/pull/398 |
 | **JinXi** | **Eric** | test: add db failure and request context edge case tests(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/387) |
 | **JinXi** | **Kevin** | all more tests for utils(https://github.com/COSC-499-W2025/capstone-project-team-9/pull/395) |
 | **Eric** | **Ryan** | This is fixing the API bug#388 (https://github.com/COSC-499-W2025/capstone-project-team-9/pull/388)|
