@@ -617,3 +617,43 @@ Expand Mocking to Database: Now that the API is mocked, I want to apply the same
 Milestone 3 Final Polish: I will assist the team in integrating the new "Interview Bullets" and "Resume Builder" UI changes into the final dashboard flow.
 
 This week has no screen capture since we are working on peer testing #2.
+
+### This week has no evaulation. 
+
+# **What I Did This Week (2026/03/23 to 2026/03/29 Week 12)**
+
+## add more tests for gemini API key https://github.com/COSC-499-W2025/capstone-project-team-9/pull/386
+
+### **In Simple Terms**
+I created a high-quality testing system to make sure our "AI brain" (the Gemini API) doesn't break the whole website if something goes wrong. Instead of actually calling Google's servers every time we run a test (which costs money and is slow), I built "mock" versions of the API. This allowed me to test how the app reacts to bad situations, like the internet cutting out, the API key being missing, or Google's servers being too busy. Now, if the AI fails, the website will know exactly why and handle it safely instead of just crashing.
+
+---
+
+### **What I Created / Modified**
+Utility Function Refactoring & Testing (PR #395): I focused heavily on strengthening the project's foundation by writing comprehensive test suites for our core utility functions (src/common/utils.py).
+
+Edge Case Resolution: Discovered and fixed a case-sensitivity bug within the clean_project_title function. Updated the string parsing logic to safely handle complex project suffixes (like uppercase -MAIN) and multiple archive extensions (like .tar.gz).
+
+Peer Review & Stabilization: Assisted in cross-reviewing several testing and stability PRs (including Eric's DB connection edge case tests) to ensure our final build is error-free before submission.
+- https://github.com/COSC-499-W2025/capstone-project-team-9/pull/395
+  
+---
+
+### **By The Numbers**
+
+| Metric | Value |
+| :--- | :--- |
+| **Pull Request** | 395 |
+| **Files Modified** | 1 |
+| **New Modules** | 0 (util file fix) |
+| **Impact** | Secured the most expensive/volatile external dependency against unhandled crashes. |
+
+---
+
+### **Reflection**
+Writing the utility tests was highly effective as it immediately revealed underlying bugs in our string parsing logic. I was able to successfully refactor the code to handle these edge cases without breaking existing functionality, making the app's file processing much more robust. Our overall test coverage is now in a great place for the final hand-off.
+
+### **Next Steps**
+Since this is the final week and the coding phase is officially over, my only remaining tasks are assisting with the final project wrap-up, ensuring the repository is clean, and completing the final peer evaluations and group voting system.
+
+<img width="1054" height="613" alt="image" src="https://github.com/user-attachments/assets/e5c7f1c0-c934-41f4-b2af-c5177d1a2c84" />
