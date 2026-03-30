@@ -9,7 +9,7 @@
 - our project is complete, there isn't anything else that needs to be added. Maybe a couple styling things for the frontend but thats reliant on the screen you have (mobility) so we're not too concerned.
 - We fixed our runtime issues, our time complexity, along with some minor frontend reworks and our unique feature.   
 ### what didnt go well
-- We ran into a bunch of issues this week when it came to 
+- We ran into a bunch of issues this week when it came to working collaboratively to finalize our project and fix our runtime. 
 ### what i will work on next week
 - Hopefully nothing! Maybe fixing up some frontend and adding supabase support to host this project. 
 
