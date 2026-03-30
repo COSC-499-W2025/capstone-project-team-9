@@ -622,7 +622,7 @@ This week has no screen capture since we are working on peer testing #2.
 
 # **What I Did This Week (2026/03/23 to 2026/03/29 Week 12)**
 
-## add more tests for gemini API key https://github.com/COSC-499-W2025/capstone-project-team-9/pull/386
+## all more tests for utils https://github.com/COSC-499-W2025/capstone-project-team-9/pull/395
 
 ### **In Simple Terms**
 I created a high-quality testing system to make sure our "AI brain" (the Gemini API) doesn't break the whole website if something goes wrong. Instead of actually calling Google's servers every time we run a test (which costs money and is slow), I built "mock" versions of the API. This allowed me to test how the app reacts to bad situations, like the internet cutting out, the API key being missing, or Google's servers being too busy. Now, if the AI fails, the website will know exactly why and handle it safely instead of just crashing.
