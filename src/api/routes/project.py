@@ -400,7 +400,7 @@ async def get_rankings(user_name: Optional[str] = Query(None, description="Usern
             
             authenticated_user = user_name
         
-        user_name = resolved_user
+        user_name = authenticated_user
         
         rankings = get_stored_rankings(user_name=user_name)
         
@@ -439,7 +439,7 @@ async def save_rankings(
             
             authenticated_user = user_name
         
-        user_name = resolved_user
+        user_name = authenticated_user
         
         ranked = body["ranked_projects"]
         success = save_rankings_to_db(ranked, summaries=None, user_name=user_name)
@@ -477,7 +477,7 @@ async def update_project_summary(
             
             authenticated_user = user_name
         
-        user_name = resolved_user
+        user_name = authenticated_user
         
         project_id = body.get("project_id")
         summary = body.get("summary", "")
