@@ -124,7 +124,7 @@ def test_auth_login_validation_empty_password(client):
 @patch("api.routes.auth.get_user_by_username", return_value=None)
 def test_auth_login_user_missing_after_ok(mock_gu, mock_login, client):
     r = client.post("/api/auth/login", json={"username": "u", "password": "pw"})
-    assert r.status_code == 500
+    assert r.status_code == 401
 
 
 @patch("api.routes.auth.AuthManager.register", return_value={"success": False, "message": "taken"})
@@ -168,7 +168,7 @@ def test_auth_logout_not_logged_in(mock_gu, client):
 @patch("api.routes.auth.logout_user", return_value=False)
 def test_auth_logout_failed(mock_lo, mock_gu, client):
     r = client.post("/api/auth/logout", json={"username": "u"})
-    assert r.status_code == 500
+    assert r.status_code == 400
 
 
 def test_auth_me_validation(client):
