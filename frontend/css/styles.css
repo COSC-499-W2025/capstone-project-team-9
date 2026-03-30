@@ -5,48 +5,56 @@
 /* ============== CSS Variables ============== */
 
 :root {
-    --bg-primary: #fafafa;
-    --bg-secondary: #f4f4f5;
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
     --bg-card: #ffffff;
     --bg-elevated: #ffffff;
-    --accent-primary: #4f46e5;
-    --accent-hover: #4338ca;
-    --accent-glow: rgba(79, 70, 229, 0.1);
-    --text-primary: #18181b;
-    --text-secondary: #3f3f46;
-    --text-muted: #71717a;
-    --border-color: #e4e4e7;
-    --error-color: #dc2626;
-    --success-color: #16a34a;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.1);
+    --accent-primary: #6366f1;
+    --accent-hover: #4f46e5;
+    --accent-glow: rgba(99, 102, 241, 0.10);
+    --accent-secondary: #06b6d4;
+    --accent-tertiary: #8b5cf6;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border-color: #e2e8f0;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --info-color: #3b82f6;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
     --radius-sm: 10px;
     --radius-md: 14px;
     --radius-lg: 20px;
-    --badge-bg: #4f46e5;
+    --badge-bg: #6366f1;
     --badge-text: #ffffff;
 }
 
 [data-theme="dark"] {
-    --bg-primary: #09090b;
-    --bg-secondary: #0f0f12;
-    --bg-card: #131316;
-    --bg-elevated: #1c1c21;
-    --accent-primary: #6366f1;
-    --accent-hover: #818cf8;
-    --accent-glow: rgba(99, 102, 241, 0.12);
-    --text-primary: #f4f4f5;
-    --text-secondary: #a1a1aa;
-    --text-muted: #71717a;
-    --border-color: #27272a;
+    --bg-primary: #0c0c10;
+    --bg-secondary: #13131a;
+    --bg-card: #18181f;
+    --bg-elevated: #1e1e28;
+    --accent-primary: #818cf8;
+    --accent-hover: #a5b4fc;
+    --accent-glow: rgba(129, 140, 248, 0.12);
+    --accent-secondary: #22d3ee;
+    --accent-tertiary: #a78bfa;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --border-color: #1e293b;
     --error-color: #f87171;
-    --success-color: #34d399;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6);
-    --badge-bg: #6366f1;
-    --badge-text: #ffffff;
+    --success-color: #4ade80;
+    --warning-color: #fbbf24;
+    --info-color: #60a5fa;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.6);
+    --badge-bg: #818cf8;
+    --badge-text: #0c0c10;
 }
 
 /* ============== Global Reset ============== */
@@ -61,7 +69,7 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s ease, color 0.3s ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -80,7 +88,7 @@ body {
     color: var(--text-primary);
     font-size: 13px;
     font-weight: 500;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
 }
 
 .theme-toggle:hover {
@@ -112,9 +120,13 @@ body {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+[data-theme="dark"] .btn {
+    color: #0c0c10;
+}
+
 .btn:hover:not(:disabled) {
     background: var(--accent-hover);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
     transform: translateY(-1px);
 }
 
@@ -128,6 +140,10 @@ body {
     color: var(--text-primary);
     border: 1px solid var(--border-color);
     box-shadow: none;
+}
+
+[data-theme="dark"] .btn-secondary {
+    color: var(--text-primary);
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -154,6 +170,9 @@ body {
 .form-group input[type="text"],
 .form-group input[type="password"],
 .form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="url"],
+.form-group input[type="number"],
 .form-group textarea {
     width: 100%;
     padding: 10px 14px;
@@ -163,7 +182,7 @@ body {
     color: var(--text-primary);
     font-family: inherit;
     font-size: 14px;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .form-group input:focus,
@@ -181,6 +200,29 @@ body {
 .form-group textarea {
     min-height: 100px;
     resize: vertical;
+}
+
+/* Generic .form-input class (profile builder, settings, resume gen) */
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
 }
 
 input[type="file"] {
@@ -209,14 +251,14 @@ input[type="file"] {
 }
 
 .message.error {
-    background: rgba(220, 38, 38, 0.08);
-    border: 1px solid rgba(220, 38, 38, 0.2);
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
     color: var(--error-color);
 }
 
 .message.success {
-    background: rgba(22, 163, 74, 0.08);
-    border: 1px solid rgba(22, 163, 74, 0.2);
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.2);
     color: var(--success-color);
 }
 
@@ -234,10 +276,13 @@ input[type="file"] {
     letter-spacing: -0.01em;
 }
 
-.badge-success { background: #16a34a; color: #fff; }
-.badge-warning { background: #d97706; color: #fff; }
-.badge-info    { background: #6366f1; color: #fff; }
-.badge-purple  { background: #8b5cf6; color: #fff; }
+.badge-success { background: var(--success-color); color: #fff; }
+.badge-warning { background: var(--warning-color); color: #fff; }
+.badge-info    { background: var(--info-color); color: #fff; }
+.badge-purple  { background: var(--accent-tertiary); color: #fff; }
+
+[data-theme="dark"] .badge-success { color: #052e16; }
+[data-theme="dark"] .badge-warning { color: #451a03; }
 
 /* ============== Utility Classes ============== */
 
@@ -255,4 +300,9 @@ input[type="file"] {
 @keyframes slideIn {
     from { transform: translateY(-12px); opacity: 0; }
     to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
 }
