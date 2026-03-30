@@ -18,13 +18,6 @@ MAX_FILES_TO_ANALYZE = 30
 # Retry settings for rate limits
 MAX_RETRIES = 3
 INITIAL_RETRY_DELAY = 2  # seconds
-# Character budget for file excerpts in get_quick_summary (first 1000 chars per file, max 10 files)
-QUICK_SUMMARY_CHAR_BUDGET = 15000
-
-
-def _bytes_or_memoryview_to_utf8(content: bytes | memoryview) -> str:
-    """Decode BYTEA / binary buffer content for text analysis."""
-    return bytes(content).decode("utf-8", errors="ignore")
 
 
 class GeminiAnalyzer:
@@ -193,7 +186,7 @@ class GeminiAnalyzer:
             # Handle bytes (from database BYTEA column)
             if isinstance(content, (bytes, memoryview)):
                 try:
-                    content = _bytes_or_memoryview_to_utf8(content)
+                    content = bytes(content).decode("utf-8", errors="ignore")
                 except Exception:
                     continue
 
@@ -417,7 +410,7 @@ Provide specific, actionable insights based on the actual code you see. Be const
         total_chars = 0
         for f in code_files[:10]:  # Limit to 10 files for quick summary
             content = f["content"][:1000]  # First 1000 chars per file
-            if total_chars + len(content) > QUICK_SUMMARY_CHAR_BUDGET:
+            if total_chars + len(content) > 15000:
                 break
             files_preview.append(f"### {f['path']}\n```\n{content}\n```")
             total_chars += len(content)
