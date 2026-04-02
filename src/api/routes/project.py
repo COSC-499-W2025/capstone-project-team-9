@@ -469,7 +469,7 @@ async def update_project_summary(
 ):
     """Update the summary for a specific project."""
     try:
-        from analysis.ranking_storage import update_ranking_summary, get_stored_ranking_by_project_id
+        from analysis.ranking_storage import insert_or_update_single_ranking
         from database.user_informations import get_user_by_username
         
         # Get authenticated user
@@ -495,27 +495,22 @@ async def update_project_summary(
         if not project_id:
             raise HTTPException(status_code=400, detail="project_id is required")
         
-        # Check if ranking exists, if not create a basic one
-        existing = get_stored_ranking_by_project_id(project_id, user_name=user_name)
-        if not existing:
-            # Create a basic ranking entry with just the summary
-            from analysis.ranking_storage import save_rankings_to_db
-            save_rankings_to_db(
-                [{"project_id": project_id, "filename": "", "score": 0.0}],
-                summaries={project_id: summary},
-                user_name=user_name
-            )
-        else:
-            # Update existing summary
-            success = update_ranking_summary(project_id, summary, user_name=user_name)
-            if not success:
-                raise HTTPException(status_code=500, detail="Failed to update summary")
+        # Use the new function that doesn't delete other rankings
+        success = insert_or_update_single_ranking(
+            project_id=project_id,
+            summary=summary,
+            user_name=user_name
+        )
+        
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to save summary")
         
         return {"success": True, "message": "Summary updated successfully"}
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating summary: {str(e)}")
+
 
 
 @router.get("/projects/{project_id}")

@@ -329,6 +329,72 @@ def update_ranking_summary(project_id: int, new_summary: str, user_name: Optiona
         return False
 
 
+def insert_or_update_single_ranking(project_id: int, summary: str, user_name: Optional[str] = None, 
+                                     score: float = 0.0, rank_position: Optional[int] = None) -> bool:
+    """
+    Insert or update a single project ranking entry without affecting other rankings.
+    This is used when saving individual project summaries.
+    
+    Args:
+        project_id: The project ID
+        summary: The summary text
+        user_name: Optional username. If not provided, uses current logged-in user.
+        score: The score for the ranking (default 0.0 if not specified)
+        rank_position: Optional rank position. If None, will be calculated or use existing.
+    """
+    try:
+        init_ranking_storage_table()
+        
+        if user_name is None:
+            user_name = AuthManager.get_current_username()
+        if not user_name:
+            print("Error: No user logged in and no user_name provided")
+            return False
+        
+        with with_db_cursor() as cursor:
+            # First check if this project already has a ranking for this user
+            cursor.execute("""
+                SELECT rank_position, score FROM project_rankings
+                WHERE project_id = %s AND user_name = %s
+            """, (project_id, user_name))
+            
+            existing = cursor.fetchone()
+            
+            if existing:
+                # Update existing record - preserve rank_position and use provided score
+                existing_rank = existing[0]
+                cursor.execute("""
+                    UPDATE project_rankings
+                    SET summary = %s, score = %s, updated_at = CURRENT_TIMESTAMP
+                    WHERE project_id = %s AND user_name = %s
+                """, (summary, score, project_id, user_name))
+                return True
+            else:
+                # Insert new record
+                # Calculate rank position based on current rankings
+                if rank_position is None:
+                    cursor.execute("""
+                        SELECT COALESCE(MAX(rank_position), 0) + 1
+                        FROM project_rankings
+                        WHERE user_name = %s
+                    """, (user_name,))
+                    rank_position = cursor.fetchone()[0]
+                
+                cursor.execute("""
+                    INSERT INTO project_rankings (
+                        project_id, rank_position, score, summary, ranking_data, user_name, updated_at
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                """, (project_id, rank_position, score, summary, json.dumps({}), user_name))
+                return True
+        
+    except Exception as e:
+        print(f"Error inserting/updating single ranking: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 def update_ranking_position(project_id: int, new_position: int) -> bool:
     """
     Update the rank position for a stored ranking for the current logged-in user.

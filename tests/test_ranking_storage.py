@@ -19,7 +19,8 @@ from analysis.ranking_storage import (
     update_ranking_score,
     update_ranking_summary,
     update_ranking_position,
-    delete_stored_rankings
+    delete_stored_rankings,
+    insert_or_update_single_ranking
 )
 
 
@@ -438,6 +439,102 @@ class TestDeleteStoredRankings:
         mock_with_db_cursor.side_effect = Exception("Database error")
         
         result = delete_stored_rankings()
+        
+        assert result is False
+
+
+class TestInsertOrUpdateSingleRanking:
+    """Test inserting or updating single ranking entries"""
+    
+    @patch('analysis.ranking_storage.init_ranking_storage_table')
+    @patch('analysis.ranking_storage.AuthManager.get_current_username', return_value='test_user')
+    @patch('analysis.ranking_storage.with_db_cursor')
+    def test_insert_new_ranking(self, mock_with_db_cursor, mock_get_user, mock_init):
+        """Test inserting a new ranking entry without affecting others"""
+        mock_cursor = Mock()
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
+        
+        # Simulate no existing record for this project
+        mock_cursor.fetchone.side_effect = [None, (5,)]  # First: no existing, Second: max rank + 1
+        
+        result = insert_or_update_single_ranking(
+            project_id=123,
+            summary="Test summary",
+            score=85.5
+        )
+        
+        assert result is True
+        # Should query for existing, then get max rank position, then insert
+        assert mock_cursor.execute.call_count >= 2
+        
+        # Verify INSERT was called
+        insert_call = [call for call in mock_cursor.execute.call_args_list if 'INSERT' in str(call)]
+        assert len(insert_call) > 0
+    
+    @patch('analysis.ranking_storage.init_ranking_storage_table')
+    @patch('analysis.ranking_storage.AuthManager.get_current_username', return_value='test_user')
+    @patch('analysis.ranking_storage.with_db_cursor')
+    def test_update_existing_ranking(self, mock_with_db_cursor, mock_get_user, mock_init):
+        """Test updating an existing ranking entry"""
+        mock_cursor = Mock()
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
+        
+        # Simulate existing record
+        mock_cursor.fetchone.return_value = (3, 75.0)  # existing rank_position=3, score=75.0
+        
+        result = insert_or_update_single_ranking(
+            project_id=123,
+            summary="Updated summary",
+            score=90.0
+        )
+        
+        assert result is True
+        # Should query for existing, then update
+        assert mock_cursor.execute.call_count >= 2
+        
+        # Verify UPDATE was called
+        update_call = [call for call in mock_cursor.execute.call_args_list if 'UPDATE' in str(call)]
+        assert len(update_call) > 0
+    
+    @patch('analysis.ranking_storage.init_ranking_storage_table')
+    @patch('analysis.ranking_storage.AuthManager.get_current_username', return_value='test_user')
+    @patch('analysis.ranking_storage.with_db_cursor')
+    def test_multiple_projects_not_affected(self, mock_with_db_cursor, mock_get_user, mock_init):
+        """Test that inserting one project doesn't affect others"""
+        mock_cursor = Mock()
+        mock_context = MagicMock()
+        mock_context.__enter__.return_value = mock_cursor
+        mock_with_db_cursor.return_value = mock_context
+        
+        # Simulate no existing record
+        mock_cursor.fetchone.side_effect = [None, (3,)]  # No existing, max rank is 2 (so 3 is returned)
+        
+        result = insert_or_update_single_ranking(
+            project_id=456,
+            summary="Another project summary"
+        )
+        
+        assert result is True
+        
+        # Verify NO DELETE was called (the key fix)
+        delete_calls = [call for call in mock_cursor.execute.call_args_list if 'DELETE' in str(call)]
+        assert len(delete_calls) == 0, "Should not delete any existing rankings"
+    
+    @patch('analysis.ranking_storage.init_ranking_storage_table')
+    @patch('analysis.ranking_storage.AuthManager.get_current_username', return_value='test_user')
+    @patch('analysis.ranking_storage.with_db_cursor')
+    def test_insert_or_update_error(self, mock_with_db_cursor, mock_get_user, mock_init):
+        """Test error handling"""
+        mock_with_db_cursor.side_effect = Exception("Database error")
+        
+        result = insert_or_update_single_ranking(
+            project_id=789,
+            summary="Test summary"
+        )
         
         assert result is False
 
