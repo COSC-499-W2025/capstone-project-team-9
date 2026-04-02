@@ -393,11 +393,24 @@ async def get_projects(
 async def get_rankings(user_name: Optional[str] = Query(None, description="Username for data isolation")):
     """Get stored rankings."""
     try:
-        resolved_user = user_name or AuthManager.get_current_username()
-        if not resolved_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
+        from database.user_informations import get_user_by_username
         
-        user_name = resolved_user
+        # Get authenticated user
+        authenticated_user = AuthManager.get_current_username()
+        
+        # If no AuthManager session, fall back to user_name parameter with DB validation
+        if not authenticated_user:
+            if not user_name:
+                raise HTTPException(status_code=401, detail="User authentication required")
+            
+            # Validate user exists and is logged in
+            user_data = get_user_by_username(user_name)
+            if not user_data or not user_data.get('is_login', False):
+                raise HTTPException(status_code=401, detail="User not authenticated")
+            
+            authenticated_user = user_name
+        
+        user_name = authenticated_user
         
         rankings = get_stored_rankings(user_name=user_name)
         
@@ -413,17 +426,30 @@ async def save_rankings(
 ):
     """Save ranked projects to the database (same as backend save). Requires ranked_projects in body."""
     try:
+        from database.user_informations import get_user_by_username
+        
         if not isinstance(body.get("ranked_projects"), list):
             raise HTTPException(
                 status_code=400,
                 detail="Request body must include 'ranked_projects' (array of { project_id, filename, score, ... })",
             )
         
-        resolved_user = user_name or AuthManager.get_current_username()
-        if not resolved_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
+        # Get authenticated user
+        authenticated_user = AuthManager.get_current_username()
         
-        user_name = resolved_user
+        # If no AuthManager session, fall back to user_name parameter with DB validation
+        if not authenticated_user:
+            if not user_name:
+                raise HTTPException(status_code=401, detail="User authentication required")
+            
+            # Validate user exists and is logged in
+            user_data = get_user_by_username(user_name)
+            if not user_data or not user_data.get('is_login', False):
+                raise HTTPException(status_code=401, detail="User not authenticated")
+            
+            authenticated_user = user_name
+        
+        user_name = authenticated_user
         
         ranked = body["ranked_projects"]
         success = save_rankings_to_db(ranked, summaries=None, user_name=user_name)
@@ -444,12 +470,24 @@ async def update_project_summary(
     """Update the summary for a specific project."""
     try:
         from analysis.ranking_storage import update_ranking_summary, get_stored_ranking_by_project_id
+        from database.user_informations import get_user_by_username
         
-        resolved_user = user_name or AuthManager.get_current_username()
-        if not resolved_user:
-            raise HTTPException(status_code=401, detail="User authentication required")
+        # Get authenticated user
+        authenticated_user = AuthManager.get_current_username()
         
-        user_name = resolved_user
+        # If no AuthManager session, fall back to user_name parameter with DB validation
+        if not authenticated_user:
+            if not user_name:
+                raise HTTPException(status_code=401, detail="User authentication required")
+            
+            # Validate user exists and is logged in
+            user_data = get_user_by_username(user_name)
+            if not user_data or not user_data.get('is_login', False):
+                raise HTTPException(status_code=401, detail="User not authenticated")
+            
+            authenticated_user = user_name
+        
+        user_name = authenticated_user
         
         project_id = body.get("project_id")
         summary = body.get("summary", "")
