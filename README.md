@@ -49,8 +49,6 @@ Parallel to the resume builder, the Portfolio Manager generates comprehensive we
    
 4. **Application**
    - Frontend Dashboard: http://localhost:8000
-   - Backend API Docs (Swagger UI): http://localhost:8000/docs
-   - Backend API Docs (ReDoc): http://localhost:8000/redoc
 
 5. **Testing Files**
    - We have included sample ZIP files in the root directory to test the artifact parsing engine:
