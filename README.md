@@ -9,6 +9,24 @@
 * Kevin Zhang 10811057
 * Eric Chen 47368527
 
+## System Overview
+
+The Artifact Mining System is an end-to-end automated platform designed to bridge the gap between raw development work and professional presentation. By deeply analyzing a developer's code repositories, the system extracts verifiable skills, ranks projects by complexity, and automatically generates tailored resumes and portfolios.
+
+The system operates through four primary pipelines:
+
+### 1. Artifact Ingestion & Deep Code Analysis
+At the core of the system is the parsing engine. Users upload raw project artifacts (such as zipped repositories). The system utilizes Python Abstract Syntax Tree (AST) parsing combined with the Gemini AI API to deeply analyze the codebase. It doesn't just read file names; it evaluates the architecture, identifies the technology stack, and isolates individual contributor commits to understand exactly what the user built.
+
+### 2. Skill Extraction & Project Ranking
+Once the code is analyzed, the `Activity Classifier` and `Skill Mapper` translate raw technical implementations into professional competencies. The system evaluates the depth and complexity of the ingested projects, utilizing a proprietary ranking algorithm to score and sort the user's work. This ensures that the most impactful and technically complex projects are prioritized for display.
+
+### 3. Automated Resume Generation
+The extracted skills and ranked projects are fed directly into the Resume Builder module. The system dynamically generates professional, LaTeX-formatted resumes. Evidence extractors ensure that every skill listed on the resume is directly backed up by verified code from the user's uploaded artifacts, creating a highly credible professional profile.
+
+### 4. Dynamic Portfolio Creation
+Parallel to the resume builder, the Portfolio Manager generates comprehensive web-based portfolios. Using HTML and customized templates, the system creates a visual showcase of the developer's top-ranked projects, complete with AI-generated project summaries and skill tags. These portfolios can be customized via the frontend dashboard and exported seamlessly to PDF.
+
 ### Prerequisites
 * Docker and Docker Compose installed and running
 * Git installed
