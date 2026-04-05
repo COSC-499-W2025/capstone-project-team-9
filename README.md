@@ -28,4 +28,42 @@
 
 3. **Start all services**
    ```bash
-   docker compose up -d
+   docker-compose up -d
+   
+4. **Application**
+   - Frontend Dashboard: http://localhost:8000
+   - Backend API Docs (Swagger UI): http://localhost:8000/docs
+   - Backend API Docs (ReDoc): http://localhost:8000/redoc
+
+5. **Testing Files**
+   - We have included sample ZIP files in the root directory to test the artifact parsing engine:
+   - test.zip: A sample project repository for skill extraction.
+   - testfile.zip: An alternative project repository for testing portfolio generation.
+  
+6. **Stopping the Project**
+   ```bash
+   docker-compose down -v
+
+## Technology Stack
+
+### Frontend 
+| Technology | Purpose |
+| :--- | :--- |
+| **HTML5 / CSS3** | Core markup and responsive styling (`frontend/css/`) |
+| **Vanilla JavaScript** | DOM manipulation and API integration (`frontend/js/`) |
+| **html2pdf.js** | Client-side PDF generation for portfolios/resumes |
+| **marked.js** | Markdown parsing for formatted text rendering |
+
+### Backend 
+| Technology | Purpose |
+| :--- | :--- |
+| **Python 3** | Core backend programming language |
+| **FastAPI** | High-performance async web framework and routing |
+| **Pydantic** | Data validation and settings management |
+| **Docker** | Containerization and environment standardization |
+
+### AI & Parsing Subsystem
+| Technology | Purpose |
+| :--- | :--- |
+| **Gemini API** | Advanced code analysis and skill extraction |
+| **Python AST / ZipFile** | Local deep code parsing and artifact mining |
