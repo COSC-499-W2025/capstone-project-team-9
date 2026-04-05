@@ -21,6 +21,11 @@
    ```bash
    git clone https://github.com/COSC-499-W2025/capstone-project-team-9
    cd capstone-project-team-9
+   
+2. **Set up Environment Variables**
+   ```bash
+   cp .env.example .env
 
-   
-   
+3. **Start all services**
+   ```bash
+   docker compose up -d
