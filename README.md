@@ -17,7 +17,10 @@
 
 ### Running the Project
 
-1. **Clone the repository**
+1. **Clone the repository or [Download our folder](https://github.com/COSC-499-W2025/capstone-project-team-9/releases/tag/Release)**
    ```bash
    git clone https://github.com/COSC-499-W2025/capstone-project-team-9
    cd capstone-project-team-9
+
+   
+   
