@@ -1,7 +1,6 @@
 # Artifact Mining System - Team 9
 
-**Course:** COSC 499 (Winter 2025)  
-**Team:** Team 9  
+**COSC 499 (2025 Sept to 2026 April)**  
 **Team Members:** 
 * Sami
 * Eric Chen
@@ -43,6 +42,11 @@
 6. **Stopping the Project**
    ```bash
    docker-compose down -v
+
+7. **View Logs**
+   ```bash
+   docker compose logs -f
+   docker compose logs -f backend
 
 ## Technology Stack
 
