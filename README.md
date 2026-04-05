@@ -2,12 +2,12 @@
 
 **COSC 499 (2025 Sept to 2026 April)**  
 **Team Members:** 
-* Sami
-* Eric Chen
-* Evan 
-* JinXi Hu
-* Ryan
-* Kevin Zhang
+* Ryan Eveson 99775389
+* Sami Jaffri  44165611
+* Evan Pasenau 36403509
+* Jinxi Hu 48528608
+* Kevin Zhang 10811057
+* Eric Chen 47368527
 
 ### Prerequisites
 * Docker and Docker Compose installed and running
@@ -47,6 +47,14 @@
    ```bash
    docker compose logs -f
    docker compose logs -f backend
+
+## Diagrams & System Documentation
+
+There is no separate written report. All relevant system documentation can be navigated from the links below:
+- [System Architecture Diagram](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/Milestone1/README.md)
+- [Work Breakdown Structure (WBS)](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/Milestone1/README.md)
+- [Data Flow Diagram (DFD)](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/Milestone1/README.md)
+- 
 
 ## Technology Stack
 
