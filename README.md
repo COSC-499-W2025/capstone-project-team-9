@@ -46,7 +46,7 @@
 
 ## Technology Stack
 
-### Frontend 
+### Frontend [API setup](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/main/docs/api.md)
 | Technology | Purpose |
 | :--- | :--- |
 | **HTML5 / CSS3** | Core markup and responsive styling (`frontend/css/`) |
@@ -54,7 +54,7 @@
 | **html2pdf.js** | Client-side PDF generation for portfolios/resumes |
 | **marked.js** | Markdown parsing for formatted text rendering |
 
-### Backend 
+### Backend [Backendend Setup](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/main/docs/env_setup.md)
 | Technology | Purpose |
 | :--- | :--- |
 | **Python 3** | Core backend programming language |
