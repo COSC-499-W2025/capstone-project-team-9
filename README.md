@@ -54,7 +54,6 @@ There is no separate written report. All relevant system documentation can be na
 - [System Architecture Diagram](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/Milestone1/README.md)
 - [Work Breakdown Structure (WBS)](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/Milestone1/README.md)
 - [Data Flow Diagram (DFD)](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/Milestone1/README.md)
-- 
 
 ## Technology Stack
 
@@ -79,3 +78,18 @@ There is no separate written report. All relevant system documentation can be na
 | :--- | :--- |
 | **Gemini API** | Advanced code analysis and skill extraction |
 | **Python AST / ZipFile** | Local deep code parsing and artifact mining |
+
+## Testing & CI/CD
+
+This report documents our automated testing strategy used to keep the system stable during development.
+
+### How to Run Tests Locally
+
+We use `pytest` for our testing framework. You can run the entire suite, which covers our parsers, file validators, and API endpoints, directly from the root directory:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+#Run the test suite
+pytest
