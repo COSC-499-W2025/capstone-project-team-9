@@ -239,7 +239,9 @@ def ask_user_preferences(consent_manager, collab_manager, is_start):
                 just_changed = True
             print("\nYour github username is:"+str(get_user_git_username(user_name)))
             # Path to the ZIP file
-            zip_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../test.zip"))
+            zip_path = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), "../../fixtures/sample-projects/test.zip")
+            )
             ic = identify_contributors(zip_path=zip_path)
             # Extract the repo
             repo_path = ic.extract_repo()

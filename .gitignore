@@ -1,4 +1,6 @@
 # This is to ignore local files that we don't need to commit to the repository.
+.DS_Store
+.venv/
 venv/
 __pycache__/
 

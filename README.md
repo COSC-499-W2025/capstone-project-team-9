@@ -34,35 +34,46 @@ Parallel to the resume builder, the Portfolio Manager generates comprehensive we
 
 ### Running the Project
 
-1. **Clone the repository or [Download our folder](https://github.com/COSC-499-W2025/capstone-project-team-9/releases/tag/Release)**
+1. **Clone the repository or [download the release folder](https://github.com/COSC-499-W2025/capstone-project-team-9/releases/tag/Release)**
+
    ```bash
    git clone https://github.com/COSC-499-W2025/capstone-project-team-9
    cd capstone-project-team-9
-   
-2. **Set up Environment Variables**
+   ```
+
+2. **Set up environment variables**
+
    ```bash
    cp .env.example .env
+   ```
 
 3. **Start all services**
+
    ```bash
    docker-compose up -d
-   
-4. **Application**
-   - Frontend Dashboard: http://localhost:8000
+   ```
 
-5. **Testing Files**
-   - We have included sample ZIP files in the root directory to test the artifact parsing engine:
-   - test.zip: A sample project repository for skill extraction.
-   - testfile.zip: An alternative project repository for testing portfolio generation.
-  
-6. **Stopping the Project**
+4. **Open the app**
+
+   - Frontend dashboard: http://localhost:8000
+
+5. **Sample project ZIPs (manual testing)**
+
+   - `fixtures/sample-projects/test.zip` — sample repo for skill extraction.
+   - `fixtures/sample-projects/testfile.zip` — alternate sample for portfolio flows.
+
+6. **Stop the stack**
+
    ```bash
    docker-compose down -v
+   ```
 
-7. **View Logs**
+7. **View logs**
+
    ```bash
    docker-compose logs -f
    docker-compose logs -f backend
+   ```
 
 ## Diagrams & System Documentation
 
