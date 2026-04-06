@@ -61,8 +61,8 @@ Parallel to the resume builder, the Portfolio Manager generates comprehensive we
 
 7. **View Logs**
    ```bash
-   docker compose logs -f
-   docker compose logs -f backend
+   docker-compose logs -f
+   docker-compose logs -f backend
 
 ## Diagrams & System Documentation
 
