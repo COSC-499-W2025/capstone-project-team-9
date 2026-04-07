@@ -92,7 +92,7 @@ There is no separate written report. All relevant system documentation can be na
 | **html2pdf.js** | Client-side PDF generation for portfolios/resumes |
 | **marked.js** | Markdown parsing for formatted text rendering |
 
-### Backend [Backendend Setup]
+### Backend Backendend Setup
 | Technology | Purpose |
 | :--- | :--- |
 | **Python 3** | Core backend programming language |
