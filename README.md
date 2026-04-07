@@ -92,7 +92,7 @@ There is no separate written report. All relevant system documentation can be na
 | **html2pdf.js** | Client-side PDF generation for portfolios/resumes |
 | **marked.js** | Markdown parsing for formatted text rendering |
 
-### Backend [Backendend Setup](https://github.com/COSC-499-W2025/capstone-project-team-9/blob/main/docs/env_setup.md)
+### Backend [Backendend Setup]
 | Technology | Purpose |
 | :--- | :--- |
 | **Python 3** | Core backend programming language |
